@@ -58,6 +58,17 @@ function AppContent() {
                   <Brain size={14} />
                   LLM
                 </button>
+               <button
+                 onClick={() => actions.setCurrentView('llm-playground')}
+                 className={`btn-minimal ${
+                   state.currentView === 'llm-playground' 
+                     ? 'btn-primary' 
+                     : 'btn-ghost'
+                 }`}
+               >
+                 <Brain size={14} />
+                 LLM Play
+               </button>
                 <button
                   onClick={() => actions.setCurrentView('npm-market')}
                   className={`btn-minimal ${
@@ -69,6 +80,17 @@ function AppContent() {
                   <Package size={14} />
                   NPM
                 </button>
+               <button
+                 onClick={() => actions.setCurrentView('npm-playground')}
+                 className={`btn-minimal ${
+                   state.currentView === 'npm-playground' 
+                     ? 'btn-primary' 
+                     : 'btn-ghost'
+                 }`}
+               >
+                 <Package size={14} />
+                 NPM Play
+               </button>
                 <button
                   onClick={() => actions.setCurrentView('unified-playground')}
                   className={`btn-minimal ${
