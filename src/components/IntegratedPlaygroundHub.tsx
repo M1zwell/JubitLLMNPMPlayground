@@ -146,7 +146,6 @@ const IntegratedPlaygroundHub: React.FC = () => {
                     actions.selectLLMModel(model);
                     actions.addComponentToWorkflow(model, 'llm');
                   }}
-                  className={`p-3 rounded-lg cursor-pointer transition-all hover:bg-white/20 border ${
                   className={`card-minimal compact-xs cursor-pointer transition-all ${
                     state.selectedLLMModel?.id === model.id 
                       ? 'border-primary bg-primary/5' 
@@ -210,7 +209,6 @@ const IntegratedPlaygroundHub: React.FC = () => {
                     actions.selectNPMPackage(pkg);
                     actions.addComponentToWorkflow(pkg, 'npm');
                   }}
-                  className={`p-3 rounded-lg cursor-pointer transition-all hover:bg-white/20 border ${
                   className={`card-minimal compact-xs cursor-pointer transition-all ${
                     state.selectedNPMPackage?.id === pkg.id 
                       ? 'border-primary bg-primary/5' 
@@ -312,7 +310,6 @@ const IntegratedPlaygroundHub: React.FC = () => {
                 onClick={actions.executeWorkflow}
                 disabled={state.isExecuting}
                 className={`btn w-full ${state.isExecuting ? 'btn-ghost' : 'btn-success'}`}
-                disabled={state.isExecuting}
               >
                 {state.isExecuting ? (
                   <>
