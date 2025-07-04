@@ -18,5 +18,3 @@ import { WorkflowExecutor } from '../lib/execution/workflow-executor';
 import { workflowTemplates } from '../lib/execution/workflow-templates';
 import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 import WorkflowVisualization from './WorkflowVisualization';
-
-[Rest of the file content remains unchanged]
