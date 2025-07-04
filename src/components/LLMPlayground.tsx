@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Send, Copy, Zap, Brain, Settings, Save, 
+  Send, Copy, Zap, Brain, Settings, Save, Search,
   RefreshCw, MessageCircle, Check, Clock,
   ChevronDown, ChevronUp, Edit, BarChart2, 
   AlertCircle, Clipboard, Share2
