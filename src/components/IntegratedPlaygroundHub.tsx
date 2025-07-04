@@ -34,105 +34,98 @@ const IntegratedPlaygroundHub: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white p-6">
+      <div className="max-w-7xl mx-auto">
         
         {/* Header with Real-time Status */}
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold text-primary mb-2">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-4">
             🎮 Integrated AI+NPM Playground
           </h1>
-          <p className="text-base text-secondary mb-3">
+          <p className="text-xl text-purple-300 mb-4">
             Unified access to {state.llmModels.length} LLM models & {state.npmPackages.length} NPM packages
           </p>
           
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-6 mb-6">
             <div className="flex items-center gap-2">
-              <Database className={`${getConnectionStatusColor()} icon-sm`} />
-              <span className="text-xs text-secondary">Supabase: {state.connectionStatus}</span>
+              <Database className={getConnectionStatusColor()} size={16} />
+              <span className="text-sm">Supabase: {state.connectionStatus}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="text-primary icon-sm" />
-              <span className="text-xs text-secondary">Last sync: {new Date(state.lastUpdate).toLocaleTimeString()}</span>
+              <Clock className="text-blue-400" size={16} />
+              <span className="text-sm">Last sync: {new Date(state.lastUpdate).toLocaleTimeString()}</span>
             </div>
             <button
               onClick={() => {
                 actions.refreshLLMModels();
                 actions.refreshNPMPackages();
               }}
-              className="btn btn-ghost btn-sm"
+              className="flex items-center gap-2 px-3 py-1 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-colors text-sm"
             >
-              <RefreshCw className="icon-sm" />
+              <RefreshCw size={14} />
               Sync Data
             </button>
           </div>
         </div>
 
         {/* Quick Stats Dashboard */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="card compact text-center">
-            <div className="stat">
-              <Brain className="mx-auto mb-2 text-primary icon-lg" />
-              <div className="stat-value text-primary">{state.llmModels.length}</div>
-              <div className="stat-label">LLM Models</div>
-            </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+            <Brain className="mx-auto mb-2 text-purple-400" size={24} />
+            <div className="text-2xl font-bold text-purple-400">{state.llmModels.length}</div>
+            <div className="text-sm opacity-80">LLM Models</div>
           </div>
-          <div className="card compact text-center">
-            <div className="stat">
-              <Package className="mx-auto mb-2 text-primary icon-lg" />
-              <div className="stat-value text-primary">{state.npmPackages.length}</div>
-              <div className="stat-label">NPM Packages</div>
-            </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+            <Package className="mx-auto mb-2 text-blue-400" size={24} />
+            <div className="text-2xl font-bold text-blue-400">{state.npmPackages.length}</div>
+            <div className="text-sm opacity-80">NPM Packages</div>
           </div>
-          <div className="card compact text-center">
-            <div className="stat">
-              <Workflow className="mx-auto mb-2 text-success icon-lg" />
-              <div className="stat-value text-success">{state.workflowComponents.length}</div>
-              <div className="stat-label">Workflow Items</div>
-            </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+            <Workflow className="mx-auto mb-2 text-green-400" size={24} />
+            <div className="text-2xl font-bold text-green-400">{state.workflowComponents.length}</div>
+            <div className="text-sm opacity-80">Workflow Items</div>
           </div>
-          <div className="card compact text-center">
-            <div className="stat">
-              <Activity className="mx-auto mb-2 text-warning icon-lg" />
-              <div className="stat-value text-warning">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+            <Activity className="mx-auto mb-2 text-yellow-400" size={24} />
+            <div className="text-2xl font-bold text-yellow-400">
               {Object.keys(state.executionResults).length}
             </div>
-              <div className="stat-label">Executed</div>
-            </div>
+            <div className="text-sm opacity-80">Executed</div>
           </div>
         </div>
 
         {/* Main Integration Panel */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           
           {/* LLM Models Panel */}
-          <div className="card compact-lg">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-medium flex items-center gap-2 text-primary">
-                <Brain className="icon" />
+              <h3 className="text-xl font-bold flex items-center gap-2">
+                <Brain className="text-purple-400" />
                 LLM Models
               </h3>
               <button
                 onClick={() => actions.setCurrentView('llm-market')}
-                className="btn btn-ghost text-xs"
+                className="text-purple-400 hover:text-purple-300 text-sm flex items-center gap-1"
               >
-                Browse All <ArrowRight className="icon-sm" />
+                Browse All <ArrowRight size={14} />
               </button>
             </div>
             
             <div className="mb-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon-sm" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
                 <input
                   type="text"
                   placeholder="Search LLM models..."
                   value={state.searchTerms.llm}
                   onChange={(e) => actions.setLLMSearch(e.target.value)}
-                  className="input pl-8"
+                  className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
                 />
               </div>
             </div>
 
-            <div className="space-y-2 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto">
               {state.llmModels
                 .filter(model => 
                   model.name.toLowerCase().includes(state.searchTerms.llm.toLowerCase()) ||
@@ -146,20 +139,20 @@ const IntegratedPlaygroundHub: React.FC = () => {
                     actions.selectLLMModel(model);
                     actions.addComponentToWorkflow(model, 'llm');
                   }}
-                  className={`card-minimal compact-xs cursor-pointer transition-all ${
+                  className={`p-3 rounded-lg cursor-pointer transition-all hover:bg-white/20 border ${
                     state.selectedLLMModel?.id === model.id 
-                      ? 'border-primary bg-primary/5' 
-                      : ''
+                      ? 'border-purple-400 bg-purple-600/20' 
+                      : 'border-white/10'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-medium text-sm text-primary">{model.name}</h4>
-                      <p className="text-xs text-tertiary">{model.provider}</p>
+                      <h4 className="font-medium text-sm">{model.name}</h4>
+                      <p className="text-xs text-gray-400">{model.provider}</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs text-success">${model.output_price}</div>
-                      <div className="text-xs text-muted">{model.quality_index || 'N/A'}</div>
+                      <div className="text-xs text-green-400">${model.output_price}</div>
+                      <div className="text-xs text-gray-400">{model.quality_index || 'N/A'}</div>
                     </div>
                   </div>
                 </div>
@@ -168,34 +161,34 @@ const IntegratedPlaygroundHub: React.FC = () => {
           </div>
 
           {/* NPM Packages Panel */}
-          <div className="card compact-lg">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-medium flex items-center gap-2 text-primary">
-                <Package className="icon" />
+              <h3 className="text-xl font-bold flex items-center gap-2">
+                <Package className="text-blue-400" />
                 NPM Packages
               </h3>
               <button
                 onClick={() => actions.setCurrentView('npm-market')}
-                className="btn btn-ghost text-xs"
+                className="text-blue-400 hover:text-blue-300 text-sm flex items-center gap-1"
               >
-                Browse All <ArrowRight className="icon-sm" />
+                Browse All <ArrowRight size={14} />
               </button>
             </div>
             
             <div className="mb-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon-sm" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
                 <input
                   type="text"
                   placeholder="Search NPM packages..."
                   value={state.searchTerms.npm}
                   onChange={(e) => actions.setNPMSearch(e.target.value)}
-                  className="input pl-8"
+                  className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
                 />
               </div>
             </div>
 
-            <div className="space-y-2 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto">
               {state.npmPackages
                 .filter(pkg => 
                   pkg.name.toLowerCase().includes(state.searchTerms.npm.toLowerCase()) ||
@@ -209,20 +202,20 @@ const IntegratedPlaygroundHub: React.FC = () => {
                     actions.selectNPMPackage(pkg);
                     actions.addComponentToWorkflow(pkg, 'npm');
                   }}
-                  className={`card-minimal compact-xs cursor-pointer transition-all ${
+                  className={`p-3 rounded-lg cursor-pointer transition-all hover:bg-white/20 border ${
                     state.selectedNPMPackage?.id === pkg.id 
-                      ? 'border-primary bg-primary/5' 
-                      : ''
+                      ? 'border-blue-400 bg-blue-600/20' 
+                      : 'border-white/10'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-medium text-sm text-primary">{pkg.name}</h4>
-                      <p className="text-xs text-tertiary">{pkg.description?.substring(0, 30)}...</p>
+                      <h4 className="font-medium text-sm">{pkg.name}</h4>
+                      <p className="text-xs text-gray-400">{pkg.description?.substring(0, 30)}...</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs text-success">{formatNumber(pkg.weekly_downloads)}</div>
-                      <div className="text-xs text-muted">⭐ {formatNumber(pkg.github_stars)}</div>
+                      <div className="text-xs text-green-400">{formatNumber(pkg.weekly_downloads)}</div>
+                      <div className="text-xs text-gray-400">⭐ {formatNumber(pkg.github_stars)}</div>
                     </div>
                   </div>
                 </div>
@@ -231,16 +224,16 @@ const IntegratedPlaygroundHub: React.FC = () => {
           </div>
 
           {/* Workflow Builder Panel */}
-          <div className="card compact-lg">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-medium flex items-center gap-2 text-primary">
-                <Workflow className="icon" />
+              <h3 className="text-xl font-bold flex items-center gap-2">
+                <Workflow className="text-green-400" />
                 Workflow Builder
               </h3>
               {state.workflowComponents.length > 0 && (
                 <button
                   onClick={actions.clearWorkflow}
-                  className="btn btn-ghost text-xs text-warning"
+                  className="text-red-400 hover:text-red-300 text-sm"
                 >
                   Clear
                 </button>
@@ -248,29 +241,29 @@ const IntegratedPlaygroundHub: React.FC = () => {
             </div>
 
             {state.workflowComponents.length === 0 ? (
-              <div className="text-center py-8 text-muted">
-                <Workflow className="mx-auto mb-2 opacity-50 icon-lg" />
+              <div className="text-center py-8 text-gray-500">
+                <Workflow size={32} className="mx-auto mb-2 opacity-50" />
                 <p className="text-sm">Add LLM models and NPM packages to build your workflow</p>
               </div>
             ) : (
-              <div className="space-y-2 max-h-48 overflow-y-auto mb-4">
+              <div className="space-y-3 max-h-48 overflow-y-auto mb-4">
                 {state.workflowComponents.map((component, index) => (
                   <div
                     key={component.id}
-                    className={`card-minimal compact-xs transition-all ${
+                    className={`p-3 rounded-lg border transition-all ${
                       component.status === 'running' ? 'border-yellow-400 bg-yellow-600/20 animate-pulse' :
                       component.status === 'completed' ? 'border-green-400 bg-green-600/20' :
                       component.status === 'error' ? 'border-red-400 bg-red-600/20' :
-                      'border-light'
+                      'border-white/20'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted">{index + 1}.</span>
-                        {component.type === 'llm' ? <Brain className="icon-sm" /> : <Package className="icon-sm" />}
+                        <span className="text-xs text-gray-400">{index + 1}.</span>
+                        {component.type === 'llm' ? <Brain size={16} /> : <Package size={16} />}
                         <div>
-                          <div className="text-sm font-medium text-primary">{component.data.name}</div>
-                          <div className="text-xs text-tertiary">
+                          <div className="text-sm font-medium">{component.data.name}</div>
+                          <div className="text-xs text-gray-400">
                             {component.type === 'llm' 
                               ? (component.data as any).provider 
                               : (component.data as any).version
@@ -279,13 +272,13 @@ const IntegratedPlaygroundHub: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        {component.status === 'completed' && <CheckCircle className="text-success icon-sm" />}
+                        {component.status === 'completed' && <CheckCircle className="text-green-400" size={14} />}
                         {component.status === 'running' && (
-                          <div className="animate-spin rounded-full h-3 w-3 border-2 border-warning border-t-transparent"></div>
+                          <div className="animate-spin rounded-full h-3 w-3 border-2 border-yellow-400 border-t-transparent"></div>
                         )}
                         <button
                           onClick={() => actions.removeComponentFromWorkflow(component.id)}
-                          className="text-warning hover:text-warning-light text-xs"
+                          className="text-red-400 hover:text-red-300 text-xs"
                         >
                           ×
                         </button>
@@ -293,8 +286,8 @@ const IntegratedPlaygroundHub: React.FC = () => {
                     </div>
                     
                     {state.executionResults[component.id] && (
-                      <div className="mt-2 p-2 bg-secondary rounded text-xs">
-                        <div className="text-success mb-1">Output:</div>
+                      <div className="mt-2 p-2 bg-black/30 rounded text-xs">
+                        <div className="text-green-300 mb-1">Output:</div>
                         <div className="max-h-16 overflow-y-auto">
                           {String(state.executionResults[component.id]).substring(0, 100)}...
                         </div>
@@ -309,16 +302,20 @@ const IntegratedPlaygroundHub: React.FC = () => {
               <button
                 onClick={actions.executeWorkflow}
                 disabled={state.isExecuting}
-                className={`btn w-full ${state.isExecuting ? 'btn-ghost' : 'btn-success'}`}
+                className={`w-full py-2 rounded-lg font-bold transition-colors flex items-center justify-center gap-2 ${
+                  state.isExecuting 
+                    ? 'bg-gray-600 cursor-not-allowed' 
+                    : 'bg-green-600 hover:bg-green-700'
+                }`}
               >
                 {state.isExecuting ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
                     Executing...
                   </>
                 ) : (
                   <>
-                    <Play className="icon-sm" />
+                    <Play size={16} />
                     Execute Workflow
                   </>
                 )}
@@ -328,36 +325,36 @@ const IntegratedPlaygroundHub: React.FC = () => {
         </div>
 
         {/* Recent Activity & Quick Access */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="card compact-lg">
-            <h3 className="text-base font-medium mb-4 flex items-center gap-2 text-primary">
-              <TrendingUp className="icon" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <TrendingUp className="text-yellow-400" />
               Recent Components
             </h3>
             
             {getRecentComponents().length === 0 ? (
-              <p className="text-muted text-sm">No recent components selected</p>
+              <p className="text-gray-500 text-sm">No recent components selected</p>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {getRecentComponents().map((component: any) => (
                   <div
                     key={component.id}
-                    className="flex items-center justify-between card-minimal compact-xs"
+                    className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10"
                   >
                     <div className="flex items-center gap-2">
-                      {component.type === 'llm' ? <Brain className="icon-sm" /> : <Package className="icon-sm" />}
+                      {component.type === 'llm' ? <Brain size={16} /> : <Package size={16} />}
                       <div>
-                        <div className="text-sm font-medium text-primary">{component.name}</div>
-                        <div className="text-xs text-tertiary">
+                        <div className="text-sm font-medium">{component.name}</div>
+                        <div className="text-xs text-gray-400">
                           {component.type === 'llm' ? component.provider : `v${component.version}`}
                         </div>
                       </div>
                     </div>
                     <button
                       onClick={() => actions.addComponentToWorkflow(component, component.type)}
-                      className="text-success hover:text-success-light"
+                      className="text-green-400 hover:text-green-300"
                     >
-                      <Plus className="icon-sm" />
+                      <Plus size={16} />
                     </button>
                   </div>
                 ))}
@@ -365,42 +362,42 @@ const IntegratedPlaygroundHub: React.FC = () => {
             )}
           </div>
 
-          <div className="card compact-lg">
-            <h3 className="text-base font-medium mb-4 flex items-center gap-2 text-primary">
-              <Target className="icon" />
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <Target className="text-pink-400" />
               Quick Actions
             </h3>
             
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => actions.setCurrentView('llm-market')}
-                className="card-minimal compact text-center hover:bg-primary/5 transition-colors"
+                className="p-4 bg-purple-600/20 hover:bg-purple-600/30 rounded-lg transition-colors text-center"
               >
-                <Brain className="mx-auto mb-2 icon-lg text-primary" />
+                <Brain className="mx-auto mb-2" size={24} />
                 <div className="text-sm">Browse LLMs</div>
               </button>
               
               <button
                 onClick={() => actions.setCurrentView('npm-market')}
-                className="card-minimal compact text-center hover:bg-primary/5 transition-colors"
+                className="p-4 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-colors text-center"
               >
-                <Package className="mx-auto mb-2 icon-lg text-primary" />
+                <Package className="mx-auto mb-2" size={24} />
                 <div className="text-sm">Browse NPM</div>
               </button>
               
               <button
                 onClick={() => actions.setCurrentView('unified-playground')}
-                className="card-minimal compact text-center hover:bg-primary/5 transition-colors"
+                className="p-4 bg-green-600/20 hover:bg-green-600/30 rounded-lg transition-colors text-center"
               >
-                <Workflow className="mx-auto mb-2 icon-lg text-success" />
+                <Workflow className="mx-auto mb-2" size={24} />
                 <div className="text-sm">Playground</div>
               </button>
               
               <button
                 onClick={() => actions.setCurrentView('workflow-execution')}
-                className="card-minimal compact text-center hover:bg-primary/5 transition-colors"
+                className="p-4 bg-pink-600/20 hover:bg-pink-600/30 rounded-lg transition-colors text-center"
               >
-                <Zap className="mx-auto mb-2 icon-lg text-warning" />
+                <Zap className="mx-auto mb-2" size={24} />
                 <div className="text-sm">Live Demo</div>
               </button>
             </div>
@@ -408,30 +405,31 @@ const IntegratedPlaygroundHub: React.FC = () => {
         </div>
 
         {/* Integration Status */}
-        <div className="card compact-lg text-center">
-          <h3 className="text-lg font-medium mb-4 flex items-center justify-center gap-2 text-primary">
-            <Globe className="icon" />
+        <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-6 border border-blue-400/30 text-center">
+          <h3 className="text-xl font-bold mb-4 flex items-center justify-center gap-2">
+            <Globe className="text-blue-400" />
             🔗 Real-time Supabase Integration
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <Database className="mx-auto mb-2 text-success icon-lg" />
-              <h4 className="font-medium mb-2 text-primary">Live Data Sync</h4>
-              <p className="text-sm text-secondary">All playgrounds share real-time data from Supabase</p>
+              <Database className="mx-auto mb-2 text-green-400" size={32} />
+              <h4 className="font-bold mb-2">Live Data Sync</h4>
+              <p className="text-sm text-gray-300">All playgrounds share real-time data from Supabase</p>
             </div>
             <div>
-              <RefreshCw className="mx-auto mb-2 text-primary icon-lg" />
-              <h4 className="font-medium mb-2 text-primary">Auto Updates</h4>
-              <p className="text-sm text-secondary">Changes in one view instantly reflect in all others</p>
+              <RefreshCw className="mx-auto mb-2 text-blue-400" size={32} />
+              <h4 className="font-bold mb-2">Auto Updates</h4>
+              <p className="text-sm text-gray-300">Changes in one view instantly reflect in all others</p>
             </div>
             <div>
-              <CheckCircle className="mx-auto mb-2 text-primary icon-lg" />
-              <h4 className="font-medium mb-2 text-primary">Seamless Flow</h4>
-              <p className="text-sm text-secondary">Navigate between markets and playgrounds with context</p>
+              <CheckCircle className="mx-auto mb-2 text-purple-400" size={32} />
+              <h4 className="font-bold mb-2">Seamless Flow</h4>
+              <p className="text-sm text-gray-300">Navigate between markets and playgrounds with context</p>
             </div>
           </div>
         </div>
+      </div>
 
       {/* AI Workflow Advisor */}
       <AIWorkflowAdvisor

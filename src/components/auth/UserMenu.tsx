@@ -63,24 +63,25 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
       {/* User Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 card-minimal compact-xs hover:bg-secondary transition-colors"
+        className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 rounded-lg px-3 py-2 transition-colors group"
       >
         {getAvatarDisplay()}
         
         <div className="hidden md:flex flex-col items-start">
-          <div className="flex items-center gap-1 text-primary">
-            <span className="text-sm font-medium">
+          <div className="flex items-center gap-1">
+            <span className="text-sm font-medium text-white">
               {profile?.display_name || profile?.username || 'User'}
             </span>
             {getSubscriptionBadge()}
           </div>
-          <span className="text-xs text-tertiary">
+          <span className="text-xs text-slate-400">
             {profile?.subscription_tier || 'Free'}
           </span>
         </div>
         
         <ChevronDown 
-          className={`icon-sm text-muted transition-transform ${isOpen ? 'rotate-180' : ''}`} 
+          size={16} 
+          className={`text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
         />
       </button>
 
@@ -94,23 +95,23 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
           />
           
           {/* Menu */}
-          <div className="absolute right-0 top-full mt-2 w-64 card-elevated z-50 overflow-hidden">
+          <div className="absolute right-0 top-full mt-2 w-64 bg-slate-800 border border-slate-600 rounded-lg shadow-2xl z-50 overflow-hidden">
             {/* Header */}
-            <div className="p-4 bg-primary/10 border-b border-light">
+            <div className="p-4 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-b border-slate-600">
               <div className="flex items-center gap-3">
                 {getAvatarDisplay()}
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 text-primary">
-                    <h3 className="font-medium">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-medium text-white">
                       {profile?.display_name || profile?.username || 'User'}
                     </h3>
                     {getSubscriptionBadge()}
                   </div>
-                  <p className="text-sm text-tertiary">{user.email}</p>
+                  <p className="text-sm text-slate-400">{user.email}</p>
                   {profile?.is_verified && (
                     <div className="flex items-center gap-1 mt-1">
-                      <Shield className="text-success icon-sm" />
-                      <span className="text-xs text-success">Verified</span>
+                      <Shield className="text-green-400" size={12} />
+                      <span className="text-xs text-green-400">Verified</span>
                     </div>
                   )}
                 </div>
@@ -118,15 +119,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
             </div>
 
             {/* Stats */}
-            <div className="p-3 bg-secondary/30 border-b border-light">
+            <div className="p-3 bg-slate-700/50 border-b border-slate-600">
               <div className="grid grid-cols-2 gap-3 text-center">
                 <div>
-                  <div className="text-lg font-medium text-primary">{profile?.total_workflows || 0}</div>
-                  <div className="text-xs text-muted">Workflows</div>
+                  <div className="text-lg font-bold text-purple-400">{profile?.total_workflows || 0}</div>
+                  <div className="text-xs text-slate-400">Workflows</div>
                 </div>
                 <div>
-                  <div className="text-lg font-medium text-primary">{profile?.total_executions || 0}</div>
-                  <div className="text-xs text-muted">Executions</div>
+                  <div className="text-lg font-bold text-blue-400">{profile?.total_executions || 0}</div>
+                  <div className="text-xs text-slate-400">Executions</div>
                 </div>
               </div>
             </div>
@@ -138,9 +139,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
                   onOpenProfile?.();
                   setIsOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
               >
-                <User className="icon-sm" />
+                <User size={16} />
                 View Profile
               </button>
 
@@ -149,67 +150,66 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
                   onOpenSettings?.();
                   setIsOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
               >
-                <Settings className="icon-sm" />
+                <Settings size={16} />
                 Account Settings
               </button>
 
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
-                <BarChart3 className="icon-sm" />
+              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
+                <BarChart3 size={16} />
                 Analytics
               </button>
 
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
-                <Bookmark className="icon-sm" />
+              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
+                <Bookmark size={16} />
                 Saved Items
               </button>
 
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
-                <Users className="icon-sm" />
+              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
+                <Users size={16} />
                 Following
               </button>
 
-              <hr className="divider my-2" />
+              <hr className="border-slate-600 my-2" />
 
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
-                <Palette className="icon-sm" />
+              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
+                <Palette size={16} />
                 Appearance
               </button>
 
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
-                <Bell className="icon-sm" />
+              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
+                <Bell size={16} />
                 Notifications
               </button>
 
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
-                <Key className="icon-sm" />
+              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
+                <Key size={16} />
                 API Keys
               </button>
 
-              <hr className="divider my-2" />
+              <hr className="border-slate-600 my-2" />
 
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
-                <HelpCircle className="icon-sm" />
+              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
+                <HelpCircle size={16} />
                 Help & Support
               </button>
 
               {profile?.subscription_tier === 'free' && (
-                <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-warning hover:bg-warning/10 hover:text-warning-light transition-colors">
-                  <Crown className="icon-sm" />
+                <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-yellow-300 hover:bg-yellow-600/20 hover:text-yellow-200 transition-colors">
+                  <Crown size={16} />
                   Upgrade to Pro
                 </button>
               )}
 
-              <hr className="divider my-2" />
+              <hr className="border-slate-600 my-2" />
 
               <button
                 onClick={handleSignOut}
                 disabled={loading}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-warning hover:bg-warning/10 hover:text-warning-light transition-colors disabled:opacity-50"
-                disabled={loading}
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-400 hover:bg-red-600/20 hover:text-red-300 transition-colors disabled:opacity-50"
               >
-                <LogOut className="icon-sm" />
+                <LogOut size={16} />
                 Sign Out
               </button>
             </div>

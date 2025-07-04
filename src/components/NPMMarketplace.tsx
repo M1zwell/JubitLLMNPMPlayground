@@ -168,69 +168,61 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto">
       {/* Header */}
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold text-primary mb-2">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent mb-4">
           📦 NPM Package Marketplace
         </h1>
-        <p className="text-base text-secondary mb-1">
+        <p className="text-xl text-green-300 mb-2">
           Discover {packages.length} NPM packages • Real data from npmjs.com
         </p>
-        <div className="text-xs text-tertiary">
+        <div className="text-sm text-gray-400">
           Download statistics, quality metrics, and GitHub data updated regularly
         </div>
       </div>
 
       {/* Statistics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="card compact text-center">
-          <div className="stat">
-            <div className="stat-value text-primary">{stats.total}</div>
-            <div className="stat-label">Packages Found</div>
-          </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+          <div className="text-2xl font-bold text-blue-400">{stats.total}</div>
+          <div className="text-sm opacity-80">Packages Found</div>
         </div>
-        <div className="card compact text-center">
-          <div className="stat">
-            <div className="stat-value text-success">{formatNumber(stats.totalDownloads)}</div>
-            <div className="stat-label">Weekly Downloads</div>
-          </div>
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+          <div className="text-2xl font-bold text-green-400">{formatNumber(stats.totalDownloads)}</div>
+          <div className="text-sm opacity-80">Weekly Downloads</div>
         </div>
-        <div className="card compact text-center">
-          <div className="stat">
-            <div className="stat-value text-warning">{stats.avgQuality.toFixed(1)}</div>
-            <div className="stat-label">Avg Quality</div>
-          </div>
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+          <div className="text-2xl font-bold text-yellow-400">{stats.avgQuality.toFixed(1)}</div>
+          <div className="text-sm opacity-80">Avg Quality</div>
         </div>
-        <div className="card compact text-center">
-          <div className="stat">
-            <div className="stat-value text-primary">{stats.withTypeScript}</div>
-            <div className="stat-label">TypeScript Ready</div>
-          </div>
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+          <div className="text-2xl font-bold text-purple-400">{stats.withTypeScript}</div>
+          <div className="text-sm opacity-80">TypeScript Ready</div>
         </div>
       </div>
 
       {/* Controls */}
-      <div className="card compact-lg">
+      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/20">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Filter className="icon" />
-            <h3 className="text-base font-medium text-primary">Filters & Search</h3>
+            <Filter size={20} />
+            <h3 className="text-lg font-bold">Filters & Search</h3>
           </div>
           
           <div className="flex gap-2">
             <button
               onClick={() => setShowImportModal(true)}
-              className="btn btn-success text-xs"
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm transition-colors flex items-center gap-2"
             >
-              <Import className="icon-sm" />
+              <Import size={16} />
               Import from NPM
             </button>
             <button
               onClick={refetch}
-              className="btn btn-primary text-xs"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm transition-colors flex items-center gap-2"
             >
-              <RefreshCw className="icon-sm" />
+              <RefreshCw size={16} />
               Refresh
             </button>
           </div>
@@ -239,13 +231,13 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon-sm" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
             <input
               type="text"
               placeholder="Search packages..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="input pl-8"
+              className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
             />
           </div>
 
@@ -253,7 +245,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="input"
+            className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
           >
             {Object.entries(CATEGORIES).map(([key, category]) => (
               <option key={key} value={key}>{category.name}</option>
@@ -264,7 +256,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="input"
+            className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
           >
             {SORT_OPTIONS.map(option => (
               <option key={option.value} value={option.value}>{option.label}</option>
@@ -274,16 +266,16 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           {/* Sort Direction */}
           <button
             onClick={() => setSortDesc(!sortDesc)}
-            className="btn btn-secondary"
+            className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg hover:bg-white/15 flex items-center justify-center gap-2"
           >
             {sortDesc ? '↓' : '↑'} {sortDesc ? 'Desc' : 'Asc'}
           </button>
         </div>
         
         {/* Debug information for Supabase connection */}
-        <div className="text-xs text-muted mt-2">
+        <div className="text-xs text-gray-500 mt-2">
           {error ? (
-            <p className="text-warning">Error: {error}</p>
+            <p className="text-red-400">Error: {error}</p>
           ) : (
             <p>Connected to Supabase database</p>
           )}
@@ -291,7 +283,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
       </div>
 
       {/* Packages Grid */}
-      <div className="grid-auto-fill">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {filteredPackages.map(pkg => (
           <div
             key={pkg.id}
@@ -313,58 +305,74 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
               }, 500);
             }}
             className={`
-              card compact cursor-pointer transition-all
-              ${selectedPackage?.id === pkg.id ? 'border-success shadow-md' : ''}
+              bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 cursor-pointer 
+              transform hover:scale-105 transition-all duration-300 shadow-lg
+              ${selectedPackage?.id === pkg.id ? 'ring-4 ring-green-500/50 scale-105' : ''}
             `}
           >
             {/* Header */}
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <span className="text-lg">{getPackageIcon(pkg)}</span>
+                <span className="text-2xl">{getPackageIcon(pkg)}</span>
                 <div>
-                  <h3 className="font-medium text-sm text-primary">{pkg.name}</h3>
-                  <p className="text-xs text-tertiary">v{pkg.version}</p>
+                  <h3 className="font-bold text-lg">{pkg.name}</h3>
+                  <p className="text-sm text-gray-400">v{pkg.version}</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm font-medium text-success">
+                <div className="text-sm font-bold text-green-400">
                   {formatNumber(pkg.weekly_downloads)}
                 </div>
-                <div className="text-xs text-muted">weekly</div>
+                <div className="text-xs opacity-80">weekly</div>
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-xs text-secondary mb-3 line-clamp-2">
+            <p className="text-sm text-gray-300 mb-4 line-clamp-2">
               {pkg.description || 'No description available'}
             </p>
 
             {/* Metrics */}
-            <div className="grid grid-cols-3 gap-1 mb-3 text-xs">
-              <div className="badge badge-neutral">⭐ {formatNumber(pkg.github_stars)}</div>
-              <div className="badge badge-neutral">📊 {pkg.quality_score}</div>
-              <div className="badge badge-neutral">🔒 {pkg.license || 'N/A'}</div>
+            <div className="grid grid-cols-3 gap-2 mb-4 text-xs">
+              <div className="bg-white/20 rounded px-2 py-1 text-center">
+                <div className="flex items-center justify-center gap-1">
+                  <Star size={10} />
+                  <span>{formatNumber(pkg.github_stars)}</span>
+                </div>
+              </div>
+              <div className="bg-white/20 rounded px-2 py-1 text-center">
+                <div className="flex items-center justify-center gap-1">
+                  <BarChart3 size={10} />
+                  <span>{pkg.quality_score}</span>
+                </div>
+              </div>
+              <div className="bg-white/20 rounded px-2 py-1 text-center">
+                <div className="flex items-center justify-center gap-1">
+                  <Shield size={10} />
+                  <span>{pkg.license || 'N/A'}</span>
+                </div>
+              </div>
             </div>
 
             {/* Tags */}
-            <div className="flex flex-wrap gap-1 mb-2">
+            <div className="flex flex-wrap gap-1 mb-3">
               {pkg.keywords.slice(0, 3).map((keyword, idx) => (
-                <span key={idx} className="badge badge-primary text-xs">
+                <span key={idx} className="bg-white/30 px-2 py-1 rounded text-xs">
                   {keyword}
                 </span>
               ))}
               {pkg.typescript_support && (
-                <span className="badge badge-primary text-xs">TS</span>
+                <span className="bg-blue-600/30 px-2 py-1 rounded text-xs">TS</span>
               )}
             </div>
 
             {/* Footer */}
             <div className="flex justify-between items-center text-xs">
-              <span className="text-muted">
+              <span className="text-gray-400">
                 Updated {new Date(pkg.last_published || pkg.updated_at).toLocaleDateString()}
               </span>
               <div className="flex items-center gap-2">
-                <span className={`${getTrendColor(pkg.download_trend)} text-xs capitalize`}>
+                <span className={`${getTrendColor(pkg.download_trend)} capitalize`}>
                   {pkg.download_trend}
                 </span>
                 <div className="flex gap-1">
@@ -374,7 +382,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                       actions.selectNPMPackage(pkg);
                       actions.addComponentToWorkflow(pkg, 'npm');
                     }}
-                    className="btn btn-success text-xs compact-xs"
+                    className="bg-green-600/80 hover:bg-green-600 px-2 py-1 rounded text-xs transition-colors"
                     title="Add to Workflow"
                   >
                     +
@@ -384,10 +392,10 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                       e.stopPropagation();
                       actions.navigateToPlaygroundWithComponent(pkg, 'npm');
                     }}
-                    className="btn btn-primary text-xs compact-xs flex items-center gap-1"
+                    className="bg-blue-600/80 hover:bg-blue-600 px-2 py-1 rounded text-xs transition-colors flex items-center gap-1"
                     title="Use in Playground"
                   >
-                    <Code className="icon-sm" />
+                    <Code size={10} />
                     Use
                   </button>
                 </div>
@@ -399,48 +407,48 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
 
       {/* Detailed Package Info */}
       {selectedPackage && (
-        <div className="card compact-lg fade-in">
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 mb-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left: Package Details */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">{getPackageIcon(selectedPackage)}</span>
+                <span className="text-4xl">{getPackageIcon(selectedPackage)}</span>
                 <div>
-                  <h2 className="text-lg font-semibold text-primary">{selectedPackage.name}</h2>
-                  <p className="text-success text-sm">v{selectedPackage.version} • {selectedPackage.author}</p>
+                  <h2 className="text-2xl font-bold">{selectedPackage.name}</h2>
+                  <p className="text-green-300">v{selectedPackage.version} • {selectedPackage.author}</p>
                 </div>
               </div>
 
-              <p className="text-secondary mb-4 text-sm">{selectedPackage.description}</p>
+              <p className="text-gray-300 mb-6">{selectedPackage.description}</p>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="card-minimal compact">
-                    <h4 className="font-medium mb-2 flex items-center gap-2 text-secondary">
-                      <Download className="text-success icon-sm" />
+                  <div className="bg-white/10 rounded-lg p-3">
+                    <h4 className="font-bold mb-2 flex items-center gap-2">
+                      <Download className="text-green-400" size={16} />
                       Downloads
                     </h4>
-                    <div className="text-sm text-primary">
+                    <div className="text-sm">
                       <div>Weekly: {formatNumber(selectedPackage.weekly_downloads)}</div>
                       <div>Monthly: {formatNumber(selectedPackage.monthly_downloads)}</div>
                     </div>
                   </div>
 
-                  <div className="card-minimal compact">
-                    <h4 className="font-medium mb-2 flex items-center gap-2 text-secondary">
-                      <Star className="text-warning icon-sm" />
+                  <div className="bg-white/10 rounded-lg p-3">
+                    <h4 className="font-bold mb-2 flex items-center gap-2">
+                      <Star className="text-yellow-400" size={16} />
                       GitHub
                     </h4>
-                    <div className="text-sm text-primary">
+                    <div className="text-sm">
                       <div>Stars: {formatNumber(selectedPackage.github_stars)}</div>
                       <div>Forks: {formatNumber(selectedPackage.github_forks)}</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="card-minimal compact">
-                  <h4 className="font-medium mb-2 text-secondary">Package Info</h4>
-                  <div className="text-sm grid grid-cols-2 gap-2 text-primary">
+                <div className="bg-white/10 rounded-lg p-3">
+                  <h4 className="font-bold mb-2">Package Info</h4>
+                  <div className="text-sm grid grid-cols-2 gap-2">
                     <div>License: {selectedPackage.license}</div>
                     <div>Size: {formatNumber(selectedPackage.file_size)} bytes</div>
                     <div>Quality: {selectedPackage.quality_score}/100</div>
@@ -448,11 +456,11 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                   </div>
                 </div>
 
-                <div className="card-minimal compact">
-                  <h4 className="font-medium mb-2 text-secondary">Keywords</h4>
+                <div className="bg-white/10 rounded-lg p-3">
+                  <h4 className="font-bold mb-2">Keywords</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedPackage.keywords.map((keyword, idx) => (
-                      <span key={idx} className="badge badge-primary">
+                      <span key={idx} className="bg-purple-600/30 px-3 py-1 rounded-full text-sm">
                         {keyword}
                       </span>
                     ))}
@@ -463,7 +471,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
 
             {/* Right: Links and Actions */}
             <div>
-              <h3 className="text-lg font-medium mb-4 text-primary">Quick Actions</h3>
+              <h3 className="text-xl font-bold mb-4">Quick Actions</h3>
               
               <div className="space-y-3">
                 {selectedPackage.npm_url && (
@@ -471,15 +479,15 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     href={selectedPackage.npm_url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="block w-full card-minimal compact hover:bg-primary/5 transition-colors"
+                    className="block w-full p-3 bg-red-600/20 hover:bg-red-600/30 rounded-lg transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <Package className="text-warning icon" />
+                      <Package className="text-red-400" size={20} />
                       <div>
-                        <div className="font-medium text-primary">View on NPM</div>
-                        <div className="text-xs text-tertiary">Official package page</div>
+                        <div className="font-medium">View on NPM</div>
+                        <div className="text-xs text-gray-400">Official package page</div>
                       </div>
-                      <ExternalLink className="ml-auto icon-sm" />
+                      <ExternalLink size={16} className="ml-auto" />
                     </div>
                   </a>
                 )}
@@ -489,15 +497,15 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     href={selectedPackage.repository_url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="block w-full card-minimal compact hover:bg-primary/5 transition-colors"
+                    className="block w-full p-3 bg-gray-600/20 hover:bg-gray-600/30 rounded-lg transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <Github className="text-tertiary icon" />
+                      <Github className="text-gray-400" size={20} />
                       <div>
-                        <div className="font-medium text-primary">Source Code</div>
-                        <div className="text-xs text-tertiary">GitHub repository</div>
+                        <div className="font-medium">Source Code</div>
+                        <div className="text-xs text-gray-400">GitHub repository</div>
                       </div>
-                      <ExternalLink className="ml-auto icon-sm" />
+                      <ExternalLink size={16} className="ml-auto" />
                     </div>
                   </a>
                 )}
@@ -507,38 +515,38 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     href={selectedPackage.homepage} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="block w-full card-minimal compact hover:bg-primary/5 transition-colors"
+                    className="block w-full p-3 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <Globe className="text-primary icon" />
+                      <Globe className="text-blue-400" size={20} />
                       <div>
-                        <div className="font-medium text-primary">Homepage</div>
-                        <div className="text-xs text-tertiary">Official website</div>
+                        <div className="font-medium">Homepage</div>
+                        <div className="text-xs text-gray-400">Official website</div>
                       </div>
-                      <ExternalLink className="ml-auto icon-sm" />
+                      <ExternalLink size={16} className="ml-auto" />
                     </div>
                   </a>
                 )}
 
-                <div className="card-minimal compact">
-                  <h4 className="font-medium mb-2 text-secondary">Install Command</h4>
-                  <div className="bg-secondary rounded p-2 text-success font-mono text-xs">
+                <div className="bg-white/10 rounded-lg p-3">
+                  <h4 className="font-bold mb-2">Install Command</h4>
+                  <div className="bg-gray-800 rounded p-2 text-green-400 font-mono text-sm">
                     npm install {selectedPackage.name}
                   </div>
                   <button 
                     onClick={() => navigator.clipboard.writeText(`npm install ${selectedPackage.name}`)}
-                    className="mt-2 text-xs text-tertiary hover:text-primary flex items-center gap-1"
+                    className="mt-2 text-xs text-gray-400 hover:text-white flex items-center gap-1"
                   >
-                    <Copy className="icon-sm" />
+                    <Copy size={12} />
                     Copy command
                   </button>
                 </div>
                 
                 <button
                   onClick={() => onNavigateToPlayground?.(selectedPackage)}
-                  className="btn btn-primary w-full"
+                  className="w-full bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm transition-colors flex items-center gap-2"
                 >
-                  <Code className="icon-sm" />
+                  <Code size={16} />
                   Use in Playground
                 </button>
               </div>
@@ -549,14 +557,14 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
 
       {/* Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="card-elevated compact-lg max-w-md w-full mx-4">
-            <h3 className="text-lg font-medium mb-4 text-primary">Import NPM Packages</h3>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-gray-900 rounded-xl p-6 max-w-md w-full mx-4 border border-white/20">
+            <h3 className="text-xl font-bold mb-4">Import NPM Packages</h3>
             
             {importing ? (
               <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-success mx-auto mb-4"></div>
-                <p className="text-secondary">{importStatus}</p>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto mb-4"></div>
+                <p className="text-gray-300">{importStatus}</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -566,7 +574,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 100, 
                     pages: 1 
                   })}
-                  className="btn btn-success w-full"
+                  className="w-full p-3 bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
                 >
                   🌐 Import Front-end Packages (1 pages)
                 </button>
@@ -577,7 +585,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 100, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
                 >
                   ⚙️ Import Back-end Packages (1 pages)
                 </button>
@@ -588,7 +596,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 80, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
                 >
                   💻 Import CLI Tools (1 pages)
                 </button>
@@ -599,7 +607,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 70, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-cyan-600 hover:bg-cyan-700 rounded-lg transition-colors"
                 >
                   🧪 Import Testing Packages (1 pages)
                 </button>
@@ -610,7 +618,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 60, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors"
                 >
                   🎨 Import CSS & Styling (1 pages)
                 </button>
@@ -621,7 +629,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 40, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors"
                 >
                   📚 Import Documentation Tools (1 pages)
                 </button>
@@ -632,7 +640,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 30, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors"
                 >
                   📡 Import IoT Packages (1 pages)
                 </button>
@@ -643,7 +651,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 25, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-orange-600 hover:bg-orange-700 rounded-lg transition-colors"
                 >
                   📊 Import Coverage Tools (1 pages)
                 </button>
@@ -654,7 +662,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 50, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
                 >
                   📱 Import Mobile Packages (1 pages)
                 </button>
@@ -665,7 +673,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 40, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors"
                 >
                   🚀 Import Framework Packages (1 pages)
                 </button>
@@ -676,7 +684,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 20, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
                 >
                   🤖 Import Robotics Packages (1 pages)
                 </button>
@@ -687,7 +695,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     limit: 35, 
                     pages: 1 
                   })}
-                  className="btn btn-primary w-full"
+                  className="w-full p-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
                 >
                   🧮 Import Math Packages (1 pages)
                 </button>
@@ -699,14 +707,14 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                     pages: 1,
                     sortBy: 'popularity' 
                   })}
-                  className="btn btn-warning w-full font-medium"
+                  className="w-full p-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 rounded-lg transition-colors font-bold"
                 >
                   ⭐ Import Most Popular Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => setShowImportModal(false)}
-                  className="btn btn-secondary w-full"
+                  className="w-full p-3 bg-gray-600 hover:bg-gray-700 rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
