@@ -1421,6 +1421,7 @@ CMD ["npm", "start"]
           </div>
         </div>
       </div>
+
       {/* AI Workflow Advisor */}
       <AIWorkflowAdvisor
         onComponentAdd={(component, type) => {
@@ -1430,7 +1431,7 @@ CMD ["npm", "start"]
           // Clear existing workflow and apply suggestion
           clearWorkflow();
           suggestion.steps.forEach(step => {
-            if ((step.type === 'llm' || step.type === 'npm') && step.component) {
+            if (step.component && step.type !== 'input' && step.type !== 'output') {
               addComponent(step.type, step.component);
             }
           });
@@ -1438,23 +1439,6 @@ CMD ["npm", "start"]
         selectedComponents={workflowComponents}
       />
     </div>
-
-    {/* AI Workflow Advisor */}
-    <AIWorkflowAdvisor
-      onComponentAdd={(component, type) => {
-        addComponent(component, type);
-      }}
-      onSuggestionApply={(suggestion) => {
-        // Clear existing workflow and apply suggestion
-        setWorkflowComponents([]);
-        suggestion.steps.forEach(step => {
-          if (step.component && step.type !== 'input' && step.type !== 'output') {
-            addComponent(step.component, step.type);
-          }
-        });
-      }}
-      selectedComponents={workflowComponents}
-    />
   );
 };
 

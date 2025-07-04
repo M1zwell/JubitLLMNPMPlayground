@@ -576,15 +576,15 @@ export default function WorkflowExecutionPlayground() {
           </div>
         </div>
       </div>
-    </div>
 
-    {/* AI Workflow Advisor */}
-    <AIWorkflowAdvisor
-      onComponentAdd={(component, type) => {
-        // Could integrate with workflow templates if needed
-        console.log('Adding component to workflow demo:', component.name, type);
-      }}
-      selectedComponents={[]}
-    />
+      {/* AI Workflow Advisor */}
+      <AIWorkflowAdvisor
+        onComponentAdd={(component, type) => {
+          // Could integrate with workflow templates if needed
+          console.log('Adding component to workflow demo:', component.name, type);
+        }}
+        selectedComponents={[]}
+      />
+    </div>
   );
 }
