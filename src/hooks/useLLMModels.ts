@@ -9,12 +9,15 @@ export function useLLMModels() {
   const fetchModels = async () => {
     try {
       setLoading(true)
+      setError(null)
       
       // Test Supabase connection first
       console.log('Testing Supabase connection...')
       
       const { data, error } = await supabase
         .from('llm_models')
+        .select('*')
+        .limit(1000) // Ensure we get all models
         .select('*')
         .order('quality_index', { ascending: false, nullsLast: true })
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
-  Play, Copy, Star, Github, Calendar, Package, Code, Terminal, 
+  Play, Copy, Star, Github, Calendar, Package, Code, Terminal,
   Lightbulb, Zap, CheckCircle, Globe, RefreshCw, Plus, X, ArrowRight, 
   Settings, Save, Upload, Layers, Brain, Target, Users, BarChart3,
-  FileText, Image, Database, Mail, Lock, Search, Filter,
+  FileText, Image, Database, Mail, Lock, Search as SearchIcon, Filter,
   Workflow, Share2, TrendingUp, Award, Clock, DollarSign,
   ShoppingCart, ExternalLink, Cpu, Eye, ArrowLeft
 } from 'lucide-react';
@@ -522,7 +522,7 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
           </div>
           
           <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
             <input
               type="text"
               placeholder="Search atomic functions in market..."

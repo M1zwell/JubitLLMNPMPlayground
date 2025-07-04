@@ -3,7 +3,7 @@ import { usePlayground } from '../context/PlaygroundContext';
 import { 
   Brain, Package, Code, Workflow, Activity, 
   Zap, Target, Users, TrendingUp, Globe,
-  RefreshCw, Play, Plus, Search, Filter,
+  RefreshCw, Play, Plus, Search as SearchIcon, Filter,
   ArrowRight, CheckCircle, Clock, Database
 } from 'lucide-react';
 import AIWorkflowAdvisor from './AIWorkflowAdvisor';
@@ -112,7 +112,7 @@ const IntegratedPlaygroundHub: React.FC = () => {
           
           <div className="mb-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
               <input
                 type="text"
                 placeholder="Search LLM models..."
@@ -175,7 +175,7 @@ const IntegratedPlaygroundHub: React.FC = () => {
           
           <div className="mb-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
               <input
                 type="text"
                 placeholder="Search NPM packages..."

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Send, Copy, Zap, Brain, Settings, Save, Search,
+  Send, Copy, Zap, Brain, Settings, Save, Search as SearchIcon,
   RefreshCw, MessageCircle, Check, Clock,
   ChevronDown, ChevronUp, Edit, BarChart2, 
   AlertCircle, Clipboard, Share2
@@ -500,7 +500,7 @@ function applyTransformation(data) {
             </h3>
             
             <div className="relative mb-4">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
               <input
                 type="text"
                 placeholder="搜索模型..."

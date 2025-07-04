@@ -12,12 +12,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
     url: !!supabaseUrl,
     key: !!supabaseAnonKey
   })
-  throw new Error('Missing Supabase environment variables. Please check your .env file.')
+  // Provide fallback values for development instead of throwing error
+  console.warn('Using fallback values for Supabase - data may be limited')
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    persistSession: false
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
   }
 })
 

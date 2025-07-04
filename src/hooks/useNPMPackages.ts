@@ -25,11 +25,13 @@ export function useNPMPackages(filters?: {
   async function fetchPackages() {
     try {
       setLoading(true)
+      setError(null)
       console.log('Fetching NPM packages with filters:', filters);
       
       let query = supabase
         .from('npm_packages')
         .select('*')
+        .limit(filters?.limit || 1000) // Ensure we get all packages
 
       // Apply filters
       if (filters?.category && filters.category !== 'all') {

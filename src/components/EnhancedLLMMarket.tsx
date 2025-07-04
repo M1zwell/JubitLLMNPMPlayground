@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Brain, DollarSign, Clock, Zap, Eye, Code, Globe, Filter, Star, TrendingUp, Search, BarChart3, Info, RefreshCw, ExternalLink, Shield, BookOpen, FileText } from 'lucide-react';
+import { Brain, DollarSign, Clock, Zap, Eye, Code, Globe, Filter, Star, TrendingUp, Search as SearchIcon, BarChart3, Info, RefreshCw, ExternalLink, Shield, BookOpen, FileText } from 'lucide-react';
 import { useLLMModels } from '../hooks/useLLMModels';
 import { LLMModel } from '../lib/supabase';
 import LLMUpdateManager from './LLMUpdateManager';
@@ -226,7 +226,7 @@ const EnhancedLLMMarket = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
             <input
               type="text"
               placeholder="Search models..."

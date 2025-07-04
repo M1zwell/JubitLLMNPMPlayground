@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  Package, Search, Filter, Download, Star, Github, ExternalLink, 
+  Package, Search as SearchIcon, Filter, Download, Star, Github, ExternalLink, 
   TrendingUp, Calendar, Code, Shield, Zap, Users, BarChart3,
   RefreshCw, Plus, Import, Clock, CheckCircle, AlertCircle,
   Eye, Copy, Globe, Terminal, Settings, Palette, Database,
@@ -231,7 +231,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
             <input
               type="text"
               placeholder="Search packages..."
