@@ -12,17 +12,22 @@ if (!supabaseUrl || !supabaseAnonKey) {
     url: !!supabaseUrl,
     key: !!supabaseAnonKey
   })
-  // Provide fallback values for development instead of throwing error
-  console.warn('Using fallback values for Supabase - data may be limited')
+  console.warn('Supabase not configured - data features will be disabled')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true
-  }
-})
+// Only create Supabase client if environment variables are present
+export const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    })
+  : null
+
+// Export the URL for logging purposes
+export const supabaseUrlForLogging = supabaseUrl
 
 export type LLMModel = {
   id: string

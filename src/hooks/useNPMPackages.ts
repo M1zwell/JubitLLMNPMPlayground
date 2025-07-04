@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { supabase, NPMPackage } from '../lib/supabase'
+import { supabase, NPMPackage, supabaseUrlForLogging } from '../lib/supabase'
 
 // Interface for NPM package filter options
 interface NPMPackageFilters {
@@ -27,7 +27,12 @@ export function useNPMPackages(filters?: {
       setLoading(true)
       setError(null)
       console.log('Fetching NPM packages with filters:', filters);
+      console.log('Supabase URL:', supabaseUrlForLogging || 'Not configured');
       
+      // Check if Supabase is configured
+      if (!supabase) {
+        throw new Error('Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.')
+      }
       let query = supabase
         .from('npm_packages')
         .select('*')
@@ -104,6 +109,12 @@ export function useNPMCategories() {
     async function fetchCategories() {
       try {
         setLoading(true)
+        
+        // Check if Supabase is configured
+        if (!supabase) {
+          throw new Error('Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.')
+        }
+        
         const { data, error } = await supabase
           .from('npm_categories')
           .select('*')
@@ -133,7 +144,11 @@ export async function importNPMPackages(params: {
   sortBy?: string
   importType?: 'manual' | 'automatic'
 }) {
-  const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/npm-import`;
+  if (!supabaseUrlForLogging) {
+    throw new Error('Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.')
+  }
+  
+  const apiUrl = `${supabaseUrlForLogging}/functions/v1/npm-import`;
   
   console.log('Importing NPM packages with params:', params);
   

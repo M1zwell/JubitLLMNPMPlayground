@@ -11,14 +11,17 @@ export function useLLMModels() {
       setLoading(true)
       setError(null)
       
-      // Test Supabase connection first
-      console.log('Testing Supabase connection...')
+      // Check if Supabase is configured
+      if (!supabase) {
+        throw new Error('Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.')
+      }
+      
+      console.log('Fetching LLM models from Supabase...')
       
       const { data, error } = await supabase
         .from('llm_models')
         .select('*')
         .limit(1000) // Ensure we get all models
-        .select('*')
         .order('quality_index', { ascending: false, nullsLast: true })
 
       if (error) {
