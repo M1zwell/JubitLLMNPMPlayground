@@ -561,12 +561,9 @@ const EnhancedLLMMarket = () => {
                               href={links.homepage} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm"
                             className="flex items-center gap-2 text-primary hover:text-primary-light text-sm"
                               <Globe size={12} />
-                            <Globe className="icon-sm" />
                               <ExternalLink size={10} />
-                            <ExternalLink className="icon-sm" />
                           )}
                           {links.apiDocs && (
                             <a 
@@ -575,12 +572,9 @@ const EnhancedLLMMarket = () => {
                               rel="noopener noreferrer"
                               className="flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm"
                             className="flex items-center gap-2 text-primary hover:text-primary-light text-sm"
-                              <Code size={12} />
                             <Code className="icon-sm" />
                               <ExternalLink size={10} />
-                            <ExternalLink className="icon-sm" />
                           )}
-                          {links.modelsDocs && (
                             <a 
                               href={links.modelsDocs} 
                               target="_blank" 
@@ -589,12 +583,9 @@ const EnhancedLLMMarket = () => {
                             className="flex items-center gap-2 text-primary hover:text-primary-light text-sm"
                               <FileText size={12} />
                             <FileText className="icon-sm" />
-                              <ExternalLink size={10} />
                             <ExternalLink className="icon-sm" />
                           )}
-                        </>
                       );
-                    })()}
                   </div>
                 </div>
               </div>
