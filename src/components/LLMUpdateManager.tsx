@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
   RefreshCw, 
-  Download, 
   Clock, 
   CheckCircle, 
   AlertCircle, 
@@ -103,70 +102,70 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <Database className="text-purple-400" size={24} />
+    <div className="card-minimal">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Database className="text-purple-600" size={16} />
           <div>
-            <h3 className="text-xl font-bold text-white">LLM Data Manager</h3>
-            <p className="text-gray-400 text-sm">Keep model data current with artificialanalysis.ai</p>
+            <h3 className="text-subheading">LLM Data Manager</h3>
+            <p className="text-caption">Keep model data current with artificialanalysis.ai</p>
           </div>
         </div>
         <button
           onClick={() => setShowScheduler(!showScheduler)}
-          className="p-2 bg-white/10 hover:bg-white/15 rounded-lg transition-colors"
+          className="btn-minimal btn-ghost"
           title="Update Settings"
         >
-          <Settings size={20} />
+          <Settings size={16} />
         </button>
       </div>
 
       {/* Update Status */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white/5 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="text-blue-400" size={16} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="card-minimal bg-gray-50 dark:bg-gray-800">
+          <div className="flex items-center gap-2 mb-1">
+            <Clock className="text-blue-600" size={14} />
             <span className="text-sm font-medium">Last Update</span>
           </div>
-          <div className="text-lg font-bold">{formatTime(lastUpdateTime)}</div>
-          <div className="text-xs text-gray-400">{getTimeSinceUpdate()}</div>
+          <div className="text-lg font-semibold">{formatTime(lastUpdateTime)}</div>
+          <div className="text-caption">{getTimeSinceUpdate()}</div>
         </div>
 
-        <div className="bg-white/5 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-2">
+        <div className="card-minimal bg-gray-50 dark:bg-gray-800">
+          <div className="flex items-center gap-2 mb-1">
             {autoUpdateEnabled ? (
-              <CheckCircle className="text-green-400" size={16} />
+              <CheckCircle className="text-green-600" size={14} />
             ) : (
-              <Pause className="text-gray-400" size={16} />
+              <Pause className="text-gray-500" size={14} />
             )}
             <span className="text-sm font-medium">Auto Update</span>
           </div>
-          <div className="text-lg font-bold">
+          <div className="text-lg font-semibold">
             {autoUpdateEnabled ? 'Enabled' : 'Disabled'}
           </div>
-          <div className="text-xs text-gray-400">
+          <div className="text-caption">
             {autoUpdateEnabled ? `Every ${updateInterval}h` : 'Manual only'}
           </div>
         </div>
 
-        <div className="bg-white/5 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="text-green-400" size={16} />
+        <div className="card-minimal bg-gray-50 dark:bg-gray-800">
+          <div className="flex items-center gap-2 mb-1">
+            <TrendingUp className="text-green-600" size={14} />
             <span className="text-sm font-medium">Data Source</span>
           </div>
-          <div className="text-lg font-bold">Live</div>
-          <div className="text-xs text-gray-400">artificialanalysis.ai</div>
+          <div className="text-lg font-semibold">Live</div>
+          <div className="text-caption">artificialanalysis.ai</div>
         </div>
       </div>
 
       {/* Update Status Message */}
       {updateStatus && (
-        <div className={`p-4 rounded-lg mb-4 ${
+        <div className={`p-3 rounded-md mb-4 ${
           updateStatus.includes('✅') 
-            ? 'bg-green-600/20 border border-green-600/30' 
+            ? 'bg-green-50 border border-green-200 dark:bg-green-900/20 dark:border-green-800' 
             : updateStatus.includes('❌')
-            ? 'bg-red-600/20 border border-red-600/30'
-            : 'bg-blue-600/20 border border-blue-600/30'
+            ? 'bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800'
+            : 'bg-blue-50 border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800'
         }`}>
           <p className="text-sm">{updateStatus}</p>
         </div>
@@ -174,57 +173,57 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
 
       {/* Last Update Stats */}
       {lastUpdate && (
-        <div className="bg-white/5 rounded-lg p-4 mb-4">
+        <div className="card-minimal bg-gray-50 dark:bg-gray-800 mb-4">
           <h4 className="font-medium mb-2">Last Update Results</h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
             <div>
-              <span className="text-gray-400">Processed:</span>
-              <span className="ml-2 font-bold">{lastUpdate.models_processed}</span>
+              <span className="text-gray-500">Processed:</span>
+              <span className="ml-2 font-semibold">{lastUpdate.models_processed}</span>
             </div>
             <div>
-              <span className="text-gray-400">Added:</span>
-              <span className="ml-2 font-bold text-green-400">{lastUpdate.models_added}</span>
+              <span className="text-gray-500">Added:</span>
+              <span className="ml-2 font-semibold text-green-600">{lastUpdate.models_added}</span>
             </div>
             <div>
-              <span className="text-gray-400">Updated:</span>
-              <span className="ml-2 font-bold text-blue-400">{lastUpdate.models_updated}</span>
+              <span className="text-gray-500">Updated:</span>
+              <span className="ml-2 font-semibold text-blue-600">{lastUpdate.models_updated}</span>
             </div>
             <div>
-              <span className="text-gray-400">Providers:</span>
-              <span className="ml-2 font-bold">{lastUpdate.providers_updated?.length || 0}</span>
+              <span className="text-gray-500">Providers:</span>
+              <span className="ml-2 font-semibold">{lastUpdate.providers_updated?.length || 0}</span>
             </div>
           </div>
         </div>
       )}
 
       {/* Manual Update Button */}
-      <div className="flex gap-3 mb-4">
+      <div className="flex gap-2 mb-4">
         <button
           onClick={handleManualUpdate}
           disabled={updating}
-          className="flex-1 flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white px-4 py-3 rounded-lg transition-colors"
+          className="flex-1 btn-minimal btn-primary"
         >
-          <RefreshCw size={20} className={updating ? 'animate-spin' : ''} />
+          <RefreshCw size={16} className={updating ? 'animate-spin' : ''} />
           {updating ? 'Updating...' : 'Update Now'}
         </button>
 
         <button
           onClick={toggleAutoUpdate}
-          className={`px-4 py-3 rounded-lg transition-colors ${
+          className={`btn-minimal ${
             autoUpdateEnabled 
-              ? 'bg-green-600 hover:bg-green-700' 
-              : 'bg-gray-600 hover:bg-gray-700'
+              ? 'btn-primary' 
+              : 'btn-secondary'
           }`}
         >
-          {autoUpdateEnabled ? <Pause size={20} /> : <Play size={20} />}
+          {autoUpdateEnabled ? <Pause size={16} /> : <Play size={16} />}
         </button>
       </div>
 
       {/* Schedule Settings */}
       {showScheduler && (
-        <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+        <div className="card-minimal bg-gray-50 dark:bg-gray-800">
           <h4 className="font-medium mb-3 flex items-center gap-2">
-            <Calendar size={16} />
+            <Calendar size={14} />
             Schedule Settings
           </h4>
           
@@ -236,7 +235,7 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
               <select
                 value={updateInterval}
                 onChange={(e) => setUpdateInterval(parseInt(e.target.value))}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800"
               >
                 <option value={1}>Every hour</option>
                 <option value={6}>Every 6 hours</option>
@@ -246,21 +245,19 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
               </select>
             </div>
 
-            <div className="flex gap-2">
-              <button
-                onClick={handleScheduleUpdate}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
-              >
-                <Calendar size={16} />
-                Save Schedule
-              </button>
-            </div>
+            <button
+              onClick={handleScheduleUpdate}
+              className="w-full btn-minimal btn-primary"
+            >
+              <Calendar size={16} />
+              Save Schedule
+            </button>
           </div>
         </div>
       )}
 
       {/* Info */}
-      <div className="text-xs text-gray-400 mt-4 flex items-center gap-2">
+      <div className="text-caption mt-4 flex items-center gap-2">
         <Globe size={12} />
         <span>Data synchronized with artificialanalysis.ai leaderboard</span>
       </div>

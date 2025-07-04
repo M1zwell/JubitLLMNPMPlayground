@@ -12,7 +12,7 @@ import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
 import UserMenu from './components/auth/UserMenu';
 import UserProfile from './components/auth/UserProfile';
-import { Code, Brain, Package, User } from 'lucide-react';
+import { Brain, Package, User, Workflow } from 'lucide-react';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -22,135 +22,99 @@ function AppContent() {
   const [showUserProfile, setShowUserProfile] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100">
-      {/* Navigation */}
-      <nav className="compact-lg border-b border-slate-700">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold text-slate-100">
-              🎪 LLM & NPM Playground
-            </h1>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            {/* Navigation buttons */}
-            <div className="flex gap-1">
-              <button
-                onClick={() => actions.setCurrentView('integrated-hub')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'integrated-hub' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
-              >
-                <span>🎮</span>
-                Integrated Hub
-              </button>
-              <button
-                onClick={() => actions.setCurrentView('llm-market')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'llm-market' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
-              >
-                <Brain size={14} />
-                LLM Market
-              </button>
-              <button
-                onClick={() => actions.setCurrentView('llm-playground')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'llm-playground' 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
-              >
-                <Brain size={14} />
-                LLM Playground
-              </button>
-              <button
-                onClick={() => actions.setCurrentView('npm-market')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'npm-market' 
-                    ? 'bg-emerald-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
-              >
-                <Package size={14} />
-                NPM Market
-              </button>
-              <button
-                onClick={() => actions.setCurrentView('npm-playground')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'npm-playground' 
-                    ? 'bg-sky-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
-              >
-                <Code size={14} />
-                NPM Playground
-              </button>
-              <button
-                onClick={() => actions.setCurrentView('unified-playground')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'unified-playground' 
-                    ? 'bg-purple-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
-              >
-                <span>🚀</span>
-                Enhanced Playground
-              </button>
-              <button
-                onClick={() => actions.setCurrentView('workflow-execution')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'workflow-execution' 
-                    ? 'bg-pink-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
-              >
-                <span>⚡</span>
-                Live Demo
-              </button>
+    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      {/* 极简化导航栏 */}
+      <nav className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between h-14">
+            <div className="flex items-center space-x-6">
+              <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                LLM & NPM Playground
+              </h1>
             </div>
+            
+            <div className="flex items-center space-x-2">
+              {/* 导航按钮 - 更加紧凑 */}
+              <nav className="hidden md:flex items-center space-x-1">
+                <button
+                  onClick={() => actions.setCurrentView('integrated-hub')}
+                  className={`btn-minimal ${
+                    state.currentView === 'integrated-hub' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  <Workflow size={14} />
+                  Hub
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('llm-market')}
+                  className={`btn-minimal ${
+                    state.currentView === 'llm-market' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  <Brain size={14} />
+                  LLM
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('npm-market')}
+                  className={`btn-minimal ${
+                    state.currentView === 'npm-market' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  <Package size={14} />
+                  NPM
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('unified-playground')}
+                  className={`btn-minimal ${
+                    state.currentView === 'unified-playground' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  Enhanced
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('workflow-execution')}
+                  className={`btn-minimal ${
+                    state.currentView === 'workflow-execution' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  Demo
+                </button>
+              </nav>
 
-            {/* User authentication */}
-            {authLoading ? (
-              <div className="w-8 h-8 bg-slate-800 rounded-full animate-pulse"></div>
-            ) : user ? (
-              <UserMenu 
-                onOpenProfile={() => setShowUserProfile(true)}
-                onOpenSettings={() => {}}
-              />
-            ) : (
-              <button
-                onClick={() => setShowAuthModal(true)}
-                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
-              >
-                <User size={16} />
-                Sign In
-              </button>
-            )}
+              {/* 用户认证 */}
+              {authLoading ? (
+                <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+              ) : user ? (
+                <UserMenu 
+                  onOpenProfile={() => setShowUserProfile(true)}
+                  onOpenSettings={() => {}}
+                />
+              ) : (
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="btn-minimal btn-primary"
+                >
+                  <User size={14} />
+                  Sign In
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </nav>
 
-      {/* Content */}
-      <div className="p-4">
+      {/* 内容区域 */}
+      <main className="max-w-7xl mx-auto px-4 py-6">
         {state.currentView === 'integrated-hub' ? (
           <IntegratedPlaygroundHub />
         ) : state.currentView === 'llm-market' ? (
@@ -174,9 +138,9 @@ function AppContent() {
         ) : state.currentView === 'workflow-execution' ? (
           <WorkflowExecutionPlayground />
         ) : null}
-      </div>
+      </main>
 
-      {/* Modals */}
+      {/* 模态框 */}
       <AuthModal 
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
