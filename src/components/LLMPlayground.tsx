@@ -1267,5 +1267,3 @@ const LLMPlayground = () => {
   );
 };
 
-
-export default LLMPlayground
