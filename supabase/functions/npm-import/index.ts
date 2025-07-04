@@ -209,14 +209,19 @@ async function fetchGitHubStats(repoUrl: string): Promise<{ stars: number; forks
 
 async function searchNPMPackages(query: string, page: number = 0, size: number = 20): Promise<NPMRegistryResponse | null> {
   try {
+    console.log(`Searching NPM registry for "${query}" (page: ${page}, size: ${size})`)
     const searchUrl = `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(query)}&size=${size}&from=${page * size}&quality=0.9&popularity=0.1&maintenance=0.0`
     const response = await fetch(searchUrl)
     
     if (!response.ok) {
-      throw new Error(`NPM API returned ${response.status}: ${response.statusText}`)
+      const errorText = await response.text().catch(() => 'Unknown error')
+      console.error(`NPM API error (${response.status}):`, errorText)
+      throw new Error(`NPM API returned ${response.status}: ${response.statusText} - ${errorText}`)
     }
     
-    return await response.json()
+    const data = await response.json()
+    console.log(`Found ${data.objects?.length || 0} packages`)
+    return data
   } catch (error) {
     console.error('Error searching NPM packages:', error)
     return null
@@ -226,7 +231,10 @@ async function searchNPMPackages(query: string, page: number = 0, size: number =
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
+    return new Response(null, { 
+      headers: corsHeaders,
+      status: 200
+    })
   }
 
   try {
@@ -237,6 +245,8 @@ Deno.serve(async (req) => {
 
     if (req.method === 'POST') {
       const { searchQuery, limit = 20, pages = 1, importType = 'manual', sortBy = 'popularity' } = await req.json()
+
+      console.log(`NPM import request: ${JSON.stringify({ searchQuery, limit, pages, importType, sortBy })}`)
 
       // Create import log entry
       const { data: logEntry, error: logError } = await supabase
@@ -252,6 +262,8 @@ Deno.serve(async (req) => {
       if (logError) {
         throw new Error(`Failed to create import log: ${logError.message}`)
       }
+      
+      console.log(`Created import log: ${logEntry.id}`)
 
       let totalProcessed = 0
       let totalAdded = 0
@@ -261,12 +273,17 @@ Deno.serve(async (req) => {
       try {
         // Search and import packages
         for (let page = 0; page < pages; page++) {
+          console.log(`Searching NPM registry for "${searchQuery || 'popular'}" (page ${page + 1} of ${pages})...`)
+          
           const searchResults = await searchNPMPackages(searchQuery || 'popular', page, limit)
           
           if (!searchResults?.objects) {
+            console.warn(`No results found for page ${page + 1}`)
             errors.push(`No results found for page ${page + 1}`)
             continue
           }
+          
+          console.log(`Found ${searchResults.objects.length} packages on page ${page + 1}`)
 
           for (const result of searchResults.objects) {
             try {
@@ -288,6 +305,8 @@ Deno.serve(async (req) => {
               if (repoUrl && typeof repoUrl === 'string' && repoUrl.includes('github.com')) {
                 githubStats = await fetchGitHubStats(repoUrl)
               }
+
+              console.log(`Processing package: ${result.package.name}`)
 
               // Determine author
               let author = ''
@@ -360,7 +379,9 @@ Deno.serve(async (req) => {
 
                 if (updateError) {
                   errors.push(`Failed to update ${result.package.name}: ${updateError.message}`)
+                  console.error(`Failed to update ${result.package.name}:`, updateError)
                 } else {
+                  console.log(`Updated package: ${result.package.name}`)
                   totalUpdated++
                 }
               } else {
@@ -371,15 +392,18 @@ Deno.serve(async (req) => {
 
                 if (insertError) {
                   errors.push(`Failed to insert ${result.package.name}: ${insertError.message}`)
+                  console.error(`Failed to insert ${result.package.name}:`, insertError)
                 } else {
+                  console.log(`Inserted new package: ${result.package.name}`)
                   totalAdded++
                 }
               }
 
               // Small delay to avoid rate limiting
-              await new Promise(resolve => setTimeout(resolve, 100))
+              await new Promise(resolve => setTimeout(resolve, 50))
 
             } catch (error) {
+              console.error(`Error processing ${result.package.name}:`, error)
               errors.push(`Error processing ${result.package.name}: ${error.message}`)
             }
           }
@@ -397,6 +421,8 @@ Deno.serve(async (req) => {
             error_message: errors.length > 0 ? errors.slice(0, 5).join('; ') : null
           })
           .eq('id', logEntry.id)
+
+        console.log(`Import completed: ${totalProcessed} processed, ${totalAdded} added, ${totalUpdated} updated`)
 
         return new Response(
           JSON.stringify({
@@ -429,6 +455,8 @@ Deno.serve(async (req) => {
         throw error
       }
     }
+    
+    console.error('Method not allowed:', req.method)
 
     return new Response(
       JSON.stringify({ error: 'Method not allowed' }),

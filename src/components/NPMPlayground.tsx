@@ -351,9 +351,9 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
   // Fetch packages from the market
   const { packages: marketPackages, loading: marketLoading } = useNPMPackages({
     search: packageSearchTerm,
-    sortBy: 'downloads',
+    sortBy: 'github_stars',
     sortDesc: true,
-    limit: 50
+    limit: 20
   });
 
   // Generate atomic info for packages not in mapping
@@ -693,7 +693,8 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
                 <div
                   key={pkg.id}
                   onClick={() => addPackageToCanvas(pkg)}
-                  className="bg-white/10 p-4 rounded-lg cursor-pointer hover:bg-white/15 transition-colors border border-white/10"
+                  className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 cursor-pointer 
+              transform hover:scale-105 transition-all duration-200 shadow-lg"
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">{pkg.atomicInfo.icon}</span>
