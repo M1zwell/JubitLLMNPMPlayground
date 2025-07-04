@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { X, Mail, Lock, User, Github, Chrome, Gamepad2, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -11,7 +10,6 @@ interface AuthModalProps {
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'signin' }) => {
   const [mode, setMode] = useState(initialMode);
-  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -155,7 +153,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
           
           <div className="text-center">
             <h2 className="text-xl font-semibold text-white mb-2">
-              {mode === 'signin' ? t('welcomeBack') : t('joinNow')}
+              {mode === 'signin' ? 'Welcome Back!' : 'Join LLM Playground'}
             </h2>
             <p className="text-white/80 text-sm">
               {mode === 'signin' 
@@ -170,7 +168,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
         <div className="p-6">
           {/* OAuth Providers */}
           <div className="space-y-3 mb-6">
-            <h3 className="text-sm font-medium text-secondary mb-3">{mode === 'signin' ? t('signIn') : t('signUp')}</h3>
+            <h3 className="text-sm font-medium text-secondary mb-3">Quick Sign In</h3>
             
             {['github', 'google', 'discord'].map((provider) => (
               <button
@@ -189,7 +187,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
           {/* Divider */}
           <div className="divider relative">
             <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-tertiary px-4 text-xs text-muted">
-              {language === 'en' ? 'Or continue with email' : '或使用电子邮箱'}
+              Or continue with email
             </span>
           </div>
 
@@ -198,8 +196,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
             {mode === 'signup' && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-2 flex justify-between">
-                    {t('username')} <span className="text-warning">*</span>
+                  <label className="block text-sm font-medium text-secondary mb-2">
+                    Username *
                   </label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon" />
@@ -215,8 +213,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-2 flex justify-between">
-                    {t('fullName')}
+                  <label className="block text-sm font-medium text-secondary mb-2">
+                    Full Name
                   </label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon" />
@@ -233,8 +231,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
             )}
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 flex justify-between">
-                {t('email')} <span className="text-warning">*</span>
+              <label className="block text-sm font-medium text-secondary mb-2">
+                Email Address *
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon" />
@@ -250,8 +248,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 flex justify-between">
-                {t('password')} <span className="text-warning">*</span>
+              <label className="block text-sm font-medium text-secondary mb-2">
+                Password *
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon" />
@@ -275,8 +273,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
 
             {mode === 'signup' && (
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 flex justify-between">
-                  {t('confirmPassword')} <span className="text-warning">*</span>
+                <label className="block text-sm font-medium text-secondary mb-2">
+                  Confirm Password *
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon" />
@@ -318,7 +316,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
                   {mode === 'signin' ? 'Signing In...' : 'Creating Account...'}
                 </>
               ) : (
-                mode === 'signin' ? t('signIn') : t('signUp')
+                mode === 'signin' ? 'Sign In' : 'Create Account'
               )}
             </button>
           </form>
@@ -326,12 +324,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
           {/* Mode Toggle */}
           <div className="mt-4 text-center">
             <p className="text-tertiary text-sm">
-              {mode === 'signin' ? (language === 'en' ? "Don't have an account? " : "还没有帐号？") : (language === 'en' ? 'Already have an account? ' : '已有帐号？')}
+              {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
               <button
                 onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')}
                 className="text-primary hover:text-primary-light font-medium"
               >
-                {mode === 'signin' ? t('signUp') : t('signIn')}
+                {mode === 'signin' ? 'Sign up' : 'Sign in'}
               </button>
             </p>
           </div>
@@ -340,10 +338,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 's
           {mode === 'signup' && (
             <div className="mt-3 text-center">
               <p className="text-xs text-muted">
-                {language === 'en' ? 'By creating an account, you agree to our' : '创建账户即表示您同意我们的'}{' '}
-                <a href="/terms" className="text-primary hover:text-primary-light">{language === 'en' ? 'Terms of Service' : '服务条款'}</a>
+                By creating an account, you agree to our{' '}
+                <a href="/terms" className="text-primary hover:text-primary-light">Terms of Service</a>
                 {' '}and{' '}
-                <a href="/privacy" className="text-primary hover:text-primary-light">{language === 'en' ? 'Privacy Policy' : '隐私政策'}</a>
+                <a href="/privacy" className="text-primary hover:text-primary-light">Privacy Policy</a>
               </p>
             </div>
           )}

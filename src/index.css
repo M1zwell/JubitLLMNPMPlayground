@@ -3,8 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 极简色彩系统 - 清淡配色 */
 :root {
-  /* Light theme colors */
   --bg-primary: #fafbfc;
   --bg-secondary: #f6f8fa;
   --bg-tertiary: #ffffff;
@@ -51,8 +51,8 @@
   --space-xl: 1.5rem;
 }
 
+/* 暗色主题支持 */
 [data-theme="dark"] {
-  /* Dark theme colors */
   --bg-primary: #0d1117;
   --bg-secondary: #161b22;
   --bg-tertiary: #21262d;
@@ -83,7 +83,7 @@ body {
   color: var(--text-primary);
   background-color: var(--bg-primary);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;  
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* 极简滚动条 */
@@ -217,13 +217,9 @@ body {
 
 /* 极简导航 */
 .nav {
-  background: rgba(33, 38, 45, 0.75);
+  background: var(--bg-tertiary);
   border-bottom: 1px solid var(--border-light);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  backdrop-filter: blur(8px);
 }
 
 .nav-item {
@@ -245,8 +241,8 @@ body {
 }
 
 .nav-item.active {
-  background: rgba(59, 130, 246, 0.15);
-  color: #3b82f6;
+  background: var(--accent-primary-subtle);
+  color: var(--accent-primary);
 }
 
 /* 极简表单 */
@@ -479,43 +475,4 @@ body {
   .no-print {
     display: none !important;
   }
-}
-
-/* Add responsive classes */
-@media (max-width: 640px) {
-  .nav-item {
-    padding: 0.35rem 0.5rem;
-    font-size: 11px;
-  }
-  
-  .nav-item svg {
-    width: 12px;
-    height: 12px;
-  }
-}
-
-/* Fix for dark mode compatibility */
-html[data-theme="dark"] {
-  color-scheme: dark;
-}
-
-html[data-theme="light"] {
-  color-scheme: light;
-}
-
-/* Styles for language selector */
-.language-selector {
-  position: relative;
-  z-index: 50;
-}
-
-.language-menu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  margin-top: 0.5rem;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  width: 120px;
-  box-shadow: var(--shadow-md);
 }

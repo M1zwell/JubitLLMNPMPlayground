@@ -47,16 +47,7 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    let update_type = 'manual';
-    let force_refresh = false;
-    
-    try {
-      const body = await req.json();
-      update_type = body.update_type || 'manual';
-      force_refresh = body.force_refresh || false;
-    } catch (jsonError) {
-      console.log('⚠️ No valid JSON body provided, using defaults');
-    }
+    const { update_type = 'manual', force_refresh = false } = await req.json().catch(() => ({}));
     
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
