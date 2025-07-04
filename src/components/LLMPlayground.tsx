@@ -1249,18 +1249,24 @@ const LLMPlayground = () => {
           )}
         </div>
       </div>
+      
+      {/* AI Workflow Advisor */}
+      <AIWorkflowAdvisor
+        onComponentAdd={(component, type) => {
+          if (type === 'llm') {
+            setSelectedModels(prev => [...prev, component]);
+          }
+        }}
+        onSuggestionApply={(suggestion) => {
+          // Apply AI suggestion
+          console.log('Applying suggestion:', suggestion);
+        }}
+        selectedComponents={selectedModels}
+      />
     </div>
-
-    {/* AI Workflow Advisor */}
-    <AIWorkflowAdvisor
-      onComponentAdd={(component, type) => {
-        if (type === 'llm') {
-          setSelectedModel(component);
-        }
-      }}
-      selectedComponents={selectedModel ? [selectedModel] : []}
-    />
   );
 };
 
 export default LLMPlayground;
+
+export default LLMPlayground
