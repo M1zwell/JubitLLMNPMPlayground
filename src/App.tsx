@@ -24,104 +24,62 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100">
       {/* Navigation */}
-      <nav className="compact-lg border-b border-slate-700">
+      <nav className="nav">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold text-slate-100">
+            <h1 className="text-lg font-semibold text-primary">
               🎪 LLM & NPM Playground
             </h1>
           </div>
           
           <div className="flex items-center gap-4">
             {/* Navigation buttons */}
-            <div className="flex gap-1">
+            <div className="flex gap-2">
               <button
                 onClick={() => actions.setCurrentView('integrated-hub')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'integrated-hub' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
+                className={`nav-item ${state.currentView === 'integrated-hub' ? 'active' : ''}`}
               >
                 <span>🎮</span>
                 Integrated Hub
               </button>
               <button
                 onClick={() => actions.setCurrentView('llm-market')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'llm-market' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
+                className={`nav-item ${state.currentView === 'llm-market' ? 'active' : ''}`}
               >
                 <Brain size={14} />
                 LLM Market
               </button>
               <button
                 onClick={() => actions.setCurrentView('llm-playground')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'llm-playground' 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
+                className={`nav-item ${state.currentView === 'llm-playground' ? 'active' : ''}`}
               >
                 <Brain size={14} />
                 LLM Playground
               </button>
               <button
                 onClick={() => actions.setCurrentView('npm-market')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'npm-market' 
-                    ? 'bg-emerald-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
+                className={`nav-item ${state.currentView === 'npm-market' ? 'active' : ''}`}
               >
                 <Package size={14} />
                 NPM Market
               </button>
               <button
                 onClick={() => actions.setCurrentView('npm-playground')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'npm-playground' 
-                    ? 'bg-sky-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
+                className={`nav-item ${state.currentView === 'npm-playground' ? 'active' : ''}`}
               >
                 <Code size={14} />
                 NPM Playground
               </button>
               <button
                 onClick={() => actions.setCurrentView('unified-playground')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'unified-playground' 
-                    ? 'bg-purple-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
+                className={`nav-item ${state.currentView === 'unified-playground' ? 'active' : ''}`}
               >
                 <span>🚀</span>
                 Enhanced Playground
               </button>
               <button
                 onClick={() => actions.setCurrentView('workflow-execution')}
-                className={`
-                  compact rounded-md transition-all duration-200 flex items-center gap-2 text-sm
-                  ${state.currentView === 'workflow-execution' 
-                    ? 'bg-pink-600 text-white' 
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                  }
-                `}
+                className={`nav-item ${state.currentView === 'workflow-execution' ? 'active' : ''}`}
               >
                 <span>⚡</span>
                 Live Demo
@@ -130,7 +88,7 @@ function AppContent() {
 
             {/* User authentication */}
             {authLoading ? (
-              <div className="w-8 h-8 bg-slate-800 rounded-full animate-pulse"></div>
+              <div className="w-8 h-8 bg-secondary rounded-full loading"></div>
             ) : user ? (
               <UserMenu 
                 onOpenProfile={() => setShowUserProfile(true)}
@@ -139,7 +97,7 @@ function AppContent() {
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
-                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+                className="btn btn-primary"
               >
                 <User size={16} />
                 Sign In
@@ -150,7 +108,7 @@ function AppContent() {
       </nav>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-6 bg-primary">
         {state.currentView === 'integrated-hub' ? (
           <IntegratedPlaygroundHub />
         ) : state.currentView === 'llm-market' ? (

@@ -219,45 +219,53 @@ const EnhancedLLMMarket = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-4">
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold text-primary mb-2">
           🧠 AI Model Marketplace
         </h1>
-        <p className="text-xl text-purple-300 mb-2">
+        <p className="text-base text-secondary mb-1">
           Compare {LLM_MODELS.length} LLM models • Real data from artificialanalysis.ai
         </p>
-        <div className="text-sm text-gray-400">
+        <div className="text-xs text-tertiary">
           Quality indices, pricing, and performance metrics updated regularly
         </div>
       </div>
 
       {/* Statistics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-blue-400">{stats.total}</div>
-          <div className="text-sm opacity-80">Models Found</div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="card compact text-center">
+          <div className="stat">
+            <div className="stat-value text-primary">{stats.total}</div>
+            <div className="stat-label">Models Found</div>
+          </div>
         </div>
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-green-400">{stats.avgQuality.toFixed(1)}</div>
-          <div className="text-sm opacity-80">Avg Quality</div>
+        <div className="card compact text-center">
+          <div className="stat">
+            <div className="stat-value text-success">{stats.avgQuality.toFixed(1)}</div>
+            <div className="stat-label">Avg Quality</div>
+          </div>
         </div>
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-yellow-400">${stats.avgPrice.toFixed(2)}</div>
-          <div className="text-sm opacity-80">Avg Price/1M</div>
+        <div className="card compact text-center">
+          <div className="stat">
+            <div className="stat-value text-warning">${stats.avgPrice.toFixed(2)}</div>
+            <div className="stat-label">Avg Price/1M</div>
+          </div>
         </div>
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-purple-400">{stats.openSource}</div>
-          <div className="text-sm opacity-80">Open Source</div>
+        <div className="card compact text-center">
+          <div className="stat">
+            <div className="stat-value text-primary">{stats.openSource}</div>
+            <div className="stat-label">Open Source</div>
+          </div>
         </div>
       </div>
 
       {/* Update Manager Button */}
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end">
         <button
           onClick={() => setShowUpdateManager(!showUpdateManager)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm transition-colors flex items-center gap-2"
+          className="btn btn-secondary"
         >
           <RefreshCw size={16} />
           Data Manager
@@ -266,7 +274,7 @@ const EnhancedLLMMarket = () => {
 
       {/* Update Manager */}
       {showUpdateManager && (
-        <div className="mb-8">
+        <div className="fade-in">
           <LLMUpdateManager onUpdateComplete={() => {
             refetch();
             setShowUpdateManager(false);
@@ -275,22 +283,22 @@ const EnhancedLLMMarket = () => {
       )}
 
       {/* Filters */}
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/20">
+      <div className="card compact-lg">
         <div className="flex items-center gap-2 mb-4">
-          <Filter size={20} />
-          <h3 className="text-lg font-bold">Filters & Search</h3>
+          <Filter size={16} />
+          <h3 className="text-base font-medium">Filters & Search</h3>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted icon-sm" />
             <input
               type="text"
               placeholder="Search models..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
+              className="input pl-8"
             />
           </div>
 
@@ -298,7 +306,7 @@ const EnhancedLLMMarket = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+            className="input"
           >
             {Object.entries(CATEGORIES).map(([key, category]) => (
               <option key={key} value={key}>{category.name}</option>
@@ -309,7 +317,7 @@ const EnhancedLLMMarket = () => {
           <select
             value={selectedProvider}
             onChange={(e) => setSelectedProvider(e.target.value)}
-            className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+            className="input"
           >
             {Object.entries(PROVIDERS).map(([key, provider]) => (
               <option key={key} value={key}>{provider.flag} {provider.name}</option>
@@ -321,7 +329,7 @@ const EnhancedLLMMarket = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+              className="input flex-1"
             >
               {SORT_OPTIONS.map(option => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -329,7 +337,7 @@ const EnhancedLLMMarket = () => {
             </select>
             <button
               onClick={() => setSortDesc(!sortDesc)}
-              className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg hover:bg-white/15"
+              className="btn btn-ghost"
             >
               <ArrowUpDown size={16} />
             </button>
@@ -339,7 +347,7 @@ const EnhancedLLMMarket = () => {
         {/* Range Filters */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-secondary">
               Output Price Range: ${priceRange[0]} - ${priceRange[1]}
             </label>
             <input
@@ -353,7 +361,7 @@ const EnhancedLLMMarket = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-secondary">
               Quality Range: {qualityRange[0]} - {qualityRange[1]}
             </label>
             <input
@@ -370,7 +378,7 @@ const EnhancedLLMMarket = () => {
       </div>
 
       {/* Models Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid-auto-fill">
         {filteredModels.map(model => (
           <div
             key={model.id}
@@ -392,98 +400,76 @@ const EnhancedLLMMarket = () => {
               }, 500);
             }}
             className={`
-              bg-gradient-to-r ${getRarityColor(model.rarity)}
-              p-5 rounded-xl cursor-pointer transform hover:scale-105 
-              transition-all duration-300 border-2 border-white/20 shadow-lg
-              ${selectedModel?.id === model.id ? 'ring-4 ring-white/50 scale-105' : ''}
+              card compact cursor-pointer transition-all duration-200
+              ${selectedModel?.id === model.id ? 'border-primary shadow-md' : ''}
             `}
           >
             {/* Header */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <span className="text-2xl">{getModelIcon(model)}</span>
+                <span className="text-lg">{getModelIcon(model)}</span>
                 <div>
-                  <h3 className="font-bold text-sm">{model.name}</h3>
-                  <p className="text-xs opacity-80 flex items-center gap-1">
+                  <h3 className="font-medium text-sm text-primary">{model.name}</h3>
+                  <p className="text-xs text-tertiary flex items-center gap-1">
                     {PROVIDERS[model.provider]?.flag} {model.provider}
                   </p>
                 </div>
               </div>
               <div className="text-right">
-                <div className={`text-lg font-bold ${getQualityColor(model.quality_index)}`}>
+                <div className={`text-base font-semibold ${getQualityColor(model.quality_index)}`}>
                   {model.quality_index || 'N/A'}
                 </div>
-                <div className="text-xs opacity-80">Quality</div>
+                <div className="text-xs text-muted">Quality</div>
               </div>
             </div>
 
             {/* Metrics */}
-            <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
-              <div className="bg-white/20 rounded px-2 py-1">
-                <div className="flex items-center gap-1">
-                  <DollarSign size={10} />
-                  <span>${model.input_price}/${model.output_price}</span>
-                </div>
-              </div>
-              <div className="bg-white/20 rounded px-2 py-1">
-                <div className="flex items-center gap-1">
-                  <Zap size={10} />
-                  <span>{model.output_speed.toFixed(0)} tok/s</span>
-                </div>
-              </div>
-              <div className="bg-white/20 rounded px-2 py-1">
-                <div className="flex items-center gap-1">
-                  <Clock size={10} />
-                  <span>{model.latency.toFixed(1)}s</span>
-                </div>
-              </div>
-              <div className="bg-white/20 rounded px-2 py-1">
-                <div className="flex items-center gap-1">
-                  <BarChart3 size={10} />
-                  <span>{Math.round(model.context_window / 1000)}K</span>
-                </div>
-              </div>
+            <div className="grid grid-cols-2 gap-1 mb-2 text-xs">
+              <div className="badge badge-neutral">${model.input_price}/${model.output_price}</div>
+              <div className="badge badge-neutral">{model.output_speed.toFixed(0)} tok/s</div>
+              <div className="badge badge-neutral">{model.latency.toFixed(1)}s</div>
+              <div className="badge badge-neutral">{Math.round(model.context_window / 1000)}K</div>
             </div>
 
             {/* Features */}
-            <div className="flex flex-wrap gap-1 mb-2">
+            <div className="flex flex-wrap gap-1 mb-3">
               {model.features.slice(0, 2).map((feature, idx) => (
-                <span key={idx} className="bg-white/30 px-2 py-1 rounded text-xs">
+                <span key={idx} className="badge badge-primary text-xs">
                   {feature}
                 </span>
               ))}
             </div>
 
             {/* License Badge */}
-            <div className="flex justify-between items-center">
-              <span className={`px-2 py-1 rounded text-xs ${
+            <div className="flex justify-between items-center mb-2">
+              <span className={`badge ${
                 model.license === 'Open' ? 'bg-green-600/30' : 'bg-gray-600/30'
               }`}>
                 {model.license}
               </span>
-              <span className="text-xs opacity-80 capitalize">{model.rarity}</span>
+              <span className="text-xs text-tertiary capitalize">{model.rarity}</span>
             </div>
             
             {/* Quick Action Buttons */}
-            <div className="mt-3 flex gap-2">
+            <div className="flex gap-1">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   actions.selectLLMModel(model);
                   actions.addComponentToWorkflow(model, 'llm');
                 }}
-                className="flex-1 bg-blue-600/80 hover:bg-blue-600 px-2 py-1 rounded text-xs transition-colors"
+                className="btn btn-primary flex-1 text-xs"
               >
-                + Add to Workflow
+                Add
               </button>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   actions.navigateToPlaygroundWithComponent(model, 'llm');
                 }}
-                className="bg-green-600/80 hover:bg-green-600 px-2 py-1 rounded text-xs transition-colors"
+                className="btn btn-success text-xs"
               >
-                Use
+                Try
               </button>
             </div>
           </div>
@@ -492,15 +478,15 @@ const EnhancedLLMMarket = () => {
 
       {/* Detailed Model Info */}
       {selectedModel && (
-        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+        <div className="card-elevated compact-lg fade-in">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left: Basic Info */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-4xl">{getModelIcon(selectedModel)}</span>
+                <span className="text-2xl">{getModelIcon(selectedModel)}</span>
                 <div>
-                  <h2 className="text-2xl font-bold">{selectedModel.name}</h2>
-                  <p className="text-purple-300 flex items-center gap-2">
+                  <h2 className="text-lg font-semibold text-primary">{selectedModel.name}</h2>
+                  <p className="text-secondary flex items-center gap-2">
                     {PROVIDERS[selectedModel.provider]?.flag} {selectedModel.provider} • {selectedModel.description}
                   </p>
                 </div>
@@ -508,26 +494,26 @@ const EnhancedLLMMarket = () => {
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/10 rounded-lg p-3">
-                    <h4 className="font-bold mb-2 flex items-center gap-2">
-                      <DollarSign className="text-yellow-400" size={16} />
+                  <div className="card-minimal compact">
+                    <h4 className="font-medium mb-2 flex items-center gap-2 text-secondary">
+                      <DollarSign className="text-warning icon-sm" />
                       Pricing (per 1M tokens)
                     </h4>
-                    <div className="text-sm">
+                    <div className="text-sm text-primary">
                       <div>Input: ${selectedModel.input_price}</div>
                       <div>Output: ${selectedModel.output_price}</div>
-                      <div className="text-xs text-gray-400 mt-1">
+                      <div className="text-xs text-muted mt-1">
                         Cost per 1K: ${(selectedModel.output_price / 1000).toFixed(4)}
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white/10 rounded-lg p-3">
-                    <h4 className="font-bold mb-2 flex items-center gap-2">
-                      <TrendingUp className="text-green-400" size={16} />
+                  <div className="card-minimal compact">
+                    <h4 className="font-medium mb-2 flex items-center gap-2 text-secondary">
+                      <TrendingUp className="text-success icon-sm" />
                       Performance
                     </h4>
-                    <div className="text-sm">
+                    <div className="text-sm text-primary">
                       <div>Quality: <span className={getQualityColor(selectedModel.quality_index)}>{selectedModel.quality_index || 'N/A'}</span></div>
                       <div>Speed: {selectedModel.output_speed.toFixed(1)} tok/s</div>
                       <div>Latency: {selectedModel.latency.toFixed(2)}s</div>
@@ -535,9 +521,9 @@ const EnhancedLLMMarket = () => {
                   </div>
                 </div>
 
-                <div className="bg-white/10 rounded-lg p-3">
-                  <h4 className="font-bold mb-2">Technical Specs</h4>
-                  <div className="text-sm grid grid-cols-2 gap-2">
+                <div className="card-minimal compact">
+                  <h4 className="font-medium mb-2 text-secondary">Technical Specs</h4>
+                  <div className="text-sm grid grid-cols-2 gap-2 text-primary">
                     <div>Context: {(selectedModel.context_window / 1000).toFixed(0)}K tokens</div>
                     <div>License: {selectedModel.license}</div>
                     <div>Creator: {selectedModel.creator}</div>
@@ -545,11 +531,11 @@ const EnhancedLLMMarket = () => {
                   </div>
                 </div>
 
-                <div className="bg-white/10 rounded-lg p-3">
-                  <h4 className="font-bold mb-2">Features</h4>
+                <div className="card-minimal compact">
+                  <h4 className="font-medium mb-2 text-secondary">Features</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedModel.features.map((feature, idx) => (
-                      <span key={idx} className="bg-purple-600/30 px-3 py-1 rounded-full text-sm">
+                      <span key={idx} className="badge badge-primary">
                         {feature}
                       </span>
                     ))}
@@ -557,12 +543,12 @@ const EnhancedLLMMarket = () => {
                 </div>
 
                 {/* Official Documentation Links */}
-                <div className="bg-white/10 rounded-lg p-3">
-                  <h4 className="font-bold mb-2 flex items-center gap-2">
-                    <BookOpen size={16} />
+                <div className="card-minimal compact">
+                  <h4 className="font-medium mb-2 flex items-center gap-2 text-secondary">
+                    <BookOpen className="icon-sm" />
                     Official Documentation
                     {selectedModel.verified_official && (
-                      <Shield className="text-green-400" size={14} title="Verified Official" />
+                      <Shield className="text-success icon-sm" title="Verified Official" />
                     )}
                   </h4>
                   <div className="space-y-2">
@@ -576,11 +562,11 @@ const EnhancedLLMMarket = () => {
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm"
-                            >
+                            className="flex items-center gap-2 text-primary hover:text-primary-light text-sm"
                               <Globe size={12} />
-                              Official Homepage
+                            <Globe className="icon-sm" />
                               <ExternalLink size={10} />
-                            </a>
+                            <ExternalLink className="icon-sm" />
                           )}
                           {links.apiDocs && (
                             <a 
@@ -588,11 +574,11 @@ const EnhancedLLMMarket = () => {
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm"
-                            >
+                            className="flex items-center gap-2 text-primary hover:text-primary-light text-sm"
                               <Code size={12} />
-                              API Documentation
+                            <Code className="icon-sm" />
                               <ExternalLink size={10} />
-                            </a>
+                            <ExternalLink className="icon-sm" />
                           )}
                           {links.modelsDocs && (
                             <a 
@@ -600,11 +586,11 @@ const EnhancedLLMMarket = () => {
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm"
-                            >
+                            className="flex items-center gap-2 text-primary hover:text-primary-light text-sm"
                               <FileText size={12} />
-                              Model Documentation
+                            <FileText className="icon-sm" />
                               <ExternalLink size={10} />
-                            </a>
+                            <ExternalLink className="icon-sm" />
                           )}
                         </>
                       );
@@ -616,39 +602,39 @@ const EnhancedLLMMarket = () => {
 
             {/* Right: Comparison & Insights */}
             <div>
-              <h3 className="text-xl font-bold mb-4">Market Position</h3>
+              <h3 className="text-lg font-medium mb-4 text-primary">Market Position</h3>
               
               <div className="space-y-4">
-                <div className="bg-white/10 rounded-lg p-3">
-                  <h4 className="font-bold mb-2">Value Proposition</h4>
-                  <div className="text-sm">
+                <div className="card-minimal compact">
+                  <h4 className="font-medium mb-2 text-secondary">Value Proposition</h4>
+                  <div className="text-sm text-primary">
                     {selectedModel.quality_index && selectedModel.quality_index >= 50 && selectedModel.output_price <= 2 && (
-                      <div className="text-green-400">🏆 Excellent quality-to-price ratio</div>
+                      <div className="text-success">🏆 Excellent quality-to-price ratio</div>
                     )}
                     {selectedModel.output_speed >= 100 && (
-                      <div className="text-blue-400">⚡ High-speed inference</div>
+                      <div className="text-primary">⚡ High-speed inference</div>
                     )}
                     {selectedModel.license === 'Open' && (
-                      <div className="text-purple-400">🔓 Open source advantage</div>
+                      <div className="text-primary">🔓 Open source advantage</div>
                     )}
                     {selectedModel.context_window >= 100000 && (
-                      <div className="text-cyan-400">📚 Long context support</div>
+                      <div className="text-primary">📚 Long context support</div>
                     )}
                   </div>
                 </div>
 
-                <div className="bg-white/10 rounded-lg p-3">
-                  <h4 className="font-bold mb-2">Competitive Analysis</h4>
-                  <div className="text-sm space-y-1">
+                <div className="card-minimal compact">
+                  <h4 className="font-medium mb-2 text-secondary">Competitive Analysis</h4>
+                  <div className="text-sm space-y-1 text-primary">
                     <div>Quality Rank: Top {selectedModel.quality_index ? Math.round((LLM_MODELS.filter(m => m.quality_index && m.quality_index > (selectedModel.quality_index || 0)).length / LLM_MODELS.length) * 100) : 'N/A'}%</div>
                     <div>Price Rank: {selectedModel.output_price <= 1 ? 'Budget-friendly' : selectedModel.output_price <= 5 ? 'Mid-range' : 'Premium'}</div>
                     <div>Speed Rank: {selectedModel.output_speed >= 100 ? 'Fast' : selectedModel.output_speed >= 50 ? 'Medium' : 'Slow'}</div>
                   </div>
                 </div>
 
-                <div className="bg-white/10 rounded-lg p-3">
-                  <h4 className="font-bold mb-2">Best Use Cases</h4>
-                  <div className="text-sm text-gray-300">
+                <div className="card-minimal compact">
+                  <h4 className="font-medium mb-2 text-secondary">Best Use Cases</h4>
+                  <div className="text-sm text-primary">
                     {selectedModel.category === 'reasoning' && '💡 Complex problem solving, analysis, mathematical reasoning'}
                     {selectedModel.category === 'coding' && '💻 Software development, code review, debugging'}
                     {selectedModel.category === 'multimodal' && '🎯 Image analysis, document processing, multimedia tasks'}
@@ -657,14 +643,14 @@ const EnhancedLLMMarket = () => {
                   </div>
                 </div>
 
-                <div className="bg-white/10 rounded-lg p-3">
-                  <h4 className="font-bold mb-2">Similar Models</h4>
+                <div className="card-minimal compact">
+                  <h4 className="font-medium mb-2 text-secondary">Similar Models</h4>
                   <div className="space-y-1">
                     {LLM_MODELS
                       .filter(m => m.id !== selectedModel.id && m.category === selectedModel.category)
                       .slice(0, 3)
                       .map(similar => (
-                        <div key={similar.id} className="text-sm flex justify-between">
+                        <div key={similar.id} className="text-sm flex justify-between text-primary">
                           <span>{similar.name}</span>
                           <span className={getQualityColor(similar.quality_index)}>{similar.quality_index || 'N/A'}</span>
                         </div>
@@ -678,18 +664,18 @@ const EnhancedLLMMarket = () => {
       )}
 
       {/* Official Sources & Citations */}
-      <div className="mt-8 bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-          <BookOpen size={20} />
+      <div className="card compact-lg">
+        <h3 className="text-lg font-medium mb-4 flex items-center gap-2 text-primary">
+          <BookOpen className="icon" />
           Official Documentation & API References
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(PROVIDERS).slice(1).map(([key, provider]) => (
-            <div key={key} className="bg-white/10 rounded-lg p-4">
+            <div key={key} className="card-minimal compact">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-lg">{provider.flag}</span>
-                <h4 className="font-bold">{provider.name}</h4>
+                <h4 className="font-medium text-primary">{provider.name}</h4>
               </div>
               
               <div className="space-y-2 text-sm">
@@ -698,11 +684,11 @@ const EnhancedLLMMarket = () => {
                     href={provider.homepage} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-blue-400 hover:text-blue-300"
+                    className="flex items-center gap-2 text-primary hover:text-primary-light"
                   >
-                    <Globe size={12} />
+                    <Globe className="icon-sm" />
                     Homepage
-                    <ExternalLink size={10} />
+                    <ExternalLink className="icon-sm" />
                   </a>
                 )}
                 
@@ -711,11 +697,11 @@ const EnhancedLLMMarket = () => {
                     href={provider.apiDocs} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-blue-400 hover:text-blue-300"
+                    className="flex items-center gap-2 text-primary hover:text-primary-light"
                   >
-                    <Code size={12} />
+                    <Code className="icon-sm" />
                     API Docs
-                    <ExternalLink size={10} />
+                    <ExternalLink className="icon-sm" />
                   </a>
                 )}
                 
@@ -724,11 +710,11 @@ const EnhancedLLMMarket = () => {
                     href={provider.modelsDocs} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-blue-400 hover:text-blue-300"
+                    className="flex items-center gap-2 text-primary hover:text-primary-light"
                   >
-                    <FileText size={12} />
+                    <FileText className="icon-sm" />
                     Models
-                    <ExternalLink size={10} />
+                    <ExternalLink className="icon-sm" />
                   </a>
                 )}
               </div>
@@ -736,13 +722,13 @@ const EnhancedLLMMarket = () => {
           ))}
         </div>
         
-        <div className="mt-6 p-4 bg-white/5 rounded-lg">
-          <h4 className="font-bold mb-2 flex items-center gap-2">
-            <Info size={16} />
+        <div className="mt-6 card-minimal compact">
+          <h4 className="font-medium mb-2 flex items-center gap-2 text-secondary">
+            <Info className="icon-sm" />
             Data Sources & Citations
           </h4>
-          <div className="text-sm text-gray-400 space-y-1">
-            <p>• Performance metrics sourced from <a href="https://artificialanalysis.ai/leaderboards/providers" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">Artificial Analysis Leaderboard</a></p>
+          <div className="text-sm text-muted space-y-1">
+            <p>• Performance metrics sourced from <a href="https://artificialanalysis.ai/leaderboards/providers" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-light">Artificial Analysis Leaderboard</a></p>
             <p>• Model specifications verified against official provider documentation</p>
             <p>• Pricing information cross-referenced with official API documentation</p>
             <p>• Quality indices based on standardized benchmarks (MMLU-Pro, GPQA Diamond, HumanEval, etc.)</p>
@@ -750,10 +736,11 @@ const EnhancedLLMMarket = () => {
           </div>
         </div>
       </div>
+      
       {/* Footer */}
-      <div className="mt-8 text-center text-gray-400 text-sm">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <Info size={16} />
+      <div className="text-center text-muted text-sm">
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <Info className="icon-sm" />
           <span>Data sourced from artificialanalysis.ai • Updated regularly</span>
         </div>
         <div>
