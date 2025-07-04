@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase, NPMPackage } from '../lib/supabase'
 
 export function useNPMPackages(filters?: {
@@ -64,7 +64,18 @@ export function useNPMPackages(filters?: {
     fetchPackages()
   }, [fetchPackages])
 
-  return { packages, loading, error, refetch: fetchPackages }
+  // Create a stable reference to fetchPackages that won't change between renders
+  const fetchPackagesRef = useRef(fetchPackages);
+  useEffect(() => {
+    fetchPackagesRef.current = fetchPackages;
+  }, [fetchPackages]);
+
+  // Create a stable refetch function that always uses the current fetchPackages implementation
+  const refetch = useCallback(() => {
+    return fetchPackagesRef.current();
+  }, []);
+
+  return { packages, loading, error, refetch }
 }
 
 export function useNPMCategories() {
