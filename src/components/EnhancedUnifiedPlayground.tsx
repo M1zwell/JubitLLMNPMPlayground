@@ -4,10 +4,10 @@ import {
   Layers, Target, Users, FileText, Image, Database, Mail, Lock, Filter, Share2,
   TrendingUp, Award, Clock, DollarSign, Cpu, Eye, ExternalLink, AlertTriangle,
   Workflow, CheckCircle, Plus, Minus, PlayCircle,
-  Brain, Package, Code, Workflow, Activity, 
-  Zap, Target, Users, TrendingUp, Globe,
+  Brain, Package, Activity, 
+  Zap,
   Play, Search,
-  ArrowRight, CheckCircle, Clock, Database,
+  ArrowRight,
   Shield, Download, Star, BarChart3, Settings
 } from 'lucide-react';
 import { useLLMModels } from '../hooks/useLLMModels';
