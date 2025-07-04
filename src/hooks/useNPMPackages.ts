@@ -27,7 +27,6 @@ export function useNPMPackages(filters?: {
       setLoading(true)
       setError(null)
       console.log('Fetching NPM packages with filters:', filters);
-      console.log('Supabase URL:', supabase.getUrl());
       
       let query = supabase
         .from('npm_packages')
