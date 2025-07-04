@@ -12,7 +12,6 @@ import { useLLMModels } from '../hooks/useLLMModels';
 import { useNPMPackages } from '../hooks/useNPMPackages';
 import { LLMModel, NPMPackage } from '../lib/supabase';
 import WorkflowVisualization from './WorkflowVisualization';
-import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 // ========== 核心类型定义 ==========
 interface LLMProvider {
   id: string;
