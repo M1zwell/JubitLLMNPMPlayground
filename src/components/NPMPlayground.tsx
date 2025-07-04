@@ -5,7 +5,7 @@ import {
   Settings, Save, Upload, Layers, Brain, Target, Users, BarChart3,
   FileText, Image, Database, Mail, Lock, Search, Filter,
   Workflow, Share2, TrendingUp, Award, Clock, DollarSign,
-  ShoppingCart, ExternalLink, Cpu, Eye, ArrowLeft
+  ShoppingCart, ExternalLink, Cpu, Eye, ArrowLeft, PlayCircle, Minus
 } from 'lucide-react';
 import { useNPMPackages } from '../hooks/useNPMPackages';
 import { NPMPackage } from '../lib/supabase';
@@ -347,6 +347,7 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
   });
   const [showMarketIntegration, setShowMarketIntegration] = useState(false);
   const [packageSearchTerm, setPackageSearchTerm] = useState('');
+  const [inputValue, setInputValue] = useState("Example input data");
 
   // Fetch packages from the market
   const { packages: marketPackages, loading: marketLoading } = useNPMPackages({
@@ -439,15 +440,21 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
   const addPackageToCanvas = (pkg: NPMPackage) => {
     const atomicInfo = ATOMIC_FUNCTION_MAPPING[pkg.name] || generateAtomicInfo(pkg);
     
+    // Generate unique ID for the atom
+    const atomId = `${pkg.name}_${Date.now()}`;
+    
     const newAtom = {
-      id: `${pkg.name}_${Date.now()}`,
+      id: atomId,
       package: pkg.name,
       packageData: pkg,
       atomicInfo,
       step: workflowCanvas.length + 1,
       x: 100 + (workflowCanvas.length * 200),
       y: 100,
-      config: {},
+      config: {
+        code: ATOMIC_FUNCTION_MAPPING[pkg.name]?.example || 
+              `// Process data using ${pkg.name}\nreturn input;`
+      },
       status: 'ready'
     };
 
@@ -531,6 +538,44 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
     setAiSuggestions(suggestions);
   };
 
+  // Generate workflow execution code
+  const generateExecutionCode = () => {
+    return `// Generated workflow execution code
+async function executeWorkflow(input) {
+  let currentData = input;
+  const results = {};
+  
+  try {
+    console.log("Starting workflow execution with input:", input);
+    
+    ${workflowCanvas.map((atom, idx) => `
+    // Step ${idx + 1}: ${atom.package}
+    console.log("Executing step ${idx + 1}: ${atom.package}");
+    try {
+      const ${atom.package.replace(/[^a-zA-Z0-9_]/g, '_')} = require('${atom.package}');
+      // Execute component
+      currentData = ${atom.config.code.replace('return', 'currentData =').replace('input', 'currentData')};
+      results['${atom.id}'] = { success: true, output: currentData };
+      console.log(\`Step ${idx + 1} completed: \${JSON.stringify(currentData).substring(0, 100)}...\`);
+    } catch (error) {
+      console.error(\`Error in step ${idx + 1}: \${error.message}\`);
+      results['${atom.id}'] = { success: false, error: error.message };
+    }
+    `).join('\n')}
+    
+    return { success: true, results, finalOutput: currentData };
+  } catch (error) {
+    console.error("Workflow execution failed:", error);
+    return { success: false, error: error.message, results };
+  }
+}
+
+// Execute the workflow with sample data
+executeWorkflow("${inputValue || 'Sample input data'}").then(result => {
+  console.log("Workflow execution completed:", result);
+});`;
+  };
+
   // Execute workflow simulation
   const executeWorkflow = async () => {
     if (workflowCanvas.length === 0) return;
@@ -545,14 +590,20 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
       setWorkflowCanvas(prev => prev.map(a => 
         a.id === atom.id ? { ...a, status: 'running' } : a
       ));
+      
+      // Log execution
+      console.log(`Executing ${atom.package} with config:`, atom.config);
 
       // Simulate processing time
       const delay = 1500;
       await new Promise(resolve => setTimeout(resolve, delay));
+      
+      // Get input from previous atom
+      const input = getInputForAtom(atom, results);
 
       // Generate realistic results
       const result = {
-        output: generateMockOutput(atom),
+        output: generateMockOutput(atom, input),
         metadata: {
           processingTime: delay,
           inputSize: Math.floor(Math.random() * 1000) + 100,
@@ -578,13 +629,39 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
     setIsExecuting(false);
   };
 
+  // Get input for an atom based on results of previous atoms
+  const getInputForAtom = (atom: any, results: Record<string, any>): any => {
+    if (workflowCanvas.length === 0) return inputValue;
+    
+    // Find the atom's position
+    const atomIndex = workflowCanvas.findIndex(a => a.id === atom.id);
+    
+    // If this is the first atom, use the inputValue
+    if (atomIndex === 0) return inputValue;
+    
+    // Otherwise, use the output of the previous atom
+    const previousAtom = workflowCanvas[atomIndex - 1];
+    
+    if (previousAtom && results[previousAtom.id]) {
+      return results[previousAtom.id].output;
+    }
+    
+    // Fallback
+    return inputValue;
+  };
+
   // Generate mock output
-  const generateMockOutput = (atom) => {
+  const generateMockOutput = (atom, input) => {
+    // If input is provided, use it in the output
+    const inputStr = typeof input === 'string' ? input.substring(0, 30) : 
+                    JSON.stringify(input).substring(0, 30);
+    const inputPreview = inputStr.length > 30 ? `${inputStr}...` : inputStr;
+    
     const outputs = {
-      'pdf-parse': '# Document Analysis\n\nExtracted 2,450 words from PDF document...',
-      'sharp': 'Image resized to 800x600px, optimized size: 245KB',
-      'xlsx': 'Excel file generated with 3 worksheets, 1,250 rows processed',
-      'joi': 'Validation passed: 98% of records valid, 23 errors found',
+      'pdf-parse': `# Document Analysis\n\nExtracted 2,450 words from PDF document.\nInput: ${inputPreview}`,
+      'sharp': `Image resized to 800x600px, optimized size: 245KB\nInput dimensions: ${Math.round(Math.random() * 500 + 500)}x${Math.round(Math.random() * 500 + 500)}`,
+      'xlsx': `Excel file generated with 3 worksheets, 1,250 rows processed\nInput: ${inputPreview}`,
+      'joi': `Validation passed: 98% of records valid, 23 errors found\nInput: ${inputPreview}`,
       'bcrypt': '5 passwords hashed successfully with salt rounds: 12',
       'axios': 'HTTP GET request completed: 200 OK, response time: 245ms',
       'qrcode': 'QR code generated: 177x177px, encoding capacity: 2,953 bytes',
@@ -592,8 +669,24 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
       'sentiment': 'Sentiment score: 0.7 (positive), confidence: 85%',
       'nodemailer': 'Email sent successfully to 3 recipients, message ID: ABC123'
     };
+    
+    // If a specific output is defined for this package, use it
+    if (outputs[atom.package]) {
+      return outputs[atom.package];
+    }
+    
+    // Generate a generic output based on the atomic function
+    return `${atom.atomicInfo.atomicFunction} completed successfully.
+Input: ${inputPreview}
+Output: Processed ${typeof input === 'object' ? Object.keys(input).length : '1'} items
+Performance: ${Math.round(Math.random() * 50 + 50)}% efficiency`;
+  };
 
-    return outputs[atom.package] || `${atom.atomicInfo.atomicFunction} completed successfully`;
+  // Export workflow as executable code
+  const exportWorkflow = () => {
+    const code = generateExecutionCode();
+    navigator.clipboard.writeText(code);
+    alert('Workflow code copied to clipboard!');
   };
 
   // Clear workflow canvas
@@ -803,7 +896,6 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
                   onClick={executeWorkflow}
                   disabled={workflowCanvas.length === 0 || isExecuting}
                   className="btn btn-success text-sm"
-                  disabled={workflowCanvas.length === 0 || isExecuting}
                 >
                   <Play className="icon-sm" />
                   {isExecuting ? 'Running...' : 'Execute'}
@@ -813,6 +905,14 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
                   className="btn btn-ghost text-warning text-sm"
                 >
                   Clear
+                </button>
+                <button
+                  onClick={exportWorkflow}
+                  disabled={workflowCanvas.length === 0}
+                  className="btn btn-ghost text-sm"
+                >
+                  <Code className="icon-sm" />
+                  Export
                 </button>
               </div>
             </div>
