@@ -9,16 +9,31 @@ export function useLLMModels() {
   const fetchModels = async () => {
     try {
       setLoading(true)
+      
+      // Test Supabase connection first
+      console.log('Testing Supabase connection...')
+      
       const { data, error } = await supabase
         .from('llm_models')
         .select('*')
         .order('quality_index', { ascending: false, nullsLast: true })
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase query error:', error)
+        throw new Error(`Database error: ${error.message}`)
+      }
+
+      console.log('Successfully fetched models:', data?.length || 0)
 
       setModels(data || [])
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
+      console.error('Fetch models error:', err)
+      
+      if (err instanceof TypeError && err.message.includes('Failed to fetch')) {
+        setError('Unable to connect to the database. Please check your internet connection and Supabase configuration.')
+      } else {
+        setError(err instanceof Error ? err.message : 'An unexpected error occurred')
+      }
     } finally {
       setLoading(false)
     }
