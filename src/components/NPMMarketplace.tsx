@@ -116,7 +116,11 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
   }) => {
     try {
       setImporting(true);
-      setImportStatus(`🔍 Searching NPM registry for ${importData.searchQuery || 'packages'} across ${importData.pages || 1} pages...`);
+      const searchTerm = importData.searchQuery || 'packages';
+      const pages = importData.pages || 1;
+      setImportStatus(`🔍 Searching NPM registry for ${searchTerm} across ${pages} pages...`);
+      
+      console.log(`Starting NPM import for "${searchTerm}" (${pages} pages)`);
       
       const result = await importNPMPackages({
         ...importData,
@@ -126,6 +130,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
       setImportStatus(`✅ Import completed! Added ${result.packagesAdded} new packages, updated ${result.packagesUpdated} existing packages (${result.packagesProcessed} total processed)`);
       
       // Refresh the package list
+      console.log('Import completed, refreshing package list...');
       setTimeout(() => {
         refetch();
         setShowImportModal(false);
@@ -134,7 +139,8 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
       }, 2000);
       
     } catch (error) {
-      setImportStatus(`Import failed: ${error.message}`);
+      console.error('Import error:', error);
+      setImportStatus(`❌ Import failed: ${error.message}`);
       setImporting(false);
     }
   };
@@ -264,6 +270,15 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           >
             {sortDesc ? '↓' : '↑'} {sortDesc ? 'Desc' : 'Asc'}
           </button>
+        </div>
+        
+        {/* Debug information for Supabase connection */}
+        <div className="text-xs text-gray-500 mt-2">
+          {error ? (
+            <p className="text-red-400">Error: {error}</p>
+          ) : (
+            <p>Connected to Supabase database</p>
+          )}
         </div>
       </div>
 
@@ -557,144 +572,144 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:frontend OR keywords:react OR keywords:vue OR keywords:angular OR keywords:ui OR keywords:component OR keywords:browser', 
                     limit: 100, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
                 >
-                  🌐 Import Front-end Packages (2 pages)
+                  🌐 Import Front-end Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:backend OR keywords:express OR keywords:server OR keywords:api OR keywords:framework OR keywords:nodejs OR keywords:web', 
                     limit: 100, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
                 >
-                  ⚙️ Import Back-end Packages (2 pages)
+                  ⚙️ Import Back-end Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:cli OR keywords:command OR keywords:terminal OR keywords:tool OR keywords:bin OR keywords:console', 
                     limit: 80, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
                 >
-                  💻 Import CLI Tools (2 pages)
+                  💻 Import CLI Tools (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:testing OR keywords:test OR keywords:jest OR keywords:mocha OR keywords:spec OR keywords:e2e OR keywords:unit', 
                     limit: 70, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-cyan-600 hover:bg-cyan-700 rounded-lg transition-colors"
                 >
-                  🧪 Import Testing Packages (2 pages)
+                  🧪 Import Testing Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:css OR keywords:style OR keywords:sass OR keywords:less OR keywords:postcss OR keywords:styling OR keywords:stylesheet', 
                     limit: 60, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors"
                 >
-                  🎨 Import CSS & Styling (2 pages)
+                  🎨 Import CSS & Styling (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:documentation OR keywords:docs OR keywords:jsdoc OR keywords:docgen OR keywords:api-docs OR keywords:readme', 
                     limit: 40, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors"
                 >
-                  📚 Import Documentation Tools (2 pages)
+                  📚 Import Documentation Tools (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:iot OR keywords:arduino OR keywords:raspberry-pi OR keywords:hardware OR keywords:sensor OR keywords:embedded', 
                     limit: 30, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors"
                 >
-                  📡 Import IoT Packages (2 pages)
+                  📡 Import IoT Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:coverage OR keywords:codecov OR keywords:istanbul OR keywords:nyc OR keywords:code-coverage', 
                     limit: 25, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-orange-600 hover:bg-orange-700 rounded-lg transition-colors"
                 >
-                  📊 Import Coverage Tools (2 pages)
+                  📊 Import Coverage Tools (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:mobile OR keywords:react-native OR keywords:ionic OR keywords:cordova OR keywords:phonegap OR keywords:android OR keywords:ios', 
                     limit: 50, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
                 >
-                  📱 Import Mobile Packages (2 pages)
+                  📱 Import Mobile Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:framework OR keywords:next OR keywords:nuxt OR keywords:gatsby OR keywords:remix OR keywords:sveltekit', 
                     limit: 40, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors"
                 >
-                  🚀 Import Framework Packages (2 pages)
+                  🚀 Import Framework Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:robotics OR keywords:robot OR keywords:automation OR keywords:johnny-five OR keywords:firmata', 
                     limit: 20, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
                 >
-                  🤖 Import Robotics Packages (2 pages)
+                  🤖 Import Robotics Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'keywords:math OR keywords:mathematics OR keywords:algorithm OR keywords:calculation OR keywords:numeric OR keywords:statistics', 
                     limit: 35, 
-                    pages: 2 
+                    pages: 1 
                   })}
                   className="w-full p-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
                 >
-                  🧮 Import Math Packages (2 pages)
+                  🧮 Import Math Packages (1 pages)
                 </button>
                 
                 <button
                   onClick={() => handleImport({ 
                     searchQuery: 'popular', 
                     limit: 100, 
-                    pages: 2,
+                    pages: 1,
                     sortBy: 'popularity' 
                   })}
                   className="w-full p-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 rounded-lg transition-colors font-bold"
                 >
-                  ⭐ Import Most Popular Packages (2 pages)
+                  ⭐ Import Most Popular Packages (1 pages)
                 </button>
                 
                 <button
