@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import EnhancedLLMMarket from './components/EnhancedLLMMarket';
 import NPMPlayground from './components/NPMPlayground';
 import NPMMarketplace from './components/NPMMarketplace';
@@ -12,14 +14,19 @@ import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
 import UserMenu from './components/auth/UserMenu';
 import UserProfile from './components/auth/UserProfile';
-import { Code, Brain, Package, User } from 'lucide-react';
+import ThemeToggle from './components/ui/ThemeToggle';
+import LanguageSelector from './components/ui/LanguageSelector';
+import { Code, Brain, Package, User, Settings } from 'lucide-react';
+import { useLanguage } from './contexts/LanguageContext';
 
 function AppContent() {
   const { state, actions } = usePlayground();
   const { user, loading: authLoading } = useAuth();
+  const { t } = useLanguage();
   const [initialPlaygroundPackage, setInitialPlaygroundPackage] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100">
@@ -28,11 +35,11 @@ function AppContent() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <h1 className="text-lg font-semibold text-primary">
-              🎪 LLM & NPM Playground
+              🎪 {t('appName')}
             </h1>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Navigation buttons */}
             <div className="flex gap-2">
               <button
@@ -40,50 +47,56 @@ function AppContent() {
                 className={`nav-item ${state.currentView === 'integrated-hub' ? 'active' : ''}`}
               >
                 <span>🎮</span>
-                Integrated Hub
+                {t('integratedHub')}
               </button>
               <button
                 onClick={() => actions.setCurrentView('llm-market')}
                 className={`nav-item ${state.currentView === 'llm-market' ? 'active' : ''}`}
               >
                 <Brain size={14} />
-                LLM Market
+                {t('llmMarket')}
               </button>
               <button
                 onClick={() => actions.setCurrentView('llm-playground')}
                 className={`nav-item ${state.currentView === 'llm-playground' ? 'active' : ''}`}
               >
                 <Brain size={14} />
-                LLM Playground
+                {t('llmPlayground')}
               </button>
               <button
                 onClick={() => actions.setCurrentView('npm-market')}
                 className={`nav-item ${state.currentView === 'npm-market' ? 'active' : ''}`}
               >
                 <Package size={14} />
-                NPM Market
+                {t('npmMarket')}
               </button>
               <button
                 onClick={() => actions.setCurrentView('npm-playground')}
                 className={`nav-item ${state.currentView === 'npm-playground' ? 'active' : ''}`}
               >
                 <Code size={14} />
-                NPM Playground
+                {t('npmPlayground')}
               </button>
               <button
                 onClick={() => actions.setCurrentView('unified-playground')}
                 className={`nav-item ${state.currentView === 'unified-playground' ? 'active' : ''}`}
               >
                 <span>🚀</span>
-                Enhanced Playground
+                {t('enhancedPlayground')}
               </button>
               <button
                 onClick={() => actions.setCurrentView('workflow-execution')}
                 className={`nav-item ${state.currentView === 'workflow-execution' ? 'active' : ''}`}
               >
                 <span>⚡</span>
-                Live Demo
+                {t('liveDemo')}
               </button>
+            </div>
+
+            {/* Theme and language toggles */}
+            <div className="flex items-center gap-2 ml-2">
+              <ThemeToggle className="btn btn-ghost compact-xs" />
+              <LanguageSelector className="btn btn-ghost compact-xs" />
             </div>
 
             {/* User authentication */}
@@ -100,7 +113,7 @@ function AppContent() {
                 className="btn btn-primary"
               >
                 <User size={16} />
-                Sign In
+                {t('signIn')}
               </button>
             )}
           </div>
@@ -150,11 +163,15 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <PlaygroundProvider>
-        <AppContent />
-      </PlaygroundProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <PlaygroundProvider>
+            <AppContent />
+          </PlaygroundProvider>
+        </AuthProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 

@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { 
   User, Settings, LogOut, Crown, Shield, BarChart3, 
-  Heart, Bookmark, Users, ChevronDown, Bell,
-  Palette, Database, Key, HelpCircle
+  Bookmark, Users, ChevronDown, Bell,
+  Palette, Database, Key, HelpCircle, Moon, Sun, Globe
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import ThemeToggle from '../ui/ThemeToggle';
+import LanguageSelector from '../ui/LanguageSelector';
 
 interface UserMenuProps {
   onOpenProfile?: () => void;
@@ -13,6 +17,8 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) => {
   const { user, profile, signOut, loading } = useAuth();
+  const { t } = useLanguage();
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSignOut = async () => {
@@ -141,7 +147,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
                 className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors"
               >
                 <User className="icon-sm" />
-                View Profile
+                {t('profile')}
               </button>
 
               <button
@@ -152,7 +158,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
                 className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors"
               >
                 <Settings className="icon-sm" />
-                Account Settings
+                {t('settings')}
               </button>
 
               <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
@@ -172,10 +178,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
 
               <hr className="divider my-2" />
 
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
-                <Palette className="icon-sm" />
-                Appearance
-              </button>
+              <div className="px-4 py-2">
+                <div className="text-xs text-muted mb-2">{t('language')}</div>
+                <LanguageSelector showLabel={true} className="w-full flex items-center justify-between px-2 py-1 text-sm text-secondary hover:bg-secondary/10 hover:text-primary rounded-md" />
+              </div>
+              
+              <div className="px-4 py-2">
+                <div className="text-xs text-muted mb-2">{theme === 'dark' ? '🌙' : '☀️'} {theme === 'dark' ? t('dark') : t('light')}</div>
+                <ThemeToggle showLabel={true} className="w-full flex items-center justify-between px-2 py-1 text-sm text-secondary hover:bg-secondary/10 hover:text-primary rounded-md" />
+              </div>
 
               <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-secondary hover:text-primary transition-colors">
                 <Bell className="icon-sm" />
@@ -210,7 +221,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ onOpenProfile, onOpenSettings }) =>
                 disabled={loading}
               >
                 <LogOut className="icon-sm" />
-                Sign Out
+                {t('signOut')}
               </button>
             </div>
           </div>
