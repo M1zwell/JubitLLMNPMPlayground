@@ -12,14 +12,14 @@ import { usePlayground } from '../context/PlaygroundContext';
 import AIWorkflowAdvisor, { AIAdvisorEventManager } from './AIWorkflowAdvisor';
 
 const CATEGORIES = {
-  all: { name: 'All Packages', icon: Package, color: 'text-gray-500' },
-  'front-end': { name: 'Front-end', icon: Globe, color: 'text-blue-600' },
-  'back-end': { name: 'Back-end', icon: Code, color: 'text-green-600' },
-  cli: { name: 'CLI Tools', icon: Terminal, color: 'text-purple-600' },
+  'all-packages': { name: 'All Packages', icon: Package, color: 'text-gray-500' },
+  'front-end': { name: 'Front-end', icon: Globe, color: 'text-blue-500' },
+  'back-end': { name: 'Back-end', icon: Code, color: 'text-green-500' },
+  'cli-tools': { name: 'CLI Tools', icon: Terminal, color: 'text-purple-500' },
   documentation: { name: 'Documentation', icon: BookOpen, color: 'text-indigo-600' },
-  css: { name: 'CSS & Styling', icon: Palette, color: 'text-pink-600' },
-  frameworks: { name: 'Frameworks', icon: Zap, color: 'text-yellow-600' },
-  testing: { name: 'Testing', icon: CheckCircle, color: 'text-cyan-600' },
+  'css-styling': { name: 'CSS & Styling', icon: Palette, color: 'text-pink-500' },
+  'frameworks': { name: 'Frameworks', icon: Zap, color: 'text-yellow-500' },
+  'testing': { name: 'Testing', icon: CheckCircle, color: 'text-cyan-500' },
   iot: { name: 'IoT', icon: Wifi, color: 'text-emerald-600' },
   coverage: { name: 'Coverage', icon: BarChart3, color: 'text-orange-600' },
   mobile: { name: 'Mobile', icon: Smartphone, color: 'text-purple-600' },
@@ -41,7 +41,7 @@ interface NPMMarketplaceProps {
 
 const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground }) => {
   const { actions } = usePlayground();
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('all-packages');
   const [selectedPackage, setSelectedPackage] = useState<NPMPackage | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('downloads');
@@ -63,7 +63,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
   // Filter packages
   const filteredPackages = useMemo(() => {
     return packages.filter(pkg => {
-      const categoryMatch = selectedCategory === 'all' || pkg.categories.includes(selectedCategory);
+      const categoryMatch = selectedCategory === 'all-packages' || pkg.categories.includes(selectedCategory);
       const searchMatch = !searchTerm || 
         pkg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         pkg.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||

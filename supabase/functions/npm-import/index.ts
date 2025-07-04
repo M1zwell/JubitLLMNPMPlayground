@@ -3,7 +3,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2'
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
 }
 
 interface NPMSearchResult {
@@ -91,84 +91,89 @@ function categorizePackage(packageData: NPMSearchResult): string[] {
   if (keywords.some(k => ['react', 'vue', 'angular', 'svelte', 'frontend', 'front-end', 'ui', 'component', 'browser', 'dom', 'client-side'].includes(k.toLowerCase())) ||
       name.includes('react') || name.includes('vue') || name.includes('angular') || name.includes('svelte') ||
       description.includes('component') || description.includes('frontend') || description.includes('front-end')) {
-    categories.push('front-end')
+    categories.push('front-end');
   }
   
   // Back-end detection
   if (keywords.some(k => ['express', 'koa', 'fastify', 'hapi', 'server', 'backend', 'back-end', 'api', 'node', 'server-side'].includes(k.toLowerCase())) ||
       name.includes('express') || name.includes('server') || name.includes('fastify') ||
       description.includes('server') || description.includes('backend') || description.includes('back-end')) {
-    categories.push('back-end')
+    categories.push('back-end');
   }
   
   // CLI tools detection
   if (keywords.some(k => ['cli', 'command', 'terminal', 'bin', 'command-line', 'console'].includes(k.toLowerCase())) ||
       description.includes('command line') || description.includes('cli') || name.includes('cli')) {
-    categories.push('cli')
+    categories.push('cli-tools');
   }
   
   // Testing detection
   if (keywords.some(k => ['test', 'testing', 'jest', 'mocha', 'jasmine', 'karma', 'ava'].includes(k.toLowerCase())) ||
       name.includes('test') || name.includes('jest') || name.includes('mocha') ||
       description.includes('test') || description.includes('testing')) {
-    categories.push('testing')
+    categories.push('testing');
   }
   
   // CSS and styling detection
   if (keywords.some(k => ['css', 'style', 'scss', 'sass', 'less', 'styling', 'stylesheet'].includes(k.toLowerCase())) ||
       name.includes('css') || name.includes('sass') || name.includes('style') ||
       description.includes('style') || description.includes('css')) {
-    categories.push('css')
+    categories.push('css-styling');
   }
   
   // Documentation detection
   if (keywords.some(k => ['documentation', 'docs', 'doc', 'docgen', 'jsdoc'].includes(k.toLowerCase())) ||
       description.includes('documentation') || description.includes('docs') ||
       name.includes('doc')) {
-    categories.push('documentation')
+    categories.push('documentation');
   }
   
   // IoT detection
   if (keywords.some(k => ['iot', 'arduino', 'raspberry-pi', 'hardware', 'sensor', 'embedded'].includes(k.toLowerCase())) ||
       description.includes('iot') || description.includes('hardware') || description.includes('arduino')) {
-    categories.push('iot')
+    categories.push('iot');
   }
   
   // Coverage detection
   if (keywords.some(k => ['coverage', 'codecov', 'coveralls', 'istanbul', 'nyc'].includes(k.toLowerCase())) ||
       description.includes('coverage') || name.includes('coverage')) {
-    categories.push('coverage')
+    categories.push('coverage');
   }
   
   // Mobile detection
   if (keywords.some(k => ['mobile', 'react-native', 'ionic', 'cordova', 'phonegap'].includes(k.toLowerCase())) ||
       description.includes('mobile') || description.includes('react native') ||
       name.includes('mobile') || name.includes('react-native')) {
-    categories.push('mobile')
+    categories.push('mobile');
   }
   
   // Frameworks detection
   if (keywords.some(k => ['framework', 'next', 'nextjs', 'nuxt', 'gatsby', 'remix'].includes(k.toLowerCase())) ||
       description.includes('framework') ||
       name.includes('next') || name.includes('nuxt') || name.includes('gatsby')) {
-    categories.push('frameworks')
+    categories.push('frameworks');
   }
   
   // Robotics detection
   if (keywords.some(k => ['robotics', 'robot', 'automation', 'johnny-five', 'firmata'].includes(k.toLowerCase())) ||
       description.includes('robotics') || description.includes('robot') ||
       name.includes('robot') || name.includes('johnny-five')) {
-    categories.push('robotics')
+    categories.push('robotics');
   }
   
   // Math detection
   if (keywords.some(k => ['math', 'mathematics', 'algorithm', 'calculation', 'numeric'].includes(k.toLowerCase())) ||
       description.includes('math') || description.includes('calculation') ||
       name.includes('math') || name.includes('calc')) {
-    categories.push('math')
+    categories.push('math');
   }
   
-  return categories.length > 0 ? categories : ['utility']
+  // Always include 'all-packages' category
+  if (!categories.includes('all-packages')) {
+    categories.push('all-packages');
+  }
+  
+  return categories;
 }
 
 async function fetchNPMPackageDetails(packageName: string): Promise<NPMPackageDetails | null> {
@@ -287,7 +292,8 @@ Deno.serve(async (req) => {
 
           for (const result of searchResults.objects) {
             try {
-              totalProcessed++
+              totalProcessed++;
+              console.log(`Processing ${result.package.name}...`);
               
               // Check if package already exists
               const { data: existingPackage } = await supabase

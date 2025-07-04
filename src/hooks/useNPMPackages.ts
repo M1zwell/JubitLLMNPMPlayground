@@ -27,6 +27,7 @@ export function useNPMPackages(filters?: {
       setLoading(true)
       setError(null)
       console.log('Fetching NPM packages with filters:', filters);
+      console.log('Supabase URL:', supabase.getUrl());
       
       let query = supabase
         .from('npm_packages')
@@ -35,7 +36,7 @@ export function useNPMPackages(filters?: {
 
       // Apply filters
       if (filters?.category && filters.category !== 'all') {
-        query = query.or(`categories.cs.{${filters.category}},keywords.cs.{${filters.category}}`)
+        query = query.contains('categories', [filters.category])
       }
 
       if (filters?.search) {
@@ -68,7 +69,14 @@ export function useNPMPackages(filters?: {
       
       console.log(`Successfully fetched ${data?.length || 0} NPM packages`);
 
-      setPackages(data || [])
+      if (data && data.length > 0) {
+        console.log(`First package:`, data[0].name);
+        console.log(`Categories of first package:`, data[0].categories);
+      } else {
+        console.log('No packages found matching criteria');
+      }
+      
+      setPackages(data || []);
     } catch (err) {
       console.error('Error fetching NPM packages:', err);
       setError(err instanceof Error ? err.message : 'An error occurred')

@@ -13,7 +13,7 @@ import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 
 // Atomic Function Categories mapping real packages
 const ATOMIC_CATEGORIES = {
-  all: { name: 'All Atomic Functions', icon: Package, color: 'text-gray-500', count: 0 },
+  'all-packages': { name: 'All Atomic Functions', icon: Package, color: 'text-gray-500', count: 0 },
   
   // File Processing Atoms
   'pdf-extraction': { name: 'PDF Extraction', icon: FileText, color: 'text-red-600', count: 0 },
@@ -190,7 +190,7 @@ interface NPMPlaygroundProps {
 }
 
 const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initialPackage }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('all-packages');
   const [workflowCanvas, setWorkflowCanvas] = useState([]);
   const [connections, setConnections] = useState([]);
   const [isExecuting, setIsExecuting] = useState(false);
