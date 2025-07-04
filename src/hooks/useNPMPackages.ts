@@ -1,6 +1,15 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase, NPMPackage } from '../lib/supabase'
 
+// Interface for NPM package filter options
+interface NPMPackageFilters {
+  category?: string;
+  search?: string;
+  sortBy?: string;
+  sortDesc?: boolean;
+  limit?: number;
+}
+
 export function useNPMPackages(filters?: {
   category?: string
   search?: string
@@ -12,9 +21,12 @@ export function useNPMPackages(filters?: {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchPackages = useCallback(async () => {
+  // Define fetchPackages as a named function to avoid reference issues
+  async function fetchPackages() {
     try {
       setLoading(true)
+      console.log('Fetching NPM packages with filters:', filters);
+      
       let query = supabase
         .from('npm_packages')
         .select('*')
@@ -51,29 +63,25 @@ export function useNPMPackages(filters?: {
       const { data, error } = await query
 
       if (error) throw error
+      
+      console.log(`Successfully fetched ${data?.length || 0} NPM packages`);
 
       setPackages(data || [])
     } catch (err) {
+      console.error('Error fetching NPM packages:', err);
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
       setLoading(false)
     }
-  }, [filters?.category, filters?.search, filters?.sortBy, filters?.sortDesc, filters?.limit])
+  }
 
+  // Use effect to fetch packages when filters change
   useEffect(() => {
     fetchPackages()
-  }, [fetchPackages])
+  }, [filters?.category, filters?.search, filters?.sortBy, filters?.sortDesc, filters?.limit])
 
   // Create a stable reference to fetchPackages that won't change between renders
-  const fetchPackagesRef = useRef(fetchPackages);
-  useEffect(() => {
-    fetchPackagesRef.current = fetchPackages;
-  }, [fetchPackages]);
-
-  // Create a stable refetch function that always uses the current fetchPackages implementation
-  const refetch = useCallback(() => {
-    return fetchPackagesRef.current();
-  }, []);
+  const refetch = useCallback(() => fetchPackages(), [filters]);
 
   return { packages, loading, error, refetch }
 }
@@ -118,6 +126,8 @@ export async function importNPMPackages(params: {
 }) {
   const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/npm-import`;
   
+  console.log('Importing NPM packages with params:', params);
+  
   const headers = {
     'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
     'Content-Type': 'application/json',
@@ -130,8 +140,12 @@ export async function importNPMPackages(params: {
   });
 
   if (!response.ok) {
-    throw new Error(`Import failed: ${response.statusText}`);
+    const errorText = await response.text().catch(() => 'Unknown error');
+    console.error('NPM import failed:', errorText);
+    throw new Error(`Import failed: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  return await response.json();
+  const result = await response.json();
+  console.log('NPM import successful:', result);
+  return result;
 }
