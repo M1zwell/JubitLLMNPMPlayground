@@ -13,7 +13,9 @@ export function useLLMModels() {
       
       // Check if Supabase is configured
       if (!supabase) {
-        throw new Error('Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.')
+        setError('Supabase connection not configured. Please click the "Connect to Supabase" button in the top right to set up your database connection.')
+        setLoading(false)
+        return
       }
       
       console.log('Fetching LLM models from Supabase...')
@@ -26,7 +28,11 @@ export function useLLMModels() {
 
       if (error) {
         console.error('Supabase query error:', error)
-        throw new Error(`Database error: ${error.message}`)
+        if (error.message.includes('Failed to fetch') || error.message.includes('fetch')) {
+          throw new Error('Unable to connect to Supabase. Please check your internet connection and ensure your Supabase project is active. You may need to click "Connect to Supabase" in the top right to configure your connection.')
+        } else {
+          throw new Error(`Database error: ${error.message}`)
+        }
       }
 
       console.log('Successfully fetched models:', data?.length || 0)
@@ -35,8 +41,8 @@ export function useLLMModels() {
     } catch (err) {
       console.error('Fetch models error:', err)
       
-      if (err instanceof TypeError && err.message.includes('Failed to fetch')) {
-        setError('Unable to connect to the database. Please check your internet connection and Supabase configuration.')
+      if (err instanceof TypeError && (err.message.includes('Failed to fetch') || err.message.includes('fetch'))) {
+        setError('Connection failed: Unable to reach Supabase. Please ensure:\n• Your internet connection is working\n• Your Supabase project is active\n• You have configured the Supabase connection (click "Connect to Supabase" in the top right)')
       } else {
         setError(err instanceof Error ? err.message : 'An unexpected error occurred')
       }
@@ -46,7 +52,15 @@ export function useLLMModels() {
   }
 
   useEffect(() => {
-    fetchModels()
+    // Only attempt to fetch if we have some indication of Supabase config
+    const hasSupabaseConfig = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
+    
+    if (hasSupabaseConfig) {
+      fetchModels()
+    } else {
+      setError('Supabase connection not configured. Please click the "Connect to Supabase" button in the top right to set up your database connection.')
+      setLoading(false)
+    }
   }, [])
 
   return { models, loading, error, refetch: fetchModels }

@@ -4,15 +4,17 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 // Debug environment variables
-console.log('Supabase URL:', supabaseUrl ? 'Set' : 'Missing')
-console.log('Supabase Anon Key:', supabaseAnonKey ? 'Set' : 'Missing')
+console.log('Supabase configuration:', {
+  url: supabaseUrl ? 'Configured' : 'Missing - click "Connect to Supabase" to configure',
+  key: supabaseAnonKey ? 'Configured' : 'Missing - click "Connect to Supabase" to configure'
+})
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables:', {
     url: !!supabaseUrl,
     key: !!supabaseAnonKey
   })
-  console.warn('Supabase not configured - data features will be disabled')
+  console.warn('🔧 Supabase not configured - Click "Connect to Supabase" in the top right to enable database features')
 }
 
 // Only create Supabase client if environment variables are present
@@ -22,6 +24,19 @@ export const supabase = supabaseUrl && supabaseAnonKey
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true
+      },
+      global: {
+        fetch: (url, options = {}) => {
+          // Add better error handling for fetch requests
+          return fetch(url, {
+            ...options,
+            // Add timeout to prevent hanging requests
+            signal: AbortSignal.timeout(30000) // 30 second timeout
+          }).catch(error => {
+            console.error('Supabase fetch error:', error)
+            throw new Error(`Connection to Supabase failed: ${error.message}. Please check your internet connection and Supabase configuration.`)
+          })
+        }
       }
     })
   : null
