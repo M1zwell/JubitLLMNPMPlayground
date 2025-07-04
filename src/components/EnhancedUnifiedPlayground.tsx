@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
-  Copy, Github, Calendar, Code, Terminal, Globe, RefreshCw, Save, Upload, 
-  Layers, Target, Users, FileText, Image, Database, Mail, Lock, Filter, Share2, 
-  TrendingUp, Award, Clock, DollarSign, Cpu, Eye, ExternalLink, AlertTriangle, 
-  Workflow, CheckCircle, Plus, Minus, PlayCircle
-} from 'lucide-react';
-import React, { useState, useEffect, useMemo } from 'react';
-import { 
+  Copy, Github, Calendar, Code, Terminal, Globe, RefreshCw, Save, Upload,
+  Layers, Target, Users, FileText, Image, Database, Mail, Lock, Filter, Share2,
+  TrendingUp, Award, Clock, DollarSign, Cpu, Eye, ExternalLink, AlertTriangle,
+  Workflow, CheckCircle, Plus, Minus, PlayCircle,
   Brain, Package, Code, Workflow, Activity, 
   Zap, Target, Users, TrendingUp, Globe,
-  RefreshCw, Play, Plus, Search, Filter,
+  Play, Search,
   ArrowRight, CheckCircle, Clock, Database,
-  FileText, Image, Mail, Lock, Shield, Download,
-  Star, DollarSign, Eye, BarChart3, Settings
+  Shield, Download, Star, BarChart3, Settings
 } from 'lucide-react';
 import { useLLMModels } from '../hooks/useLLMModels';
 import { useNPMPackages } from '../hooks/useNPMPackages';
