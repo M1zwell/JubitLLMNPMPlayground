@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePlayground } from '../context/PlaygroundContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { 
   Brain, Package, Code, Workflow, Activity, 
   Zap, Target, Users, TrendingUp, Globe,
@@ -10,6 +11,7 @@ import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 
 const IntegratedPlaygroundHub: React.FC = () => {
   const { state, actions } = usePlayground();
+  const { t, language } = useLanguage();
 
   const getConnectionStatusColor = () => {
     switch (state.connectionStatus) {
@@ -38,21 +40,25 @@ const IntegratedPlaygroundHub: React.FC = () => {
         
         {/* Header with Real-time Status */}
         <div className="text-center">
-          <h1 className="text-2xl font-semibold text-primary mb-2">
-            🎮 Integrated AI+NPM Playground
+          <h1 className="text-2xl font-semibold text-primary mb-3">
+            🎮 {language === 'en' ? 'Integrated AI+NPM Playground' : '集成 AI+NPM 开发平台'}
           </h1>
           <p className="text-base text-secondary mb-3">
-            Unified access to {state.llmModels.length} LLM models & {state.npmPackages.length} NPM packages
+            {language === 'en'
+              ? `Unified access to ${state.llmModels.length} LLM models & ${state.npmPackages.length} NPM packages`
+              : `统一访问 ${state.llmModels.length} 个 LLM 模型和 ${state.npmPackages.length} 个 NPM 包`}
           </p>
           
           <div className="flex items-center justify-center gap-4">
             <div className="flex items-center gap-2">
               <Database className={`${getConnectionStatusColor()} icon-sm`} />
-              <span className="text-xs text-secondary">Supabase: {state.connectionStatus}</span>
+              <span className="text-xs text-secondary">Supabase: {state.connectionStatus === 'connected' 
+                ? (language === 'en' ? 'connected' : '已连接')
+                : (language === 'en' ? 'disconnected' : '未连接')}</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="text-primary icon-sm" />
-              <span className="text-xs text-secondary">Last sync: {new Date(state.lastUpdate).toLocaleTimeString()}</span>
+              <span className="text-xs text-secondary">{language === 'en' ? 'Last sync:' : '上次同步:'} {new Date(state.lastUpdate).toLocaleTimeString()}</span>
             </div>
             <button
               onClick={() => {
@@ -62,7 +68,7 @@ const IntegratedPlaygroundHub: React.FC = () => {
               className="btn btn-ghost btn-sm"
             >
               <RefreshCw className="icon-sm" />
-              Sync Data
+              {language === 'en' ? 'Sync Data' : '同步数据'}
             </button>
           </div>
         </div>
