@@ -1266,5 +1266,3 @@ const LLMPlayground = () => {
     </div>
   );
 };
-
-export default LLMPlayground;
