@@ -4,6 +4,14 @@ import {
   Layers, Target, Users, FileText, Image, Database, Mail, Lock, Filter, Share2, 
   TrendingUp, Award, Clock, DollarSign, Cpu, Eye, ExternalLink, AlertTriangle, 
   Workflow, CheckCircle, Plus, Minus, PlayCircle
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  Brain, Package, Code, Workflow, Activity, 
+  Zap, Target, Users, TrendingUp, Globe,
+  RefreshCw, Play, Plus, Search, Filter,
+  ArrowRight, CheckCircle, Clock, Database,
+  FileText, Image, Mail, Lock, Shield, Download,
+  Star, DollarSign, Eye, BarChart3, Settings
 } from 'lucide-react';
 import { useLLMModels } from '../hooks/useLLMModels';
 import { useNPMPackages } from '../hooks/useNPMPackages';
