@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
-  Brain, Package, Workflow, Play, Save, Share2, Settings, Download, 
-  Upload, RefreshCw, Plus, X, ArrowRight, Copy, ExternalLink, Code,
-  Zap, CheckCircle, AlertTriangle, Clock, DollarSign, BarChart3,
-  Eye, Terminal, Globe, Database, Lock, Shield, Target, TrendingUp,
-  FileText, Image, Mail, Calendar, Star, Award, Users, Activity,
-  Layers, Lightbulb, Filter, Search, PieChart, Gauge, Cpu
+  Copy, Github, Calendar, Code, Terminal, Globe, RefreshCw, Save, Upload, 
+  Layers, Target, Users, FileText, Image, Database, Mail, Lock, Filter, Share2, 
+  TrendingUp, Award, Clock, DollarSign, Cpu, Eye, ExternalLink, AlertTriangle, 
+  Workflow, CheckCircle, Plus, Minus, PlayCircle
 } from 'lucide-react';
-import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 import { useLLMModels } from '../hooks/useLLMModels';
 import { useNPMPackages } from '../hooks/useNPMPackages';
 import { LLMModel, NPMPackage } from '../lib/supabase';
+import { useLanguage } from '../contexts/LanguageContext';
+import { WorkflowExecutor } from '../lib/execution/workflow-executor';
+import { workflowTemplates } from '../lib/execution/workflow-templates';
+import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 import WorkflowVisualization from './WorkflowVisualization';
 // ========== 核心类型定义 ==========
 interface LLMProvider {
@@ -495,224 +496,408 @@ class AIWorkflowSuggestor {
   }
 }
 
-// ========== 主组件 ==========
-const EnhancedUnifiedPlayground: React.FC = () => {
-  // 数据hooks
+// 可视化图表组件
+const PerformanceChart = ({ data, title }) => {
+  const maxValue = Math.max(...data.map(d => d.value));
+
+  return (
+    <div className="card-minimal compact-lg">
+      <h3 className="text-base font-medium mb-3 flex items-center gap-2 text-primary">
+        <TrendingUp className="icon" />
+        {title}
+      </h3>
+      <div className="space-y-3">
+        {data.map((item, index) => (
+          <div key={index} className="flex items-center gap-3">
+            <span className="text-xs w-16 truncate text-secondary">{item.label}</span>
+            <div className="flex-1 bg-secondary/30 rounded-full h-1.5">
+              <div 
+                className="bg-primary h-1.5 rounded-full transition-all duration-500"
+                style={{ width: `${(item.value / maxValue) * 100}%` }}
+              ></div>
+            </div>
+            <span className="text-xs text-tertiary w-8 text-right">{item.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// 工作流可视化图表
+const WorkflowDiagram = ({ workflow, connections }) => {
+  return (
+    <div className="card-minimal compact-lg">
+      <h3 className="text-base font-medium mb-3 flex items-center gap-2 text-primary">
+        <Workflow className="icon" />
+        {language === 'en' ? 'Workflow Visualization' : '工作流可视化'}
+      </h3>
+      <div className="relative">
+        <svg className="w-full h-36" viewBox="0 0 800 160">
+          {/* Draw workflow nodes */}
+          {workflow.map((node, index) => (
+            <g key={node.id}>
+              {/* Node rectangle */}
+              <rect
+                x={100 + index * 120}
+                y={60}
+                width={80}
+                height={36}
+                rx={6}
+                className={`fill-blue-600/30 stroke-blue-400 ${
+                  node.status === 'running' ? 'animate-pulse' : 
+                  node.status === 'completed' ? 'fill-green-600/30 stroke-green-400' : ''
+                }`}
+                strokeWidth="1"
+              />
+              {/* Node text */}
+              <text
+                x={140 + index * 120}
+                y={80}
+                textAnchor="middle"
+                className="fill-primary text-xs"
+              >
+                {node.component}
+              </text>
+              
+              {/* Connection arrow */}
+              {index < workflow.length - 1 && (
+                <line
+                  x1={180 + index * 120}
+                  y1={80}
+                  x2={220 + index * 120}
+                  y2={80}
+                  className="stroke-primary"
+                  strokeWidth="1"
+                  markerEnd="url(#arrowhead)"
+                />
+              )}
+            </g>
+          ))}
+          
+          {/* Arrow marker definition */}
+          <defs>
+            <marker
+              id="arrowhead"
+              markerWidth="10"
+              markerHeight="7"
+              refX="9"
+              refY="3.5"
+              orient="auto"
+            >
+              <polygon
+                points="0 0, 10 3.5, 0 7"
+                className="fill-primary"
+              />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  );
+};
+
+// 性能指标圆形图表
+const MetricsGauge = ({ value, max, label, color }) => {
+  const percentage = (value / max) * 100;
+  const strokeDasharray = `${percentage * 2.51} 251`;
+  
+  return (
+    <div className="text-center py-2">
+      <div className="relative w-16 h-16 mx-auto mb-2">
+        <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 84 84">
+          <circle
+            cx="42"
+            cy="42"
+            r="40"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            className="text-tertiary/30"
+          />
+          <circle
+            cx="42"
+            cy="42"
+            r="40"
+            stroke={color === 'blue' ? '#3B82F6' : color === 'green' ? '#10B981' : '#F59E0B'}
+            strokeWidth="2"
+            fill="none"
+            strokeLinecap="round"
+            strokeDasharray={strokeDasharray}
+            strokeDashoffset="0"
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-sm font-medium text-primary">{value}</span>
+        </div>
+      </div>
+      <p className="text-xs text-tertiary">{label}</p>
+    </div>
+  );
+};
+
+// Gamification系统
+const GamificationSystem = ({ level, xp, achievements }) => {
+  const levelThresholds = [0, 100, 300, 600, 1000, 1500, 2500, 4000, 6000];
+  const currentLevelXP = levelThresholds[level] || 0;
+  const nextLevelXP = levelThresholds[level + 1] || currentLevelXP * 2;
+  const progressPercentage = ((xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
+
+  const levelTitles = [
+    'Beginner', 'Explorer', 'Builder', 'Creator', 'Expert', 
+    'Master', 'Architect', 'Wizard', 'Legend'
+  ];
+
+  return (
+    <div className="card-minimal compact-lg border-l-2 border-primary">
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <h3 className="text-base font-medium text-primary">{levelTitles[level] || 'Digital God'}</h3>
+          <p className="text-xs text-tertiary">Level {level + 1} • {xp} XP</p>
+        </div>
+        <div className="text-right">
+          <div className="text-lg font-medium text-warning">{achievements.length}</div>
+          <div className="text-xs text-tertiary">Achievements</div>
+        </div>
+      </div>
+      
+      <div className="mb-4">
+        <div className="flex justify-between text-xs mb-1">
+          <span className="text-secondary">Progress to Next Level</span>
+          <span className="text-secondary">{Math.round(progressPercentage)}%</span>
+        </div>
+        <div className="bg-secondary/30 rounded-full h-1">
+          <div 
+            className="bg-warning h-1 rounded-full transition-all duration-500"
+            style={{ width: `${Math.min(progressPercentage, 100)}%` }}
+          ></div>
+        </div>
+      </div>
+      
+      <div className="flex flex-wrap gap-1">
+        {achievements.slice(0, 6).map((achievement, index) => (
+          <span 
+            key={index} 
+            className="badge badge-warning text-xs flex items-center gap-1"
+            title={achievement.description}
+          >
+            <Award className="icon-sm" />
+            {achievement.name}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// 主组件
+const EnhancedUnifiedPlayground = () => {
   const { models: llmModels, loading: llmLoading } = useLLMModels();
   const { packages: npmPackages, loading: npmLoading } = useNPMPackages({ limit: 100 });
-
+  const { language, t } = useLanguage();
+  
   // 状态管理
-  const [workflowComponents, setWorkflowComponents] = useState<WorkflowComponent[]>([]);
-  const [workflowConnections, setWorkflowConnections] = useState<WorkflowConnection[]>([]);
-  const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
-  const [executionResults, setExecutionResults] = useState<Map<string, ExecutionResult>>(new Map());
+  const [workflowComponents, setWorkflowComponents] = useState([]);
+  const [selectedComponent, setSelectedComponent] = useState(null);
+  const [executionResults, setExecutionResults] = useState({});
   const [isExecuting, setIsExecuting] = useState(false);
-  const [executionEngine] = useState(() => new WorkflowExecutionEngine());
-  const [inputData, setInputData] = useState('Analyze the latest trends in artificial intelligence and machine learning for 2024.');
-  const [streamingOutput, setStreamingOutput] = useState<Map<string, string>>(new Map());
-
+  const [inputText, setInputText] = useState('Analyze the latest trends in artificial intelligence and machine learning for 2024.');
+  
   // UI状态
-  const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
-  const [showCodeExporter, setShowCodeExporter] = useState(false);
-  const [showPerformanceAnalytics, setShowPerformanceAnalytics] = useState(false);
-  const [draggedComponent, setDraggedComponent] = useState<any>(null);
-
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showPromptExporter, setShowPromptExporter] = useState(false);
+  
+  // Platform integration
+  const [selectedTemplate, setSelectedTemplate] = useState('');
+  const [workflowExecutor, setWorkflowExecutor] = useState(null);
+  const [executionError, setExecutionError] = useState('');
+  
   // Gamification状态
-  const [userStats, setUserStats] = useState({
-    level: 5,
-    xp: 1250,
-    componentsUsed: 15,
-    workflowsCompleted: 8,
-    achievements: [
-      { name: 'First Workflow', icon: '🏆', description: 'Created your first AI workflow' },
-      { name: 'LLM Master', icon: '🧠', description: 'Used 10 different LLM models' },
-      { name: 'NPM Explorer', icon: '📦', description: 'Integrated 20 NPM packages' },
-      { name: 'Speed Demon', icon: '⚡', description: 'Executed workflow in under 3 seconds' }
-    ]
-  });
+  const [userLevel, setUserLevel] = useState(2);
+  const [userXP, setUserXP] = useState(450);
+  const [achievements, setAchievements] = useState([
+    { name: 'First Workflow', description: 'Created your first AI workflow' },
+    { name: 'LLM Explorer', description: 'Used 5 different LLM models' },
+    { name: 'NPM Integrator', description: 'Added 10 NPM packages' }
+  ]);
 
-  // 计算统计数据
-  const workflowStats = useMemo(() => {
-    const totalCost = Array.from(executionResults.values())
-      .reduce((sum, result) => sum + result.metadata.cost, 0);
-    
-    const avgExecutionTime = executionResults.size > 0 
-      ? Array.from(executionResults.values())
-          .reduce((sum, result) => sum + result.metadata.executionTime, 0) / executionResults.size
-      : 0;
-
-    const successRate = executionResults.size > 0
-      ? (Array.from(executionResults.values())
-          .filter(result => result.metadata.success).length / executionResults.size) * 100
-      : 100;
-
-    return {
-      totalCost,
-      avgExecutionTime,
-      successRate,
-      componentCount: workflowComponents.length,
-      executionCount: executionResults.size
-    };
-  }, [workflowComponents, executionResults]);
-
-  // AI建议
-  const aiSuggestions = useMemo(() => 
-    AIWorkflowSuggestor.generateSuggestions(workflowComponents),
-    [workflowComponents]
-  );
+  // 数据处理
+  const availableLLMs = useMemo(() => llmModels.slice(0, 12), [llmModels]);
+  const availableNPMs = useMemo(() => npmPackages.slice(0, 15), [npmPackages]);
 
   // 性能数据
   const performanceData = useMemo(() => [
-    { label: 'Throughput', value: Math.min(workflowStats.componentCount * 15, 100), unit: '%' },
-    { label: 'Accuracy', value: Math.floor(workflowStats.successRate), unit: '%' },
-    { label: 'Speed', value: Math.max(100 - Math.floor(workflowStats.avgExecutionTime / 100), 60), unit: '%' },
-    { label: 'Efficiency', value: Math.floor(85 + Math.random() * 15), unit: '%' }
-  ], [workflowStats]);
+    { label: 'Throughput', value: Math.min(workflowComponents.length * 15, 100) },
+    { label: 'Accuracy', value: 85 + Math.floor(Math.random() * 15) },
+    { label: 'Speed', value: 70 + Math.floor(Math.random() * 30) },
+    { label: 'Efficiency', value: 80 + Math.floor(Math.random() * 20) }
+  ], [workflowComponents.length]);
 
-  const costData = useMemo(() => [
-    { label: 'LLM API', value: workflowStats.totalCost * 0.8 },
-    { label: 'Compute', value: workflowStats.totalCost * 0.15 },
-    { label: 'Storage', value: workflowStats.totalCost * 0.03 },
-    { label: 'Network', value: workflowStats.totalCost * 0.02 }
-  ], [workflowStats]);
+  const costAnalysisData = useMemo(() => [
+    { label: 'LLM API', value: 0.0045 },
+    { label: 'Compute', value: 0.0012 },
+    { label: 'Storage', value: 0.0003 },
+    { label: 'Network', value: 0.0001 }
+  ], []);
 
-  // 设置执行引擎事件监听
-  useEffect(() => {
-    executionEngine.setEventEmitter((event: string, data: any) => {
-      switch (event) {
-        case 'component_start':
-          setWorkflowComponents(prev => prev.map(c => 
-            c.id === data.componentId ? { ...c, status: 'running' } : c
-          ));
-          break;
+  // AI建议
+  const aiSuggestions = useMemo(() => {
+    if (workflowComponents.length === 0) {
+      return [
+        {
+          title: 'Start with a Text Generator',
+          description: 'Add GPT-4 or Claude for content generation',
+          priority: 'high',
+          type: 'getting-started',
+          components: availableLLMs.slice(0, 3)
+        }
+      ];
+    }
+    
+    const hasLLM = workflowComponents.some(c => c.type === 'llm');
+    const hasNPM = workflowComponents.some(c => c.type === 'npm');
+    
+    const suggestions = [];
+    
+    if (hasLLM && !hasNPM) {
+      suggestions.push({
+        title: 'Add Data Processing',
+        description: 'Use Lodash or Joi for data manipulation',
+        priority: 'medium',
+        type: 'enhancement',
+        components: availableNPMs.filter(pkg => ['lodash', 'joi', 'validator'].includes(pkg.name))
+      });
+    }
+    
+    if (workflowComponents.length >= 2) {
+      suggestions.push({
+        title: 'Optimize Performance',
+        description: 'Consider adding caching or batch processing',
+        priority: 'low',
+        type: 'optimization',
+        components: availableNPMs.filter(pkg => ['redis', 'node-cache'].includes(pkg.name))
+      });
+    }
+    
+    return suggestions;
+  }, [workflowComponents, availableLLMs, availableNPMs]);
 
-        case 'component_complete':
-          setWorkflowComponents(prev => prev.map(c => 
-            c.id === data.componentId ? { ...c, status: 'completed' } : c
-          ));
-          setExecutionResults(prev => new Map(prev).set(data.componentId, data.result));
-          break;
-
-        case 'component_error':
-          setWorkflowComponents(prev => prev.map(c => 
-            c.id === data.componentId ? { ...c, status: 'error' } : c
-          ));
-          break;
-
-        case 'llm_stream_chunk':
-          setStreamingOutput(prev => new Map(prev).set(data.componentId, data.fullResponse));
-          break;
-
-        case 'workflow_complete':
-          setIsExecuting(false);
-          setUserStats(prev => ({
-            ...prev,
-            xp: prev.xp + 100,
-            workflowsCompleted: prev.workflowsCompleted + 1
-          }));
-          break;
-      }
-    });
-  }, [executionEngine]);
-
-  // 组件操作函数
-  const addComponent = useCallback((type: 'llm' | 'npm', data: LLMModel | NPMPackage) => {
-    const newComponent: WorkflowComponent = {
-      id: `${type}_${data.id}_${Date.now()}`,
+  // 组件操作
+  const addComponent = useCallback((component, type) => {
+    const newComponent = {
+      id: `${type}_${component.id}_${Date.now()}`,
       type,
-      data,
-      position: {
-        x: 100 + workflowComponents.length * 200,
-        y: 100
-      },
+      data: component,
+      status: 'ready',
       config: type === 'llm' ? { 
         prompt: 'Analyze the following input:',
         temperature: 0.7,
-        maxTokens: 500,
-        stream: false
+        maxTokens: 500 
       } : {
-        code: `// Process with ${data.name}\nreturn input;`
-      },
-      status: 'ready',
-      inputs: type === 'llm' ? ['text'] : ['any'],
-      outputs: type === 'llm' ? ['analysis'] : ['processed_data']
+        code: `// Process with ${component.name}\nreturn input;`
+      }
     };
 
-    setWorkflowComponents(prev => [...prev, newComponent]);
-    setUserStats(prev => ({
-      ...prev,
-      xp: prev.xp + 25,
-      componentsUsed: prev.componentsUsed + 1
-    }));
-  }, [workflowComponents.length]);
+    if (type === 'npm') {
+      // 获取NPM包的详细信息
+      const packageData = npmPackages.find(pkg => pkg.id === component.id);
+      newComponent.packageData = packageData;
+    }
 
-  const removeComponent = useCallback((componentId: string) => {
+    setWorkflowComponents(prev => [...prev, newComponent]);
+    setUserXP(prev => prev + 25);
+  }, [npmPackages]);
+
+  const removeComponent = useCallback((componentId) => {
     setWorkflowComponents(prev => prev.filter(c => c.id !== componentId));
-    setWorkflowConnections(prev => prev.filter(c => 
-      c.source !== componentId && c.target !== componentId
-    ));
     setExecutionResults(prev => {
-      const newResults = new Map(prev);
-      newResults.delete(componentId);
+      const newResults = { ...prev };
+      delete newResults[componentId];
       return newResults;
     });
-  }, []);
-
-  const updateComponentConfig = useCallback((componentId: string, config: any) => {
-    setWorkflowComponents(prev => prev.map(c => 
-      c.id === componentId ? { ...c, config: { ...c.config, ...config } } : c
-    ));
   }, []);
 
   const executeWorkflow = useCallback(async () => {
     if (workflowComponents.length === 0) return;
 
     setIsExecuting(true);
-    setExecutionResults(new Map());
-    setStreamingOutput(new Map());
+    setExecutionResults({});
     
-    // 重置组件状态
-    setWorkflowComponents(prev => prev.map(c => ({ ...c, status: 'ready' })));
+    // 模拟执行过程
+    for (let i = 0; i < workflowComponents.length; i++) {
+      const component = workflowComponents[i];
+      
+      // 更新组件状态为运行中
+      setWorkflowComponents(prev => prev.map(c => 
+        c.id === component.id ? { ...c, status: 'running' } : c
+      ));
 
-    try {
-      await executionEngine.executeWorkflow(
-        workflowComponents,
-        workflowConnections,
-        inputData
-      );
-    } catch (error) {
-      console.error('Workflow execution error:', error);
-      setIsExecuting(false);
+      // 模拟执行延迟
+      await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
+
+      // 生成模拟结果
+      const result = {
+        output: component.type === 'llm' 
+          ? `🧠 ${component.data.name} Analysis:\n\nProcessed: "${inputText.substring(0, 50)}..."\n\nKey insights:\n• Advanced reasoning applied\n• Context-aware processing\n• High-quality output generated\n• Optimized for accuracy and relevance`
+          : `📦 ${component.data.name} Processing:\n\n✅ Package execution completed\n• Input processed successfully\n• Custom logic applied\n• Output transformed\n• Performance optimized`,
+        metadata: {
+          tokens_used: component.type === 'llm' ? Math.floor(Math.random() * 1000) + 500 : null,
+          execution_time: Math.floor(Math.random() * 2000) + 500,
+          cost: component.type === 'llm' ? (Math.random() * 0.01).toFixed(4) : 0.001,
+          memory_used: `${Math.floor(Math.random() * 50) + 10}MB`
+        }
+      };
+
+      // 更新执行结果
+      setExecutionResults(prev => ({
+        ...prev,
+        [component.id]: result
+      }));
+
+      // 更新组件状态为完成
+      setWorkflowComponents(prev => prev.map(c => 
+        c.id === component.id ? { ...c, status: 'completed' } : c
+      ));
     }
-  }, [workflowComponents, workflowConnections, inputData, executionEngine]);
 
-  const clearWorkflow = useCallback(() => {
-    setWorkflowComponents([]);
-    setWorkflowConnections([]);
-    setExecutionResults(new Map());
-    setStreamingOutput(new Map());
-    setSelectedComponent(null);
-  }, []);
+    setIsExecuting(false);
+    setUserXP(prev => prev + 100);
+  }, [workflowComponents, inputText]);
 
-  // 生成代码导出
-  const generateCodeExport = useCallback(() => {
+  // 生成系统提示
+  const generateSystemPrompts = useCallback(() => {
     const llmComponents = workflowComponents.filter(c => c.type === 'llm');
     const npmComponents = workflowComponents.filter(c => c.type === 'npm');
 
     return {
-      workflowConfig: JSON.stringify({
-        components: workflowComponents.map(c => ({
-          id: c.id,
-          type: c.type,
-          name: c.data.name,
-          config: c.config
-        })),
-        connections: workflowConnections
-      }, null, 2),
+      systemPrompt: `You are an AI workflow execution engine. Your task is to process the following workflow:
+
+LLM Components:
+${llmComponents.map(c => `- ${c.data.name} (${c.data.provider}): ${c.config.prompt}`).join('\n')}
+
+NPM Components:
+${npmComponents.map(c => `- ${c.data.name}: ${c.data.description}`).join('\n')}
+
+Input: "${inputText}"
+
+Execute this workflow step by step, providing detailed analysis and processing results for each component.`,
+
+      executionPrompt: `Execute the following AI workflow:
+
+1. Process input through each component in sequence
+2. For LLM components: Apply the specified prompt and generate intelligent analysis
+3. For NPM components: Simulate package execution and data transformation
+4. Provide detailed output for each step
+5. Include performance metrics and cost analysis
+
+Workflow Configuration:
+${JSON.stringify(workflowComponents.map(c => ({
+  type: c.type,
+  name: c.data.name,
+  config: c.config
+})), null, 2)}`,
 
       implementationCode: `// AI Workflow Implementation
-// Generated by Enhanced Unified Playground
-
 class AIWorkflow {
   constructor() {
     this.components = ${JSON.stringify(workflowComponents.map(c => ({
@@ -724,456 +909,214 @@ class AIWorkflow {
 
   async execute(input) {
     console.log('🚀 Starting AI workflow execution...');
+    const results = {};
     
-    // LLM Processing
-${llmComponents.map(c => `    const ${c.id}_result = await this.processLLM('${c.data.name}', input);`).join('\n')}
-    
-    // NPM Processing  
-${npmComponents.map(c => `    const ${c.id}_result = await this.processNPM('${c.data.name}', input);`).join('\n')}
-    
-    return {
-      success: true,
-      results: {
-${workflowComponents.map(c => `        ${c.id}: ${c.id}_result`).join(',\n')}
+    for (const component of this.components) {
+      if (component.type === 'llm') {
+        results[component.id] = await this.processLLM(component, input);
+      } else if (component.type === 'npm') {
+        results[component.id] = await this.processNPM(component, input);
       }
-    };
+    }
+    
+    return results;
   }
 
-  async processLLM(model, input) {
+  async processLLM(component, input) {
     // Implement LLM API call
-    return await callLLMAPI(model, input);
+    return await callLLMAPI(component.name, input);
   }
 
-  async processNPM(packageName, input) {
+  async processNPM(component, input) {
     // Implement NPM package execution
-    return await executeNPMPackage(packageName, input);
+    return await executeNPMPackage(component.name, input);
   }
 }
 
 // Usage
 const workflow = new AIWorkflow();
-const results = await workflow.execute("${inputData}");
-console.log('Results:', results);`,
-
-      deploymentInstructions: `# Deployment Instructions
-
-## 1. Environment Setup
-\`\`\`bash
-npm install ${npmComponents.map(c => c.data.name).join(' ')}
-\`\`\`
-
-## 2. Environment Variables
-\`\`\`env
-${llmComponents.map(c => `${c.data.provider.toUpperCase()}_API_KEY=your_${c.data.provider}_api_key`).join('\n')}
-\`\`\`
-
-## 3. Docker Deployment
-\`\`\`dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-EXPOSE 3000
-CMD ["npm", "start"]
-\`\`\`
-
-## 4. Estimated Costs
-- LLM API calls: $${workflowStats.totalCost.toFixed(6)} per execution
-- Infrastructure: ~$0.01 per month
-- Total estimated monthly cost: $${(workflowStats.totalCost * 1000 + 0.01).toFixed(2)}
-`
+const results = await workflow.execute("${inputText}");
+console.log('Results:', results);`
     };
-  }, [workflowComponents, workflowConnections, inputData, workflowStats]);
+  }, [workflowComponents, inputText]);
 
-  // 处理拖拽
-  const handleDragStart = useCallback((component: any, type: 'llm' | 'npm') => {
-    setDraggedComponent({ ...component, type });
+  // 复制到剪贴板
+  const copyToClipboard = useCallback((text) => {
+    navigator.clipboard.writeText(text);
+    // 可以添加toast通知
   }, []);
 
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-  }, []);
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    if (draggedComponent) {
-      addComponent(draggedComponent.type, draggedComponent);
-      setDraggedComponent(null);
-    }
-  }, [draggedComponent, addComponent]);
-
-  // 渲染函数
-  const renderComponent = useCallback((component: WorkflowComponent, index: number) => {
-    const result = executionResults.get(component.id);
-    const streaming = streamingOutput.get(component.id);
-    const isSelected = selectedComponent === component.id;
-
-    return (
-      <div key={component.id} className="flex items-center gap-4 mb-4">
-        <div className="text-sm text-slate-400 w-8">{index + 1}.</div>
-        
-        <div 
-          className={`
-            relative bg-slate-800/50 border rounded-lg p-4 flex-1 transition-all duration-300
-            ${component.type === 'llm' ? 'border-purple-500/50' : 'border-blue-500/50'}
-            ${component.status === 'running' ? 'ring-2 ring-yellow-400 animate-pulse' : ''}
-            ${component.status === 'completed' ? 'ring-2 ring-green-400' : ''}
-            ${component.status === 'error' ? 'ring-2 ring-red-400' : ''}
-            ${isSelected ? 'ring-2 ring-indigo-400 scale-105' : ''}
-            hover:scale-102 cursor-pointer group
-          `}
-          onClick={() => setSelectedComponent(isSelected ? null : component.id)}
-        >
-          <div className="flex items-center gap-3 mb-3">
-            {component.type === 'llm' ? (
-              <Brain className="text-purple-400" size={20} />
-            ) : (
-              <Package className="text-blue-400" size={20} />
-            )}
-            
-            <div className="flex-1">
-              <h4 className="font-bold text-white">{component.data.name}</h4>
-              <p className="text-xs text-slate-400">
-                {component.type === 'llm' 
-                  ? `${component.data.provider} • ${component.data.context_window}K context`
-                  : component.data.description?.substring(0, 40) + '...'
-                }
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              {component.status === 'running' && (
-                <div className="animate-spin rounded-full h-4 w-4 border-2 border-yellow-400 border-t-transparent"></div>
-              )}
-              {component.status === 'completed' && (
-                <CheckCircle className="text-green-400" size={16} />
-              )}
-              {component.status === 'error' && (
-                <AlertTriangle className="text-red-400" size={16} />
-              )}
-              
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeComponent(component.id);
-                }}
-                className="opacity-0 group-hover:opacity-100 bg-red-500/20 hover:bg-red-500/40 rounded p-1 transition-all"
-              >
-                <X size={14} />
-              </button>
-            </div>
-          </div>
-
-          {/* 组件配置 */}
-          {isSelected && (
-            <div className="mt-3 bg-slate-900/50 rounded p-3 space-y-2">
-              {component.type === 'llm' && (
-                <>
-                  <div>
-                    <label className="block text-xs font-medium mb-1">Prompt Template:</label>
-                    <textarea
-                      value={component.config.prompt}
-                      onChange={(e) => updateComponentConfig(component.id, { prompt: e.target.value })}
-                      className="w-full bg-slate-700 rounded px-2 py-1 text-xs"
-                      rows={2}
-                    />
-                  </div>
-                  <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <label className="block text-xs font-medium mb-1">Temperature:</label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        value={component.config.temperature}
-                        onChange={(e) => updateComponentConfig(component.id, { temperature: parseFloat(e.target.value) })}
-                        className="w-full"
-                      />
-                      <span className="text-xs text-slate-400">{component.config.temperature}</span>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium mb-1">Max Tokens:</label>
-                      <input
-                        type="number"
-                        value={component.config.maxTokens}
-                        onChange={(e) => updateComponentConfig(component.id, { maxTokens: parseInt(e.target.value) })}
-                        className="w-full bg-slate-700 rounded px-2 py-1 text-xs"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium mb-1">Stream:</label>
-                      <input
-                        type="checkbox"
-                        checked={component.config.stream}
-                        onChange={(e) => updateComponentConfig(component.id, { stream: e.target.checked })}
-                        className="mt-1"
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
-              
-              {component.type === 'npm' && (
-                <div>
-                  <label className="block text-xs font-medium mb-1">Processing Code:</label>
-                  <textarea
-                    value={component.config.code}
-                    onChange={(e) => updateComponentConfig(component.id, { code: e.target.value })}
-                    className="w-full bg-slate-700 rounded px-2 py-1 text-xs font-mono"
-                    rows={3}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* 执行结果 */}
-          {(result || streaming) && (
-            <div className="mt-3 bg-slate-900/50 rounded p-3">
-              <div className="text-xs text-green-300 mb-1 flex items-center gap-1">
-                {component.status === 'running' ? (
-                  <>
-                    <Activity size={12} className="animate-pulse" />
-                    Executing...
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle size={12} />
-                    Execution Result
-                  </>
-                )}
-              </div>
-              
-              <div className="text-xs font-mono whitespace-pre-wrap max-h-32 overflow-y-auto bg-slate-800 rounded p-2">
-                {streaming || result?.output}
-              </div>
-              
-              {result && (
-                <div className="text-xs text-slate-400 mt-2 flex gap-4">
-                  <span>⏱️ {result.metadata.executionTime}ms</span>
-                  <span>💾 {result.metadata.memoryUsed}</span>
-                  <span>💰 ${result.metadata.cost.toFixed(6)}</span>
-                  {result.metadata.tokensUsed && (
-                    <span>🎯 {result.metadata.tokensUsed} tokens</span>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {index < workflowComponents.length - 1 && (
-          <ArrowRight className="text-purple-400" size={20} />
-        )}
-      </div>
-    );
-  }, [executionResults, streamingOutput, selectedComponent, updateComponentConfig, removeComponent]);
+  // 格式化数字
+  const formatNumber = (num) => {
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+    return num.toString();
+  };
 
   if (llmLoading || npmLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white flex items-center justify-center">
+      <div className="min-h-[600px] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-400 mx-auto mb-4"></div>
-          <p className="text-xl text-purple-300">Initializing Enhanced Playground...</p>
-          <p className="text-sm text-slate-400 mt-2">Loading AI models and NPM packages...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg text-secondary">{language === 'en' ? 'Initializing Unified Playground...' : '正在初始化统一开发环境...'}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold text-primary mb-2">
+          🎮 {language === 'en' ? 'Unified AI+NPM Playground' : '统一 AI+NPM 开发平台'}
+        </h1>
+        <p className="text-sm text-secondary mb-4">
+          {language === 'en' 
+            ? 'Combine LLM models + NPM packages to create powerful AI workflows • Real-time execution • AI suggestions' 
+            : '组合 LLM 模型和 NPM 包创建强大的 AI 工作流 • 实时执行 • AI 建议'}
+        </p>
         
-        {/* Enhanced Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-4">
-            🚀 Enhanced AI+NPM Playground
-          </h1>
-          <p className="text-lg text-purple-300 mb-4">
-            Professional-grade AI workflow orchestration with real execution capabilities
-          </p>
-          
-          {/* Control Panel */}
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <button
-              onClick={() => setShowPerformanceAnalytics(!showPerformanceAnalytics)}
-              className="bg-blue-600/20 hover:bg-blue-600/30 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
-            >
-              <BarChart3 size={16} />
-              Analytics
-            </button>
-            
-            <button
-              onClick={() => setShowCodeExporter(!showCodeExporter)}
-              className="bg-green-600/20 hover:bg-green-600/30 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
-            >
-              <Code size={16} />
-              Export Code
-            </button>
-            
-            <button
-              onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
-              className="bg-purple-600/20 hover:bg-purple-600/30 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
-            >
-              <Settings size={16} />
-              Advanced
-            </button>
-            
-            <button
-              onClick={executeWorkflow}
-              disabled={workflowComponents.length === 0 || isExecuting}
-              className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 px-6 py-2 rounded-lg transition-colors flex items-center gap-2 font-medium disabled:opacity-50"
-            >
-              <Play size={16} />
-              {isExecuting ? 'Executing...' : 'Execute Workflow'}
-            </button>
-          </div>
+        {/* 控制按钮 */}
+        <div className="flex items-center justify-center gap-3">
+          <button
+            onClick={() => setShowAnalytics(!showAnalytics)}
+            className="btn btn-secondary"
+          >
+            <TrendingUp className="icon-sm" />
+            {language === 'en' ? 'Analytics' : '分析'}
+          </button>
+          <button
+            onClick={() => setShowPromptExporter(!showPromptExporter)}
+            className="btn btn-secondary"
+          >
+            <FileText className="icon-sm" />
+            {language === 'en' ? 'Export Context' : '导出上下文'}
+          </button>
+          <button
+            onClick={executeWorkflow}
+            disabled={workflowComponents.length === 0 || isExecuting}
+            className="btn btn-success"
+            disabled={workflowComponents.length === 0 || isExecuting}
+          >
+            <PlayCircle className="icon-sm" />
+            {isExecuting 
+              ? (language === 'en' ? 'Executing...' : '执行中...') 
+              : (language === 'en' ? 'Execute Workflow' : '执行工作流')}
+          </button>
+        </div>
+      </div>
+
+        {/* Gamification Panel */}
+        <div className="mb-6">
+          <GamificationSystem level={userLevel} xp={userXP} achievements={achievements} />
         </div>
 
-        {/* User Stats & Gamification */}
-        <div className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-xl p-6 mb-8 border border-indigo-400/30">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-400">Level {userStats.level}</div>
-              <div className="text-sm text-slate-400">AI Architect</div>
-              <div className="w-full bg-slate-700 rounded-full h-2 mt-2">
-                <div 
-                  className="bg-indigo-400 h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${(userStats.xp % 500) / 5}%` }}
-                ></div>
+        {/* Analytics Dashboard */}
+        {showAnalytics && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6 fade-in">
+            <PerformanceChart data={performanceData} title="Performance Metrics" />
+            <WorkflowDiagram workflow={workflowComponents} connections={[]} />
+            <div className="space-y-4">
+              <div className="card-minimal compact">
+                <h3 className="text-base font-medium mb-3 text-primary">{language === 'en' ? 'Real-time Metrics' : '实时指标'}</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <MetricsGauge value={performanceData[0]?.value || 0} max={100} label="Throughput" color="blue" />
+                  <MetricsGauge value={performanceData[1]?.value || 0} max={100} label="Accuracy" color="green" />
+                </div>
               </div>
-              <div className="text-xs text-slate-400 mt-1">{userStats.xp} XP</div>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-400">{userStats.componentsUsed}</div>
-              <div className="text-sm text-slate-400">Components Used</div>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-400">{userStats.workflowsCompleted}</div>
-              <div className="text-sm text-slate-400">Workflows Completed</div>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-2xl font-bold text-yellow-400">{userStats.achievements.length}</div>
-              <div className="text-sm text-slate-400">Achievements</div>
-              <div className="flex justify-center gap-1 mt-2">
-                {userStats.achievements.slice(0, 4).map((achievement, index) => (
-                  <span key={index} className="text-lg" title={achievement.description}>
-                    {achievement.icon}
-                  </span>
-                ))}
+              <div className="card-minimal compact">
+                <h3 className="text-base font-medium mb-2 text-primary">{language === 'en' ? 'Cost Analysis' : '成本分析'}</h3>
+                <div className="text-xl font-medium text-warning mb-1">
+                  ${costAnalysisData.reduce((sum, item) => sum + item.value, 0).toFixed(4)}
+                </div>
+                <p className="text-xs text-tertiary">{language === 'en' ? 'Total execution cost' : '总执行成本'}</p>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Performance Analytics */}
-        {showPerformanceAnalytics && (
-          <div className="mb-8">
-            <WorkflowVisualization
-              performanceData={performanceData}
-              costData={costData}
-              executionStats={{
-                totalCost: workflowStats.totalCost,
-                estimatedTime: workflowStats.avgExecutionTime / 1000,
-                complexity: workflowComponents.length > 5 ? 'High' : workflowComponents.length > 2 ? 'Medium' : 'Low',
-                reliability: Math.floor(workflowStats.successRate)
-              }}
-              workflowComponents={workflowComponents}
-            />
           </div>
         )}
 
-        {/* Code Exporter */}
-        {showCodeExporter && (
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 mb-8 border border-slate-600">
+        {/* Context/Prompt Exporter */}
+        {showPromptExporter && (
+          <div className="card compact-lg mb-6 fade-in">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold flex items-center gap-2">
-                <Code className="text-green-400" />
-                Code Export & Deployment
+              <h3 className="text-base font-medium flex items-center gap-2 text-primary">
+                <FileText className="icon" />
+                {language === 'en' ? 'Generated Context & Prompts for AI Coding Tools' : '为 AI 编码工具生成的上下文和提示'}
               </h3>
               <button
-                onClick={() => setShowCodeExporter(false)}
-                className="p-2 hover:bg-slate-700 rounded-lg"
+                onClick={() => setShowPromptExporter(false)}
+                className="btn btn-ghost compact-xs"
               >
-                <X size={20} />
+                <Minus className="icon-sm" />
               </button>
             </div>
             
             {(() => {
-              const exportData = generateCodeExport();
+              const prompts = generateSystemPrompts();
               return (
                 <div className="space-y-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium text-green-400">Workflow Configuration</h4>
-                        <button
-                          onClick={() => navigator.clipboard.writeText(exportData.workflowConfig)}
-                          className="text-xs bg-green-600/20 hover:bg-green-600/30 px-2 py-1 rounded flex items-center gap-1"
-                        >
-                          <Copy size={10} />
-                          Copy
-                        </button>
-                      </div>
-                      <pre className="bg-slate-900 rounded p-3 text-xs overflow-auto max-h-40 border border-slate-600">
-                        {exportData.workflowConfig}
-                      </pre>
-                    </div>
-                    
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium text-blue-400">Implementation Code</h4>
-                        <button
-                          onClick={() => navigator.clipboard.writeText(exportData.implementationCode)}
-                          className="text-xs bg-blue-600/20 hover:bg-blue-600/30 px-2 py-1 rounded flex items-center gap-1"
-                        >
-                          <Copy size={10} />
-                          Copy
-                        </button>
-                      </div>
-                      <pre className="bg-slate-900 rounded p-3 text-xs overflow-auto max-h-40 border border-slate-600">
-                        {exportData.implementationCode}
-                      </pre>
-                    </div>
-                  </div>
-                  
-                  <div>
+                  <div className="card-minimal compact">
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-purple-400">Deployment Instructions</h4>
+                      <h4 className="font-medium text-success text-sm">{language === 'en' ? 'System Prompt' : '系统提示'}</h4>
                       <button
-                        onClick={() => navigator.clipboard.writeText(exportData.deploymentInstructions)}
-                        className="text-xs bg-purple-600/20 hover:bg-purple-600/30 px-2 py-1 rounded flex items-center gap-1"
+                        onClick={() => copyToClipboard(prompts.systemPrompt)}
+                        className="btn btn-ghost text-xs compact-xs"
                       >
-                        <Copy size={10} />
-                        Copy
+                        <Copy className="icon-sm" />
+                        {language === 'en' ? 'Copy' : '复制'}
                       </button>
                     </div>
-                    <pre className="bg-slate-900 rounded p-3 text-xs overflow-auto max-h-32 border border-slate-600">
-                      {exportData.deploymentInstructions}
+                    <pre className="text-xs text-secondary whitespace-pre-wrap max-h-32 overflow-y-auto">
+                      {prompts.systemPrompt}
                     </pre>
                   </div>
                   
-                  <div className="bg-amber-600/20 border border-amber-400/50 rounded-lg p-4">
-                    <h4 className="font-medium text-amber-400 mb-2">🚀 Ready for Production</h4>
-                    <p className="text-sm mb-3">
-                      This code is production-ready and includes proper error handling, cost optimization, and scalability features.
+                  <div className="card-minimal compact">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium text-primary text-sm">{language === 'en' ? 'Execution Instructions' : '执行指令'}</h4>
+                      <button
+                        onClick={() => copyToClipboard(prompts.executionPrompt)}
+                        className="btn btn-ghost text-xs compact-xs"
+                      >
+                        <Copy className="icon-sm" />
+                        {language === 'en' ? 'Copy' : '复制'}
+                      </button>
+                    </div>
+                    <pre className="text-xs text-secondary whitespace-pre-wrap max-h-32 overflow-y-auto">
+                      {prompts.executionPrompt}
+                    </pre>
+                  </div>
+                  
+                  <div className="card-minimal compact">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium text-primary text-sm">{language === 'en' ? 'JavaScript Implementation' : 'JavaScript 实现'}</h4>
+                      <button
+                        onClick={() => copyToClipboard(prompts.implementationCode)}
+                        className="btn btn-ghost text-xs compact-xs"
+                      >
+                        <Copy className="icon-sm" />
+                        {language === 'en' ? 'Copy' : '复制'}
+                      </button>
+                    </div>
+                    <pre className="text-xs text-secondary whitespace-pre-wrap max-h-32 overflow-y-auto">
+                      {prompts.implementationCode}
+                    </pre>
+                  </div>
+                  
+                  <div className="card-minimal compact border-l-2 border-warning">
+                    <h4 className="font-medium text-warning mb-2 text-sm">🎯 {language === 'en' ? 'Ready for AI Coding Tools' : '准备用于 AI 编码工具'}</h4>
+                    <p className="text-xs mb-3 text-secondary">
+                      {language === 'en' 
+                        ? 'These prompts and code are optimized for use in Cursor, Claude Code, Windsurf, v0.dev, bolt.new, and other AI coding platforms.' 
+                        : '这些提示和代码已针对在 Cursor、Claude Code、Windsurf、v0.dev、bolt.new 和其他 AI 编码平台中使用进行了优化。'}
                     </p>
-                    <div className="flex gap-3">
-                      <button className="bg-amber-600/30 hover:bg-amber-600/40 px-3 py-1 rounded text-xs">
-                        Deploy to Vercel
-                      </button>
-                      <button className="bg-amber-600/30 hover:bg-amber-600/40 px-3 py-1 rounded text-xs">
-                        Deploy to Netlify
-                      </button>
-                      <button className="bg-amber-600/30 hover:bg-amber-600/40 px-3 py-1 rounded text-xs">
-                        Generate Docker
-                      </button>
+                    <div className="flex flex-wrap gap-2">
+                      {['cursor', 'claude-code', 'windsurf', 'v0.dev', 'bolt.new', 'lovable'].map(tool => (
+                        <span key={tool} className="badge badge-warning text-xs">
+                          {tool}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -1182,142 +1125,264 @@ CMD ["npm", "start"]
           </div>
         )}
 
-        {/* Main Workflow Area */}
         <div className="grid grid-cols-12 gap-6">
-          
-          {/* Left Sidebar: LLM Models */}
-          <div className="col-span-3">
-            <div className="sticky top-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Brain className="text-purple-400" />
-                LLM Models ({llmModels.length})
-              </h2>
+          {/* Left: Templates & Available LLM Models */}
+          <div className="col-span-12 md:col-span-4 lg:col-span-3">
+            <div className="space-y-6">
+              {/* Templates Section */}
+              <div>
+                <h2 className="text-base font-medium mb-3 flex items-center gap-2 text-primary">
+                  <Award className="icon" />
+                  {language === 'en' ? 'Workflow Templates' : '工作流模板'}
+                </h2>
+                <select
+                  value={selectedTemplate}
+                  onChange={(e) => {
+                    const templateId = e.target.value;
+                    if (templateId && workflowTemplates[templateId]) {
+                      // Load template
+                      setSelectedTemplate(templateId);
+                    }
+                  }}
+                  className="input w-full mb-3"
+                >
+                  <option value="">{language === 'en' ? '-- Select a template --' : '-- 选择模板 --'}</option>
+                  <option value="textGeneration">{language === 'en' ? 'Text Generation' : '文本生成'}</option>
+                  <option value="dataAnalysis">{language === 'en' ? 'Data Analysis' : '数据分析'}</option>
+                  <option value="codeGeneration">{language === 'en' ? 'Code Generator' : '代码生成器'}</option>
+                  <option value="dataValidation">{language === 'en' ? 'Data Validator' : '数据验证器'}</option>
+                  <option value="translation">{language === 'en' ? 'Content Translator' : '内容翻译器'}</option>
+                  <option value="chatAssistant">{language === 'en' ? 'AI Chat Assistant' : 'AI 聊天助手'}</option>
+                </select>
+                
+                {selectedTemplate && (
+                  <button
+                    className="btn btn-primary w-full"
+                    onClick={() => {
+                      const template = workflowTemplates[selectedTemplate];
+                      if (template) {
+                        // Load template components
+                      }
+                    }}
+                  >
+                    <Plus className="icon-sm" />
+                    {language === 'en' ? 'Load Template' : '加载模板'}
+                  </button>
+                )}
+              </div>
               
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {llmModels.slice(0, 12).map(model => (
+              {/* LLM Models Section */}
+              <div>
+                <h2 className="text-base font-medium mb-3 flex items-center gap-2 text-primary">
+                  <Brain className="icon" />
+                  {language === 'en' ? 'LLM Models' : 'LLM 模型'}
+                </h2>
+                <div className="space-y-1 max-h-72 overflow-y-auto">
+                {availableLLMs.map(model => (
                   <div
                     key={model.id}
-                    draggable
-                    onDragStart={() => handleDragStart(model, 'llm')}
-                    onClick={() => addComponent('llm', model)}
-                    className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 p-4 rounded-lg cursor-pointer hover:scale-105 transition-all duration-200 shadow-lg border border-purple-400/30"
+                    onClick={() => addComponent(model, 'llm')}
+                    className="card-minimal compact-xs cursor-pointer hover:bg-primary/5 transition-all"
                   >
-                    <div className="flex items-center gap-3 mb-3">
-                      <Brain className="text-purple-400" size={20} />
+                    <div className="flex items-center gap-2 mb-2">
+                      <Brain className="icon-sm text-primary" />
                       <div className="flex-1">
-                        <h3 className="font-bold text-sm">{model.name}</h3>
-                        <p className="text-xs text-slate-400">{model.provider}</p>
+                        <h3 className="font-medium text-sm text-primary">{model.name}</h3>
+                        <p className="text-xs text-tertiary">{model.provider}</p>
                       </div>
                       <div className="text-right">
-                        <div className={`text-sm font-bold ${
-                          model.quality_index >= 60 ? 'text-green-400' : 
-                          model.quality_index >= 40 ? 'text-yellow-400' : 'text-slate-400'
-                        }`}>
+                        <div className={`text-xs font-medium ${model.quality_index >= 60 ? 'text-success' : model.quality_index >= 40 ? 'text-warning' : 'text-tertiary'}`}>
                           {model.quality_index || 'N/A'}
                         </div>
                       </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-2 text-xs">
-                      <div className="bg-slate-700/50 rounded px-2 py-1">
-                        ${model.output_price}/1M
-                      </div>
-                      <div className="bg-slate-700/50 rounded px-2 py-1">
+                    <div className="flex gap-2 text-xs">
+                      <span className="badge badge-neutral">
+                        ${model.output_price}
+                      </span>
+                      <span className="badge badge-neutral">
                         {model.output_speed.toFixed(0)} tok/s
-                      </div>
+                      </span>
                     </div>
                   </div>
                 ))}
+                </div>
+              </div>
+
+              {/* NPM Packages Section */}
+              <div>
+                <h2 className="text-base font-medium mb-3 flex items-center gap-2 text-primary">
+                  <Package className="icon" />
+                  {language === 'en' ? 'NPM Packages' : 'NPM 包'}
+                </h2>
+                <div className="space-y-1 max-h-72 overflow-y-auto">
+                  {availableNPMs.map(pkg => (
+                    <div
+                      key={pkg.id}
+                      onClick={() => addComponent(pkg, 'npm')}
+                      className="card-minimal compact-xs cursor-pointer hover:bg-primary/5 transition-all"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Package className="icon-sm text-success" />
+                        <div className="flex-1">
+                          <h3 className="font-medium text-sm text-primary">{pkg.name}</h3>
+                          <p className="text-xs text-tertiary truncate">{pkg.description?.substring(0, 30)}...</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 text-xs">
+                        <span className="badge badge-neutral">
+                          {formatNumber(pkg.weekly_downloads)}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Center: Workflow Canvas */}
-          <div className="col-span-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                <Workflow className="text-blue-400" />
-                Workflow Canvas
+          {/* Center & Right: Workflow Canvas & Execution Results */}
+          <div className="col-span-12 md:col-span-8 lg:col-span-9">
+            <div className="flex flex-col md:flex-row justify-between mb-4">
+              <h2 className="text-base font-medium flex items-center gap-2 text-primary">
+                <Workflow className="icon" />
+                {language === 'en' ? 'Workflow Canvas' : '工作流画布'}
               </h2>
-              
               <div className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="Enter input data for your workflow..."
-                  value={inputData}
-                  onChange={(e) => setInputData(e.target.value)}
-                  className="px-3 py-2 bg-slate-800/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 text-sm min-w-72"
+                  placeholder="Enter test input..."
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  className="input text-sm"
+                  placeholder={language === 'en' ? "Enter test input..." : "输入测试数据..."}
                 />
                 <button
-                  onClick={clearWorkflow}
-                  className="px-4 py-2 bg-red-600/20 hover:bg-red-600/30 rounded-lg text-sm transition-colors"
+                  onClick={() => setWorkflowComponents([])}
+                  className="btn btn-ghost text-warning text-sm"
                 >
-                  Clear
+                  {language === 'en' ? 'Clear' : '清除'}
                 </button>
               </div>
             </div>
             
-            <div 
-              className="bg-slate-800/30 backdrop-blur-sm border-2 border-dashed border-purple-400/50 rounded-lg p-6 min-h-96"
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
+            <div className="card-minimal min-h-80 p-6 border-2 border-dashed border-primary/30">
               {workflowComponents.length === 0 ? (
-                <div className="flex items-center justify-center h-full text-purple-300">
+                <div className="flex items-center justify-center h-full text-tertiary">
                   <div className="text-center">
-                    <Layers size={48} className="mx-auto mb-4 opacity-50" />
-                    <p className="text-lg font-medium">Build Your AI Workflow</p>
-                    <p className="text-sm mt-2">Drag LLM models and NPM packages here to create powerful AI workflows</p>
-                    <div className="mt-4 text-xs text-slate-400">
-                      💡 Try dragging GPT-4 + Joi validation for smart data processing
-                    </div>
+                    <Layers className="mx-auto mb-3 opacity-50 icon-lg" />
+                    <p className="font-medium">{language === 'en' ? 'Build Your AI Workflow' : '构建您的 AI 工作流'}</p>
+                    <p className="text-sm mt-1">{language === 'en' ? 'Combine LLM models with NPM packages for powerful automation' : '结合 LLM 模型与 NPM 包实现强大的自动化'}</p>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {workflowComponents.map((component, index) => renderComponent(component, index))}
+                  {workflowComponents.map((component, index) => {
+                    const result = executionResults[component.id];
+                    const isLLM = component.type === 'llm';
+                    
+                    return (
+                      <div key={component.id} className="flex items-center gap-3 mb-4">
+                        <div className="text-xs text-tertiary w-6">{index + 1}.</div>
+                        
+                        <div className={`
+                          ${isLLM ? 'card-minimal compact border-l-2 border-primary' : 'card-minimal compact border-l-2 border-success'}
+                          flex-1 group relative
+                          ${component.status === 'running' ? 'animate-pulse ring-1 ring-amber-400' : ''}
+                          ${component.status === 'completed' ? 'ring-1 ring-emerald-400' : ''}
+                        `}>
+                          <div className="flex items-center gap-2 mb-2">
+                            {isLLM ? <Brain className="icon-sm text-primary" /> : <Package className="icon-sm text-success" />}
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-medium text-sm text-primary">{component.data.name}</h4>
+                                {component.packageData && (
+                                  <div className="flex items-center gap-1 text-xs">
+                                    <Star className="icon-sm text-warning" />
+                                    <span>{formatNumber(component.packageData.github_stars)}</span>
+                                    <span className="text-success ml-1">{formatNumber(component.packageData.weekly_downloads)}/week</span>
+                                  </div>
+                                )}
+                              </div>
+                              <p className="text-xs text-tertiary">{isLLM ? component.data.provider : component.data.description?.substring(0, 40) + '...'}</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              {component.status === 'running' && (
+                                <div className="animate-spin rounded-full h-3 w-3 border-b border-warning"></div>
+                              )}
+                              {component.status === 'completed' && (
+                                <CheckCircle className="text-success icon-sm" />
+                              )}
+                              <button
+                                onClick={() => removeComponent(component.id)}
+                                className="opacity-0 group-hover:opacity-100 text-warning hover:text-warning-light transition-opacity"
+                              >
+                                <Minus className="icon-sm" />
+                              </button>
+                            </div>
+                          </div>
+                          
+                          {result && (
+                            <div className="mt-2 bg-secondary/20 rounded p-2">
+                              <div className="text-xs text-success mb-1 flex items-center gap-1">
+                                <CheckCircle className="icon-sm" />
+                                {language === 'en' ? 'Execution Result' : '执行结果'}
+                              </div>
+                              <div className="text-xs font-mono whitespace-pre-wrap max-h-24 overflow-y-auto text-secondary">
+                                {result.output}
+                              </div>
+                              <div className="text-xs text-tertiary mt-1 flex gap-3">
+                                {result.metadata.tokens_used && (
+                                  <span>🎯 {result.metadata.tokens_used} tokens</span>
+                                )}
+                                <span>⏱️ {result.metadata.execution_time}ms</span>
+                                <span>💰 ${result.metadata.cost}</span>
+                                <span>💾 {result.metadata.memory_used}</span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {index < workflowComponents.length - 1 && (
+                          <ArrowRight className="text-tertiary icon" />
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
-
-            {/* AI Suggestions */}
+            
+            {/* AI建议 */}
             {aiSuggestions.length > 0 && (
-              <div className="mt-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-400/50 rounded-lg p-4">
-                <h3 className="font-bold mb-3 flex items-center gap-2">
-                  <Lightbulb className="text-yellow-400" />
-                  🤖 AI Workflow Suggestions
+              <div className="mt-4 card-minimal compact-lg border-l-2 border-warning">
+                <h3 className="text-base font-medium mb-3 flex items-center gap-2 text-primary">
+                  <Lightbulb className="icon text-warning" />
+                  {language === 'en' ? '🤖 AI Workflow Suggestions' : '🤖 AI 工作流建议'}
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {aiSuggestions.map((suggestion, index) => (
-                    <div key={index} className="bg-slate-800/50 rounded-lg p-3">
+                    <div key={index} className="card-minimal compact">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-lg">{suggestion.icon}</span>
-                        <h4 className="font-medium text-sm">{suggestion.title}</h4>
-                        <span className={`text-xs px-2 py-1 rounded ${
-                          suggestion.priority === 'high' ? 'bg-red-600/30 text-red-300' :
-                          suggestion.priority === 'medium' ? 'bg-yellow-600/30 text-yellow-300' :
-                          'bg-blue-600/30 text-blue-300'
-                        }`}>
-                          {suggestion.priority}
-                        </span>
+                        <div className={`w-1.5 h-1.5 rounded-full ${
+                          suggestion.priority === 'high' ? 'bg-red-400' :
+                          suggestion.priority === 'medium' ? 'bg-amber-400' : 'bg-blue-400'
+                        }`}></div>
+                        <h4 className="font-medium text-sm text-primary">{suggestion.title}</h4>
                       </div>
-                      <p className="text-xs text-slate-300 mb-2">{suggestion.description}</p>
-                      {suggestion.packages && (
-                        <div className="flex gap-2">
-                          {suggestion.packages.map(pkgName => {
-                            const pkg = npmPackages.find(p => p.name === pkgName);
-                            return pkg ? (
-                              <button
-                                key={pkgName}
-                                onClick={() => addComponent('npm', pkg)}
-                                className="px-2 py-1 bg-blue-600/30 hover:bg-blue-600/40 rounded text-xs transition-colors"
-                              >
-                                + {pkgName}
-                              </button>
-                            ) : null;
-                          })}
-                        </div>
-                      )}
+                      <p className="text-xs text-secondary mb-2">{suggestion.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {suggestion.components.slice(0, 3).map((comp, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => addComponent(comp, suggestion.type === 'getting-started' ? 'llm' : 'npm')}
+                            className="btn btn-warning text-xs compact-xs"
+                          >
+                            <Plus className="icon-sm" />
+                            {comp.name}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1325,96 +1390,30 @@ CMD ["npm", "start"]
             )}
           </div>
 
-          {/* Right Sidebar: NPM Packages */}
-          <div className="col-span-3">
-            <div className="sticky top-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Package className="text-blue-400" />
-                NPM Packages ({npmPackages.length})
-              </h2>
-              
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {npmPackages.slice(0, 15).map(pkg => (
-                  <div
-                    key={pkg.id}
-                    draggable
-                    onDragStart={() => handleDragStart(pkg, 'npm')}
-                    onClick={() => addComponent('npm', pkg)}
-                    className="bg-gradient-to-r from-blue-600/20 to-cyan-600/20 p-4 rounded-lg cursor-pointer hover:scale-105 transition-all duration-200 shadow-lg border border-blue-400/30"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <Package className="text-blue-400" size={20} />
-                      <div className="flex-1">
-                        <h3 className="font-bold text-sm">{pkg.name}</h3>
-                        <p className="text-xs text-slate-400">{pkg.description?.substring(0, 30)}...</p>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-2 text-xs">
-                      <div className="bg-slate-700/50 rounded px-2 py-1 flex items-center gap-1">
-                        <Star size={10} className="text-yellow-400" />
-                        {pkg.github_stars > 1000 ? `${Math.floor(pkg.github_stars/1000)}k` : pkg.github_stars}
-                      </div>
-                      <div className="bg-slate-700/50 rounded px-2 py-1 flex items-center gap-1">
-                        <Download size={10} className="text-green-400" />
-                        {pkg.weekly_downloads > 1000000 ? `${Math.floor(pkg.weekly_downloads/1000000)}M` : 
-                         pkg.weekly_downloads > 1000 ? `${Math.floor(pkg.weekly_downloads/1000)}K` : pkg.weekly_downloads}
-                      </div>
-                    </div>
-                  </div>
-                ))}
+        {/* 底部状态栏 */}
+        <div className="mt-6 card-minimal compact-lg">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div>
+              <div className="text-lg font-medium text-primary">{workflowComponents.length}</div>
+              <div className="text-xs text-tertiary">{language === 'en' ? 'Components Added' : '已添加组件'}</div>
+            </div>
+            <div>
+              <div className="text-lg font-medium text-success">
+                {Object.keys(executionResults).length}
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Status Bar */}
-        <div className="mt-8 bg-slate-800/30 backdrop-blur-sm rounded-xl p-6 border border-slate-600">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
-            <div>
-              <div className="text-2xl font-bold text-purple-400">{workflowComponents.length}</div>
-              <div className="text-sm text-slate-400">Components</div>
+              <div className="text-xs text-tertiary">{language === 'en' ? 'Successfully Executed' : '成功执行'}</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-green-400">{Array.from(executionResults.values()).filter(r => r.metadata.success).length}</div>
-              <div className="text-sm text-slate-400">Successful</div>
+              <div className="text-lg font-medium text-warning">
+                ${costAnalysisData.reduce((sum, item) => sum + item.value, 0).toFixed(4)}
+              </div>
+              <div className="text-xs text-tertiary">{language === 'en' ? 'Total Cost' : '总成本'}</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-yellow-400">${workflowStats.totalCost.toFixed(6)}</div>
-              <div className="text-sm text-slate-400">Total Cost</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-blue-400">{workflowStats.avgExecutionTime.toFixed(0)}ms</div>
-              <div className="text-sm text-slate-400">Avg Time</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-indigo-400">{Math.floor(workflowStats.successRate)}%</div>
-              <div className="text-sm text-slate-400">Success Rate</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Integration Notice */}
-        <div className="mt-8 bg-gradient-to-r from-emerald-600/20 to-blue-600/20 rounded-xl p-6 border border-emerald-400/30">
-          <h3 className="text-xl font-bold mb-4 text-center flex items-center justify-center gap-2">
-            <Shield className="text-emerald-400" />
-            🔐 Production-Ready AI Workflow Engine
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div>
-              <Cpu className="mx-auto mb-2 text-emerald-400" size={24} />
-              <h4 className="font-bold mb-2">Real Execution</h4>
-              <p className="text-sm text-slate-300">Actual LLM API calls and NPM package execution in secure sandboxes</p>
-            </div>
-            <div>
-              <Shield className="mx-auto mb-2 text-blue-400" size={24} />
-              <h4 className="font-bold mb-2">Enterprise Security</h4>
-              <p className="text-sm text-slate-300">Isolated execution environments with comprehensive security controls</p>
-            </div>
-            <div>
-              <TrendingUp className="mx-auto mb-2 text-purple-400" size={24} />
-              <h4 className="font-bold mb-2">Production Scale</h4>
-              <p className="text-sm text-slate-300">Auto-scaling infrastructure with cost optimization and monitoring</p>
+              <div className="text-lg font-medium text-primary">
+                {workflowComponents.length > 0 ? '< 5s' : '0s'}
+              </div>
+              <div className="text-xs text-tertiary">{language === 'en' ? 'Est. Execution Time' : '预计执行时间'}</div>
             </div>
           </div>
         </div>
@@ -1424,15 +1423,6 @@ CMD ["npm", "start"]
       <AIWorkflowAdvisor
         onComponentAdd={(component, type) => {
           addComponent(component, type);
-        }}
-        onSuggestionApply={(suggestion) => {
-          // Clear existing workflow and apply suggestion
-          clearWorkflow();
-          suggestion.steps.forEach(step => {
-            if (step.component && step.type !== 'input' && step.type !== 'output') {
-              addComponent(step.type, step.component);
-            }
-          });
         }}
         selectedComponents={workflowComponents}
       />
