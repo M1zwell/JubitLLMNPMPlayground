@@ -6,6 +6,7 @@ import {
   RefreshCw, Play, Plus, Search, Filter,
   ArrowRight, CheckCircle, Clock, Database
 } from 'lucide-react';
+import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 
 const IntegratedPlaygroundHub: React.FC = () => {
   const { state, actions } = usePlayground();
@@ -429,6 +430,20 @@ const IntegratedPlaygroundHub: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* AI Workflow Advisor */}
+      <AIWorkflowAdvisor
+        onComponentAdd={(component, type) => {
+          if (type === 'llm') {
+            actions.selectLLMModel(component);
+            actions.addComponentToWorkflow(component, type);
+          } else {
+            actions.selectNPMPackage(component);
+            actions.addComponentToWorkflow(component, type);
+          }
+        }}
+        selectedComponents={state.workflowComponents}
+      />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as math from 'mathjs';
 import _ from 'lodash';
 import Papa from 'papaparse';
+import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 
 // 模拟 LLM API 调用（实际使用时替换为真实 API）
 const mockLLMCall = async (provider: string, model: string, prompt: string) => {
@@ -576,5 +577,14 @@ export default function WorkflowExecutionPlayground() {
         </div>
       </div>
     </div>
+
+    {/* AI Workflow Advisor */}
+    <AIWorkflowAdvisor
+      onComponentAdd={(component, type) => {
+        // Could integrate with workflow templates if needed
+        console.log('Adding component to workflow demo:', component.name, type);
+      }}
+      selectedComponents={[]}
+    />
   );
 }

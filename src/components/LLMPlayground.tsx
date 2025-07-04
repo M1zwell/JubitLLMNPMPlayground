@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Sparkles, Trophy, DollarSign, Zap, Target, Brain, Crown, Star, TrendingUp, Users, Clock, CheckCircle, AlertCircle, Play, Code, Lightbulb, Cpu, Plus, X, ArrowRight, Save, Download, Upload, Settings, Copy, RotateCcw, Eye, Palette, Grid, MousePointer2, Layers, Box, Shuffle, Award, Gift, Flame, Shield, Globe, RefreshCw, Maximize2, BarChart3, Zap as Lightning, Timer, Coins, Medal, Rocket, Magnet as Magic } from 'lucide-react';
 import { useLLMModels } from '../hooks/useLLMModels';
+import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 import { LLMModel } from '../lib/supabase';
 
 // 俄罗斯方块形状定义（基于模型特性）
@@ -1249,6 +1250,16 @@ const LLMPlayground = () => {
         </div>
       </div>
     </div>
+
+    {/* AI Workflow Advisor */}
+    <AIWorkflowAdvisor
+      onComponentAdd={(component, type) => {
+        if (type === 'llm') {
+          setSelectedModel(component);
+        }
+      }}
+      selectedComponents={selectedModel ? [selectedModel] : []}
+    />
   );
 };
 

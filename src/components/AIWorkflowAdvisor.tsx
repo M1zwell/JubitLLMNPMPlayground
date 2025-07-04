@@ -3,7 +3,7 @@ import {
   MessageCircle, Send, Bot, User, Lightbulb, Zap, 
   Brain, Package, ArrowRight, CheckCircle, X, 
   Sparkles, Target, Clock, TrendingUp, Shield,
-  Code, Database, Cpu, Globe, RefreshCw
+  Code, Database, Cpu, Globe, RefreshCw, Quote, Copy
 } from 'lucide-react';
 import { usePlayground } from '../context/PlaygroundContext';
 import { useLLMModels } from '../hooks/useLLMModels';
@@ -16,6 +16,16 @@ interface ChatMessage {
   timestamp: Date;
   suggestions?: WorkflowSuggestion[];
   components?: ComponentSuggestion[];
+  quotedData?: QuotedData;
+}
+
+interface QuotedData {
+  type: 'llm' | 'npm';
+  name: string;
+  description?: string;
+  provider?: string;
+  version?: string;
+  context: string;
 }
 
 interface WorkflowSuggestion {
@@ -80,7 +90,7 @@ const WORKFLOW_PATTERNS = {
 
 const QUICK_SUGGESTIONS = [
   "I want to analyze CSV data and get insights",
-  "Help me build a chatbot workflow",
+  "Help me build a chatbot workflow", 
   "I need to validate and process user input",
   "Create a workflow for image processing",
   "Build an API integration pipeline",
@@ -94,13 +104,67 @@ interface AIWorkflowAdvisorProps {
   onComponentAdd?: (component: any, type: 'llm' | 'npm') => void;
   selectedComponents?: any[];
   className?: string;
+  onQuoteHover?: (data: QuotedData) => void;
+}
+
+// 全局事件管理器用于处理 hover 和 clipboard 事件
+class AIAdvisorEventManager {
+  private static instance: AIAdvisorEventManager;
+  private quotedData: QuotedData | null = null;
+  private clipboardText: string = '';
+  private advisorCallback: ((data: QuotedData | null, clipText?: string) => void) | null = null;
+
+  static getInstance() {
+    if (!AIAdvisorEventManager.instance) {
+      AIAdvisorEventManager.instance = new AIAdvisorEventManager();
+    }
+    return AIAdvisorEventManager.instance;
+  }
+
+  setAdvisorCallback(callback: (data: QuotedData | null, clipText?: string) => void) {
+    this.advisorCallback = callback;
+  }
+
+  setQuotedData(data: QuotedData | null) {
+    this.quotedData = data;
+    this.advisorCallback?.(data);
+  }
+
+  handleCopy(text: string) {
+    this.clipboardText = text;
+    this.advisorCallback?.(null, text);
+  }
+
+  getQuotedData() {
+    return this.quotedData;
+  }
+
+  getClipboardText() {
+    return this.clipboardText;
+  }
+}
+
+// 添加全局 copy 事件监听
+if (typeof window !== 'undefined') {
+  document.addEventListener('copy', () => {
+    setTimeout(() => {
+      navigator.clipboard.readText().then(text => {
+        if (text && text.length > 0 && text.length < 1000) {
+          AIAdvisorEventManager.getInstance().handleCopy(text);
+        }
+      }).catch(() => {
+        // 忽略剪贴板权限错误
+      });
+    }, 100);
+  });
 }
 
 const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({ 
   onSuggestionApply, 
   onComponentAdd,
   selectedComponents = [],
-  className = ''
+  className = '',
+  onQuoteHover
 }) => {
   const { state, actions } = usePlayground();
   const { models: llmModels } = useLLMModels();
@@ -110,7 +174,42 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [hoveredData, setHoveredData] = useState<QuotedData | null>(null);
+  const [showQuotePreview, setShowQuotePreview] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const eventManager = AIAdvisorEventManager.getInstance();
+
+  // 设置事件管理器回调
+  useEffect(() => {
+    eventManager.setAdvisorCallback((quotedData, clipText) => {
+      if (quotedData) {
+        setHoveredData(quotedData);
+        setShowQuotePreview(true);
+        
+        // 如果 AI Advisor 没有打开，显示一个小提示
+        if (!isOpen) {
+          setTimeout(() => {
+            setShowQuotePreview(false);
+          }, 3000);
+        }
+      }
+      
+      if (clipText && clipText.trim()) {
+        // 如果检测到剪贴板内容，自动打开 AI Advisor 并填入内容
+        setIsOpen(true);
+        setInputValue(clipText.trim());
+        
+        // 添加一个提示消息
+        const clipboardMessage: ChatMessage = {
+          id: Date.now().toString(),
+          type: 'assistant',
+          content: `📋 I noticed you copied some text! I've pre-filled it for you. Feel free to ask me anything about this content or how to use it in a workflow.`,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, clipboardMessage]);
+      }
+    });
+  }, [isOpen]);
 
   // Initialize with welcome message
   useEffect(() => {
@@ -118,7 +217,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
       const welcomeMessage: ChatMessage = {
         id: 'welcome',
         type: 'assistant',
-        content: "👋 Hi! I'm your AI Workflow Advisor. I can help you build powerful workflows by suggesting the perfect combination of LLM models and NPM packages.\n\nWhat would you like to build today?",
+        content: "👋 Hi! I'm your AI Workflow Advisor. I can help you:\n\n🔍 **Quote & Explain**: Hover over any LLM model or NPM package to get instant explanations\n📋 **Smart Input**: Copy any text and I'll automatically detect it for workflow suggestions\n🛠️ **Build Workflows**: Ask me to create custom workflows combining LLM models and NPM packages\n\nWhat would you like to build today?",
         timestamp: new Date(),
         suggestions: generateQuickStartSuggestions()
       };
@@ -383,12 +482,15 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
       id: Date.now().toString(),
       type: 'user',
       content: inputValue,
-      timestamp: new Date()
+      timestamp: new Date(),
+      quotedData: hoveredData || undefined
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsTyping(true);
+    setHoveredData(null);
+    setShowQuotePreview(false);
 
     // Simulate AI processing time
     setTimeout(() => {
@@ -398,7 +500,17 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
 
       let responseContent = '';
       
-      if (pattern !== 'general') {
+      if (userMessage.quotedData) {
+        responseContent = `I see you're asking about **${userMessage.quotedData.name}** (${userMessage.quotedData.type.toUpperCase()})!\n\n`;
+        
+        if (userMessage.quotedData.type === 'llm') {
+          responseContent += `This is a ${userMessage.quotedData.provider} language model. ${userMessage.quotedData.description || 'It\'s great for AI-powered text processing and analysis.'}\n\n`;
+        } else {
+          responseContent += `This NPM package ${userMessage.quotedData.description || 'provides useful functionality for data processing'}. Version: ${userMessage.quotedData.version}\n\n`;
+        }
+        
+        responseContent += `Based on your question about ${userMessage.quotedData.name}, here are some workflow suggestions:`;
+      } else if (pattern !== 'general') {
         responseContent = `I understand you want to work with ${pattern.replace('-', ' ')}! Based on your request, I've analyzed the best approach and prepared some tailored workflow suggestions.\n\nHere are optimized workflows that combine the most suitable LLM models and NPM packages:`;
       } else {
         responseContent = `I can help you build a custom workflow! Based on your request, I've identified some components that would work well together.\n\nLet me suggest some approaches:`;
@@ -421,7 +533,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
   // Handle quick suggestion clicks
   const handleQuickSuggestion = (suggestion: string) => {
     setInputValue(suggestion);
-    handleSendMessage();
+    setTimeout(() => handleSendMessage(), 100);
   };
 
   // Apply workflow suggestion
@@ -462,8 +574,41 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
     setMessages(prev => [...prev, confirmationMessage]);
   };
 
+  // Handle quote data from hover
+  const handleQuoteData = (data: QuotedData) => {
+    setHoveredData(data);
+    setInputValue(`Tell me about ${data.name} and how I can use it in a workflow.`);
+    setIsOpen(true);
+  };
+
   return (
     <div className={`${className}`}>
+      {/* Quote Preview (shows when hovering over components) */}
+      {showQuotePreview && hoveredData && !isOpen && (
+        <div className="fixed bottom-20 right-6 w-80 bg-slate-800 border border-slate-600 rounded-lg shadow-xl p-4 z-40 animate-slide-up">
+          <div className="flex items-start gap-3 mb-3">
+            {hoveredData.type === 'llm' ? <Brain size={20} className="text-purple-400 mt-1" /> : <Package size={20} className="text-blue-400 mt-1" />}
+            <div>
+              <h4 className="font-bold text-white">{hoveredData.name}</h4>
+              <p className="text-xs text-slate-400">{hoveredData.type === 'llm' ? hoveredData.provider : `v${hoveredData.version}`}</p>
+            </div>
+            <Quote size={16} className="text-green-400" />
+          </div>
+          
+          <p className="text-sm text-slate-300 mb-3">
+            {hoveredData.description || 'Click to get AI explanations and workflow suggestions'}
+          </p>
+          
+          <button
+            onClick={() => handleQuoteData(hoveredData)}
+            className="w-full bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded text-sm transition-colors flex items-center justify-center gap-2"
+          >
+            <Bot size={16} />
+            Ask AI About This
+          </button>
+        </div>
+      )}
+
       {/* Toggle Button */}
       {!isOpen && (
         <button
@@ -491,12 +636,20 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
                 <p className="text-xs text-white/80">Smart LLM & NPM suggestions</p>
               </div>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-white/80 hover:text-white p-1 rounded"
-            >
-              <X size={20} />
-            </button>
+            <div className="flex items-center gap-2">
+              {hoveredData && (
+                <div className="flex items-center gap-1 bg-white/20 rounded px-2 py-1">
+                  <Quote size={12} className="text-green-300" />
+                  <span className="text-xs text-white">{hoveredData.name}</span>
+                </div>
+              )}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-white/80 hover:text-white p-1 rounded"
+              >
+                <X size={20} />
+              </button>
+            </div>
           </div>
 
           {/* Messages */}
@@ -512,6 +665,18 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
                     )}
                     <div className="text-sm whitespace-pre-wrap">{message.content}</div>
                   </div>
+
+                  {/* Quote data display */}
+                  {message.quotedData && (
+                    <div className="mt-2 bg-slate-600/50 rounded-lg p-2 border-l-2 border-green-400">
+                      <div className="flex items-center gap-2 mb-1">
+                        {message.quotedData.type === 'llm' ? <Brain size={12} className="text-purple-400" /> : <Package size={12} className="text-blue-400" />}
+                        <span className="text-xs font-medium text-white">{message.quotedData.name}</span>
+                        <span className="text-xs text-slate-400">({message.quotedData.type})</span>
+                      </div>
+                      <p className="text-xs text-slate-300">{message.quotedData.description}</p>
+                    </div>
+                  )}
 
                   {/* Workflow Suggestions */}
                   {message.suggestions && (
@@ -635,6 +800,19 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
 
           {/* Input */}
           <div className="p-4 border-t border-slate-600">
+            {hoveredData && (
+              <div className="mb-2 bg-slate-700/50 rounded p-2 flex items-center gap-2">
+                <Quote size={14} className="text-green-400" />
+                <span className="text-xs text-slate-300">Quoting: {hoveredData.name}</span>
+                <button
+                  onClick={() => setHoveredData(null)}
+                  className="text-slate-400 hover:text-white"
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            )}
+            
             <div className="flex gap-2">
               <input
                 type="text"
@@ -659,4 +837,6 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
   );
 };
 
+// 导出事件管理器供其他组件使用
+export { AIAdvisorEventManager };
 export default AIWorkflowAdvisor;

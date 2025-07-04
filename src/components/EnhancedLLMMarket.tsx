@@ -4,6 +4,7 @@ import { useLLMModels } from '../hooks/useLLMModels';
 import { LLMModel } from '../lib/supabase';
 import LLMUpdateManager from './LLMUpdateManager';
 import { usePlayground } from '../context/PlaygroundContext';
+import AIWorkflowAdvisor, { AIAdvisorEventManager } from './AIWorkflowAdvisor';
 
 const CATEGORIES = {
   all: { name: 'All Models', icon: Globe, color: 'text-gray-400' },
@@ -374,6 +375,22 @@ const EnhancedLLMMarket = () => {
           <div
             key={model.id}
             onClick={() => setSelectedModel(selectedModel?.id === model.id ? null : model)}
+            onMouseEnter={() => {
+              const eventManager = AIAdvisorEventManager.getInstance();
+              eventManager.setQuotedData({
+                type: 'llm',
+                name: model.name,
+                description: model.description || `A ${model.provider} language model specialized in ${model.category}`,
+                provider: model.provider,
+                context: `LLM Model - Quality: ${model.quality_index || 'N/A'}, Speed: ${model.output_speed.toFixed(1)} tok/s, Price: $${model.output_price}/1M tokens`
+              });
+            }}
+            onMouseLeave={() => {
+              setTimeout(() => {
+                const eventManager = AIAdvisorEventManager.getInstance();
+                eventManager.setQuotedData(null);
+              }, 500);
+            }}
             className={`
               bg-gradient-to-r ${getRarityColor(model.rarity)}
               p-5 rounded-xl cursor-pointer transform hover:scale-105 
@@ -743,6 +760,17 @@ const EnhancedLLMMarket = () => {
           Quality indices based on comprehensive benchmarks • Pricing per million tokens • Performance measured in real-world conditions
         </div>
       </div>
+
+      {/* AI Workflow Advisor */}
+      <AIWorkflowAdvisor
+        onComponentAdd={(component, type) => {
+          if (type === 'llm') {
+            actions.selectLLMModel(component);
+            actions.addComponentToWorkflow(component, type);
+          }
+        }}
+        selectedComponents={[]}
+      />
     </div>
   );
 };

@@ -13,6 +13,7 @@ import { useNPMPackages } from '../hooks/useNPMPackages';
 import { LLMModel, NPMPackage } from '../lib/supabase';
 import WorkflowVisualization from './WorkflowVisualization';
 
+import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 // ========== 核心类型定义 ==========
 interface LLMProvider {
   id: string;
@@ -1437,6 +1438,23 @@ CMD ["npm", "start"]
         selectedComponents={workflowComponents}
       />
     </div>
+
+    {/* AI Workflow Advisor */}
+    <AIWorkflowAdvisor
+      onComponentAdd={(component, type) => {
+        addComponent(component, type);
+      }}
+      onSuggestionApply={(suggestion) => {
+        // Clear existing workflow and apply suggestion
+        setWorkflowComponents([]);
+        suggestion.steps.forEach(step => {
+          if (step.component && step.type !== 'input' && step.type !== 'output') {
+            addComponent(step.component, step.type);
+          }
+        });
+      }}
+      selectedComponents={workflowComponents}
+    />
   );
 };
 

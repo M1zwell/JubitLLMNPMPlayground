@@ -9,7 +9,7 @@ import {
 import { useNPMPackages, useNPMCategories, importNPMPackages } from '../hooks/useNPMPackages';
 import { NPMPackage } from '../lib/supabase';
 import { usePlayground } from '../context/PlaygroundContext';
-import AIWorkflowAdvisor from './AIWorkflowAdvisor';
+import AIWorkflowAdvisor, { AIAdvisorEventManager } from './AIWorkflowAdvisor';
 
 const CATEGORIES = {
   all: { name: 'All Packages', icon: Package, color: 'text-gray-400' },
@@ -273,6 +273,22 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           <div
             key={pkg.id}
             onClick={() => setSelectedPackage(selectedPackage?.id === pkg.id ? null : pkg)}
+            onMouseEnter={() => {
+              const eventManager = AIAdvisorEventManager.getInstance();
+              eventManager.setQuotedData({
+                type: 'npm',
+                name: pkg.name,
+                description: pkg.description || 'A useful NPM package for your projects',
+                version: pkg.version,
+                context: `NPM Package - Downloads: ${formatNumber(pkg.weekly_downloads)}/week, Stars: ${formatNumber(pkg.github_stars)}, Quality: ${pkg.quality_score}`
+              });
+            }}
+            onMouseLeave={() => {
+              setTimeout(() => {
+                const eventManager = AIAdvisorEventManager.getInstance();
+                eventManager.setQuotedData(null);
+              }, 500);
+            }}
             className={`
               bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 cursor-pointer 
               transform hover:scale-105 transition-all duration-300 shadow-lg
