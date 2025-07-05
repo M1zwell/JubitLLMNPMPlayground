@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useNPMPackages, useNPMCategories, importNPMPackages } from '../hooks/useNPMPackages';
 import { NPMPackage } from '../lib/supabase';
+import NPMImportTool from './NPMImportTool';
 import { usePlayground } from '../context/PlaygroundContext';
 import AIWorkflowAdvisor, { AIAdvisorEventManager } from './AIWorkflowAdvisor';
 
@@ -263,13 +264,13 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
             ))}
           </select>
 
-          {/* Sort Direction */}
-          <button
-            onClick={() => setSortDesc(!sortDesc)}
-            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-sm"
-          >
-            {sortDesc ? '↓' : '↑'} {sortDesc ? 'Desc' : 'Asc'}
-          </button>
+           <button
+             onClick={refetch}
+             className="btn-minimal btn-secondary"
+           >
+             <RefreshCw size={14} />
+             Refresh
+           </button>
         </div>
       </div>
 
@@ -541,11 +542,19 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
       {/* Import Modal */}
       {showImportModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-xl max-w-md w-full border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-900 rounded-xl max-w-3xl w-full border border-gray-200 dark:border-gray-700">
             <div className="p-6">
               <h3 className="text-heading mb-4">Import NPM Packages</h3>
               
-              {importing ? (
+              <div className="flex justify-between">
+                <NPMImportTool onComplete={() => {
+                  refetch();
+                  setTimeout(() => setShowImportModal(false), 3000);
+                }} />
+              </div>
+              
+              {/* Legacy importing UI - can be removed once NPMImportTool is confirmed working */}
+              {false && importing ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-4"></div>
                   <p className="text-body-sm">{importStatus}</p>
@@ -553,52 +562,8 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
               ) : (
                 <div className="space-y-3">
                   <button
-                    onClick={() => handleImport({ 
-                      searchQuery: 'keywords:frontend OR keywords:react OR keywords:vue OR keywords:angular OR keywords:ui OR keywords:component OR keywords:browser', 
-                      limit: 100, 
-                      pages: 1 
-                    })}
-                    className="w-full btn-minimal btn-primary"
-                  >
-                    🌐 Import Front-end Packages (1 page)
-                  </button>
-                  
-                  <button
-                    onClick={() => handleImport({ 
-                      searchQuery: 'keywords:backend OR keywords:express OR keywords:server OR keywords:api OR keywords:framework OR keywords:nodejs OR keywords:web', 
-                      limit: 100, 
-                      pages: 1 
-                    })}
-                    className="w-full btn-minimal btn-primary"
-                  >
-                    ⚙️ Import Back-end Packages (1 page)
-                  </button>
-                  
-                  <button
-                    onClick={() => handleImport({ 
-                      searchQuery: 'keywords:cli OR keywords:command OR keywords:terminal OR keywords:tool OR keywords:bin OR keywords:console', 
-                      limit: 80, 
-                      pages: 1 
-                    })}
-                    className="w-full btn-minimal btn-primary"
-                  >
-                    💻 Import CLI Tools (1 page)
-                  </button>
-                  
-                  <button
-                    onClick={() => handleImport({ 
-                      searchQuery: 'keywords:testing OR keywords:test OR keywords:jest OR keywords:mocha OR keywords:spec OR keywords:e2e OR keywords:unit', 
-                      limit: 70, 
-                      pages: 1 
-                    })}
-                    className="w-full btn-minimal btn-primary"
-                  >
-                    🧪 Import Testing Packages (1 page)
-                  </button>
-                  
-                  <button
                     onClick={() => setShowImportModal(false)}
-                    className="w-full btn-minimal btn-secondary"
+                    className="w-full btn-minimal btn-secondary mt-4"
                   >
                     Cancel
                   </button>
