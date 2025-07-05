@@ -90,88 +90,103 @@ function categorizePackage(packageData: NPMSearchResult): string[] {
   // Front-end detection
   if (keywords.some(k => ['react', 'vue', 'angular', 'svelte', 'frontend', 'front-end', 'ui', 'component', 'browser', 'dom', 'client-side'].includes(k.toLowerCase())) ||
       name.includes('react') || name.includes('vue') || name.includes('angular') || name.includes('svelte') ||
-      description.includes('component') || description.includes('frontend') || description.includes('front-end')) {
+      description.includes('component') || description.includes('frontend') || description.includes('front-end') ||
+      description.includes('ui library') || description.includes('web components')) {
     categories.push('front-end');
   }
   
   // Back-end detection
   if (keywords.some(k => ['express', 'koa', 'fastify', 'hapi', 'server', 'backend', 'back-end', 'api', 'node', 'server-side'].includes(k.toLowerCase())) ||
       name.includes('express') || name.includes('server') || name.includes('fastify') ||
-      description.includes('server') || description.includes('backend') || description.includes('back-end')) {
+      description.includes('server') || description.includes('backend') || description.includes('back-end') ||
+      description.includes('api framework') || description.includes('middleware') || description.includes('node.js')) {
     categories.push('back-end');
   }
   
   // CLI tools detection
-  if (keywords.some(k => ['cli', 'command', 'terminal', 'bin', 'command-line', 'console'].includes(k.toLowerCase())) ||
-      description.includes('command line') || description.includes('cli') || name.includes('cli')) {
+  if (keywords.some(k => ['cli', 'command', 'terminal', 'bin', 'command-line', 'console', 'shell', 'bash', 'prompt'].includes(k.toLowerCase())) ||
+      description.includes('command line') || description.includes('cli') || name.includes('cli') ||
+      description.includes('terminal') || description.includes('command-line interface')) {
     categories.push('cli-tools');
   }
   
   // Testing detection
-  if (keywords.some(k => ['test', 'testing', 'jest', 'mocha', 'jasmine', 'karma', 'ava'].includes(k.toLowerCase())) ||
+  if (keywords.some(k => ['test', 'testing', 'jest', 'mocha', 'jasmine', 'karma', 'ava', 'chai', 'assertion', 'tdd', 'bdd'].includes(k.toLowerCase())) ||
       name.includes('test') || name.includes('jest') || name.includes('mocha') ||
-      description.includes('test') || description.includes('testing')) {
+      description.includes('test') || description.includes('testing') ||
+      description.includes('assertion') || description.includes('unit test') ||
+      description.includes('end-to-end') || description.includes('e2e')) {
     categories.push('testing');
   }
   
   // CSS and styling detection
-  if (keywords.some(k => ['css', 'style', 'scss', 'sass', 'less', 'styling', 'stylesheet'].includes(k.toLowerCase())) ||
+  if (keywords.some(k => ['css', 'style', 'scss', 'sass', 'less', 'styling', 'stylesheet', 'tailwind', 'postcss', 'bootstrap'].includes(k.toLowerCase())) ||
       name.includes('css') || name.includes('sass') || name.includes('style') ||
-      description.includes('style') || description.includes('css')) {
+      description.includes('style') || description.includes('css') ||
+      description.includes('stylesheet') || description.includes('styling') ||
+      description.includes('design system') || description.includes('ui kit')) {
     categories.push('css-styling');
   }
   
   // Documentation detection
-  if (keywords.some(k => ['documentation', 'docs', 'doc', 'docgen', 'jsdoc'].includes(k.toLowerCase())) ||
-      description.includes('documentation') || description.includes('docs') ||
-      name.includes('doc')) {
+  if (keywords.some(k => ['documentation', 'docs', 'doc', 'docgen', 'jsdoc', 'markdown', 'readme', 'api-docs'].includes(k.toLowerCase())) ||
+      description.includes('documentation') || description.includes('docs generator') ||
+      name.includes('doc') || description.includes('document generation') ||
+      description.includes('api documentation')) {
     categories.push('documentation');
   }
   
   // IoT detection
-  if (keywords.some(k => ['iot', 'arduino', 'raspberry-pi', 'hardware', 'sensor', 'embedded'].includes(k.toLowerCase())) ||
-      description.includes('iot') || description.includes('hardware') || description.includes('arduino')) {
+  if (keywords.some(k => ['iot', 'arduino', 'raspberry-pi', 'hardware', 'sensor', 'embedded', 'gpio', 'robotics', 'robot'].includes(k.toLowerCase())) ||
+      description.includes('iot') || description.includes('hardware') || description.includes('arduino') ||
+      description.includes('internet of things') || description.includes('raspberry pi') ||
+      description.includes('embedded') || description.includes('sensors')) {
     categories.push('iot');
   }
   
   // Coverage detection
-  if (keywords.some(k => ['coverage', 'codecov', 'coveralls', 'istanbul', 'nyc'].includes(k.toLowerCase())) ||
-      description.includes('coverage') || name.includes('coverage')) {
+  if (keywords.some(k => ['coverage', 'codecov', 'coveralls', 'istanbul', 'nyc', 'test-coverage', 'code-coverage'].includes(k.toLowerCase())) ||
+      description.includes('coverage') || name.includes('coverage') ||
+      description.includes('test coverage') || description.includes('code coverage')) {
     categories.push('coverage');
   }
   
   // Mobile detection
-  if (keywords.some(k => ['mobile', 'react-native', 'ionic', 'cordova', 'phonegap'].includes(k.toLowerCase())) ||
+  if (keywords.some(k => ['mobile', 'react-native', 'ionic', 'cordova', 'phonegap', 'ios', 'android', 'expo'].includes(k.toLowerCase())) ||
       description.includes('mobile') || description.includes('react native') ||
-      name.includes('mobile') || name.includes('react-native')) {
+      name.includes('mobile') || name.includes('react-native') ||
+      description.includes('android') || description.includes('ios') ||
+      description.includes('cross-platform') || description.includes('app development')) {
     categories.push('mobile');
   }
   
   // Frameworks detection
-  if (keywords.some(k => ['framework', 'next', 'nextjs', 'nuxt', 'gatsby', 'remix'].includes(k.toLowerCase())) ||
-      description.includes('framework') ||
-      name.includes('next') || name.includes('nuxt') || name.includes('gatsby')) {
+  if (keywords.some(k => ['framework', 'next', 'nextjs', 'nuxt', 'gatsby', 'remix', 'angular', 'vue', 'react', 'svelte', 'meteor'].includes(k.toLowerCase())) ||
+      description.includes('framework') || description.includes('fullstack') ||
+      name.includes('next') || name.includes('nuxt') || name.includes('gatsby') ||
+      description.includes('application framework') || description.includes('full-stack framework')) {
     categories.push('frameworks');
   }
   
   // Robotics detection
-  if (keywords.some(k => ['robotics', 'robot', 'automation', 'johnny-five', 'firmata'].includes(k.toLowerCase())) ||
-      description.includes('robotics') || description.includes('robot') ||
-      name.includes('robot') || name.includes('johnny-five')) {
+  if (keywords.some(k => ['robotics', 'robot', 'automation', 'johnny-five', 'firmata', 'ros', 'drone', 'servo'].includes(k.toLowerCase())) ||
+      description.includes('robotics') || description.includes('robot control') ||
+      name.includes('robot') || name.includes('johnny-five') ||
+      description.includes('automation') || description.includes('controller')) {
     categories.push('robotics');
   }
   
   // Math detection
-  if (keywords.some(k => ['math', 'mathematics', 'algorithm', 'calculation', 'numeric'].includes(k.toLowerCase())) ||
-      description.includes('math') || description.includes('calculation') ||
-      name.includes('math') || name.includes('calc')) {
+  if (keywords.some(k => ['math', 'mathematics', 'algorithm', 'calculation', 'numeric', 'statistics', 'algebra', 'calculus', 'matrix'].includes(k.toLowerCase())) ||
+      description.includes('math') || description.includes('calculation') || description.includes('formula') ||
+      name.includes('math') || name.includes('calc') || name.includes('compute') ||
+      description.includes('mathematical') || description.includes('computation') ||
+      description.includes('algorithm') || description.includes('numeric')) {
     categories.push('math');
   }
   
-  // Always include 'all-packages' category
-  if (!categories.includes('all-packages')) {
-    categories.push('all-packages');
-  }
+  // Always include all-packages category
+  categories.push('all-packages');
   
   return categories;
 }

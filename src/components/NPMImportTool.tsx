@@ -31,7 +31,7 @@ const IMPORT_PRESETS: ImportPreset[] = [
     query: 'keywords:css OR keywords:styling OR keywords:postcss OR keywords:sass OR keywords:less OR keywords:stylesheet OR keywords:tailwind',
     description: 'CSS processors, design systems, and styling utilities',
     icon: <span className="text-pink-500">🎨</span>,
-    limit: 200
+    limit: 250
   },
   {
     name: 'Math',
@@ -53,6 +53,41 @@ const IMPORT_PRESETS: ImportPreset[] = [
     description: 'Node.js server frameworks and middleware',
     icon: <span className="text-green-500">⚙️</span>,
     limit: 150
+  },
+  {
+    name: 'Most Popular',
+    query: 'keywords:popular',
+    description: 'Most downloaded and starred packages across all categories',
+    icon: <span className="text-amber-500">⭐</span>,
+    limit: 200
+  },
+  {
+    name: 'CLI Tools',
+    query: 'keywords:cli OR keywords:command-line OR keywords:terminal OR keywords:shell OR keywords:console',
+    description: 'Command-line interfaces and terminal tools',
+    icon: <span className="text-gray-500">💻</span>,
+    limit: 150
+  },
+  {
+    name: 'Mobile',
+    query: 'keywords:mobile OR keywords:react-native OR keywords:ionic OR keywords:cordova OR keywords:ios OR keywords:android',
+    description: 'Mobile app development tools and frameworks',
+    icon: <span className="text-purple-500">📱</span>,
+    limit: 150
+  },
+  {
+    name: 'IoT & Robotics',
+    query: 'keywords:iot OR keywords:robotics OR keywords:arduino OR keywords:raspberry-pi OR keywords:hardware OR keywords:sensor',
+    description: 'Internet of Things and robotics development tools',
+    icon: <span className="text-emerald-500">🤖</span>,
+    limit: 100
+  },
+  {
+    name: 'Documentation',
+    query: 'keywords:documentation OR keywords:docs OR keywords:jsdoc OR keywords:docgen OR keywords:readme',
+    description: 'Documentation generation and management tools',
+    icon: <span className="text-orange-500">📚</span>,
+    limit: 100
   },
   {
     name: 'Testing Utilities',
