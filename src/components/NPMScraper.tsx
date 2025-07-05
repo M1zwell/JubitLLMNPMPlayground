@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  Package, Search, Spider, Download, Archive, RefreshCw, 
-  AlertCircle, CheckCircle, X, Layers, Database, Clock, 
-  Server, Globe, Code, FileCode, Users, Zap, Loader
-} from 'lucide-react';
+import { Package, Search, Sliders as Spider, Download, Archive, RefreshCw, AlertCircle, CheckCircle, X, Layers, Database, Clock, Server, Globe, Code, FileCode, Users, Zap, Loader } from 'lucide-react';
 import { supabaseUrlForLogging } from '../lib/supabase';
 
 interface ScraperState {
