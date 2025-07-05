@@ -11,6 +11,7 @@ import { NPMPackage } from '../lib/supabase';
 import NPMImportTool from './NPMImportTool';
 import { usePlayground } from '../context/PlaygroundContext';
 import AIWorkflowAdvisor, { AIAdvisorEventManager } from './AIWorkflowAdvisor';
+import NPMImportModal from './NPMImportModal';
 
 const CATEGORIES = {
   'all-packages': { name: 'All Packages', icon: Package, color: 'text-gray-500' },
@@ -48,8 +49,6 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
   const [sortBy, setSortBy] = useState('downloads');
   const [sortDesc, setSortDesc] = useState(true);
   const [showImportModal, setShowImportModal] = useState(false);
-  const [importing, setImporting] = useState(false);
-  const [importStatus, setImportStatus] = useState<string | null>(null);
 
   const { packages, loading, error, refetch } = useNPMPackages({
     category: selectedCategory,
@@ -108,43 +107,6 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
     }
   };
 
-  const handleImport = async (importData: {
-    searchQuery?: string;
-    categories?: string[];
-    limit?: number;
-    pages?: number;
-    sortBy?: string;
-  }) => {
-    try {
-      setImporting(true);
-      const searchTerm = importData.searchQuery || 'packages';
-      const pages = importData.pages || 1;
-      setImportStatus(`🔍 Searching NPM registry for ${searchTerm} across ${pages} pages...`);
-      
-      console.log(`Starting NPM import for "${searchTerm}" (${pages} pages)`);
-      
-      const result = await importNPMPackages({
-        ...importData,
-        importType: 'manual'
-      });
-      
-      setImportStatus(`✅ Import completed! Added ${result.packagesAdded} new packages, updated ${result.packagesUpdated} existing packages (${result.packagesProcessed} total processed)`);
-      
-      // Refresh the package list
-      console.log('Import completed, refreshing package list...');
-      setTimeout(() => {
-        refetch();
-        setShowImportModal(false);
-        setImporting(false);
-        setImportStatus(null);
-      }, 2000);
-      
-    } catch (error) {
-      console.error('Import error:', error);
-      setImportStatus(`❌ Import failed: ${error.message}`);
-      setImporting(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -539,40 +501,12 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
         </div>
       )}
 
-      {/* Import Modal */}
-      {showImportModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-xl max-w-3xl w-full border border-gray-200 dark:border-gray-700">
-            <div className="p-6">
-              <h3 className="text-heading mb-4">Import NPM Packages</h3>
-              
-              <div className="flex justify-between">
-                <NPMImportTool onComplete={() => {
-                  refetch();
-                  setTimeout(() => setShowImportModal(false), 3000);
-                }} />
-              </div>
-              
-              {/* Legacy importing UI - can be removed once NPMImportTool is confirmed working */}
-              {false && importing ? (
-                <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-4"></div>
-                  <p className="text-body-sm">{importStatus}</p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <button
-                    onClick={() => setShowImportModal(false)}
-                    className="w-full btn-minimal btn-secondary mt-4"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Import Modal - New Component */}
+      <NPMImportModal 
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onComplete={() => refetch()}
+      />
 
       {/* AI Workflow Advisor */}
       <AIWorkflowAdvisor
