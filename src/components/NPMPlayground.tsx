@@ -220,7 +220,7 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
   // Generate atomic info for packages not in mapping
   const generateAtomicInfo = (pkg: NPMPackage) => {
     const keywords = pkg.keywords.join(' ').toLowerCase();
-    const description = (pkg.description || '').toLowerCase();
+    const description = (pkg.description || 'NPM package').toLowerCase();
     
     let category = 'data-serialization';
     let icon = '📦';
@@ -273,9 +273,9 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
   }, [initialPackage]);
 
   // Filter market packages for atomic functions
-  const atomicPackages = marketPackages.filter(pkg => 
-    ATOMIC_FUNCTION_MAPPING[pkg.name] || 
-    pkg.keywords.some(k => ['parse', 'extract', 'convert', 'validate', 'encrypt', 'hash', 'resize', 'compress'].includes(k.toLowerCase()))
+  const atomicPackages = marketPackages.filter(pkg =>
+    ATOMIC_FUNCTION_MAPPING[pkg.name] ||
+    pkg.keywords.some(k => ['parse', 'extract', 'convert', 'validate', 'encrypt', 'hash', 'resize', 'compress', 'format', 'transform'].includes(k.toLowerCase()))
   ).map(pkg => ({
     ...pkg,
     atomicInfo: ATOMIC_FUNCTION_MAPPING[pkg.name] || generateAtomicInfo(pkg)

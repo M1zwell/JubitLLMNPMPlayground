@@ -79,7 +79,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
     const total = filteredPackages.length;
     const totalDownloads = filteredPackages.reduce((sum, pkg) => sum + pkg.weekly_downloads, 0);
     const avgQuality = total > 0 ? filteredPackages.reduce((sum, pkg) => sum + pkg.quality_score, 0) / total : 0;
-    const withTypeScript = filteredPackages.filter(pkg => pkg.typescript_support).length;
+    const withTypeScript = filteredPackages.filter(pkg => pkg.typescript_support).length || 0;
     
     return { total, totalDownloads, avgQuality, withTypeScript };
   }, [filteredPackages]);
@@ -246,7 +246,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+            className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
           >
             {Object.entries(CATEGORIES).map(([key, category]) => (
               <option key={key} value={key}>{category.name}</option>
@@ -257,7 +257,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+            className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
           >
             {SORT_OPTIONS.map(option => (
               <option key={option.value} value={option.value}>{option.label}</option>

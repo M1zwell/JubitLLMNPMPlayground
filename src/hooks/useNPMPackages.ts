@@ -39,12 +39,14 @@ export function useNPMPackages(filters?: {
         .limit(filters?.limit || 1000) // Ensure we get all packages
 
       // Apply filters
-      if (filters?.category && filters.category !== 'all') {
-        query = query.contains('categories', [filters.category])
+      if (filters?.category && filters.category !== 'all-packages') {
+        query = query.contains('categories', [filters.category]);
+        console.log(`Filtering by category: ${filters.category}`);
       }
 
       if (filters?.search) {
         query = query.or(`name.ilike.%${filters.search}%,description.ilike.%${filters.search}%`)
+        console.log(`Searching for: ${filters.search}`);
       }
 
       // Apply sorting
