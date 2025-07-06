@@ -5,41 +5,41 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 // Debug environment variables
 console.log('Supabase configuration:', {
-  url: supabaseUrl ? 'Configured' : 'Missing - click "Connect to Supabase" to configure',
-  key: supabaseAnonKey ? 'Configured' : 'Missing - click "Connect to Supabase" to configure'
+  url: supabaseUrl ? `Configured (${supabaseUrl.substring(0, 30)}...)` : 'Missing - click "Connect to Supabase" to configure',
+  key: supabaseAnonKey ? `Configured (${supabaseAnonKey.substring(0, 20)}...)` : 'Missing - click "Connect to Supabase" to configure'
 })
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables:', {
-    url: !!supabaseUrl,
-    key: !!supabaseAnonKey
+    url: supabaseUrl || 'MISSING',
+    key: supabaseAnonKey ? 'PRESENT' : 'MISSING'
   })
   console.warn('🔧 Supabase not configured - Click "Connect to Supabase" in the top right to enable database features')
 }
 
 // Only create Supabase client if environment variables are present
-export const supabase = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey, {
+export const supabase = (() => {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Supabase client not created - missing environment variables');
+    return null;
+  }
+  
+  try {
+    const client = createClient(supabaseUrl, supabaseAnonKey, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true
-      },
-      global: {
-        fetch: (url, options = {}) => {
-          // Add better error handling for fetch requests
-          return fetch(url, {
-            ...options,
-            // Add timeout to prevent hanging requests
-            signal: AbortSignal.timeout(30000) // 30 second timeout
-          }).catch(error => {
-            console.error('Supabase fetch error:', error)
-            throw new Error(`Connection to Supabase failed: ${error.message}. Please check your internet connection and Supabase configuration.`)
-          })
-        }
       }
-    })
-  : null
+    });
+    
+    console.log('Supabase client created successfully');
+    return client;
+  } catch (error) {
+    console.error('Failed to create Supabase client:', error);
+    return null;
+  }
+})();
 
 // Export the URL for logging purposes
 export const supabaseUrlForLogging = supabaseUrl

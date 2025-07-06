@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { supabase, NPMPackage, supabaseUrlForLogging } from '../lib/supabase'
 
 // Interface for NPM package filter options
@@ -21,6 +21,23 @@ export function useNPMPackages(filters?: {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Calculate stats from packages data
+  const stats = useMemo(() => {
+    const total = packages.length;
+    const totalDownloads = packages.reduce((sum, pkg) => sum + (pkg.weekly_downloads || 0), 0);
+    const avgQuality = packages.length > 0 
+      ? packages.reduce((sum, pkg) => sum + (pkg.quality_score || 0), 0) / packages.length 
+      : 0;
+    const withTypeScript = packages.filter(pkg => pkg.typescript_support || pkg.has_typescript).length;
+
+    return {
+      total,
+      totalDownloads,
+      avgQuality,
+      withTypeScript
+    };
+  }, [packages]);
+
   // Define fetchPackages as a named function to avoid reference issues
   async function fetchPackages() {
     try {
@@ -31,8 +48,20 @@ export function useNPMPackages(filters?: {
       
       // Check if Supabase is configured
       if (!supabase) {
-        throw new Error('Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.')
+        const errorMsg = 'Supabase is not configured. Please click "Connect to Supabase" in the top right to set up your database connection.';
+        console.error(errorMsg);
+        setError(errorMsg);
+        return;
       }
+      
+      // Additional validation
+      if (!supabaseUrlForLogging) {
+        const errorMsg = 'Supabase URL is missing. Please check your environment variables.';
+        console.error(errorMsg);
+        setError(errorMsg);
+        return;
+      }
+      
       let query = supabase
         .from('npm_packages')
         .select('*')
@@ -69,9 +98,13 @@ export function useNPMPackages(filters?: {
         query = query.limit(filters.limit)
       }
 
+      console.log('Executing Supabase query...');
       const { data, error } = await query
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase query error:', error);
+        throw new Error(`Database error: ${error.message}`);
+      }
       
       console.log(`Successfully fetched ${data?.length || 0} NPM packages`);
 
@@ -85,7 +118,18 @@ export function useNPMPackages(filters?: {
       setPackages(data || []);
     } catch (err) {
       console.error('Error fetching NPM packages:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred')
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      
+      // Provide more specific error messages
+      if (errorMessage.includes('Failed to fetch')) {
+        setError('Unable to connect to the database. Please check your internet connection and Supabase configuration.');
+      } else if (errorMessage.includes('Invalid API key')) {
+        setError('Invalid Supabase API key. Please check your environment variables.');
+      } else if (errorMessage.includes('permission denied')) {
+        setError('Access denied. Please check your database permissions.');
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false)
     }
@@ -99,7 +143,7 @@ export function useNPMPackages(filters?: {
   // Create a stable reference to fetchPackages that won't change between renders
   const refetch = useCallback(() => fetchPackages(), [filters]);
 
-  return { packages, loading, error, refetch }
+  return { packages, loading, error, refetch, stats }
 }
 
 export function useNPMCategories() {
@@ -111,22 +155,45 @@ export function useNPMCategories() {
     async function fetchCategories() {
       try {
         setLoading(true)
+        setError(null)
         
         // Check if Supabase is configured
         if (!supabase) {
-          throw new Error('Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.')
+          const errorMsg = 'Supabase is not configured. Please click "Connect to Supabase" in the top right to set up your database connection.';
+          console.error(errorMsg);
+          setError(errorMsg);
+          return;
         }
         
+        if (!supabaseUrlForLogging) {
+          const errorMsg = 'Supabase URL is missing. Please check your environment variables.';
+          console.error(errorMsg);
+          setError(errorMsg);
+          return;
+        }
+        
+        console.log('Fetching NPM categories...');
         const { data, error } = await supabase
           .from('npm_categories')
           .select('*')
           .order('name')
 
-        if (error) throw error
+        if (error) {
+          console.error('Supabase categories query error:', error);
+          throw new Error(`Database error: ${error.message}`);
+        }
 
+        console.log(`Successfully fetched ${data?.length || 0} categories`);
         setCategories(data || [])
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred')
+        console.error('Error fetching NPM categories:', err);
+        const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+        
+        if (errorMessage.includes('Failed to fetch')) {
+          setError('Unable to connect to the database. Please check your internet connection and Supabase configuration.');
+        } else {
+          setError(errorMessage);
+        }
       } finally {
         setLoading(false)
       }
@@ -147,7 +214,11 @@ export async function importNPMPackages(params: {
   importType?: 'manual' | 'automatic'
 }) {
   if (!supabaseUrlForLogging) {
-    throw new Error('Supabase is not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.')
+    throw new Error('Supabase is not configured. Please click "Connect to Supabase" to set up your database connection.')
+  }
+  
+  if (!import.meta.env.VITE_SUPABASE_ANON_KEY) {
+    throw new Error('Supabase API key is missing. Please check your environment variables.')
   }
   
   const apiUrl = `${supabaseUrlForLogging}/functions/v1/npm-import`;
@@ -159,6 +230,8 @@ export async function importNPMPackages(params: {
     'Content-Type': 'application/json',
   };
 
+  console.log('Making NPM import request to:', apiUrl);
+  
   const response = await fetch(apiUrl, {
     method: 'POST',
     headers,
@@ -168,7 +241,14 @@ export async function importNPMPackages(params: {
   if (!response.ok) {
     const errorText = await response.text().catch(() => 'Unknown error');
     console.error('NPM import failed:', errorText);
-    throw new Error(`Import failed: ${response.status} ${response.statusText} - ${errorText}`);
+    
+    if (response.status === 404) {
+      throw new Error('NPM import function not found. Please ensure your Supabase Edge Functions are deployed.');
+    } else if (response.status === 401) {
+      throw new Error('Unauthorized access. Please check your Supabase API key.');
+    } else {
+      throw new Error(`Import failed: ${response.status} ${response.statusText} - ${errorText}`);
+    }
   }
 
   const result = await response.json();
