@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, Search, Sliders as Spider, Download, Archive, RefreshCw, AlertCircle, CheckCircle, X, Layers, Database, Clock, Server, Globe, Code, FileCode, Users, Zap, Loader } from 'lucide-react';
+import { Package, Search, Sliders as Spider, Download, RefreshCw, AlertCircle, CheckCircle, X, Clock, Server, Globe, Code, FileCode, Loader } from 'lucide-react';
 import { supabaseUrlForLogging } from '../lib/supabase';
 
 interface ScraperState {
@@ -13,7 +13,7 @@ interface ScraperState {
 }
 
 const NPMScraper: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
-  const [searchQuery, setSearchQuery] = useState('keywords:front-end');
+  const [searchQuery, setSearchQuery] = useState('keywords:math');
   const [startPage, setStartPage] = useState(0);
   const [pages, setPages] = useState(1);
   const [state, setState] = useState<ScraperState>({
@@ -132,19 +132,18 @@ const NPMScraper: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
 
   // Predefined queries
   const presetQueries = [
+    { name: 'Math Packages', query: 'keywords:math' },
     { name: 'Front-end', query: 'keywords:front-end' },
     { name: 'React Components', query: 'keywords:react-component' },
     { name: 'Vue Components', query: 'keywords:vue-component' },
     { name: 'UI Libraries', query: 'keywords:ui-library' },
     { name: 'CSS Frameworks', query: 'keywords:css-framework' },
-    { name: 'Tailwind Plugins', query: 'keywords:tailwind-plugin' },
     { name: 'Back-end', query: 'keywords:back-end' },
     { name: 'CLI Tools', query: 'keywords:cli' },
     { name: 'Testing', query: 'keywords:testing' },
     { name: 'Documentation', query: 'keywords:documentation' },
     { name: 'IoT', query: 'keywords:iot' },
-    { name: 'Mobile', query: 'keywords:mobile' },
-    { name: 'Math', query: 'keywords:math' }
+    { name: 'Mobile', query: 'keywords:mobile' }
   ];
 
   return (
@@ -236,13 +235,13 @@ const NPMScraper: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Example: keywords:front-end"
+                placeholder="Example: keywords:math"
                 className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
               />
             </div>
           </div>
           <p className="text-caption mt-1">
-            Use format like 'keywords:css' or combine with 'OR' for multiple categories
+            Use format like 'keywords:math' or combine with 'OR' for multiple categories
           </p>
         </div>
         
@@ -262,11 +261,12 @@ const NPMScraper: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
             <input
               type="number"
               min="1"
-              max="10"
+              max="5"
               value={pages}
               onChange={(e) => setPages(parseInt(e.target.value) || 1)}
               className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
             />
+            <p className="text-caption mt-1">Max 5 pages per scrape to avoid rate limits</p>
           </div>
         </div>
         
@@ -324,13 +324,13 @@ const NPMScraper: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
       <div className="text-sm p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-md">
         <h4 className="font-semibold mb-2">How NPM Scraper Works:</h4>
         <ol className="list-decimal pl-5 space-y-1 text-gray-700 dark:text-gray-300">
-          <li>Scrapes npmjs.com search results pages for package data</li>
-          <li>Extracts names, descriptions, download counts, and keywords</li>
-          <li>Automatically categorizes packages based on keywords and descriptions</li>
-          <li>Updates existing packages or adds new ones to your database</li>
+          <li>Scrapes npmjs.com search results for package data</li>
+          <li>Extracts metadata, download counts, and dependencies</li>
+          <li>Automatically categorizes packages based on keywords</li>
+          <li>Updates your database with the latest information</li>
         </ol>
         <p className="mt-2 text-gray-500 dark:text-gray-400 text-xs">
-          Note: This tool respects npmjs.com's robots.txt and uses appropriate delays between requests.
+          Note: This tool respects website rate limits and includes proper delays.
         </p>
       </div>
     </div>

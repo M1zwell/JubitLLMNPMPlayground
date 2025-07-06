@@ -49,8 +49,6 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
   const [sortBy, setSortBy] = useState('downloads');
   const [sortDesc, setSortDesc] = useState(true);
   const [showImportModal, setShowImportModal] = useState(false);
-
-  const { packages, loading, error, refetch } = useNPMPackages({
     category: selectedCategory,
     search: searchTerm,
     sortBy,
@@ -68,44 +66,6 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
         pkg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         pkg.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         pkg.keywords.some(k => k.toLowerCase().includes(searchTerm.toLowerCase()));
-      
-      return categoryMatch && searchMatch;
-    });
-  }, [packages, selectedCategory, searchTerm]);
-
-  // Statistics
-  const stats = useMemo(() => {
-    const total = filteredPackages.length;
-    const totalDownloads = filteredPackages.reduce((sum, pkg) => sum + pkg.weekly_downloads, 0);
-    const avgQuality = total > 0 ? filteredPackages.reduce((sum, pkg) => sum + pkg.quality_score, 0) / total : 0;
-    const withTypeScript = filteredPackages.filter(pkg => pkg.typescript_support).length || 0;
-    
-    return { total, totalDownloads, avgQuality, withTypeScript };
-  }, [filteredPackages]);
-
-  const formatNumber = (num: number): string => {
-    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
-    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
-    return num.toString();
-  };
-
-  const getPackageIcon = (pkg: NPMPackage): string => {
-    if (pkg.categories.includes('frontend')) return '🌐';
-    if (pkg.categories.includes('backend')) return '⚙️';
-    if (pkg.categories.includes('cli')) return '💻';
-    if (pkg.categories.includes('testing')) return '🧪';
-    if (pkg.categories.includes('css')) return '🎨';
-    if (pkg.categories.includes('build-tools')) return '🔧';
-    return '📦';
-  };
-
-  const getTrendColor = (trend: string): string => {
-    switch (trend) {
-      case 'rising': return 'text-green-600';
-      case 'falling': return 'text-red-600';
-      default: return 'text-gray-500';
-    }
-  };
 
 
   if (loading) {
@@ -178,7 +138,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
               onClick={() => setShowImportModal(true)}
               className="btn-minimal btn-primary"
             >
-              <Import size={14} />
+              <PlusCircle size={14} />
               Import from NPM
             </button>
             <button
@@ -506,7 +466,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
         isOpen={showImportModal}
         onClose={() => {
           setShowImportModal(false);
-          refetch(); // Refresh data when modal closes
+          refetch(); // Refresh data after import
         }}
         onComplete={() => refetch()}
       />

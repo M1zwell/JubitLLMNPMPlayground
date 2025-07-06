@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, AlertCircle, PlusCircle } from 'lucide-react';
+import { X, PlusCircle } from 'lucide-react';
 import NPMImportTool from './NPMImportTool';
 import NPMScraper from './NPMScraper';
 
@@ -42,7 +42,7 @@ const NPMImportModal: React.FC<NPMImportModalProps> = ({ isOpen, onClose, onComp
                 : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
             }`}
           >
-            Package Importer
+            Registry API
           </button>
           <button
             onClick={() => setActiveTab('scraper')}
@@ -75,7 +75,7 @@ const NPMImportModal: React.FC<NPMImportModalProps> = ({ isOpen, onClose, onComp
         <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex justify-between">
           <div className="text-sm text-gray-500">
             {activeTab === 'import' 
-              ? 'Import packages directly from npm registry'
+              ? 'Import packages directly from npm registry API'
               : 'Scrape and import packages from npmjs.com website'}
           </div>
           <button

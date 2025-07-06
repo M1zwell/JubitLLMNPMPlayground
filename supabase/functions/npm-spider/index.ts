@@ -4,7 +4,7 @@ import { load } from "npm:cheerio@1.0.0";
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
 };
 
 interface PackageMetadata {
@@ -12,8 +12,8 @@ interface PackageMetadata {
   version: string;
   description: string;
   author?: string;
-  stars?: number;
-  downloads?: number;
+  stars?: string;
+  downloads?: string;
   tags: string[];
   license?: string;
   links: {
@@ -41,7 +41,7 @@ Deno.serve(async (req) => {
 
     if (req.method === 'POST') {
       const { 
-        searchQuery = 'keywords:front-end', 
+        searchQuery = 'keywords:math', 
         startPage = 0, 
         pages = 1, 
         importType = 'manual' 
@@ -308,55 +308,78 @@ function parseNpmSearchResults(html: string): PackageMetadata[] {
   const $ = load(html);
   
   // Find package elements in the search results
-  $('.package-list').find('section.package').each((_, element) => {
+  $('section.ef4d7c63').each((_, element) => {
     try {
       const $el = $(element);
       
-      // Extract name, version, and description
-      const name = $el.find('h3.package-name a').text().trim();
-      const version = $el.find('span.package-version').text().trim().replace('•', '').trim();
-      const description = $el.find('p.package-description').text().trim();
+      // Extract name and version
+      const nameEl = $el.find('h3.db7ee1ac');
+      const name = nameEl.text().trim();
       
-      // Extract author
-      const authorText = $el.find('span.author').text().trim();
-      let author = authorText ? authorText.replace('•', '').trim() : undefined;
-      
-      // Extract license
-      const licenseText = $el.find('span.license').text().trim();
-      const license = licenseText ? licenseText.replace('licensed under', '').replace('$', '').trim() : undefined;
+      // Extract description
+      const descriptionEl = $el.find('p._8fbbd57d');
+      const description = descriptionEl.text().trim();
       
       // Extract tags/keywords
       const tags: string[] = [];
-      $el.find('div.tags a.tag').each((_, tagEl) => {
-        tags.push($(tagEl).text().trim());
-      });
-      
-      // Extract download count
-      const downloadsText = $el.find('div.package-details a.downloads').text().trim();
-      
-      // Extract stars if available
-      const starsText = $el.find('div.package-details a.stars').text().trim();
-      
-      // Extract last published date
-      const publishedText = $el.find('span.last-publish').text().trim().replace('published version', '').trim();
-      
-      // Extract links
-      const npmUrl = 'https://www.npmjs.com' + $el.find('h3.package-name a').attr('href');
-      
-      // Try to find repository link
-      let repoUrl: string | undefined;
-      $el.find('a').each((_, linkEl) => {
-        const href = $(linkEl).attr('href');
-        if (href && (href.includes('github.com') || href.includes('gitlab.com') || href.includes('bitbucket.org'))) {
-          repoUrl = href;
-          return false; // break
+      $el.find('a._69ac86b8').each((_, tagEl) => {
+        // Skip "View more" link
+        if (!$(tagEl).text().includes('View more')) {
+          tags.push($(tagEl).text().trim());
         }
       });
       
-      // Find homepage link
-      let homepageUrl: string | undefined;
-      $el.find('a.homepage').each((_, linkEl) => {
-        homepageUrl = $(linkEl).attr('href');
+      // Extract version, author, and license from metadata
+      let version = '';
+      let author = '';
+      let license = '';
+      let lastPublished = '';
+      
+      $el.find('span._66c2abad').each((_, metaEl) => {
+        const metaText = $(metaEl).text();
+        
+        // Extract version (usually appears first)
+        const versionMatch = metaText.match(/(\d+\.\d+\.\d+)/);
+        if (versionMatch) {
+          version = versionMatch[1];
+        }
+        
+        // Extract license
+        if (metaText.includes('MIT') || metaText.includes('BSD') || metaText.includes('Apache') || metaText.includes('ISC')) {
+          license = metaText.split('$').pop()?.trim() || '';
+        }
+        
+        // Extract last published time
+        if (metaText.includes('ago')) {
+          lastPublished = metaText.split('•')[1]?.trim() || '';
+        }
+      });
+      
+      // Extract author from author element
+      const authorEl = $el.find('a.e98ba1cc');
+      author = authorEl.text().trim();
+      
+      // Extract download count from download element
+      let downloads = '';
+      $el.find('svg.octicon-download').parent().each((_, downloadEl) => {
+        downloads = $(downloadEl).text().trim();
+      });
+      
+      // Extract stars from dependents count
+      let stars = '';
+      $el.find('svg.octicon-package').parent().each((_, packageEl) => {
+        stars = $(packageEl).text().trim().split(' ')[0];
+      });
+      
+      // Extract links
+      const links: PackageMetadata['links'] = {};
+      
+      // Add npm link
+      links.npm = `https://www.npmjs.com/package/${name}`;
+      
+      // Add repository link if found
+      $el.find('a[href*="github.com"]').each((_, repoEl) => {
+        links.repository = $(repoEl).attr('href') || '';
       });
       
       // Only add to results if we have a valid name
@@ -366,16 +389,12 @@ function parseNpmSearchResults(html: string): PackageMetadata[] {
           version,
           description,
           author,
-          downloads: downloadsText,
-          stars: starsText,
+          downloads,
+          stars,
           tags,
           license,
-          links: {
-            npm: npmUrl,
-            repository: repoUrl,
-            homepage: homepageUrl
-          },
-          lastPublished: publishedText
+          links,
+          lastPublished
         });
       }
     } catch (error) {
@@ -549,5 +568,5 @@ function determineCategoriesFromKeywords(keywords: string[], description: string
     categories.push('math');
   }
   
-  return categories.length > 0 ? categories : ['all-packages'];
+  return categories;
 }
