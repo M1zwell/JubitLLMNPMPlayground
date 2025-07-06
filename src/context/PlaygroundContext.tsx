@@ -59,7 +59,7 @@ interface PlaygroundActions {
   clearWorkflow: () => void;
   
   // Navigation actions
-  setCurrentView: (view: string) => void;
+  setCurrentView: (view: 'integrated-hub' | 'llm-market' | 'llm-playground' | 'npm-market' | 'npm-playground' | 'npm-sandbox' | 'unified-playground' | 'workflow-execution' | 'advanced-demo') => void;
   navigateToPlaygroundWithComponent: (component: LLMModel | NPMPackage, type: 'llm' | 'npm') => void;
   
   // Search and filter actions
@@ -163,7 +163,7 @@ export const PlaygroundProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     const responses = {
-      'reasoning': `🧠 Advanced reasoning analysis of: ${JSON.stringify(input)}\n\nKey insights:\n• Complex pattern detected\n• Logical structure identified\n• Recommendations: ${Math.random() > 0.5 ? 'Optimize for efficiency' : 'Focus on accuracy'}`,
+    currentView: 'integrated-hub' | 'llm-market' | 'llm-playground' | 'npm-market' | 'npm-playground' | 'npm-sandbox' | 'unified-playground' | 'workflow-execution' | 'advanced-demo';
       'coding': `💻 Code analysis for: ${JSON.stringify(input)}\n\n\`\`\`javascript\n// Generated code solution\nfunction process(data) {\n  return data.map(item => optimize(item));\n}\n\`\`\`\n\nCode quality: ${90 + Math.floor(Math.random() * 10)}%`,
       'multimodal': `🎯 Multimodal analysis: ${JSON.stringify(input)}\n\nProcessed multiple data types:\n• Text understanding: Complete\n• Data structure: Validated\n• Output format: Optimized`,
       'lightweight': `⚡ Fast processing: ${JSON.stringify(input)}\n\nQuick analysis completed:\n• Processing time: ${Math.random() * 2 + 0.5}s\n• Efficiency: 95%\n• Result: Optimized output`,

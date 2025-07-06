@@ -7,6 +7,7 @@ import LLMPlayground from './components/LLMPlayground';
 import EnhancedUnifiedPlayground from './components/EnhancedUnifiedPlayground';
 import WorkflowExecutionPlayground from './components/WorkflowExecutionPlayground';
 import IntegratedPlaygroundHub from './components/IntegratedPlaygroundHub';
+import NPMSandboxDemo from './components/NPMSandboxDemo';
 import { PlaygroundProvider, usePlayground } from './context/PlaygroundContext';
 import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
@@ -91,7 +92,18 @@ function AppContent() {
                >
                  <Package size={14} />
                  NPM Play
-               </button>
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('npm-sandbox')}
+                  className={`btn-minimal ${
+                    state.currentView === 'npm-sandbox' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  <Package size={14} />
+                  NPM Sandbox
+                </button>
                 <button
                   onClick={() => actions.setCurrentView('unified-playground')}
                   className={`btn-minimal ${
@@ -167,6 +179,8 @@ function AppContent() {
             onNavigateToMarket={() => actions.setCurrentView('npm-market')}
             initialPackage={initialPlaygroundPackage}
           />
+        ) : state.currentView === 'npm-sandbox' ? (
+          <NPMSandboxDemo />
         ) : state.currentView === 'unified-playground' ? (
           <EnhancedUnifiedPlayground />
         ) : state.currentView === 'workflow-execution' ? (
