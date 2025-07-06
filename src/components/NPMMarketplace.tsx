@@ -9,49 +9,8 @@ import {
 import { useNPMPackages, useNPMCategories, importNPMPackages } from '../hooks/useNPMPackages';
 import { NPMPackage } from '../lib/supabase';
 import NPMImportTool from './NPMImportTool';
-import NPMImportTool from './NPMImportTool';
 import { usePlayground } from '../context/PlaygroundContext';
 import AIWorkflowAdvisor, { AIAdvisorEventManager } from './AIWorkflowAdvisor';
-import NPMImportModal from './NPMImportModal';
-
-// Utility function to format numbers for display
-const formatNumber = (num: number | null | undefined): string => {
-  if (num === null || num === undefined || isNaN(num)) return '0';
-  
-  if (num >= 1000000000) {
-    return (num / 1000000000).toFixed(1) + 'B';
-  }
-  if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M';
-  }
-  if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'K';
-  }
-  return num.toString();
-};
-
-// Utility function to get package icon based on categories
-const getPackageIcon = (pkg: NPMPackage): string => {
-  if (pkg.categories.includes('front-end')) return '🌐';
-  if (pkg.categories.includes('back-end')) return '⚙️';
-  if (pkg.categories.includes('testing')) return '🧪';
-  if (pkg.categories.includes('css-styling')) return '🎨';
-  if (pkg.categories.includes('frameworks')) return '⚡';
-  if (pkg.categories.includes('cli-tools')) return '💻';
-  if (pkg.categories.includes('mobile')) return '📱';
-  if (pkg.categories.includes('documentation')) return '📚';
-  return '📦';
-};
-
-// Utility function to get trend color
-const getTrendColor = (trend: string): string => {
-  switch (trend) {
-    case 'rising': return 'text-green-600';
-    case 'falling': return 'text-red-600';
-    case 'stable': return 'text-gray-600';
-    default: return 'text-gray-600';
-  }
-};
 import NPMImportModal from './NPMImportModal';
 
 // Utility function to format numbers for display
