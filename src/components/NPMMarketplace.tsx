@@ -50,12 +50,6 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
   const [sortDesc, setSortDesc] = useState(true);
   const [showImportModal, setShowImportModal] = useState(false);
   
-  const { packages, loading, error, refetch } = useNPMPackages({
-    category: selectedCategory,
-    search: searchTerm,
-    sortBy,
-    sortDesc,
-    limit: 200
   });
 
   const { categories } = useNPMCategories();
