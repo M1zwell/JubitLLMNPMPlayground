@@ -49,6 +49,8 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
   const [sortBy, setSortBy] = useState('downloads');
   const [sortDesc, setSortDesc] = useState(true);
   const [showImportModal, setShowImportModal] = useState(false);
+  
+  const { packages, loading, error, refetch } = useNPMPackages({
     category: selectedCategory,
     search: searchTerm,
     sortBy,
@@ -66,6 +68,9 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
         pkg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         pkg.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         pkg.keywords.some(k => k.toLowerCase().includes(searchTerm.toLowerCase()));
+      return categoryMatch && searchMatch;
+    });
+  }, [packages, selectedCategory, searchTerm]);
 
 
   if (loading) {
