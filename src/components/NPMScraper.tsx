@@ -138,6 +138,13 @@ const NPMScraper: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
     { name: 'UI Libraries', query: 'keywords:ui-library' },
     { name: 'CSS Frameworks', query: 'keywords:css-framework' },
     { name: 'Tailwind Plugins', query: 'keywords:tailwind-plugin' },
+    { name: 'Back-end', query: 'keywords:back-end' },
+    { name: 'CLI Tools', query: 'keywords:cli' },
+    { name: 'Testing', query: 'keywords:testing' },
+    { name: 'Documentation', query: 'keywords:documentation' },
+    { name: 'IoT', query: 'keywords:iot' },
+    { name: 'Mobile', query: 'keywords:mobile' },
+    { name: 'Math', query: 'keywords:math' }
   ];
 
   return (
