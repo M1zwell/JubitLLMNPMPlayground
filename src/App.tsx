@@ -3,11 +3,11 @@ import { AuthProvider } from './contexts/AuthContext';
 import EnhancedLLMMarket from './components/EnhancedLLMMarket';
 import NPMPlayground from './components/NPMPlayground';
 import NPMMarketplace from './components/NPMMarketplace';
+import NPMIntegratedPlayground from './components/NPMIntegratedPlayground';
 import LLMPlayground from './components/LLMPlayground';
 import EnhancedUnifiedPlayground from './components/EnhancedUnifiedPlayground';
 import WorkflowExecutionPlayground from './components/WorkflowExecutionPlayground';
 import IntegratedPlaygroundHub from './components/IntegratedPlaygroundHub';
-import NPMSandboxDemo from './components/NPMSandboxDemo';
 import { PlaygroundProvider, usePlayground } from './context/PlaygroundContext';
 import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
@@ -82,27 +82,16 @@ function AppContent() {
                   <Package size={14} />
                   NPM
                 </button>
-               <button
-                 onClick={() => actions.setCurrentView('npm-playground')}
-                 className={`btn-minimal ${
-                   state.currentView === 'npm-playground' 
-                     ? 'btn-primary' 
-                     : 'btn-ghost'
-                 }`}
-               >
-                 <Package size={14} />
-                 NPM Play
-                </button>
                 <button
-                  onClick={() => actions.setCurrentView('npm-sandbox')}
+                  onClick={() => actions.setCurrentView('npm-playground')}
                   className={`btn-minimal ${
-                    state.currentView === 'npm-sandbox' 
+                    state.currentView === 'npm-playground' 
                       ? 'btn-primary' 
                       : 'btn-ghost'
                   }`}
                 >
                   <Package size={14} />
-                  NPM Sandbox
+                  NPM Playground
                 </button>
                 <button
                   onClick={() => actions.setCurrentView('unified-playground')}
@@ -170,17 +159,15 @@ function AppContent() {
         ) : state.currentView === 'npm-market' ? (
           <NPMMarketplace 
             onNavigateToPlayground={(pkg) => {
-              setInitialPlaygroundPackage(pkg);
               actions.setCurrentView('npm-playground');
+              setInitialPlaygroundPackage(pkg);
             }}
           />
         ) : state.currentView === 'npm-playground' ? (
-          <NPMPlayground 
+          <NPMIntegratedPlayground 
             onNavigateToMarket={() => actions.setCurrentView('npm-market')}
             initialPackage={initialPlaygroundPackage}
           />
-        ) : state.currentView === 'npm-sandbox' ? (
-          <NPMSandboxDemo />
         ) : state.currentView === 'unified-playground' ? (
           <EnhancedUnifiedPlayground />
         ) : state.currentView === 'workflow-execution' ? (
