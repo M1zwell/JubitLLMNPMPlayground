@@ -1,18 +1,18 @@
 /*
-  # NPM Categories and Import System Setup
+  # Fix NPM Categories and Package Categorization
   
-  1. New Tables
-    - Sets up npm_categories with proper categories from the sidebar
-    - Creates categorization functions and triggers
-    
+  1. Changes
+     - Truncate and repopulate npm_categories table
+     - Create categorize_package function
+     - Create update_npm_category_counts function
+     - Add trigger for category counts
+     - Add constraints for npm_import_logs
+     - Create import_npm_packages function
+     - Set up RLS policies
+  
   2. Security
-    - Enable RLS on npm-related tables
-    - Add policies for public read access
-    
-  3. Functions
-    - Automatic package categorization
-    - Category count updates
-    - Import helper functions
+     - Enable RLS on npm tables
+     - Add public read policies
 */
 
 -- Make sure the npm_categories table is empty before adding new categories
@@ -230,12 +230,12 @@ AFTER INSERT OR UPDATE OR DELETE ON npm_packages
 FOR EACH STATEMENT
 EXECUTE FUNCTION update_npm_category_counts();
 
--- Add constraints only if they don't exist
+-- Add constraints only if they don't exist (FIXED version using table_constraints instead)
 DO $$ 
 BEGIN
   -- Check and add status constraint
   IF NOT EXISTS (
-    SELECT 1 FROM information_schema.check_constraints 
+    SELECT 1 FROM information_schema.table_constraints
     WHERE constraint_name = 'npm_import_logs_status_check'
     AND table_name = 'npm_import_logs'
   ) THEN
@@ -246,7 +246,7 @@ BEGIN
 
   -- Check and add import_type constraint  
   IF NOT EXISTS (
-    SELECT 1 FROM information_schema.check_constraints 
+    SELECT 1 FROM information_schema.table_constraints
     WHERE constraint_name = 'npm_import_logs_import_type_check'
     AND table_name = 'npm_import_logs'
   ) THEN
