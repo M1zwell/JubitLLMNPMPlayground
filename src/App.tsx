@@ -13,6 +13,7 @@ import AuthModal from './components/auth/AuthModal';
 import UserMenu from './components/auth/UserMenu';
 import UserProfile from './components/auth/UserProfile';
 import { Brain, Package, User, Workflow } from 'lucide-react';
+import AdvancedPlaygroundDemo from './components/AdvancedPlaygroundDemo';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -111,6 +112,17 @@ function AppContent() {
                 >
                   Demo
                 </button>
+                <button
+                  onClick={() => actions.setCurrentView('advanced-demo')}
+                  className={`btn-minimal ${
+                    state.currentView === 'advanced-demo' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  <Workflow size={14} />
+                  Advanced
+                </button>
               </nav>
 
               {/* 用户认证 */}
@@ -159,6 +171,8 @@ function AppContent() {
           <EnhancedUnifiedPlayground />
         ) : state.currentView === 'workflow-execution' ? (
           <WorkflowExecutionPlayground />
+        ) : state.currentView === 'advanced-demo' ? (
+          <AdvancedPlaygroundDemo />
         ) : null}
       </main>
 

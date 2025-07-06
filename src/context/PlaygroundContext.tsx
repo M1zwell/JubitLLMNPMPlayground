@@ -92,7 +92,7 @@ export const PlaygroundProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     workflowComponents: [],
     isExecuting: false,
     executionResults: {},
-    currentView: 'llm-market',
+    currentView: 'integrated-hub',
     searchTerms: { llm: '', npm: '' },
     filters: { llmCategory: 'all', llmProvider: 'all', npmCategory: 'all' },
     lastUpdate: new Date().toISOString(),
