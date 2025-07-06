@@ -504,7 +504,10 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
       {/* Import Modal - New Component */}
       <NPMImportModal 
         isOpen={showImportModal}
-        onClose={() => setShowImportModal(false)}
+        onClose={() => {
+          setShowImportModal(false);
+          refetch(); // Refresh data when modal closes
+        }}
         onComplete={() => refetch()}
       />
 
