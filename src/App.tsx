@@ -15,6 +15,7 @@ import UserMenu from './components/auth/UserMenu';
 import UserProfile from './components/auth/UserProfile';
 import { Brain, Package, User, Workflow } from 'lucide-react';
 import AdvancedPlaygroundDemo from './components/AdvancedPlaygroundDemo';
+import { MultiModelChat } from './components/MultiModelChat';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -124,6 +125,17 @@ function AppContent() {
                   <Workflow size={14} />
                   Advanced
                 </button>
+                <button
+                  onClick={() => actions.setCurrentView('multi-model-chat')}
+                  className={`btn-minimal ${
+                    state.currentView === 'multi-model-chat' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  <Brain size={14} />
+                  Multi Chat
+                </button>
               </nav>
 
               {/* 用户认证 */}
@@ -174,6 +186,8 @@ function AppContent() {
           <WorkflowExecutionPlayground />
         ) : state.currentView === 'advanced-demo' ? (
           <AdvancedPlaygroundDemo />
+        ) : state.currentView === 'multi-model-chat' ? (
+          <MultiModelChat />
         ) : null}
       </main>
 

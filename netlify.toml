@@ -1,0 +1,60 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  # Production Environment Variables
+  VITE_SUPABASE_URL = "https://kiztaihzanqnrcrqaxsv.supabase.co"
+  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpenRhaWh6YW5xbnJjcnFheHN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MjgxNzcsImV4cCI6MjA2NzIwNDE3N30.a9ZXqVSmFOH2fBbrMeELPainodMGTAkbyiUVwjmFTK8"
+  VITE_APP_DOMAIN = "https://chathogs.com"
+  VITE_ENABLE_MULTI_MODEL_CHAT = "true"
+
+# Domain Configuration
+[[redirects]]
+  from = "https://chathogs.netlify.app/*"
+  to = "https://chathogs.com/:splat"
+  status = 301
+  force = true
+
+# SPA Routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# API Proxy for Supabase Edge Functions
+[[redirects]]
+  from = "/api/*"
+  to = "https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/:splat"
+  status = 200
+  force = false
+
+# Netlify Functions Proxy for Supabase Edge Functions
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/:splat"
+  status = 200
+  force = false
+
+# Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://kiztaihzanqnrcrqaxsv.supabase.co https://api.github.com; font-src 'self' data:"
+
+# Cache Static Assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache HTML with shorter duration
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600" 

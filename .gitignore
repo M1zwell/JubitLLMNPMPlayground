@@ -23,3 +23,19 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Large files and archives
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+
+# Webb legacy files
+supabase/webb/
+webb/
+
+# Large datasets
+*.db
+*.sqlite3
+*.dump
