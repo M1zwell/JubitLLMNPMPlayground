@@ -27,7 +27,7 @@ import WebbDirectSQLUploader from './components/WebbDirectSQLUploader';
 function AppContent() {
   const { state, actions } = usePlayground();
   const { user, loading: authLoading } = useAuth();
-  const [initialPlaygroundPackage, setInitialPlaygroundPackage] = useState(null);
+  const [initialPlaygroundPackage, setInitialPlaygroundPackage] = useState<any>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
 
@@ -153,6 +153,8 @@ function AppContent() {
                 >
                   🏦 Webb
                 </button>
+                {/* Webb SQL Import/Update functions are temporarily disabled */}
+                {/* 
                 <button
                   onClick={() => actions.setCurrentView('webb-importer')}
                   className={`btn-minimal ${
@@ -160,6 +162,8 @@ function AppContent() {
                       ? 'btn-primary' 
                       : 'btn-ghost'
                   }`}
+                  disabled
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
                   📥 Import
                 </button>
@@ -170,6 +174,8 @@ function AppContent() {
                       ? 'btn-primary' 
                       : 'btn-ghost'
                   }`}
+                  disabled
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
                   📁 SQL
                 </button>
@@ -180,6 +186,8 @@ function AppContent() {
                       ? 'btn-primary' 
                       : 'btn-ghost'
                   }`}
+                  disabled
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
                   ⚡ Direct
                 </button>
@@ -190,6 +198,8 @@ function AppContent() {
                       ? 'btn-primary' 
                       : 'btn-ghost'
                   }`}
+                  disabled
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
                   🔄 MySQL
                 </button>
@@ -200,9 +210,12 @@ function AppContent() {
                       ? 'btn-primary' 
                       : 'btn-ghost'
                   }`}
+                  disabled
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
                   📤 Upload
                 </button>
+                */}
               </nav>
 
               {/* 用户认证 */}
@@ -258,15 +271,60 @@ function AppContent() {
         ) : state.currentView === 'webb-financial' ? (
           <WebbFinancialIntegration />
         ) : state.currentView === 'webb-importer' ? (
-          <WebbLocalDataProcessor />
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              🚫 Feature Temporarily Disabled
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300">
+              SQL Import functions are temporarily disabled for maintenance.
+              <br />
+              SQL导入功能因维护而暂时禁用。
+            </p>
+          </div>
         ) : state.currentView === 'webb-sql' ? (
-          <WebbSQLImporter />
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              🚫 Feature Temporarily Disabled
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300">
+              SQL Import functions are temporarily disabled for maintenance.
+              <br />
+              SQL导入功能因维护而暂时禁用。
+            </p>
+          </div>
         ) : state.currentView === 'webb-direct-import' ? (
-          <WebbDirectSQLImporter />
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              🚫 Feature Temporarily Disabled
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300">
+              SQL Import functions are temporarily disabled for maintenance.
+              <br />
+              SQL导入功能因维护而暂时禁用。
+            </p>
+          </div>
         ) : state.currentView === 'webb-mysql-migrator' ? (
-          <WebbMySQLMigrator />
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              🚫 Feature Temporarily Disabled
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300">
+              SQL Import functions are temporarily disabled for maintenance.
+              <br />
+              SQL导入功能因维护而暂时禁用。
+            </p>
+          </div>
         ) : state.currentView === 'webb-sql-uploader' ? (
-          <WebbDirectSQLUploader />
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              🚫 Feature Temporarily Disabled
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300">
+              SQL Import functions are temporarily disabled for maintenance.
+              <br />
+              SQL导入功能因维护而暂时禁用。
+            </p>
+          </div>
         ) : null}
       </main>
 
