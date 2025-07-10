@@ -1,0 +1,38 @@
+-- pgloader configuration for Webb CCASS MySQL to Supabase PostgreSQL migration
+-- CCASS (Central Clearing and Settlement System) - 1.4GB database
+
+LOAD DATABASE
+     FROM mysql://David:Welcome08~billcn@localhost:3306/ccass
+     INTO postgresql://postgres:Welcome08~billcn@db.kiztaihzanqnrcrqaxsv.supabase.co:5432/postgres
+
+WITH include drop, create tables, create indexes, reset sequences,
+     downcase identifiers, data only
+
+SET work_mem to '256MB', 
+    maintenance_work_mem to '1GB',
+    search_path to 'ccass, public'
+
+CAST type tinyint to smallint drop typemod,
+     type datetime to timestamp drop typemod,
+     type year to integer drop typemod,
+     type text to text drop typemod using remove-null-characters,
+     type longtext to text drop typemod using remove-null-characters
+
+BEFORE LOAD DO
+$$ CREATE SCHEMA IF NOT EXISTS ccass; $$;
+
+AFTER LOAD DO
+$$ 
+-- Create indexes for CCASS performance
+CREATE INDEX IF NOT EXISTS idx_ccass_holdings_stock_code ON ccass.holdings(stock_code);
+CREATE INDEX IF NOT EXISTS idx_ccass_holdings_participant ON ccass.holdings(participant_id);
+CREATE INDEX IF NOT EXISTS idx_ccass_holdings_date ON ccass.holdings(shareholding_date);
+CREATE INDEX IF NOT EXISTS idx_ccass_participants_name ON ccass.participants USING gin(to_tsvector('english', participant_name));
+CREATE INDEX IF NOT EXISTS idx_ccass_quotes_stock_code ON ccass.quotes(stock_code);
+CREATE INDEX IF NOT EXISTS idx_ccass_quotes_date ON ccass.quotes(quote_date);
+
+-- Grant permissions
+GRANT USAGE ON SCHEMA ccass TO postgres, anon, authenticated, service_role;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ccass TO postgres, authenticated;
+GRANT SELECT ON ALL TABLES IN SCHEMA ccass TO anon;
+$$; 

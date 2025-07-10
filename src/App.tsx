@@ -16,6 +16,13 @@ import UserProfile from './components/auth/UserProfile';
 import { Brain, Package, User, Workflow } from 'lucide-react';
 import AdvancedPlaygroundDemo from './components/AdvancedPlaygroundDemo';
 import { MultiModelChat } from './components/MultiModelChat';
+import { WebbFinancialIntegration } from './components/WebbFinancialIntegration';
+import { WebbDataImporter } from './components/WebbDataImporter';
+import { WebbLocalDataProcessor } from './components/WebbLocalDataProcessor';
+import { WebbSQLImporter } from './components/WebbSQLImporter';
+import WebbDirectSQLImporter from './components/WebbDirectSQLImporter';
+import { WebbMySQLMigrator } from './components/WebbMySQLMigrator';
+import WebbDirectSQLUploader from './components/WebbDirectSQLUploader';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -136,6 +143,66 @@ function AppContent() {
                   <Brain size={14} />
                   Multi Chat
                 </button>
+                <button
+                  onClick={() => actions.setCurrentView('webb-financial')}
+                  className={`btn-minimal ${
+                    state.currentView === 'webb-financial' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  🏦 Webb
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('webb-importer')}
+                  className={`btn-minimal ${
+                    state.currentView === 'webb-importer' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  📥 Import
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('webb-sql')}
+                  className={`btn-minimal ${
+                    state.currentView === 'webb-sql' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  📁 SQL
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('webb-direct-import')}
+                  className={`btn-minimal ${
+                    state.currentView === 'webb-direct-import' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  ⚡ Direct
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('webb-mysql-migrator')}
+                  className={`btn-minimal ${
+                    state.currentView === 'webb-mysql-migrator' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  🔄 MySQL
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('webb-sql-uploader')}
+                  className={`btn-minimal ${
+                    state.currentView === 'webb-sql-uploader' 
+                      ? 'btn-primary' 
+                      : 'btn-ghost'
+                  }`}
+                >
+                  📤 Upload
+                </button>
               </nav>
 
               {/* 用户认证 */}
@@ -188,6 +255,18 @@ function AppContent() {
           <AdvancedPlaygroundDemo />
         ) : state.currentView === 'multi-model-chat' ? (
           <MultiModelChat />
+        ) : state.currentView === 'webb-financial' ? (
+          <WebbFinancialIntegration />
+        ) : state.currentView === 'webb-importer' ? (
+          <WebbLocalDataProcessor />
+        ) : state.currentView === 'webb-sql' ? (
+          <WebbSQLImporter />
+        ) : state.currentView === 'webb-direct-import' ? (
+          <WebbDirectSQLImporter />
+        ) : state.currentView === 'webb-mysql-migrator' ? (
+          <WebbMySQLMigrator />
+        ) : state.currentView === 'webb-sql-uploader' ? (
+          <WebbDirectSQLUploader />
         ) : null}
       </main>
 

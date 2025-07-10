@@ -41,6 +41,26 @@ export const supabase = (() => {
   }
 })();
 
+// Shared admin client configuration (singleton pattern to avoid multiple GoTrueClient instances)
+const SUPABASE_URL = 'https://kiztaihzanqnrcrqaxsv.supabase.co';
+const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpenRhaWh6YW5xbnJjcnFheHN2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTYyODE3NywiZXhwIjoyMDY3MjA0MTc3fQ.5D9mVu_ssolTEW1ffotXoBFY65DuMvE7ERUHedj0t2E';
+
+let supabaseAdminInstance: any = null;
+
+export const getSupabaseAdmin = () => {
+  if (!supabaseAdminInstance) {
+    supabaseAdminInstance = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
+      auth: {
+        persistSession: false, // Don't persist session for admin client
+        autoRefreshToken: false,
+        detectSessionInUrl: false
+      }
+    });
+    console.log('Shared Supabase admin client created');
+  }
+  return supabaseAdminInstance;
+};
+
 // Export the URL for logging purposes
 export const supabaseUrlForLogging = supabaseUrl
 

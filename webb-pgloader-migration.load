@@ -1,0 +1,36 @@
+-- pgloader configuration for Webb MySQL to Supabase PostgreSQL migration
+-- Based on David Webb's MySQL 8.0.37 setup with specific configurations
+
+LOAD DATABASE
+     FROM mysql://David:Welcome08~billcn@localhost:3306/enigma
+     INTO postgresql://postgres:Welcome08~billcn@db.kiztaihzanqnrcrqaxsv.supabase.co:5432/postgres
+
+WITH include drop, create tables, create indexes, reset sequences,
+     downcase identifiers, data only
+
+SET work_mem to '256MB', 
+    maintenance_work_mem to '1GB',
+    search_path to 'enigma, public'
+
+CAST type tinyint to smallint drop typemod,
+     type datetime to timestamp drop typemod,
+     type year to integer drop typemod,
+     type text to text drop typemod using remove-null-characters,
+     type longtext to text drop typemod using remove-null-characters
+
+BEFORE LOAD DO
+$$ CREATE SCHEMA IF NOT EXISTS enigma; $$;
+
+AFTER LOAD DO
+$$ 
+-- Create indexes for better performance
+CREATE INDEX IF NOT EXISTS idx_enigma_organisations_name1 ON enigma.organisations USING gin(to_tsvector('english', name1));
+CREATE INDEX IF NOT EXISTS idx_enigma_organisations_name2 ON enigma.organisations USING gin(to_tsvector('english', name2));
+CREATE INDEX IF NOT EXISTS idx_enigma_people_name ON enigma.people USING gin(to_tsvector('english', name));
+CREATE INDEX IF NOT EXISTS idx_enigma_directorships_date ON enigma.directorships(appointment_date);
+
+-- Grant permissions
+GRANT USAGE ON SCHEMA enigma TO postgres, anon, authenticated, service_role;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA enigma TO postgres, authenticated;
+GRANT SELECT ON ALL TABLES IN SCHEMA enigma TO anon;
+$$; 
