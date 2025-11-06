@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
 import EnhancedLLMMarket from './components/EnhancedLLMMarket';
 import NPMPlayground from './components/NPMPlayground';
@@ -34,7 +34,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-      {/* 鏋佺畝鍖栧鑸爮 */}
+      {/* 极简化导航栏 */}
       <nav className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-14">
@@ -43,26 +43,9 @@ function AppContent() {
                 LLM & NPM Playground
               </h1>
             </div>
-              
-              {/* Featured HK Scraper Button */}
-              <button
-                onClick={() => actions.setCurrentView('hk-scraper')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                  state.currentView === 'hk-scraper'
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg hover:scale-105'
-                }`}
-                title="Hong Kong Financial Data Scraper"
-              >
-                <Search size={16} />
-                <span className="hidden lg:inline">HK Financial Scraper</span>
-                <span className="lg:hidden">HK Scraper</span>
-                <TrendingUp size={14} className="opacity-75" />
-              </button>
-            </div>
             
             <div className="flex items-center space-x-2">
-              {/* 瀵艰埅鎸夐挳 - 鏇村姞绱у噾 */}
+              {/* 导航按钮 - 更加紧凑 */}
               <nav className="hidden md:flex items-center space-x-1">
                 <button
                   onClick={() => actions.setCurrentView('integrated-hub')}
@@ -169,7 +152,7 @@ function AppContent() {
                       : 'btn-ghost'
                   }`}
                 >
-                  馃彟 Webb
+                  🏦 Webb
                 </button>
                 <button
                   onClick={() => actions.setCurrentView('hk-scraper')}
@@ -179,7 +162,7 @@ function AppContent() {
                       : 'btn-ghost'
                   }`}
                 >
-                  馃攳 HK Scraper
+                  🔍 HK Scraper
                 </button>
                 {/* Webb SQL Import/Update functions are temporarily disabled */}
                 {/* 
@@ -191,9 +174,9 @@ function AppContent() {
                       : 'btn-ghost'
                   }`}
                   disabled
-                  title="SQL Import functions temporarily disabled / SQL瀵煎叆鍔熻兘鏆傛椂绂佺敤"
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
-                  馃摜 Import
+                  📥 Import
                 </button>
                 <button
                   onClick={() => actions.setCurrentView('webb-sql')}
@@ -203,9 +186,9 @@ function AppContent() {
                       : 'btn-ghost'
                   }`}
                   disabled
-                  title="SQL Import functions temporarily disabled / SQL瀵煎叆鍔熻兘鏆傛椂绂佺敤"
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
-                  馃搧 SQL
+                  📁 SQL
                 </button>
                 <button
                   onClick={() => actions.setCurrentView('webb-direct-import')}
@@ -215,9 +198,9 @@ function AppContent() {
                       : 'btn-ghost'
                   }`}
                   disabled
-                  title="SQL Import functions temporarily disabled / SQL瀵煎叆鍔熻兘鏆傛椂绂佺敤"
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
-                  鈿?Direct
+                  ⚡ Direct
                 </button>
                 <button
                   onClick={() => actions.setCurrentView('webb-mysql-migrator')}
@@ -227,9 +210,9 @@ function AppContent() {
                       : 'btn-ghost'
                   }`}
                   disabled
-                  title="SQL Import functions temporarily disabled / SQL瀵煎叆鍔熻兘鏆傛椂绂佺敤"
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
-                  馃攧 MySQL
+                  🔄 MySQL
                 </button>
                 <button
                   onClick={() => actions.setCurrentView('webb-sql-uploader')}
@@ -239,14 +222,14 @@ function AppContent() {
                       : 'btn-ghost'
                   }`}
                   disabled
-                  title="SQL Import functions temporarily disabled / SQL瀵煎叆鍔熻兘鏆傛椂绂佺敤"
+                  title="SQL Import functions temporarily disabled / SQL导入功能暂时禁用"
                 >
-                  馃摛 Upload
+                  📤 Upload
                 </button>
                 */}
               </nav>
 
-              {/* 鐢ㄦ埛璁よ瘉 */}
+              {/* 用户认证 */}
               {authLoading ? (
                 <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
               ) : user ? (
@@ -268,7 +251,7 @@ function AppContent() {
         </div>
       </nav>
 
-      {/* 鍐呭鍖哄煙 */}
+      {/* 内容区域 */}
       <main className="max-w-7xl mx-auto px-4 py-6">
         {state.currentView === 'integrated-hub' ? (
           <IntegratedPlaygroundHub />
@@ -296,8 +279,6 @@ function AppContent() {
           <AdvancedPlaygroundDemo />
         ) : state.currentView === 'multi-model-chat' ? (
           <MultiModelChat />
-        ) : state.currentView === 'hk-scraper' ? (
-          <HKFinancialScraper />
         ) : state.currentView === 'webb-financial' ? (
           <WebbFinancialIntegration />
         ) : state.currentView === 'hk-scraper' ? (
@@ -305,62 +286,62 @@ function AppContent() {
         ) : state.currentView === 'webb-importer' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              馃毇 Feature Temporarily Disabled
+              🚫 Feature Temporarily Disabled
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
-              SQL瀵煎叆鍔熻兘鍥犵淮鎶よ€屾殏鏃剁鐢ㄣ€?
+              SQL导入功能因维护而暂时禁用。
             </p>
           </div>
         ) : state.currentView === 'webb-sql' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              馃毇 Feature Temporarily Disabled
+              🚫 Feature Temporarily Disabled
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
-              SQL瀵煎叆鍔熻兘鍥犵淮鎶よ€屾殏鏃剁鐢ㄣ€?
+              SQL导入功能因维护而暂时禁用。
             </p>
           </div>
         ) : state.currentView === 'webb-direct-import' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              馃毇 Feature Temporarily Disabled
+              🚫 Feature Temporarily Disabled
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
-              SQL瀵煎叆鍔熻兘鍥犵淮鎶よ€屾殏鏃剁鐢ㄣ€?
+              SQL导入功能因维护而暂时禁用。
             </p>
           </div>
         ) : state.currentView === 'webb-mysql-migrator' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              馃毇 Feature Temporarily Disabled
+              🚫 Feature Temporarily Disabled
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
-              SQL瀵煎叆鍔熻兘鍥犵淮鎶よ€屾殏鏃剁鐢ㄣ€?
+              SQL导入功能因维护而暂时禁用。
             </p>
           </div>
         ) : state.currentView === 'webb-sql-uploader' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              馃毇 Feature Temporarily Disabled
+              🚫 Feature Temporarily Disabled
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
-              SQL瀵煎叆鍔熻兘鍥犵淮鎶よ€屾殏鏃剁鐢ㄣ€?
+              SQL导入功能因维护而暂时禁用。
             </p>
           </div>
         ) : null}
       </main>
 
-      {/* 妯℃€佹 */}
+      {/* 模态框 */}
       <AuthModal 
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
