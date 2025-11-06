@@ -7,4 +7,37 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  server: {
+    port: 8080,
+    host: true,
+    open: true,
+    cors: true,
+    proxy: {
+      // Proxy API requests to Supabase in development
+      '/api': {
+        target: 'https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          supabase: ['@supabase/supabase-js'],
+          monaco: ['@monaco-editor/react'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
+  preview: {
+    port: 8080,
+    host: true,
+    open: true,
+  },
 });

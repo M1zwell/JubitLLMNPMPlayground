@@ -1,10 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
+import { ENV } from './env'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = ENV.supabase.url
+const supabaseAnonKey = ENV.supabase.anonKey
 
 // Debug environment variables
 console.log('Supabase configuration:', {
+  environment: ENV.isDevelopment ? 'Development' : 'Production',
   url: supabaseUrl ? `Configured (${supabaseUrl.substring(0, 30)}...)` : 'Missing - click "Connect to Supabase" to configure',
   key: supabaseAnonKey ? `Configured (${supabaseAnonKey.substring(0, 20)}...)` : 'Missing - click "Connect to Supabase" to configure'
 })

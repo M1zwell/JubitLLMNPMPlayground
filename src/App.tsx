@@ -23,6 +23,7 @@ import { WebbSQLImporter } from './components/WebbSQLImporter';
 import WebbDirectSQLImporter from './components/WebbDirectSQLImporter';
 import { WebbMySQLMigrator } from './components/WebbMySQLMigrator';
 import WebbDirectSQLUploader from './components/WebbDirectSQLUploader';
+import EnvironmentChecker from './components/EnvironmentChecker';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -338,6 +339,9 @@ function AppContent() {
         isOpen={showUserProfile}
         onClose={() => setShowUserProfile(false)}
       />
+
+      {/* Environment Checker (Development Only) */}
+      <EnvironmentChecker />
     </div>
   );
 }
