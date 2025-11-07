@@ -504,7 +504,7 @@ function applyTransformation(data) {
               <input
                 type="text"
                 placeholder="搜索模型..."
-                className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+                className="w-full pl-9 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
               />
             </div>
             
@@ -513,10 +513,10 @@ function applyTransformation(data) {
                 <div
                   key={model.id}
                   onClick={() => setSelectedModel(model)}
-                  className={`p-3 rounded-md cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border ${
-                    selectedModel?.id === model.id 
-                      ? 'border-purple-600 bg-purple-50 dark:bg-purple-900/20' 
-                      : 'border-gray-200 dark:border-gray-700'
+                  className={`p-3 rounded-md cursor-pointer transition-all hover:bg-gray-50 border ${
+                    selectedModel?.id === model.id
+                      ? 'border-purple-600 bg-purple-50'
+                      : 'border-gray-700'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -525,7 +525,7 @@ function applyTransformation(data) {
                       <div className="flex items-center gap-1">
                         <p className="text-caption">{model.provider}</p>
                         {model.quality_index && model.quality_index >= 60 && (
-                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                             高质量
                           </span>
                         )}
@@ -562,10 +562,10 @@ function applyTransformation(data) {
                   <div
                     key={key}
                     onClick={() => applyTemplate(key)}
-                    className={`p-3 rounded-md cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border ${
-                      selectedTemplate === key 
-                        ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20' 
-                        : 'border-gray-200 dark:border-gray-700'
+                    className={`p-3 rounded-md cursor-pointer transition-all hover:bg-gray-50 border ${
+                      selectedTemplate === key
+                        ? 'border-blue-600 bg-blue-50'
+                        : 'border-gray-700'
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -581,7 +581,7 @@ function applyTransformation(data) {
                 ))}
               </div>
             ) : (
-              <div className="p-3 rounded-md border border-gray-200 dark:border-gray-700">
+              <div className="p-3 rounded-md border border-gray-700">
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="font-medium text-sm">当前模板: {PROMPT_TEMPLATES[selectedTemplate].name}</h4>
@@ -615,10 +615,10 @@ function applyTransformation(data) {
                     <div
                       key={key}
                       onClick={() => applyPreset(key)}
-                      className={`p-3 rounded-md cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border ${
-                        selectedPreset === key 
-                          ? 'border-gray-600 bg-gray-50 dark:bg-gray-800' 
-                          : 'border-gray-200 dark:border-gray-700'
+                      className={`p-3 rounded-md cursor-pointer transition-all hover:bg-gray-50 border ${
+                        selectedPreset === key
+                          ? 'border-gray-600 bg-gray-50'
+                          : 'border-gray-700'
                       }`}
                     >
                       <div className="flex items-center justify-between">
@@ -691,12 +691,12 @@ function applyTransformation(data) {
                     onChange={(e) => setCustomSettings(prev => ({...prev, systemPrompt: e.target.value}))}
                     placeholder="设置系统提示词以控制模型行为..."
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+                    className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
                   />
                 </div>
               </div>
             ) : (
-              <div className="p-3 rounded-md border border-gray-200 dark:border-gray-700">
+              <div className="p-3 rounded-md border border-gray-700">
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="font-medium text-sm">当前预设: {MODEL_PRESETS[selectedPreset].name}</h4>
@@ -749,7 +749,7 @@ function applyTransformation(data) {
               </div>
             </div>
             
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 p-4 h-[500px] flex flex-col">
+            <div className="bg-gray-50 rounded-md border border-gray-700 p-4 h-[500px] flex flex-col">
               {/* 消息区域 */}
               <div className="flex-1 overflow-y-auto mb-4 space-y-4">
                 {messages.length === 0 ? (
@@ -766,13 +766,13 @@ function applyTransformation(data) {
                       key={message.id}
                       className={`flex ${message.role === 'user' ? 'justify-end' : message.role === 'system' ? 'justify-center' : 'justify-start'}`}
                     >
-                      <div 
+                      <div
                         className={`max-w-[80%] p-3 rounded-md ${
-                          message.role === 'user' 
-                            ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200' 
+                          message.role === 'user'
+                            ? 'bg-blue-50 text-blue-800'
                             : message.role === 'system'
-                            ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-800 dark:text-purple-200 text-xs'
-                            : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                            ? 'bg-purple-50 text-purple-800 text-xs'
+                            : 'bg-gray-200 text-gray-800'
                         }`}
                       >
                         {message.role === 'system' ? (
@@ -796,7 +796,7 @@ function applyTransformation(data) {
                 {/* 打字指示器 */}
                 {isTyping && (
                   <div className="flex justify-start">
-                    <div className="bg-gray-200 dark:bg-gray-700 p-3 rounded-md max-w-[80%]">
+                    <div className="bg-gray-200 p-3 rounded-md max-w-[80%]">
                       <div className="flex gap-2">
                         <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
                         <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{animationDelay: '0.2s'}}></div>
@@ -817,7 +817,7 @@ function applyTransformation(data) {
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="输入您的消息..."
                   rows={3}
-                  className="flex-1 px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm resize-none"
+                  className="flex-1 px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm resize-none"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
@@ -842,19 +842,19 @@ function applyTransformation(data) {
             {/* 模型信息 */}
             {selectedModel && (
               <div className="mt-4 grid grid-cols-4 gap-3 text-center">
-                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-md">
+                <div className="p-2 bg-gray-50 rounded-md">
                   <div className="text-caption">价格</div>
                   <div className="text-sm font-semibold text-blue-600">${selectedModel.output_price}/1M tokens</div>
                 </div>
-                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-md">
+                <div className="p-2 bg-gray-50 rounded-md">
                   <div className="text-caption">质量</div>
                   <div className="text-sm font-semibold text-green-600">{selectedModel.quality_index || 'N/A'}</div>
                 </div>
-                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-md">
+                <div className="p-2 bg-gray-50 rounded-md">
                   <div className="text-caption">速度</div>
                   <div className="text-sm font-semibold text-yellow-600">{selectedModel.output_speed.toFixed(0)} tok/s</div>
                 </div>
-                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-md">
+                <div className="p-2 bg-gray-50 rounded-md">
                   <div className="text-caption">上下文</div>
                   <div className="text-sm font-semibold text-purple-600">{Math.round(selectedModel.context_window/1000)}K</div>
                 </div>
@@ -865,20 +865,20 @@ function applyTransformation(data) {
       </div>
 
       {/* 使用工具提示 */}
-      <div className="card-minimal bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
-        <h3 className="text-subheading mb-2 text-blue-800 dark:text-blue-300">提示与技巧</h3>
+      <div className="card-minimal bg-blue-50 border-blue-200">
+        <h3 className="text-subheading mb-2 text-blue-800">使用技巧</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div>
-            <h4 className="font-semibold mb-1 text-blue-700 dark:text-blue-400">写出好提示词</h4>
-            <p className="text-blue-800 dark:text-blue-300 text-body-sm">明确目标，提供背景，使用具体的例子，分步骤引导模型</p>
+            <h4 className="font-semibold mb-1 text-blue-700">编写有效提示</h4>
+            <p className="text-blue-800 text-body-sm">明确目标，提供背景，使用具体的例子，分步骤引导模型</p>
           </div>
           <div>
-            <h4 className="font-semibold mb-1 text-blue-700 dark:text-blue-400">选择合适的模型</h4>
-            <p className="text-blue-800 dark:text-blue-300 text-body-sm">编程任务选择coding类模型，创意内容选择高温度参数</p>
+            <h4 className="font-semibold mb-1 text-blue-700">选择合适模型</h4>
+            <p className="text-blue-800 text-body-sm">编程任务选择coding类模型，创意内容选择高温度参数</p>
           </div>
           <div>
-            <h4 className="font-semibold mb-1 text-blue-700 dark:text-blue-400">优化成本</h4>
-            <p className="text-blue-800 dark:text-blue-300 text-body-sm">精简输入，选择合适规模的模型，对频繁任务创建模板</p>
+            <h4 className="font-semibold mb-1 text-blue-700">优化成本</h4>
+            <p className="text-blue-800 text-body-sm">精简输入，选择合适规模的模型，对频繁任务创建模板</p>
           </div>
         </div>
       </div>

@@ -232,7 +232,7 @@ const EnhancedLLMMarket = () => {
               placeholder="Search models..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+              className="w-full pl-9 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
             />
           </div>
 
@@ -240,7 +240,7 @@ const EnhancedLLMMarket = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+            className="px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
           >
             {Object.entries(CATEGORIES).map(([key, category]) => (
               <option key={key} value={key}>{category.name}</option>
@@ -251,7 +251,7 @@ const EnhancedLLMMarket = () => {
           <select
             value={selectedProvider}
             onChange={(e) => setSelectedProvider(e.target.value)}
-            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+            className="px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
           >
             {Object.entries(PROVIDERS).map(([key, provider]) => (
               <option key={key} value={key}>{provider.flag} {provider.name}</option>
@@ -263,7 +263,7 @@ const EnhancedLLMMarket = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+              className="flex-1 px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
             >
               {SORT_OPTIONS.map(option => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -271,7 +271,7 @@ const EnhancedLLMMarket = () => {
             </select>
             <button
               onClick={() => setSortDesc(!sortDesc)}
-              className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-sm"
+              className="px-3 py-2 border border-gray-700 rounded-md hover:bg-gray-700 text-sm"
             >
               {sortDesc ? '↓' : '↑'}
             </button>
@@ -332,11 +332,11 @@ const EnhancedLLMMarket = () => {
 
             {/* Metrics */}
             <div className="grid grid-cols-2 gap-2 mb-3">
-              <div className="bg-gray-50 dark:bg-gray-800 rounded px-2 py-1 text-center">
+              <div className="bg-gray-800 rounded px-2 py-1 text-center">
                 <div className="text-xs font-medium">${model.output_price}</div>
                 <div className="text-caption">Price</div>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-800 rounded px-2 py-1 text-center">
+              <div className="bg-gray-800 rounded px-2 py-1 text-center">
                 <div className="text-xs font-medium">{model.output_speed.toFixed(0)} tok/s</div>
                 <div className="text-caption">Speed</div>
               </div>
@@ -538,7 +538,7 @@ const EnhancedLLMMarket = () => {
 
                 <div className="card-minimal">
                   <h4 className="font-semibold mb-2">Best Use Cases</h4>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">
+                  <div className="text-sm text-gray-300">
                     {selectedModel.category === 'reasoning' && '💡 Complex problem solving, analysis, mathematical reasoning'}
                     {selectedModel.category === 'coding' && '💻 Software development, code review, debugging'}
                     {selectedModel.category === 'multimodal' && '🎯 Image analysis, document processing, multimedia tasks'}
@@ -626,12 +626,12 @@ const EnhancedLLMMarket = () => {
           ))}
         </div>
         
-        <div className="mt-6 card-minimal bg-gray-50 dark:bg-gray-800">
+        <div className="mt-6 card-minimal bg-gray-800">
           <h4 className="font-semibold mb-2 flex items-center gap-2">
             <Info size={14} />
             Data Sources & Citations
           </h4>
-          <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+          <div className="text-sm text-gray-400 space-y-1">
             <p>• Performance metrics sourced from <a href="https://artificialanalysis.ai/leaderboards/providers" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700">Artificial Analysis Leaderboard</a></p>
             <p>• Model specifications verified against official provider documentation</p>
             <p>• Pricing information cross-referenced with official API documentation</p>

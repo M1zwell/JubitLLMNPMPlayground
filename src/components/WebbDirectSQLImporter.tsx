@@ -292,7 +292,7 @@ CREATE INDEX IF NOT EXISTS "idx_webb_maintenance_log_status" ON "webb_maintenanc
       </div>
 
       {/* Connection Test */}
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-gray-800 rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold mb-4">🔌 Database Connection / 数据库连接</h2>
         <button
           onClick={testConnection}
@@ -306,7 +306,7 @@ CREATE INDEX IF NOT EXISTS "idx_webb_maintenance_log_status" ON "webb_maintenanc
       </div>
 
       {/* SQL Files to Import */}
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-gray-800 rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold mb-4">📄 SQL Structure Files / SQL结构文件</h2>
         <div className="space-y-3">
           {sqlFiles.map((file, index) => (
@@ -323,7 +323,7 @@ CREATE INDEX IF NOT EXISTS "idx_webb_maintenance_log_status" ON "webb_maintenanc
       </div>
 
       {/* Import Control */}
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-gray-800 rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold mb-4">🚀 Import Control / 导入控制</h2>
         
         {importStatus === 'idle' && (
@@ -398,7 +398,7 @@ CREATE INDEX IF NOT EXISTS "idx_webb_maintenance_log_status" ON "webb_maintenanc
 
       {/* Import Results */}
       {importResults.length > 0 && (
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-gray-800 rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold mb-4">📊 Import Results / 导入结果</h2>
           <div className="space-y-4">
             {importResults.map((result, index) => (

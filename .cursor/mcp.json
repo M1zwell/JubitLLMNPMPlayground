@@ -8,18 +8,7 @@
         "C:\\Users\\user\\JubitLLMNPMPlayground"
       ]
     },
-    "supabase": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-postgres",
-        "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-      ],
-      "env": {
-        "SUPABASE_URL": "https://kiztaihzanqnrcrqaxsv.supabase.co",
-        "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpenRhaWh6YW5xbnJjcnFheHN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MjgxNzcsImV4cCI6MjA2NzIwNDE3N30.a9ZXqVSmFOH2fBbrMeELPainodMGTAkbyiUVwjmFTK8"
-      }
-    },
+    "_comment_supabase": "Postgres MCP disabled - Docker not running. To enable: 1) Start Docker + Supabase locally, OR 2) Get production connection string from Supabase Dashboard > Settings > Database > Connection String (URI)",
     "github": {
       "command": "npx",
       "args": [

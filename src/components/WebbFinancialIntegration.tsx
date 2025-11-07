@@ -136,7 +136,7 @@ Query: ${analysisQuery}
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl font-bold text-gray-100 mb-4">
           🏦 David Webb Financial Database Integration
         </h1>
         <p className="text-lg text-gray-600">
@@ -159,7 +159,7 @@ Query: ${analysisQuery}
             onClick={() => setActiveTab(tab.id as any)}
             className={`flex-1 py-3 px-4 text-sm font-medium rounded-md transition-colors ${
               activeTab === tab.id
-                ? 'bg-white text-blue-600 shadow-sm'
+                ? 'bg-gray-800 text-blue-600 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >

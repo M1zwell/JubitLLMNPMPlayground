@@ -270,7 +270,7 @@ export const MultiModelChat: React.FC = () => {
   return (
     <Box className="h-screen flex bg-gray-50">
       {/* 侧边栏 - 会话和模型选择 */}
-      <Box className="w-80 bg-white border-r border-gray-200 flex flex-col">
+      <Box className="w-80 bg-gray-800 border-r border-gray-700 flex flex-col">
         {/* 会话列表 */}
         <Box className="p-4 border-b border-gray-200">
           <Flex justify="between" align="center" className="mb-4">
@@ -335,7 +335,7 @@ export const MultiModelChat: React.FC = () => {
               <Card className={`max-w-2xl p-4 ${
                 message.type === 'user' 
                   ? 'bg-blue-500 text-white ml-12' 
-                  : 'bg-white mr-12'
+                  : 'bg-gray-800 mr-12'
               }`}>
                 <div className="whitespace-pre-wrap">{message.content}</div>
                 {message.type === 'user' && (
@@ -376,7 +376,7 @@ export const MultiModelChat: React.FC = () => {
         </Box>
 
         {/* 输入区域 */}
-        <Box className="p-4 border-t border-gray-200 bg-white">
+        <Box className="p-4 border-t border-gray-700 bg-gray-800">
           <Flex gap={2}>
             <Input
               value={inputMessage}

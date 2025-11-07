@@ -122,7 +122,7 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
 
       {/* Update Status */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        <div className="card-minimal bg-gray-50 dark:bg-gray-800">
+        <div className="card-minimal bg-gray-50">
           <div className="flex items-center gap-2 mb-1">
             <Clock className="text-blue-600" size={14} />
             <span className="text-sm font-medium">Last Update</span>
@@ -131,7 +131,7 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
           <div className="text-caption">{getTimeSinceUpdate()}</div>
         </div>
 
-        <div className="card-minimal bg-gray-50 dark:bg-gray-800">
+        <div className="card-minimal bg-gray-50">
           <div className="flex items-center gap-2 mb-1">
             {autoUpdateEnabled ? (
               <CheckCircle className="text-green-600" size={14} />
@@ -148,7 +148,7 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
           </div>
         </div>
 
-        <div className="card-minimal bg-gray-50 dark:bg-gray-800">
+        <div className="card-minimal bg-gray-50">
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp className="text-green-600" size={14} />
             <span className="text-sm font-medium">Data Source</span>
@@ -161,11 +161,11 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
       {/* Update Status Message */}
       {updateStatus && (
         <div className={`p-3 rounded-md mb-4 ${
-          updateStatus.includes('✅') 
-            ? 'bg-green-50 border border-green-200 dark:bg-green-900/20 dark:border-green-800' 
+          updateStatus.includes('✅')
+            ? 'bg-green-50 border border-green-200'
             : updateStatus.includes('❌')
-            ? 'bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800'
-            : 'bg-blue-50 border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800'
+            ? 'bg-red-50 border border-red-200'
+            : 'bg-blue-50 border border-blue-200'
         }`}>
           <p className="text-sm">{updateStatus}</p>
         </div>
@@ -173,7 +173,7 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
 
       {/* Last Update Stats */}
       {lastUpdate && (
-        <div className="card-minimal bg-gray-50 dark:bg-gray-800 mb-4">
+        <div className="card-minimal bg-gray-50 mb-4">
           <h4 className="font-medium mb-2">Last Update Results</h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
             <div>
@@ -221,7 +221,7 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
 
       {/* Schedule Settings */}
       {showScheduler && (
-        <div className="card-minimal bg-gray-50 dark:bg-gray-800">
+        <div className="card-minimal bg-gray-50">
           <h4 className="font-medium mb-3 flex items-center gap-2">
             <Calendar size={14} />
             Schedule Settings
@@ -235,7 +235,7 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
               <select
                 value={updateInterval}
                 onChange={(e) => setUpdateInterval(parseInt(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800"
+                className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800"
               >
                 <option value={1}>Every hour</option>
                 <option value={6}>Every 6 hours</option>

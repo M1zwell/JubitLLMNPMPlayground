@@ -13,7 +13,25 @@
       "Bash(powershell -Command \"Test-Path $env:USERPROFILE\\.local\\bin\\claude.exe\")",
       "Bash(powershell -Command \"if (Test-Path $env:USERPROFILE\\.local\\bin\\claude.exe) { & \"\"$env:USERPROFILE\\.local\\bin\\claude.exe\"\" --version } else { Write-Host ''Not found'' }\")",
       "Bash(npm run lint:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(for f in *.tsx auth/*.tsx ui/*.tsx)",
+      "Bash(do if [[ \"$f\" != \"HKFinancialScraper.tsx\")",
+      "Bash(\"$f\" != \"EnhancedLLMMarket.tsx\")",
+      "Bash(\"$f\" != \"IntegratedPlaygroundHub.tsx\")",
+      "Bash(\"$f\" != \"NPMMarketplace.tsx\")",
+      "Bash(\"$f\" != \"NPMIntegratedPlayground.tsx\" ]])",
+      "Bash(then perl -i -pe 's/bg-white/bg-gray-800/g; s/text-gray-900 /text-gray-100 /g; s/border-gray-200 /border-gray-700 /g; s/dark:bg-gray-\\d+/undefined-remove/g; s/dark:border-gray-\\d+/undefined-remove/g; s/ dark:[^ ]+(?: |$)/ /g' \"$f\")",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(xargs -I {} sh -c 'grep -l \"\"\"\"bg-white\\|text-gray-900 \\|border-gray-200 \\|dark:\"\"\"\" \"\"\"\"{}\"\"\"\" 2>/dev/null && echo \"\"\"\"{}\"\"\"\"')",
+      "Bash(find:*)",
+      "Bash(perl -i -pe:*)",
+      "Bash(git checkout:*)",
+      "Bash(npm run build:*)",
+      "Bash(for file in NPMImportTool.tsx NPMScraper.tsx NPMPlayground.tsx WebbDataImporter.tsx WebbSQLImporter.tsx WebbMySQLMigrator.tsx WebbLocalDataProcessor.tsx)",
+      "Bash(do perl -i -pe 's/(className=\"\"[^\"\"]+)$/\\1\"\"/ unless /dark:/' \"$file\")"
     ],
     "deny": [],
     "ask": []
@@ -27,18 +45,7 @@
         "C:\\Users\\user\\JubitLLMNPMPlayground"
       ]
     },
-    "supabase": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-postgres",
-        "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-      ],
-      "env": {
-        "SUPABASE_URL": "https://kiztaihzanqnrcrqaxsv.supabase.co",
-        "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpenRhaWh6YW5xbnJjcnFheHN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MjgxNzcsImV4cCI6MjA2NzIwNDE3N30.a9ZXqVSmFOH2fBbrMeELPainodMGTAkbyiUVwjmFTK8"
-      }
-    },
+    "_comment_supabase": "Postgres MCP disabled - Docker not running. To enable: 1) Start Docker + Supabase locally, OR 2) Get production connection string from Supabase Dashboard > Settings > Database > Connection String (URI)",
     "github": {
       "command": "npx",
       "args": [

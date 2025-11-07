@@ -24,7 +24,7 @@ const PerformanceChart: React.FC<{ data: MetricData[]; title: string }> = ({ dat
   const maxValue = Math.max(...data.map(d => d.value));
   
   return (
-    <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
+    <div className="bg-gray-800/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
       <h3 className="font-bold mb-3 flex items-center gap-2">
         <BarChart3 size={16} className="text-blue-400" />
         {title}
@@ -38,7 +38,7 @@ const PerformanceChart: React.FC<{ data: MetricData[]; title: string }> = ({ dat
                 className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-1000 ease-out relative"
                 style={{ width: `${Math.min((item.value / maxValue) * 100, 100)}%` }}
               >
-                <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full"></div>
+                <div className="absolute inset-0 bg-gray-800/20 animate-pulse rounded-full"></div>
               </div>
             </div>
             <span className="text-xs text-gray-400 w-12 text-right">
@@ -119,7 +119,7 @@ const WorkflowDiagram: React.FC<{ workflow: any[]; connections?: any[] }> = ({
 }) => {
   if (workflow.length === 0) {
     return (
-      <div className="bg-white/5 rounded-lg p-6 border border-white/10 text-center">
+      <div className="bg-gray-800/5 rounded-lg p-6 border border-white/10 text-center">
         <Activity size={32} className="mx-auto mb-2 text-gray-500" />
         <p className="text-gray-500">No workflow components to visualize</p>
       </div>
@@ -127,7 +127,7 @@ const WorkflowDiagram: React.FC<{ workflow: any[]; connections?: any[] }> = ({
   }
 
   return (
-    <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+    <div className="bg-gray-800/5 rounded-lg p-4 border border-white/10">
       <h3 className="font-bold mb-3 flex items-center gap-2">
         <Activity size={16} className="text-purple-400" />
         Workflow Visualization
@@ -258,7 +258,7 @@ const CostBreakdown: React.FC<{ data: MetricData[] }> = ({ data }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0);
   
   return (
-    <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
+    <div className="bg-gray-800/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
       <h3 className="font-bold mb-3 flex items-center gap-2">
         <PieChart size={16} className="text-yellow-400" />
         Cost Breakdown
@@ -362,7 +362,7 @@ const WorkflowVisualization: React.FC<WorkflowVisualizationProps> = ({
       
       {/* Advanced Analytics */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
+        <div className="bg-gray-800/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
           <h3 className="font-bold mb-3 flex items-center gap-2">
             <TrendingUp size={16} className="text-green-400" />
             Efficiency Trends
@@ -386,7 +386,7 @@ const WorkflowVisualization: React.FC<WorkflowVisualizationProps> = ({
           </div>
         </div>
         
-        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
+        <div className="bg-gray-800/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
           <h3 className="font-bold mb-3 flex items-center gap-2">
             <Zap size={16} className="text-yellow-400" />
             Optimization Suggestions

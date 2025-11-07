@@ -34,13 +34,13 @@ function AppContent() {
   const [showUserProfile, setShowUserProfile] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-gray-900 text-gray-100">
       {/* 极简化导航栏 */}
-      <nav className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+      <nav className="border-b border-gray-700 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center space-x-6">
-              <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <h1 className="text-lg font-semibold text-gray-100">
                 LLM & NPM Playground
               </h1>
             </div>
@@ -234,7 +234,7 @@ function AppContent() {
 
               {/* 用户认证 */}
               {authLoading ? (
-                <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+                <div className="w-8 h-8 bg-gray-700 rounded-full animate-pulse"></div>
               ) : user ? (
                 <UserMenu 
                   onOpenProfile={() => setShowUserProfile(true)}
@@ -288,10 +288,10 @@ function AppContent() {
           <HKFinancialScraper />
         ) : state.currentView === 'webb-importer' ? (
           <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-bold text-white mb-4">
               🚫 Feature Temporarily Disabled
             </h2>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
               SQL导入功能因维护而暂时禁用。
@@ -299,10 +299,10 @@ function AppContent() {
           </div>
         ) : state.currentView === 'webb-sql' ? (
           <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-bold text-white mb-4">
               🚫 Feature Temporarily Disabled
             </h2>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
               SQL导入功能因维护而暂时禁用。
@@ -310,10 +310,10 @@ function AppContent() {
           </div>
         ) : state.currentView === 'webb-direct-import' ? (
           <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-bold text-white mb-4">
               🚫 Feature Temporarily Disabled
             </h2>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
               SQL导入功能因维护而暂时禁用。
@@ -321,10 +321,10 @@ function AppContent() {
           </div>
         ) : state.currentView === 'webb-mysql-migrator' ? (
           <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-bold text-white mb-4">
               🚫 Feature Temporarily Disabled
             </h2>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
               SQL导入功能因维护而暂时禁用。
@@ -332,10 +332,10 @@ function AppContent() {
           </div>
         ) : state.currentView === 'webb-sql-uploader' ? (
           <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-bold text-white mb-4">
               🚫 Feature Temporarily Disabled
             </h2>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-300">
               SQL Import functions are temporarily disabled for maintenance.
               <br />
               SQL导入功能因维护而暂时禁用。

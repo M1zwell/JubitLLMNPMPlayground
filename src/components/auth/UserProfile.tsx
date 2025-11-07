@@ -195,7 +195,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => {
               {!isEditing ? (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+                  className="bg-gray-800/20 hover:bg-gray-800/30 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
                 >
                   <Edit3 size={16} />
                   Edit Profile

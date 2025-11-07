@@ -21,22 +21,22 @@
   --color-neutral-800: #262626;
   --color-neutral-900: #171717;
   
-  /* 背景色 */
-  --color-bg-primary: #fafafa;
-  --color-bg-secondary: #f5f5f5;
-  --color-bg-tertiary: #ffffff;
+  /* 背景色 - Dark Mode Only */
+  --color-bg-primary: #1a1a1a;
+  --color-bg-secondary: #2a2a2a;
+  --color-bg-tertiary: #333333;
   --color-bg-dark: #1a1a1a;
   --color-bg-dark-secondary: #2a2a2a;
-  
-  /* 文本色 */
-  --color-text-primary: #171717;
-  --color-text-secondary: #525252;
-  --color-text-muted: #737373;
-  --color-text-light: #a3a3a3;
-  
-  /* 边框色 */
-  --color-border: #e5e5e5;
-  --color-border-muted: #f5f5f5;
+
+  /* 文本色 - Dark Mode Only */
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #d4d4d4;
+  --color-text-muted: #a3a3a3;
+  --color-text-light: #737373;
+
+  /* 边框色 - Dark Mode Only */
+  --color-border: #404040;
+  --color-border-muted: #2a2a2a;
   
   /* 功能色 - 更加克制 */
   --color-success: #059669;
@@ -67,17 +67,7 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08);
 }
 
-/* 暗色主题 */
-.dark {
-  --color-bg-primary: var(--color-bg-dark);
-  --color-bg-secondary: var(--color-bg-dark-secondary);
-  --color-bg-tertiary: #333333;
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #d4d4d4;
-  --color-text-muted: #a3a3a3;
-  --color-border: #404040;
-  --color-border-muted: #2a2a2a;
-}
+/* Dark mode is now the default and only theme */
 
 /* 基础样式重置 */
 * {

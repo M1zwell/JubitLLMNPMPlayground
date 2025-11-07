@@ -17,7 +17,7 @@ const OfficialDocumentationCard: React.FC<OfficialDocumentationCardProps> = ({
   isVerified = false 
 }) => {
   return (
-    <div className="bg-white/10 rounded-lg p-4 hover:bg-white/15 transition-colors">
+    <div className="bg-gray-800/10 rounded-lg p-4 hover:bg-gray-800/15 transition-colors">
       <div className="flex items-center gap-2 mb-3">
         <span className="text-lg">{provider.flag}</span>
         <h4 className="font-bold">{provider.name}</h4>

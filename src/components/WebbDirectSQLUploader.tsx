@@ -242,7 +242,7 @@ export const WebbDirectSQLUploader: React.FC = () => {
       </div>
 
       {/* Configuration */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border">
+      <div className="bg-gray-800 p-6 rounded-lg border">
         <h2 className="text-xl font-semibold mb-4">Migration Configuration</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -272,7 +272,7 @@ export const WebbDirectSQLUploader: React.FC = () => {
       </div>
 
       {/* File Selection */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border">
+      <div className="bg-gray-800 p-6 rounded-lg border">
         <h2 className="text-xl font-semibold mb-4">SQL Files Selection</h2>
         
         <div className="space-y-3">
@@ -337,7 +337,7 @@ export const WebbDirectSQLUploader: React.FC = () => {
 
       {/* Progress Display */}
       {(progress.isActive || progress.startTime) && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border">
+        <div className="bg-gray-800 p-6 rounded-lg border">
           <h2 className="text-xl font-semibold mb-4">Migration Progress</h2>
           
           <div className="space-y-4">
@@ -386,13 +386,13 @@ export const WebbDirectSQLUploader: React.FC = () => {
 
       {/* Error Display */}
       {progress.errors.length > 0 && (
-        <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg border border-red-200">
-          <h2 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-4">
+        <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+          <h2 className="text-xl font-semibold text-red-800 mb-4">
             Migration Errors ({progress.errors.length})
           </h2>
           <div className="space-y-2 max-h-60 overflow-y-auto">
             {progress.errors.map((error, index) => (
-              <div key={index} className="text-sm text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-800/30 p-2 rounded">
+              <div key={index} className="text-sm text-red-700 bg-red-100 p-2 rounded">
                 {error}
               </div>
             ))}
@@ -401,7 +401,7 @@ export const WebbDirectSQLUploader: React.FC = () => {
       )}
 
       {/* Database Info */}
-      <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+      <div className="bg-gray-50 p-6 rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Database Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div>

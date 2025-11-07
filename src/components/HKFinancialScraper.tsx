@@ -307,29 +307,29 @@ export default function HKFinancialScraper() {
   // ============================================================================
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 p-6">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-bold text-gray-100 mb-2">
               HK Financial Scraper
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-400">
               Dual-engine web scraping for HKEX, HKSFC, and NPM data sources
             </p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={viewCacheStats}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 flex items-center gap-2"
+              className="px-4 py-2 bg-gray-700 text-gray-100 rounded-lg hover:bg-gray-600 flex items-center gap-2"
             >
               <Settings className="w-4 h-4" />
               Cache Stats
             </button>
             <button
               onClick={handleClearCache}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 flex items-center gap-2"
+              className="px-4 py-2 bg-gray-700 text-gray-100 rounded-lg hover:bg-gray-600 flex items-center gap-2"
             >
               <Trash2 className="w-4 h-4" />
               Clear Cache
@@ -351,7 +351,7 @@ export default function HKFinancialScraper() {
         {/* Left Panel: Target Selection */}
         <div className="lg:col-span-2 space-y-6">
           {/* HKEX Sources */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-gray-800 rounded-xl shadow-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-blue-600 flex items-center gap-2">
                 <Building2 className="w-5 h-5" />
@@ -374,15 +374,15 @@ export default function HKFinancialScraper() {
                   className={`
                     p-4 rounded-lg border-2 cursor-pointer transition-all
                     ${selectedTargets.includes(target.id)
-                      ? 'border-blue-500 bg-blue-50 shadow-md'
-                      : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50/50'}
+                      ? 'border-blue-500 bg-blue-900 shadow-md'
+                      : 'border-gray-700 hover:border-blue-300 hover:bg-blue-900/50'}
                   `}
                 >
                   <div className="flex items-start gap-3">
                     <div className="text-blue-600">{target.icon}</div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{target.name}</h3>
-                      <p className="text-sm text-gray-600 mt-1">{target.description}</p>
+                      <h3 className="font-semibold text-gray-100 ">{target.name}</h3>
+                      <p className="text-sm text-gray-400 mt-1">{target.description}</p>
                     </div>
                     {selectedTargets.includes(target.id) && (
                       <CheckCircle className="w-5 h-5 text-blue-600" />
@@ -394,7 +394,7 @@ export default function HKFinancialScraper() {
           </div>
 
           {/* HKSFC Sources */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-gray-800 rounded-xl shadow-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-purple-600 flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
@@ -417,15 +417,15 @@ export default function HKFinancialScraper() {
                   className={`
                     p-4 rounded-lg border-2 cursor-pointer transition-all
                     ${selectedTargets.includes(target.id)
-                      ? 'border-purple-500 bg-purple-50 shadow-md'
-                      : 'border-gray-200 hover:border-purple-300 hover:bg-purple-50/50'}
+                      ? 'border-purple-500 bg-purple-900 shadow-md'
+                      : 'border-gray-700 hover:border-purple-300 hover:bg-purple-900/50'}
                   `}
                 >
                   <div className="flex items-start gap-3">
                     <div className="text-purple-600">{target.icon}</div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{target.name}</h3>
-                      <p className="text-sm text-gray-600 mt-1">{target.description}</p>
+                      <h3 className="font-semibold text-gray-100 ">{target.name}</h3>
+                      <p className="text-sm text-gray-400 mt-1">{target.description}</p>
                     </div>
                     {selectedTargets.includes(target.id) && (
                       <CheckCircle className="w-5 h-5 text-purple-600" />
@@ -437,7 +437,7 @@ export default function HKFinancialScraper() {
           </div>
 
           {/* NPM Sources */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-gray-800 rounded-xl shadow-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-red-600 flex items-center gap-2">
                 <Package className="w-5 h-5" />
@@ -460,15 +460,15 @@ export default function HKFinancialScraper() {
                   className={`
                     p-4 rounded-lg border-2 cursor-pointer transition-all
                     ${selectedTargets.includes(target.id)
-                      ? 'border-red-500 bg-red-50 shadow-md'
-                      : 'border-gray-200 hover:border-red-300 hover:bg-red-50/50'}
+                      ? 'border-red-500 bg-red-900 shadow-md'
+                      : 'border-gray-700 hover:border-red-300 hover:bg-red-900/50'}
                   `}
                 >
                   <div className="flex items-start gap-3">
                     <div className="text-red-600">{target.icon}</div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{target.name}</h3>
-                      <p className="text-sm text-gray-600 mt-1">{target.description}</p>
+                      <h3 className="font-semibold text-gray-100 ">{target.name}</h3>
+                      <p className="text-sm text-gray-400 mt-1">{target.description}</p>
                     </div>
                     {selectedTargets.includes(target.id) && (
                       <CheckCircle className="w-5 h-5 text-red-600" />
@@ -483,15 +483,15 @@ export default function HKFinancialScraper() {
         {/* Right Panel: Options & Results */}
         <div className="space-y-6">
           {/* Input Options */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <div className="bg-gray-800 rounded-xl shadow-lg p-6">
+            <h2 className="text-xl font-bold text-gray-100 mb-4 flex items-center gap-2">
               <Settings className="w-5 h-5" />
               Options
             </h2>
 
             {/* Date Range */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 <Calendar className="w-4 h-4 inline mr-1" />
                 Date Range
               </label>
@@ -500,20 +500,20 @@ export default function HKFinancialScraper() {
                   type="date"
                   value={dateRange.start}
                   onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
                 />
                 <input
                   type="date"
                   value={dateRange.end}
                   onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
                 />
               </div>
             </div>
 
             {/* Stock Codes */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Stock Codes (HKEX)
               </label>
               <input
@@ -521,14 +521,14 @@ export default function HKFinancialScraper() {
                 value={stockCodes}
                 onChange={(e) => setStockCodes(e.target.value)}
                 placeholder="00700,00005,00388"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
               />
               <p className="text-xs text-gray-500 mt-1">Comma-separated</p>
             </div>
 
             {/* NPM Query */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 NPM Search Query
               </label>
               <input
@@ -536,13 +536,13 @@ export default function HKFinancialScraper() {
                 value={npmQuery}
                 onChange={(e) => setNpmQuery(e.target.value)}
                 placeholder="react, vue, angular"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
               />
             </div>
 
             {/* Custom URL */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Custom URL
               </label>
               <input
@@ -550,14 +550,14 @@ export default function HKFinancialScraper() {
                 value={customUrl}
                 onChange={(e) => setCustomUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
               />
             </div>
 
             {/* Advanced Options Toggle */}
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 flex items-center justify-between mb-4"
+              className="w-full px-4 py-2 bg-gray-700 text-gray-100 rounded-lg hover:bg-gray-600 flex items-center justify-between mb-4"
             >
               <span>Advanced Options</span>
               <span className="text-xs">{showAdvanced ? '▲' : '▼'}</span>
@@ -565,16 +565,16 @@ export default function HKFinancialScraper() {
 
             {/* Advanced Options Panel */}
             {showAdvanced && (
-              <div className="space-y-3 mb-4 p-4 bg-gray-50 rounded-lg">
+              <div className="space-y-3 mb-4 p-4 bg-gray-700 rounded-lg">
                 {/* Strategy */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
                     Scraping Strategy
                   </label>
                   <select
                     value={strategy}
                     onChange={(e) => setStrategy(e.target.value as ScrapingStrategy)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-600 text-gray-100"
                   >
                     <option value="auto">Auto (Firecrawl → Puppeteer)</option>
                     <option value="firecrawl">Firecrawl Only</option>
@@ -584,7 +584,7 @@ export default function HKFinancialScraper() {
 
                 {/* Max Retries */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
                     Max Retries: {maxRetries}
                   </label>
                   <input
@@ -599,7 +599,7 @@ export default function HKFinancialScraper() {
 
                 {/* Rate Limit */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
                     Rate Limit: {rateLimit}ms
                   </label>
                   <input
@@ -621,7 +621,7 @@ export default function HKFinancialScraper() {
                     onChange={(e) => setUseCache(e.target.checked)}
                     className="w-4 h-4"
                   />
-                  <label className="text-sm text-gray-700">
+                  <label className="text-sm text-gray-300">
                     Use Cache (TTL: {cacheTTL}s)
                   </label>
                 </div>
@@ -666,11 +666,11 @@ export default function HKFinancialScraper() {
             {/* Progress Bar */}
             {isLoading && progress.total > 0 && (
               <div className="mt-4">
-                <div className="flex justify-between text-sm text-gray-600 mb-2">
+                <div className="flex justify-between text-sm text-gray-400 mb-2">
                   <span>Progress</span>
                   <span>{progress.current} / {progress.total}</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-700 rounded-full h-2">
                   <div
                     className="bg-blue-600 h-2 rounded-full transition-all"
                     style={{ width: `${(progress.current / progress.total) * 100}%` }}
@@ -681,9 +681,9 @@ export default function HKFinancialScraper() {
           </div>
 
           {/* Results */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-gray-800 rounded-xl shadow-lg p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-xl font-bold text-gray-100">
                 Results ({results.length})
               </h2>
               {results.length > 0 && (
@@ -698,7 +698,7 @@ export default function HKFinancialScraper() {
             </div>
 
             {results.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">
+              <p className="text-gray-400 text-center py-8">
                 No results yet. Select targets and start scraping.
               </p>
             ) : (
@@ -709,8 +709,8 @@ export default function HKFinancialScraper() {
                     className={`
                       p-4 rounded-lg border-2
                       ${result.result.success
-                        ? 'border-green-200 bg-green-50'
-                        : 'border-red-200 bg-red-50'}
+                        ? 'border-green-700 bg-green-900'
+                        : 'border-red-700 bg-red-900'}
                     `}
                   >
                     <div className="flex items-start justify-between mb-2">
@@ -720,16 +720,16 @@ export default function HKFinancialScraper() {
                         ) : (
                           <AlertCircle className="w-5 h-5 text-red-600" />
                         )}
-                        <h3 className="font-semibold text-gray-900">{result.targetName}</h3>
+                        <h3 className="font-semibold text-gray-100">{result.targetName}</h3>
                       </div>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-400">
                         {result.timestamp.toLocaleTimeString()}
                       </span>
                     </div>
 
                     {result.result.success ? (
                       <>
-                        <p className="text-sm text-gray-600 mb-2">
+                        <p className="text-sm text-gray-400 mb-2">
                           {result.result.recordCount} records • {result.result.executionTime}ms • {result.result.source}
                           {result.result.cached && ' • (cached)'}
                         </p>

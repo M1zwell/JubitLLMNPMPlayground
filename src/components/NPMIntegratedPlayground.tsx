@@ -820,7 +820,7 @@ return { numbers, squared, sum };`);
               placeholder="搜索 NPM 包..."
               value={packageSearchTerm}
               onChange={(e) => setPackageSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+              className="w-full pl-9 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
             />
           </div>
           
@@ -845,7 +845,7 @@ return { numbers, squared, sum };`);
                     </div>
                   </div>
                   
-                  <p className="text-caption text-gray-600 dark:text-gray-300 mb-2 line-clamp-2">
+                  <p className="text-caption text-gray-300 mb-2 line-clamp-2">
                     {pkg.description}
                   </p>
                   
@@ -883,7 +883,7 @@ return { numbers, squared, sum };`);
                   <div 
                     key={key} 
                     className={`card-minimal hover:border-yellow-600 transition-colors ${
-                      selectedTemplate === key ? 'border-yellow-600 bg-yellow-50 dark:bg-yellow-900/20' : ''
+                      selectedTemplate === key ? 'border-yellow-600 bg-yellow-50' : ''
                     }`}
                     onClick={() => loadTemplate(key)}
                   >
@@ -891,7 +891,7 @@ return { numbers, squared, sum };`);
                       <h3 className="font-medium text-sm">{template.name}</h3>
                     </div>
                     
-                    <p className="text-caption text-gray-600 dark:text-gray-300 mb-3">{template.description}</p>
+                    <p className="text-caption text-gray-300 mb-3">{template.description}</p>
                     
                     <div className="space-y-1 mb-3">
                       <div className="text-xs text-purple-600 flex items-center gap-1">
@@ -922,7 +922,7 @@ return { numbers, squared, sum };`);
                 AI 建议
               </h2>
               
-              <div className="card-minimal bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800">
+              <div className="card-minimal bg-purple-900/20 border-purple-800">
                 <h3 className="font-medium text-sm mb-2">推荐组合</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
@@ -1020,12 +1020,12 @@ return { numbers, squared, sum };`);
                             </div>
                           </div>
                           
-                          <div className="text-caption text-gray-600 dark:text-gray-300 mb-2">
+                          <div className="text-caption text-gray-300 mb-2">
                             输入: {atom.atomicInfo.inputs.join(', ')} → 输出: {atom.atomicInfo.outputs.join(', ')}
                           </div>
-                          
+
                           {result && (
-                            <div className="mt-2 bg-gray-50 dark:bg-gray-800 rounded p-3">
+                            <div className="mt-2 bg-gray-800 rounded p-3">
                               <div className="text-xs text-green-600 mb-1">✅ 完成</div>
                               <div className="text-sm font-mono whitespace-pre-wrap">{result}</div>
                             </div>
@@ -1448,7 +1448,7 @@ return { numbers, squared, sum };`);
       )}
 
       {/* Integration Notice */}
-      <div className="card-minimal bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-green-200 dark:border-green-800">
+      <div className="card-minimal bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
         <h3 className="text-subheading mb-4 text-center flex items-center justify-center gap-2">
           <Globe className="text-green-600" />
           集成式 NPM 开发环境
