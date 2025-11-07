@@ -1,4 +1,15 @@
-import FirecrawlApp from '@mendable/firecrawl-js';
+// Conditionally import Firecrawl only if in Node.js environment
+// In browser, this will be undefined and we'll handle it gracefully
+let FirecrawlApp: any;
+try {
+  // @ts-ignore - Dynamic import for browser compatibility
+  if (typeof window === 'undefined') {
+    FirecrawlApp = require('@mendable/firecrawl-js').default;
+  }
+} catch (error) {
+  console.warn('Firecrawl not available in browser environment, will use Puppeteer fallback');
+  FirecrawlApp = null;
+}
 
 export interface FirecrawlScrapingOptions {
   apiKey?: string;
@@ -42,17 +53,36 @@ export interface FirecrawlScrapingResult {
 }
 
 export class FirecrawlScraper {
-  private app: FirecrawlApp;
+  private app: any;
   private defaultOptions: FirecrawlScrapingOptions;
+  private isAvailable: boolean = false;
 
   constructor(apiKey?: string, options: FirecrawlScrapingOptions = {}) {
-    const key = apiKey || import.meta.env.VITE_FIRECRAWL_API_KEY || '';
-    
-    if (!key) {
-      throw new Error('Firecrawl API key is required. Set VITE_FIRECRAWL_API_KEY in .env file.');
+    // Check if Firecrawl is available (Node.js environment)
+    if (!FirecrawlApp) {
+      console.warn('Firecrawl not available in browser, scraping will fail');
+      this.isAvailable = false;
+      this.defaultOptions = { ...options };
+      return;
     }
 
-    this.app = new FirecrawlApp({ apiKey: key });
+    const key = apiKey || import.meta.env.VITE_FIRECRAWL_API_KEY || '';
+
+    if (!key) {
+      console.warn('Firecrawl API key not configured. Set VITE_FIRECRAWL_API_KEY in .env file.');
+      this.isAvailable = false;
+      this.defaultOptions = { ...options };
+      return;
+    }
+
+    try {
+      this.app = new FirecrawlApp({ apiKey: key });
+      this.isAvailable = true;
+    } catch (error) {
+      console.error('Failed to initialize Firecrawl:', error);
+      this.isAvailable = false;
+    }
+
     this.defaultOptions = {
       format: 'markdown',
       timeout: 30000,
@@ -65,6 +95,16 @@ export class FirecrawlScraper {
    * 抓取单个网页 / Scrape a single webpage
    */
   async scrape(url: string, options: Partial<FirecrawlScrapingOptions> = {}): Promise<FirecrawlScrapingResult> {
+    // Check if Firecrawl is available
+    if (!this.isAvailable || !this.app) {
+      return {
+        success: false,
+        url,
+        error: 'Firecrawl not available in browser environment. Use Puppeteer fallback.',
+        timestamp: new Date()
+      };
+    }
+
     const opts = { ...this.defaultOptions, ...options };
 
     try {

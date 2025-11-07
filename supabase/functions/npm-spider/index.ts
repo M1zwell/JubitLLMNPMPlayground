@@ -123,7 +123,7 @@ Deno.serve(async (req) => {
               const githubStars = parseStarsString(packageData.stars?.toString() || '0');
               
               // Determine categories based on keywords and description
-              let categories = determineCategoriesFromKeywords(keywords, packageData.description || '');
+              const categories = determineCategoriesFromKeywords(keywords, packageData.description || '');
               
               // Add the category from search query if it's a category search
               if (searchQuery.includes('keywords:') && !searchQuery.includes(' OR ')) {

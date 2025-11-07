@@ -80,7 +80,7 @@ const EnhancedLLMMarket = () => {
   const filteredModels = useMemo(() => {
     if (!LLM_MODELS) return [];
     
-    let filtered = LLM_MODELS.filter(model => {
+    const filtered = LLM_MODELS.filter(model => {
       const categoryMatch = selectedCategory === 'all' || model.category === selectedCategory;
       const providerMatch = selectedProvider === 'all' || model.provider === selectedProvider;
       const searchMatch = model.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

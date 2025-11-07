@@ -72,7 +72,7 @@ Deno.serve(async (req: Request) => {
     const updateLog = await logResponse.json();
     const logId = updateLog.id;
 
-    let stats: UpdateStats = {
+    const stats: UpdateStats = {
       total_processed: 0,
       models_added: 0,
       models_updated: 0,

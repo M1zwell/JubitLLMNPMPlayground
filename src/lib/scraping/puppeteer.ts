@@ -1,4 +1,8 @@
-import puppeteer, { Browser, Page } from 'puppeteer';
+// NOTE: Puppeteer cannot run in browser - this file should only be used in Node.js
+// Browser environment will use mock data instead
+let puppeteer: any = null;
+let Browser: any = null;
+let Page: any = null;
 
 export interface PuppeteerScrapingOptions {
   headless?: boolean;

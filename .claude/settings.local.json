@@ -1,4 +1,23 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(npm run supabase:status:*)",
+      "Bash(powershell -Command \"Start-Process ''C:\\Program Files\\Docker\\Docker\\Docker Desktop.exe''\")",
+      "Bash(timeout:*)",
+      "Bash(docker:*)",
+      "Bash(wsl --status)",
+      "Bash(Test-Path \"$env:USERPROFILE\\.local\\bin\\claude.exe\")",
+      "Bash(Get-Command claude -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object -ExpandProperty Source)",
+      "Bash(powershell -Command \"Test-Path $env:USERPROFILE\\.local\\bin\\claude.exe\")",
+      "Bash(powershell -Command \"if (Test-Path $env:USERPROFILE\\.local\\bin\\claude.exe) { & \"\"$env:USERPROFILE\\.local\\bin\\claude.exe\"\" --version } else { Write-Host ''Not found'' }\")",
+      "Bash(npm run lint:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
   "mcpServers": {
     "filesystem": {
       "command": "npx",
@@ -55,6 +74,17 @@
         "--repository",
         "C:\\Users\\user\\JubitLLMNPMPlayground"
       ]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer"
+      ],
+      "env": {
+        "PUPPETEER_HEADLESS": "false",
+        "PUPPETEER_DEVTOOLS": "true"
+      }
     }
   }
 }

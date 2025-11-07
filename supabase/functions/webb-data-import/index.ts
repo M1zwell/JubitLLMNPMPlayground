@@ -38,7 +38,7 @@ serve(async (req) => {
       const { schemas, batchSize, enableAIValidation, preserveOriginalIds, createBackup }: ImportRequest = await req.json()
       
       // Initialize import progress
-      let progress: ImportProgress = {
+      const progress: ImportProgress = {
         phase: 'Initializing import...',
         percentage: 0,
         currentFile: '',

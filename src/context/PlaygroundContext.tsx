@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // Define the possible views in the application
-export type PlaygroundView = 
+export type PlaygroundView =
   | 'integrated-hub'
-  | 'llm-market' 
+  | 'llm-market'
   | 'llm-playground'
   | 'npm-market'
   | 'npm-playground'
@@ -12,6 +12,7 @@ export type PlaygroundView =
   | 'advanced-demo'
   | 'multi-model-chat'
   | 'webb-financial'
+  | 'hk-scraper'
   | 'webb-importer'
   | 'webb-sql'
   | 'webb-direct-import'

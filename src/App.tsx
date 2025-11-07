@@ -13,7 +13,7 @@ import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
 import UserMenu from './components/auth/UserMenu';
 import UserProfile from './components/auth/UserProfile';
-import { Brain, Package, User, Workflow } from 'lucide-react';
+import { Brain, Package, User, Workflow, Search } from 'lucide-react';
 import AdvancedPlaygroundDemo from './components/AdvancedPlaygroundDemo';
 import { MultiModelChat } from './components/MultiModelChat';
 import { WebbFinancialIntegration } from './components/WebbFinancialIntegration';
@@ -24,6 +24,7 @@ import WebbDirectSQLImporter from './components/WebbDirectSQLImporter';
 import { WebbMySQLMigrator } from './components/WebbMySQLMigrator';
 import WebbDirectSQLUploader from './components/WebbDirectSQLUploader';
 import EnvironmentChecker from './components/EnvironmentChecker';
+import HKFinancialScraper from './components/HKFinancialScraper';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -147,12 +148,24 @@ function AppContent() {
                 <button
                   onClick={() => actions.setCurrentView('webb-financial')}
                   className={`btn-minimal ${
-                    state.currentView === 'webb-financial' 
-                      ? 'btn-primary' 
+                    state.currentView === 'webb-financial'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
                   🏦 Webb
+                </button>
+                <button
+                  onClick={() => actions.setCurrentView('hk-scraper')}
+                  className={`btn-minimal ${
+                    state.currentView === 'hk-scraper'
+                      ? 'btn-primary'
+                      : 'btn-ghost'
+                  }`}
+                  title="HK Financial Scraper - Dual-engine web scraping / HK金融爬虫"
+                >
+                  <Search size={14} />
+                  HK Scraper
                 </button>
                 {/* Webb SQL Import/Update functions are temporarily disabled */}
                 {/* 
@@ -271,6 +284,8 @@ function AppContent() {
           <MultiModelChat />
         ) : state.currentView === 'webb-financial' ? (
           <WebbFinancialIntegration />
+        ) : state.currentView === 'hk-scraper' ? (
+          <HKFinancialScraper />
         ) : state.currentView === 'webb-importer' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
