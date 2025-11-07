@@ -11,10 +11,13 @@
  * - Rate limiting
  * - Result caching
  * - Export to JSON/CSV/Excel
+ * - Edge Function integration for production scraping
  */
 
+import { ENV } from '../env';
+
 // Conditionally import scrapers only in Node.js environment
-// In browser, these will be undefined and we'll use mock data
+// In browser, these will be undefined and we'll use Edge Function
 let getFirecrawlScraper: any = null;
 let getPuppeteerScraper: any = null;
 
@@ -74,6 +77,7 @@ export interface ExportOptions {
   format: 'json' | 'csv' | 'xlsx';
   prettify?: boolean;
   filename?: string;
+  sheetName?: string;
 }
 
 // ============================================================================
@@ -328,20 +332,135 @@ export async function scrapeWithFirecrawl(
   }
 }
 
+/**
+ * Call Supabase Edge Function for real scraping
+ * This is used when running in browser environment
+ */
+async function scrapeWithEdgeFunction(
+  url: string,
+  source: string,
+  options: Partial<ScrapeOptions> = {}
+): Promise<ScrapeResult> {
+  const startTime = Date.now();
+
+  try {
+    const supabaseUrl = ENV.supabase.url;
+    const supabaseAnonKey = ENV.supabase.anonKey;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      throw new Error('Supabase configuration missing - check environment variables');
+    }
+
+    console.log(`🌐 Calling Edge Function for ${source} scraping...`);
+
+    // Call the hk-scraper Edge Function
+    const response = await fetch(`${supabaseUrl}/functions/v1/hk-scraper`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${supabaseAnonKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        url,
+        source,
+        options: {
+          query: options.query,
+          stockCodes: options.stockCodes,
+          dateRange: options.dateRange,
+          packageName: options.packageName
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Edge Function error: ${response.status} - ${errorText}`);
+    }
+
+    const result = await response.json();
+    const executionTime = Date.now() - startTime;
+
+    console.log(`✅ Edge Function returned ${result.recordCount} records in ${executionTime}ms`);
+
+    return {
+      success: result.success,
+      data: result.data,
+      recordCount: result.recordCount,
+      timestamp: new Date(result.timestamp),
+      source: 'edge-function-firecrawl',
+      executionTime: result.executionTime + executionTime, // Include network time
+      url,
+      error: result.error,
+      cached: false
+    };
+
+  } catch (error) {
+    const executionTime = Date.now() - startTime;
+    console.error('❌ Edge Function call failed:', error);
+
+    return {
+      success: false,
+      data: null,
+      recordCount: 0,
+      timestamp: new Date(),
+      error: (error as Error).message,
+      source: 'edge-function',
+      executionTime,
+      url
+    };
+  }
+}
+
 export async function scrapeWithPuppeteer(
   url: string,
   options: Partial<ScrapeOptions> = {}
 ): Promise<ScrapeResult> {
   const startTime = Date.now();
 
-  // Check if we're in browser environment - use mock data
+  // Check if we're in browser environment - call Edge Function for real scraping
   if (typeof window !== 'undefined') {
-    console.log('Browser environment detected - using mock data for demo');
+    // Determine source type from URL
+    let source = 'npm';
+    if (url.includes('npmjs.com/package/')) {
+      source = 'npm-package';
+    } else if (url.includes('npmjs.com/search')) {
+      source = 'npm';
+    } else if (url.includes('sfc.hk') && url.includes('enforcement')) {
+      source = 'hksfc-enforcement';
+    } else if (url.includes('sfc.hk') && url.includes('circular')) {
+      source = 'hksfc-circulars';
+    } else if (url.includes('sfc.hk')) {
+      source = 'hksfc-news';
+    } else if (url.includes('hkexnews.hk/sdw')) {
+      source = 'hkex-ccass';
+    } else if (url.includes('hkexnews.hk') && url.includes('titlesearch')) {
+      source = 'hkex-announcements';
+    } else if (url.includes('hkex.com.hk')) {
+      source = 'hkex-stats';
+    }
+
+    console.log(`🌐 Browser environment - calling Edge Function for ${source} scraping`);
+
+    // Try Edge Function first for real scraping
+    try {
+      const result = await scrapeWithEdgeFunction(url, source, options);
+
+      if (result.success) {
+        console.log(`✅ Edge Function succeeded - got ${result.recordCount} records`);
+        return result;
+      }
+
+      // Edge Function failed, fall back to mock data
+      console.warn('⚠️ Edge Function failed, falling back to mock data:', result.error);
+    } catch (error) {
+      console.warn('⚠️ Edge Function call error, falling back to mock data:', error);
+    }
+
+    // Fallback to mock data for demo/offline mode
+    console.log('📋 Using mock data as fallback');
     await delay(1500); // Simulate scraping delay
 
     const executionTime = Date.now() - startTime;
-
-    // Generate mock data based on URL
     const mockData = generateMockDataForUrl(url, options);
 
     return {
@@ -349,7 +468,7 @@ export async function scrapeWithPuppeteer(
       data: mockData.data,
       recordCount: mockData.recordCount,
       timestamp: new Date(),
-      source: 'puppeteer',
+      source: 'mock-fallback',
       executionTime,
       url,
       cached: false
@@ -889,14 +1008,67 @@ export function exportToCSV(data: any[], options: ExportOptions = { format: 'csv
   return csvRows.join('\n');
 }
 
+export function exportToXLSX(data: any[], options: ExportOptions = { format: 'xlsx' }): Blob {
+  // Import xlsx dynamically (browser-compatible)
+  const XLSX = require('xlsx');
+
+  if (!Array.isArray(data) || data.length === 0) {
+    // Return empty workbook
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet([['No data']]);
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    const xlsxData = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    return new Blob([xlsxData], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+  }
+
+  // Create workbook
+  const wb = XLSX.utils.book_new();
+
+  // Convert JSON to worksheet
+  const ws = XLSX.utils.json_to_sheet(data);
+
+  // Auto-size columns (optional)
+  const cols = Object.keys(data[0]).map(key => ({
+    wch: Math.max(
+      key.length,
+      ...data.map(row => String(row[key] || '').length)
+    )
+  }));
+  ws['!cols'] = cols;
+
+  // Add worksheet to workbook
+  XLSX.utils.book_append_sheet(wb, ws, options.sheetName || 'Sheet1');
+
+  // Generate XLSX file as array buffer
+  const xlsxData = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+  // Create and return Blob
+  return new Blob([xlsxData], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+}
+
 export function generateFilename(prefix: string, format: 'json' | 'csv' | 'xlsx'): string {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
   const cleanPrefix = prefix.replace(/[^a-zA-Z0-9-_]/g, '_');
   return `${cleanPrefix}_${timestamp}.${format}`;
 }
 
-export function downloadFile(content: string, filename: string, mimeType: string): void {
-  const blob = new Blob([content], { type: mimeType });
+export function downloadFile(content: string | Blob, filename: string, mimeType?: string): void {
+  const blob = content instanceof Blob ? content : new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+export function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;

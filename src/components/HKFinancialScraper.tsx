@@ -26,13 +26,16 @@ import {
   Package,
   Settings,
   Trash2,
-  RefreshCw
+  RefreshCw,
+  Eye
 } from 'lucide-react';
 import {
   batchScrape,
   exportToJSON,
   exportToCSV,
+  exportToXLSX,
   downloadFile,
+  downloadBlob,
   generateFilename,
   clearCache,
   getCacheStats,
@@ -40,6 +43,7 @@ import {
   type BatchScrapeResult,
   type ScrapingStrategy
 } from '../lib/scraping/hk-financial-scraper';
+import DataPreviewModal from './DataPreviewModal';
 
 // ============================================================================
 // TypeScript Interfaces
@@ -87,6 +91,12 @@ export default function HKFinancialScraper() {
   const [useCache, setUseCache] = useState(true);
   const [cacheTTL, setCacheTTL] = useState(3600);
   const [showAdvanced, setShowAdvanced] = useState(false);
+
+  // Preview Modal State
+  const [previewData, setPreviewData] = useState<{
+    open: boolean;
+    result: ScrapeResultDisplay | null;
+  }>({ open: false, result: null });
 
   // ============================================================================
   // Data Source Definitions
@@ -273,6 +283,25 @@ export default function HKFinancialScraper() {
     const csv = exportToCSV(data);
     const filename = generateFilename(result.targetName, 'csv');
     downloadFile(csv, filename, 'text/csv');
+  };
+
+  const downloadXLSX = (result: ScrapeResultDisplay) => {
+    const data = Array.isArray(result.result.data) ? result.result.data : [result.result.data];
+    const blob = exportToXLSX(data, { format: 'xlsx', sheetName: result.targetName });
+    const filename = generateFilename(result.targetName, 'xlsx');
+    downloadBlob(blob, filename);
+  };
+
+  const handlePreviewExport = (format: 'json' | 'csv' | 'xlsx') => {
+    if (!previewData.result) return;
+
+    if (format === 'json') {
+      downloadJSON(previewData.result);
+    } else if (format === 'csv') {
+      downloadCSV(previewData.result);
+    } else if (format === 'xlsx') {
+      downloadXLSX(previewData.result);
+    }
   };
 
   const downloadAllJSON = () => {
@@ -735,6 +764,13 @@ export default function HKFinancialScraper() {
                         </p>
                         <div className="flex gap-2">
                           <button
+                            onClick={() => setPreviewData({ open: true, result })}
+                            className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 flex items-center gap-1"
+                          >
+                            <Eye className="w-4 h-4" />
+                            Preview
+                          </button>
+                          <button
                             onClick={() => downloadJSON(result)}
                             className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded hover:bg-blue-200 flex items-center gap-1"
                           >
@@ -747,6 +783,13 @@ export default function HKFinancialScraper() {
                           >
                             <FileSpreadsheet className="w-4 h-4" />
                             CSV
+                          </button>
+                          <button
+                            onClick={() => downloadXLSX(result)}
+                            className="px-3 py-1 text-sm bg-emerald-100 text-emerald-700 rounded hover:bg-emerald-200 flex items-center gap-1"
+                          >
+                            <Download className="w-4 h-4" />
+                            XLSX
                           </button>
                         </div>
                       </>
@@ -762,6 +805,25 @@ export default function HKFinancialScraper() {
           </div>
         </div>
       </div>
+
+      {/* Data Preview Modal */}
+      {previewData.open && previewData.result && (
+        <DataPreviewModal
+          isOpen={previewData.open}
+          data={Array.isArray(previewData.result.result.data)
+            ? previewData.result.result.data
+            : [previewData.result.result.data]}
+          targetName={previewData.result.targetName}
+          metadata={{
+            recordCount: previewData.result.result.recordCount,
+            executionTime: previewData.result.result.executionTime,
+            source: previewData.result.result.source,
+            timestamp: previewData.result.timestamp
+          }}
+          onClose={() => setPreviewData({ open: false, result: null })}
+          onExport={handlePreviewExport}
+        />
+      )}
     </div>
   );
 }
