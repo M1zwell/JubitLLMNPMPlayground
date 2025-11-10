@@ -25,7 +25,12 @@
     "supabase:functions:serve": "supabase functions serve",
     "supabase:functions:deploy": "supabase functions deploy",
     "mcp:firecrawl": "npx -y firecrawl-mcp",
-    "mcp:test": "npx -y firecrawl-mcp --test"
+    "mcp:test": "npx -y firecrawl-mcp --test",
+    "deploy": "bash deploy.sh",
+    "deploy:prod": "npm run build:prod && netlify deploy --prod",
+    "deploy:preview": "npm run build && netlify deploy",
+    "deploy:functions": "supabase functions deploy",
+    "test:scraping": "node test-scraping.cjs"
   },
   "dependencies": {
     "@mendable/firecrawl-js": "^4.5.0",

@@ -31,7 +31,26 @@
       "Bash(git checkout:*)",
       "Bash(npm run build:*)",
       "Bash(for file in NPMImportTool.tsx NPMScraper.tsx NPMPlayground.tsx WebbDataImporter.tsx WebbSQLImporter.tsx WebbMySQLMigrator.tsx WebbLocalDataProcessor.tsx)",
-      "Bash(do perl -i -pe 's/(className=\"\"[^\"\"]+)$/\\1\"\"/ unless /dark:/' \"$file\")"
+      "Bash(do perl -i -pe 's/(className=\"\"[^\"\"]+)$/\\1\"\"/ unless /dark:/' \"$file\")",
+      "Bash(npm install:*)",
+      "Bash(npx bmad-method@alpha install:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm info:*)",
+      "Bash(tar:*)",
+      "Bash(cat:*)",
+      "Bash(cp:*)",
+      "Bash(node tools/cli/bundlers/bundle-web.js:*)",
+      "Bash(supabase --version:*)",
+      "Bash(gh --version:*)",
+      "Bash(netlify:*)",
+      "Bash(supabase status:*)",
+      "Bash(gh auth:*)",
+      "Bash(supabase link:*)",
+      "Bash(supabase login:*)",
+      "Bash(test:*)",
+      "Bash(node test-scraping.js:*)",
+      "WebSearch",
+      "Bash(node test-scraping.cjs:*)"
     ],
     "deny": [],
     "ask": []
@@ -70,7 +89,7 @@
         "@mendableai/firecrawl-mcp-server"
       ],
       "env": {
-        "FIRECRAWL_API_KEY": "fc-d4bcb86c7e6648c2a90a47ec7d36ae2a"
+        "FIRECRAWL_API_KEY": "fc-7f04517bc6ef43d68c06316d5f69b91e"
       }
     },
     "git": {

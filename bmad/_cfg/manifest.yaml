@@ -5,7 +5,7 @@ installation:
 modules:
   - core
   - bmb
-  - core
-  - core
+  - bmm
+  - cis
 ides:
   - claude-code

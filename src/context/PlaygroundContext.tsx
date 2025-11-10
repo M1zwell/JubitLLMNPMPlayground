@@ -13,6 +13,7 @@ export type PlaygroundView =
   | 'multi-model-chat'
   | 'webb-financial'
   | 'hk-scraper'
+  | 'web-scraper'
   | 'webb-importer'
   | 'webb-sql'
   | 'webb-direct-import'

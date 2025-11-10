@@ -25,6 +25,7 @@ import { WebbMySQLMigrator } from './components/WebbMySQLMigrator';
 import WebbDirectSQLUploader from './components/WebbDirectSQLUploader';
 import EnvironmentChecker from './components/EnvironmentChecker';
 import HKFinancialScraper from './components/HKFinancialScraper';
+import WebScraperDemo from './components/WebScraperDemo';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -167,6 +168,18 @@ function AppContent() {
                   <Search size={14} />
                   HK Scraper
                 </button>
+                <button
+                  onClick={() => actions.setCurrentView('web-scraper')}
+                  className={`btn-minimal ${
+                    state.currentView === 'web-scraper'
+                      ? 'btn-primary'
+                      : 'btn-ghost'
+                  }`}
+                  title="Web Scraper Demo - Firecrawl & Puppeteer integration"
+                >
+                  <Search size={14} />
+                  Scraper
+                </button>
                 {/* Webb SQL Import/Update functions are temporarily disabled */}
                 {/* 
                 <button
@@ -286,6 +299,8 @@ function AppContent() {
           <WebbFinancialIntegration />
         ) : state.currentView === 'hk-scraper' ? (
           <HKFinancialScraper />
+        ) : state.currentView === 'web-scraper' ? (
+          <WebScraperDemo />
         ) : state.currentView === 'webb-importer' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-white mb-4">

@@ -30,12 +30,8 @@
   status = 200
   force = false
 
-# Netlify Functions Proxy for Supabase Edge Functions
-[[redirects]]
-  from = "/.netlify/functions/*"
-  to = "https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/:splat"
-  status = 200
-  force = false
+# Note: /.netlify/* paths are reserved by Netlify and cannot be used in redirects
+# The /api/* redirect above handles all API proxying to Supabase Edge Functions
 
 # Security Headers
 [[headers]]
