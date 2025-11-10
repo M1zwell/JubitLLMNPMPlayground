@@ -11,7 +11,10 @@ CREATE TABLE IF NOT EXISTS hksfc_filings (
   -- Content Fields
   title text NOT NULL,
   content text,
-  filing_type text, -- 'news', 'enforcement', 'circular', 'consultation'
+  filing_type text CHECK (filing_type IN (
+    'corporate', 'enforcement', 'policy', 'shareholding',
+    'decisions', 'events', 'circular', 'consultation', 'news', 'other'
+  )), -- Category: corporate, enforcement, policy, shareholding, decisions, events, circular, consultation, news, other
   company_code text, -- '0001', '0700', etc. (for cross-source correlation)
   company_name text,
   filing_date date,
