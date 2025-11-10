@@ -40,27 +40,46 @@ export default function WebScraperDemo() {
 
     try {
       if (method === 'edge-function') {
-        // Use Supabase Edge Function for scraping
-        const response = await fetch('/api/scrape-url', {
+        // Use production scrape-orchestrator Edge Function
+        const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
+        const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/scrape-orchestrator`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({
-            url,
+            source: 'custom',
+            strategy: 'firecrawl',
             options: {
-              format: 'markdown',
-              onlyMainContent: true,
-            },
+              url: url
+            }
           }),
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          const errorData = await response.json();
+          throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        setResult(data);
+
+        if (data.success) {
+          // Transform production response to match display format
+          setResult({
+            url: url,
+            title: data.data?.metadata?.title || 'N/A',
+            content: data.data?.content || data.data?.markdown || '',
+            markdown: data.data?.markdown,
+            source: 'edge-function',
+            timestamp: new Date(data.timestamp),
+            metadata: data.data?.metadata
+          });
+        } else {
+          throw new Error(data.error || 'Scraping failed');
+        }
       } else {
         // Client-side scraping (will show error message about browser compatibility)
         setError(
@@ -90,10 +109,10 @@ export default function WebScraperDemo() {
         {/* Header */}
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Web Scraper Demo
+            Web Scraper
           </h1>
           <p className="text-gray-400">
-            Test Firecrawl, Puppeteer, and MCP integrations
+            Production scraping with Firecrawl via Edge Function
           </p>
         </div>
 
@@ -135,7 +154,7 @@ export default function WebScraperDemo() {
               <Input
                 type="url"
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                onChange={(value) => setUrl(value)}
                 placeholder="https://example.com"
                 className="w-full bg-gray-700 border-gray-600 text-gray-100"
               />
@@ -286,10 +305,10 @@ export default function WebScraperDemo() {
           </h3>
           <div className="space-y-3 text-sm text-gray-300">
             <div className="bg-gray-900 p-3 rounded">
-              <div className="font-semibold text-green-400">✓ Edge Function Method</div>
+              <div className="font-semibold text-green-400">✓ Edge Function Method (Production)</div>
               <p className="text-gray-400 mt-1">
-                Server-side scraping using Supabase Edge Functions. Works with both
-                Firecrawl and Puppeteer in a Deno environment.
+                Production server-side scraping using scrape-orchestrator Edge Function.
+                Uses Firecrawl for JavaScript rendering and returns structured data.
               </p>
             </div>
             <div className="bg-gray-900 p-3 rounded">

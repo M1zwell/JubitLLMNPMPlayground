@@ -265,15 +265,20 @@ async function fetchArtificialAnalysisData(): Promise<any[]> {
 
 function parseArtificialAnalysisHTML(html: string): any[] {
   const models: any[] = [];
-  
+
   try {
     // Look for JSON data in script tags
     const jsonMatches = html.match(/<script[^>]*>[\s\S]*?window\.__NUXT__\s*=\s*({[\s\S]*?});[\s\S]*?<\/script>/);
     if (jsonMatches) {
-      const jsonData = JSON.parse(jsonMatches[1]);
-      // Extract model data from Nuxt data structure
-      if (jsonData.data && jsonData.data.models) {
-        return jsonData.data.models;
+      try {
+        const jsonData = JSON.parse(jsonMatches[1]);
+        // Extract model data from Nuxt data structure
+        if (jsonData.data && jsonData.data.models) {
+          return jsonData.data.models;
+        }
+      } catch (parseError) {
+        console.error('Failed to parse JSON from Nuxt data:', parseError);
+        // Continue to try other parsing methods
       }
     }
     
