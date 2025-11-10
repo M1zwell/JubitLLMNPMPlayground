@@ -39,3 +39,11 @@ webb/
 *.db
 *.sqlite3
 *.dump
+
+# BMad Framework
+# Track bmad directory but ignore node_modules inside it
+bmad/**/node_modules
+bmad/**/.DS_Store
+bmad/**/npm-debug.log*
+# Keep user customizations
+!bmad/_cfg/

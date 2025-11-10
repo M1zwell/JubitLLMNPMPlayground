@@ -1,0 +1,58 @@
+{
+  "name": "bmad-core",
+  "display_name": "BMad CORE + BMad Method",
+  "version": "6.0.0-alpha.7",
+  "description": "Universal Human-AI Collaboration Platform with BMad Method for AI-driven agile development, BMad Builder for custom solutions, and Creative Intelligence Suite for innovation.",
+  "author": "BMad Code",
+  "tags": ["agile", "ai", "development", "methodology", "agents", "workflows", "collaboration"],
+  "installation_path": "bmad/",
+  "modules": [
+    {
+      "name": "core",
+      "description": "BMad CORE framework with orchestration",
+      "path": "bmad/core/"
+    },
+    {
+      "name": "bmm",
+      "description": "BMad Method - AI-driven agile development",
+      "path": "bmad/bmm/",
+      "agents": 12,
+      "workflows": 34
+    },
+    {
+      "name": "bmb",
+      "description": "BMad Builder - Create custom solutions",
+      "path": "bmad/bmb/",
+      "agents": 1,
+      "workflows": 7
+    },
+    {
+      "name": "cis",
+      "description": "Creative Intelligence Suite",
+      "path": "bmad/cis/",
+      "agents": 5,
+      "workflows": 5
+    }
+  ],
+  "quick_start": {
+    "new_project": "Load BMad Master agent and run workflow-init to start a new project with appropriate planning track",
+    "bug_fix": "Use Quick Flow track: quick-spec workflow followed by dev-story implementation",
+    "full_product": "Use BMad Method track: PRD → Architecture → Create Stories → Dev Story (iterative)",
+    "brainstorm": "Load Brainstorming Coach from CIS and run brainstorming workflow",
+    "custom_agent": "Load BMad Builder and run create-agent workflow"
+  },
+  "key_workflows": [
+    "bmad/bmm/workflows/2-plan-workflows/prd/",
+    "bmad/bmm/workflows/2-plan-workflows/quick-spec/",
+    "bmad/bmm/workflows/3-solutioning/architecture/",
+    "bmad/bmm/workflows/4-implementation/create-stories/",
+    "bmad/bmm/workflows/4-implementation/dev-story/",
+    "bmad/cis/workflows/brainstorming/",
+    "bmad/bmb/workflows/create-agent/"
+  ],
+  "documentation": {
+    "main": "bmad/docs/",
+    "bmm": "bmad/bmm/docs/",
+    "quickstart": "bmad/bmm/docs/quick-start.md"
+  }
+}
