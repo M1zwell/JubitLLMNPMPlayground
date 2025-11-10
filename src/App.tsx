@@ -25,6 +25,7 @@ import { WebbMySQLMigrator } from './components/WebbMySQLMigrator';
 import WebbDirectSQLUploader from './components/WebbDirectSQLUploader';
 import EnvironmentChecker from './components/EnvironmentChecker';
 import HKFinancialScraper from './components/HKFinancialScraper';
+import HKScraperProduction from './components/HKScraperProduction';
 import WebScraperDemo from './components/WebScraperDemo';
 
 function AppContent() {
@@ -298,7 +299,7 @@ function AppContent() {
         ) : state.currentView === 'webb-financial' ? (
           <WebbFinancialIntegration />
         ) : state.currentView === 'hk-scraper' ? (
-          <HKFinancialScraper />
+          <HKScraperProduction />
         ) : state.currentView === 'web-scraper' ? (
           <WebScraperDemo />
         ) : state.currentView === 'webb-importer' ? (

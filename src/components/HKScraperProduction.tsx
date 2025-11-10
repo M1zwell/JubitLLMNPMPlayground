@@ -1,0 +1,659 @@
+/**
+ * HK Scraper Production - Connected to Production Edge Functions
+ *
+ * Features:
+ * - Real-time scraping via unified-scraper Edge Function
+ * - HKSFC and HKEX data sources
+ * - CSV/JSON/XLSX export
+ * - Date range and stock code filters
+ * - View scraped data from database
+ */
+
+import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import {
+  Download,
+  Search,
+  FileJson,
+  FileSpreadsheet,
+  Calendar,
+  Building2,
+  AlertCircle,
+  CheckCircle,
+  Loader2,
+  Eye,
+  RefreshCw,
+  Trash2,
+  Database
+} from 'lucide-react';
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+interface ScrapeResult {
+  source: string;
+  records_inserted: number;
+  records_updated: number;
+  records_failed: number;
+  duration_ms: number;
+  success: boolean;
+  error?: string;
+}
+
+interface HKSFCFiling {
+  id: string;
+  title: string;
+  content?: string;
+  filing_type: string;
+  company_code?: string;
+  company_name?: string;
+  filing_date?: string;
+  url: string;
+  scraped_at: string;
+}
+
+interface HKEXAnnouncement {
+  id: string;
+  announcement_title: string;
+  announcement_content?: string;
+  announcement_type: string;
+  company_code?: string;
+  company_name?: string;
+  announcement_date?: string;
+  url: string;
+  scraped_at: string;
+}
+
+export default function HKScraperProduction() {
+  const [activeTab, setActiveTab] = useState<'scrape' | 'view'>('scrape');
+  const [source, setSource] = useState<'hksfc' | 'hkex'>('hksfc');
+  const [isLoading, setIsLoading] = useState(false);
+  const [testMode, setTestMode] = useState(false);
+  const [limit, setLimit] = useState(10);
+  const [result, setResult] = useState<ScrapeResult | null>(null);
+
+  // Filter states
+  const [dateRange, setDateRange] = useState({
+    start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    end: new Date().toISOString().split('T')[0]
+  });
+  const [stockCodes, setStockCodes] = useState('00700,00005,00388');
+  const [filingType, setFilingType] = useState<string>('all');
+
+  // Database data states
+  const [hksfcData, setHksfcData] = useState<HKSFCFiling[]>([]);
+  const [hkexData, setHkexData] = useState<HKEXAnnouncement[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(false);
+
+  // Fetch data from database
+  const fetchData = async () => {
+    setIsLoadingData(true);
+    try {
+      if (source === 'hksfc') {
+        let query = supabase
+          .from('hksfc_filings')
+          .select('*')
+          .order('scraped_at', { ascending: false })
+          .limit(100);
+
+        if (filingType !== 'all') {
+          query = query.eq('filing_type', filingType);
+        }
+
+        const { data, error } = await query;
+        if (error) throw error;
+        setHksfcData(data || []);
+      } else {
+        let query = supabase
+          .from('hkex_announcements')
+          .select('*')
+          .order('scraped_at', { ascending: false })
+          .limit(100);
+
+        const { data, error } = await query;
+        if (error) throw error;
+        setHkexData(data || []);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert('Error loading data: ' + (error as Error).message);
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'view') {
+      fetchData();
+    }
+  }, [activeTab, source, filingType]);
+
+  // Trigger scraping
+  const startScraping = async () => {
+    setIsLoading(true);
+    setResult(null);
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/functions/v1/unified-scraper`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify({
+          source,
+          limit,
+          test_mode: testMode
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setResult(data);
+        // Refresh data view if it's open
+        if (activeTab === 'view') {
+          setTimeout(() => fetchData(), 1000);
+        }
+      } else {
+        setResult({
+          source,
+          records_inserted: 0,
+          records_updated: 0,
+          records_failed: 0,
+          duration_ms: 0,
+          success: false,
+          error: data.error || 'Unknown error'
+        });
+      }
+    } catch (error) {
+      console.error('Scraping error:', error);
+      setResult({
+        source,
+        records_inserted: 0,
+        records_updated: 0,
+        records_failed: 0,
+        duration_ms: 0,
+        success: false,
+        error: (error as Error).message
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Export functions
+  const exportToCSV = (data: any[], filename: string) => {
+    if (data.length === 0) {
+      alert('No data to export');
+      return;
+    }
+
+    const headers = Object.keys(data[0]);
+    const csvContent = [
+      headers.join(','),
+      ...data.map(row =>
+        headers.map(header => {
+          const value = row[header];
+          // Escape quotes and wrap in quotes if contains comma
+          const stringValue = String(value || '').replace(/"/g, '""');
+          return stringValue.includes(',') ? `"${stringValue}"` : stringValue;
+        }).join(',')
+      )
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${filename}_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+  };
+
+  const exportToJSON = (data: any[], filename: string) => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${filename}_${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+  };
+
+  const downloadCurrentView = (format: 'csv' | 'json') => {
+    const data = source === 'hksfc' ? hksfcData : hkexData;
+    const filename = `${source}_data`;
+
+    if (format === 'csv') {
+      exportToCSV(data, filename);
+    } else {
+      exportToJSON(data, filename);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 p-6">
+      {/* Header */}
+      <div className="max-w-7xl mx-auto mb-8">
+        <h1 className="text-4xl font-bold text-gray-100 mb-2">
+          HK Financial Scraper (Production)
+        </h1>
+        <p className="text-gray-400">
+          Connected to production Edge Functions and Supabase database
+        </p>
+      </div>
+
+      <div className="max-w-7xl mx-auto">
+        {/* Tab Navigation */}
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => setActiveTab('scrape')}
+            className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 ${
+              activeTab === 'scrape'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+            }`}
+          >
+            <Search className="w-5 h-5" />
+            Scrape Data
+          </button>
+          <button
+            onClick={() => setActiveTab('view')}
+            className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 ${
+              activeTab === 'view'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+            }`}
+          >
+            <Database className="w-5 h-5" />
+            View Database
+          </button>
+        </div>
+
+        {activeTab === 'scrape' ? (
+          // Scraping Interface
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left: Options */}
+            <div className="lg:col-span-1 space-y-6">
+              <div className="bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 className="text-xl font-bold text-gray-100 mb-4">Scraping Options</h2>
+
+                {/* Source Selection */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Data Source
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => setSource('hksfc')}
+                      className={`px-4 py-2 rounded-lg border-2 ${
+                        source === 'hksfc'
+                          ? 'border-purple-500 bg-purple-900 text-white'
+                          : 'border-gray-700 bg-gray-700 text-gray-400 hover:border-purple-300'
+                      }`}
+                    >
+                      <AlertCircle className="w-4 h-4 inline mr-1" />
+                      HKSFC
+                    </button>
+                    <button
+                      onClick={() => setSource('hkex')}
+                      className={`px-4 py-2 rounded-lg border-2 ${
+                        source === 'hkex'
+                          ? 'border-blue-500 bg-blue-900 text-white'
+                          : 'border-gray-700 bg-gray-700 text-gray-400 hover:border-blue-300'
+                      }`}
+                    >
+                      <Building2 className="w-4 h-4 inline mr-1" />
+                      HKEX
+                    </button>
+                  </div>
+                </div>
+
+                {/* Limit */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Record Limit: {limit}
+                  </label>
+                  <input
+                    type="range"
+                    min="5"
+                    max="50"
+                    step="5"
+                    value={limit}
+                    onChange={(e) => setLimit(parseInt(e.target.value))}
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Test Mode */}
+                <div className="mb-4">
+                  <label className="flex items-center gap-2 text-sm text-gray-300">
+                    <input
+                      type="checkbox"
+                      checked={testMode}
+                      onChange={(e) => setTestMode(e.target.checked)}
+                      className="w-4 h-4"
+                    />
+                    Test Mode (Mock Data)
+                  </label>
+                </div>
+
+                {/* Stock Codes (for HKEX) */}
+                {source === 'hkex' && (
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Stock Codes
+                    </label>
+                    <input
+                      type="text"
+                      value={stockCodes}
+                      onChange={(e) => setStockCodes(e.target.value)}
+                      placeholder="00700,00005,00388"
+                      className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Comma-separated</p>
+                  </div>
+                )}
+
+                {/* Date Range */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <Calendar className="w-4 h-4 inline mr-1" />
+                    Date Range
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      type="date"
+                      value={dateRange.start}
+                      onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
+                      className="px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
+                    />
+                    <input
+                      type="date"
+                      value={dateRange.end}
+                      onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
+                      className="px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
+                    />
+                  </div>
+                </div>
+
+                {/* Start Button */}
+                <button
+                  onClick={startScraping}
+                  disabled={isLoading}
+                  className={`
+                    w-full px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2
+                    ${isLoading
+                      ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'}
+                  `}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Scraping...
+                    </>
+                  ) : (
+                    <>
+                      <Search className="w-5 h-5" />
+                      Start Scraping
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Right: Results */}
+            <div className="lg:col-span-2">
+              <div className="bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 className="text-xl font-bold text-gray-100 mb-4">Scraping Results</h2>
+
+                {result ? (
+                  <div className={`p-6 rounded-lg border-2 ${
+                    result.success
+                      ? 'border-green-600 bg-green-900/30'
+                      : 'border-red-600 bg-red-900/30'
+                  }`}>
+                    <div className="flex items-center gap-3 mb-4">
+                      {result.success ? (
+                        <CheckCircle className="w-8 h-8 text-green-500" />
+                      ) : (
+                        <AlertCircle className="w-8 h-8 text-red-500" />
+                      )}
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-100">
+                          {result.success ? 'Scraping Successful!' : 'Scraping Failed'}
+                        </h3>
+                        <p className="text-sm text-gray-400">
+                          Source: {result.source.toUpperCase()}
+                        </p>
+                      </div>
+                    </div>
+
+                    {result.success ? (
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="bg-gray-700/50 p-3 rounded-lg">
+                          <p className="text-sm text-gray-400">Records Inserted</p>
+                          <p className="text-2xl font-bold text-green-400">{result.records_inserted}</p>
+                        </div>
+                        <div className="bg-gray-700/50 p-3 rounded-lg">
+                          <p className="text-sm text-gray-400">Records Updated</p>
+                          <p className="text-2xl font-bold text-blue-400">{result.records_updated}</p>
+                        </div>
+                        <div className="bg-gray-700/50 p-3 rounded-lg">
+                          <p className="text-sm text-gray-400">Failed</p>
+                          <p className="text-2xl font-bold text-yellow-400">{result.records_failed}</p>
+                        </div>
+                        <div className="bg-gray-700/50 p-3 rounded-lg">
+                          <p className="text-sm text-gray-400">Duration</p>
+                          <p className="text-2xl font-bold text-purple-400">{result.duration_ms}ms</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="bg-red-900/30 p-4 rounded-lg">
+                        <p className="text-red-400">{result.error}</p>
+                      </div>
+                    )}
+
+                    <div className="flex gap-2 mt-4">
+                      <button
+                        onClick={() => setActiveTab('view')}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+                      >
+                        <Database className="w-4 h-4" />
+                        View in Database
+                      </button>
+                      <button
+                        onClick={() => setResult(null)}
+                        className="px-4 py-2 bg-gray-700 text-gray-100 rounded-lg hover:bg-gray-600"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Search className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                    <p className="text-gray-400">
+                      Configure options and click "Start Scraping" to begin
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          // Database View
+          <div className="space-y-6">
+            {/* Filters */}
+            <div className="bg-gray-800 rounded-xl shadow-lg p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Data Source
+                    </label>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setSource('hksfc')}
+                        className={`px-4 py-2 rounded-lg ${
+                          source === 'hksfc'
+                            ? 'bg-purple-600 text-white'
+                            : 'bg-gray-700 text-gray-400'
+                        }`}
+                      >
+                        HKSFC
+                      </button>
+                      <button
+                        onClick={() => setSource('hkex')}
+                        className={`px-4 py-2 rounded-lg ${
+                          source === 'hkex'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-700 text-gray-400'
+                        }`}
+                      >
+                        HKEX
+                      </button>
+                    </div>
+                  </div>
+
+                  {source === 'hksfc' && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Filing Type
+                      </label>
+                      <select
+                        value={filingType}
+                        onChange={(e) => setFilingType(e.target.value)}
+                        className="px-4 py-2 bg-gray-700 text-gray-100 rounded-lg border border-gray-600"
+                      >
+                        <option value="all">All Types</option>
+                        <option value="news">News</option>
+                        <option value="enforcement">Enforcement</option>
+                        <option value="circular">Circular</option>
+                        <option value="consultation">Consultation</option>
+                      </select>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={fetchData}
+                    disabled={isLoadingData}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${isLoadingData ? 'animate-spin' : ''}`} />
+                    Refresh
+                  </button>
+                  <button
+                    onClick={() => downloadCurrentView('csv')}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"
+                  >
+                    <FileSpreadsheet className="w-4 h-4" />
+                    Export CSV
+                  </button>
+                  <button
+                    onClick={() => downloadCurrentView('json')}
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2"
+                  >
+                    <FileJson className="w-4 h-4" />
+                    Export JSON
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Data Table */}
+            <div className="bg-gray-800 rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-100 mb-4">
+                {source === 'hksfc' ? 'HKSFC Filings' : 'HKEX Announcements'} ({source === 'hksfc' ? hksfcData.length : hkexData.length})
+              </h2>
+
+              {isLoadingData ? (
+                <div className="text-center py-12">
+                  <Loader2 className="w-8 h-8 text-blue-500 mx-auto mb-4 animate-spin" />
+                  <p className="text-gray-400">Loading data...</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-700">
+                        <th className="text-left py-3 px-4 text-gray-400 font-medium">Title</th>
+                        <th className="text-left py-3 px-4 text-gray-400 font-medium">Type</th>
+                        <th className="text-left py-3 px-4 text-gray-400 font-medium">Company</th>
+                        <th className="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
+                        <th className="text-left py-3 px-4 text-gray-400 font-medium">Scraped</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {source === 'hksfc' ? (
+                        hksfcData.length > 0 ? hksfcData.map((item) => (
+                          <tr key={item.id} className="border-b border-gray-700 hover:bg-gray-700/50">
+                            <td className="py-3 px-4">
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-400 hover:text-blue-300 hover:underline"
+                              >
+                                {item.title?.substring(0, 80)}...
+                              </a>
+                            </td>
+                            <td className="py-3 px-4 text-gray-300">{item.filing_type}</td>
+                            <td className="py-3 px-4 text-gray-300">{item.company_code || '-'}</td>
+                            <td className="py-3 px-4 text-gray-300">
+                              {item.filing_date ? new Date(item.filing_date).toLocaleDateString() : '-'}
+                            </td>
+                            <td className="py-3 px-4 text-gray-400 text-sm">
+                              {new Date(item.scraped_at).toLocaleString()}
+                            </td>
+                          </tr>
+                        )) : (
+                          <tr>
+                            <td colSpan={5} className="py-8 text-center text-gray-400">
+                              No HKSFC data found. Try scraping first.
+                            </td>
+                          </tr>
+                        )
+                      ) : (
+                        hkexData.length > 0 ? hkexData.map((item) => (
+                          <tr key={item.id} className="border-b border-gray-700 hover:bg-gray-700/50">
+                            <td className="py-3 px-4">
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-400 hover:text-blue-300 hover:underline"
+                              >
+                                {item.announcement_title?.substring(0, 80)}...
+                              </a>
+                            </td>
+                            <td className="py-3 px-4 text-gray-300">{item.announcement_type}</td>
+                            <td className="py-3 px-4 text-gray-300">{item.company_code || '-'}</td>
+                            <td className="py-3 px-4 text-gray-300">
+                              {item.announcement_date ? new Date(item.announcement_date).toLocaleDateString() : '-'}
+                            </td>
+                            <td className="py-3 px-4 text-gray-400 text-sm">
+                              {new Date(item.scraped_at).toLocaleString()}
+                            </td>
+                          </tr>
+                        )) : (
+                          <tr>
+                            <td colSpan={5} className="py-8 text-center text-gray-400">
+                              No HKEX data found. Try scraping first.
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
