@@ -26,6 +26,13 @@ jobs:
         with:
           version: latest
 
+      - name: Deploy scrape-orchestrator function
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_ID: kiztaihzanqnrcrqaxsv
+        run: |
+          supabase functions deploy scrape-orchestrator --project-ref $SUPABASE_PROJECT_ID
+
       - name: Deploy unified-scraper function
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -36,5 +43,6 @@ jobs:
       - name: Deployment summary
         run: |
           echo "✅ Edge Functions deployed successfully!"
-          echo "📦 Function: unified-scraper"
-          echo "🔗 URL: https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/unified-scraper"
+          echo "📦 Functions: scrape-orchestrator, unified-scraper"
+          echo "🔗 scrape-orchestrator: https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/scrape-orchestrator"
+          echo "🔗 unified-scraper: https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/unified-scraper"

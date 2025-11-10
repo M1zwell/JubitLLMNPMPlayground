@@ -70,8 +70,6 @@ export default function HKScraperProduction() {
   const [activeTab, setActiveTab] = useState<'scrape' | 'view'>('scrape');
   const [source, setSource] = useState<'hksfc' | 'hkex'>('hksfc');
   const [isLoading, setIsLoading] = useState(false);
-  const [testMode, setTestMode] = useState(false);
-  const [limit, setLimit] = useState(10);
   const [result, setResult] = useState<ScrapeResult | null>(null);
 
   // Filter states
@@ -136,23 +134,106 @@ export default function HKScraperProduction() {
     setResult(null);
 
     try {
-      const response = await fetch(`${SUPABASE_URL}/functions/v1/unified-scraper`, {
+      // Build request for production scrape-orchestrator Edge Function
+      const requestBody: any = {
+        source: source === 'hksfc' ? 'hksfc-news' : 'hkex-ccass',
+        strategy: 'firecrawl',
+        options: {}
+      };
+
+      // Add source-specific options
+      if (source === 'hksfc') {
+        requestBody.options.url = 'https://www.sfc.hk/en/News-and-announcements/News/All-news';
+        if (dateRange.start && dateRange.end) {
+          requestBody.options.dateRange = {
+            start: dateRange.start,
+            end: dateRange.end
+          };
+        }
+      } else {
+        // HKEX
+        requestBody.options.stockCodes = stockCodes.split(',').map(code => code.trim());
+        if (dateRange.start) {
+          requestBody.options.dateRange = {
+            start: dateRange.start,
+            end: dateRange.end
+          };
+        }
+      }
+
+      const response = await fetch(`${SUPABASE_URL}/functions/v1/scrape-orchestrator`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
         },
-        body: JSON.stringify({
-          source,
-          limit,
-          test_mode: testMode
-        })
+        body: JSON.stringify(requestBody)
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        setResult(data);
+      if (response.ok && data.success) {
+        // Production scraper returns structured data, need to count and insert to database
+        const extractedData = data.data;
+        let recordsInserted = 0;
+
+        // Insert to database based on source
+        if (source === 'hksfc' && extractedData.articles) {
+          // Insert HKSFC articles to database
+          for (const article of extractedData.articles) {
+            const { error } = await supabase
+              .from('hksfc_filings')
+              .upsert({
+                title: article.title,
+                content: article.summary || '',
+                filing_type: article.category.toLowerCase(),
+                url: article.url,
+                filing_date: article.publishDate,
+                content_hash: `hksfc-${article.id}`,
+              }, {
+                onConflict: 'content_hash'
+              });
+
+            if (!error) recordsInserted++;
+          }
+        } else if (source === 'hkex' && Array.isArray(extractedData)) {
+          // Insert HKEX CCASS data to database
+          for (const stockData of extractedData) {
+            if (stockData.participants) {
+              for (const participant of stockData.participants) {
+                const { error } = await supabase
+                  .from('hkex_announcements')
+                  .upsert({
+                    announcement_title: `CCASS Holdings - ${stockData.stockName} (${stockData.stockCode})`,
+                    announcement_content: `Participant: ${participant.participantName}`,
+                    announcement_type: 'ccass',
+                    company_code: stockData.stockCode,
+                    company_name: stockData.stockName,
+                    announcement_date: stockData.dataDate,
+                    url: `https://www3.hkexnews.hk/sdw/search/searchsdw.aspx?stockCode=${stockData.stockCode}`,
+                    ccass_participant_id: participant.participantId,
+                    ccass_shareholding: participant.shareholding,
+                    ccass_percentage: participant.percentage,
+                    content_hash: `ccass-${stockData.stockCode}-${participant.participantId}-${stockData.dataDate}`,
+                  }, {
+                    onConflict: 'content_hash'
+                  });
+
+                if (!error) recordsInserted++;
+              }
+            }
+          }
+        }
+
+        setResult({
+          source,
+          records_inserted: recordsInserted,
+          records_updated: 0,
+          records_failed: 0,
+          duration_ms: data.executionTime,
+          success: true
+        });
+
         // Refresh data view if it's open
         if (activeTab === 'view') {
           setTimeout(() => fetchData(), 1000);
@@ -163,7 +244,7 @@ export default function HKScraperProduction() {
           records_inserted: 0,
           records_updated: 0,
           records_failed: 0,
-          duration_ms: 0,
+          duration_ms: data.executionTime || 0,
           success: false,
           error: data.error || 'Unknown error'
         });
@@ -235,10 +316,10 @@ export default function HKScraperProduction() {
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <h1 className="text-4xl font-bold text-gray-100 mb-2">
-          HK Financial Scraper (Production)
+          HK Financial Scraper
         </h1>
         <p className="text-gray-400">
-          Connected to production Edge Functions and Supabase database
+          Production scraping via Firecrawl → Extractors → Database
         </p>
       </div>
 
@@ -306,35 +387,6 @@ export default function HKScraperProduction() {
                       HKEX
                     </button>
                   </div>
-                </div>
-
-                {/* Limit */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Record Limit: {limit}
-                  </label>
-                  <input
-                    type="range"
-                    min="5"
-                    max="50"
-                    step="5"
-                    value={limit}
-                    onChange={(e) => setLimit(parseInt(e.target.value))}
-                    className="w-full"
-                  />
-                </div>
-
-                {/* Test Mode */}
-                <div className="mb-4">
-                  <label className="flex items-center gap-2 text-sm text-gray-300">
-                    <input
-                      type="checkbox"
-                      checked={testMode}
-                      onChange={(e) => setTestMode(e.target.checked)}
-                      className="w-4 h-4"
-                    />
-                    Test Mode (Mock Data)
-                  </label>
                 </div>
 
                 {/* Stock Codes (for HKEX) */}
