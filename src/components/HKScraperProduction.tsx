@@ -65,18 +65,31 @@ interface HKEXAnnouncement {
   scraped_at: string;
 }
 
+interface CCassHolding {
+  id: string;
+  stock_code: string;
+  stock_name?: string;
+  participant_id: string;
+  participant_name: string;
+  shareholding: number;
+  percentage: number;
+  scraped_at: string;
+}
+
 export default function HKScraperProduction() {
   const [activeTab, setActiveTab] = useState<'scrape' | 'view'>('scrape');
-  const [source, setSource] = useState<'hksfc' | 'hkex'>('hksfc');
+  const [source, setSource] = useState<'hksfc' | 'hkex' | 'ccass'>('hksfc');
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ScrapeResult | null>(null);
 
   // Filter states
   const [limit, setLimit] = useState(100);
+  const [stockCode, setStockCode] = useState('00700'); // For CCASS scraping
 
   // Database data states
   const [hksfcData, setHksfcData] = useState<HKSFCFiling[]>([]);
   const [hkexData, setHkexData] = useState<HKEXAnnouncement[]>([]);
+  const [ccassData, setCcassData] = useState<CCassHolding[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
 
   // Fetch data from database (READ ONLY)
@@ -92,7 +105,7 @@ export default function HKScraperProduction() {
 
         if (error) throw error;
         setHksfcData(data || []);
-      } else {
+      } else if (source === 'hkex') {
         const { data, error } = await supabase
           .from('hkex_announcements')
           .select('*')
@@ -101,6 +114,15 @@ export default function HKScraperProduction() {
 
         if (error) throw error;
         setHkexData(data || []);
+      } else if (source === 'ccass') {
+        const { data, error } = await supabase
+          .from('hkex_ccass_holdings')
+          .select('*')
+          .order('scraped_at', { ascending: false })
+          .limit(100);
+
+        if (error) throw error;
+        setCcassData(data || []);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -140,7 +162,8 @@ export default function HKScraperProduction() {
         body: JSON.stringify({
           source: source,
           limit: limit,
-          test_mode: false
+          test_mode: false,
+          ...(source === 'ccass' && { stock_code: stockCode })
         })
       });
 
@@ -210,14 +233,33 @@ export default function HKScraperProduction() {
               <label className="block text-sm font-medium mb-2">Data Source</label>
               <select
                 value={source}
-                onChange={(e) => setSource(e.target.value as 'hksfc' | 'hkex')}
+                onChange={(e) => setSource(e.target.value as 'hksfc' | 'hkex' | 'ccass')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 disabled={isLoading}
               >
                 <option value="hksfc">HKSFC (Securities & Futures Commission)</option>
                 <option value="hkex">HKEX (Stock Exchange)</option>
+                <option value="ccass">CCASS (Participant Shareholding)</option>
               </select>
             </div>
+
+            {/* Stock Code (CCASS only) */}
+            {source === 'ccass' && (
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Stock Code (e.g., 00700 for Tencent)
+                </label>
+                <input
+                  type="text"
+                  value={stockCode}
+                  onChange={(e) => setStockCode(e.target.value)}
+                  placeholder="00700"
+                  maxLength={5}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  disabled={isLoading}
+                />
+              </div>
+            )}
 
             {/* Limit */}
             <div>
@@ -328,7 +370,7 @@ export default function HKScraperProduction() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-medium">
-                {source === 'hksfc' ? 'HKSFC Filings' : 'HKEX Announcements'}
+                {source === 'hksfc' ? 'HKSFC Filings' : source === 'hkex' ? 'HKEX Announcements' : 'CCASS Holdings'}
               </h3>
               <button
                 onClick={fetchData}
@@ -371,7 +413,7 @@ export default function HKScraperProduction() {
                       </div>
                     ))
                   )
-                ) : (
+                ) : source === 'hkex' ? (
                   hkexData.length === 0 ? (
                     <p className="text-center text-gray-500 py-8">
                       No HKEX data found. Try scraping first.
@@ -395,6 +437,33 @@ export default function HKScraperProduction() {
                             View source →
                           </a>
                         )}
+                      </div>
+                    ))
+                  )
+                ) : (
+                  ccassData.length === 0 ? (
+                    <p className="text-center text-gray-500 py-8">
+                      No CCASS data found. Try scraping first.
+                    </p>
+                  ) : (
+                    ccassData.map(holding => (
+                      <div key={holding.id} className="p-3 border border-gray-200 rounded-md hover:bg-gray-50">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h4 className="font-medium text-sm">{holding.participant_name}</h4>
+                            <p className="text-xs text-gray-500 mt-1">
+                              ID: {holding.participant_id} | Stock: {holding.stock_code}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm font-semibold">
+                              {holding.shareholding.toLocaleString()}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {holding.percentage}%
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     ))
                   )
