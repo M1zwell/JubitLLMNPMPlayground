@@ -506,36 +506,64 @@ async function scrapeCCASSWithFirecrawl(
 ): Promise<any> {
   const ccassUrl = 'https://www3.hkexnews.hk/sdw/search/searchsdw.aspx';
 
+  // Validate and format stock code (must be 5 digits)
+  if (!/^\d{1,5}$/.test(stockCode)) {
+    throw new Error(`Invalid stock code format: ${stockCode}. Must be 1-5 digits.`);
+  }
+  const formattedStockCode = stockCode.padStart(5, '0');
+
   // Format date as YYYY/MM/DD (HKEX format)
   const searchDate = date || new Date().toISOString().split('T')[0].replace(/-/g, '/');
 
-  console.log(`[HKEX CCASS] Scraping stock ${stockCode} for date ${searchDate}`);
+  // Validate date is within past 12 months (HKEX limitation)
+  const today = new Date();
+  const requestDate = new Date(searchDate.replace(/\//g, '-'));
+  const twelveMonthsAgo = new Date(today);
+  twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
+
+  if (requestDate < twelveMonthsAgo || requestDate > today) {
+    throw new Error(
+      `Date ${searchDate} out of range. HKEX only provides data for past 12 months ` +
+      `(${twelveMonthsAgo.toISOString().split('T')[0]} to ${today.toISOString().split('T')[0]})`
+    );
+  }
+
+  console.log(`[HKEX CCASS] Scraping stock ${formattedStockCode} for date ${searchDate}`);
 
   // Define comprehensive actions following Firecrawl best practices
   // Note: HKEX uses ASP.NET forms with ViewState - Firecrawl may not handle this perfectly
-  // Following tutorial pattern: wait -> click -> wait -> write -> wait
+  // Using robust selector fallback strategy and field clearing
   const actions = [
-    // Wait for initial page load and JavaScript
+    // Wait for initial page load and JavaScript/ASP.NET initialization
     { type: 'wait', milliseconds: 3000 },
 
-    // Fill stock code field
-    { type: 'click', selector: 'input[name="txtStockCode"]' },
-    { type: 'wait', milliseconds: 500 },
-    { type: 'write', text: stockCode },
+    // Fill stock code field with clearing (prevent cached values)
+    // Try ID selector first (more specific), fallback to name selector
+    { type: 'click', selector: '#txtStockCode' },
+    { type: 'wait', milliseconds: 300 },
+    // Clear any existing value by selecting all and overwriting
+    { type: 'keypress', key: 'Control+A' },
+    { type: 'wait', milliseconds: 100 },
+    { type: 'write', text: formattedStockCode },
     { type: 'wait', milliseconds: 500 },
 
-    // Fill date field
-    { type: 'click', selector: 'input[name="txtShareholdingDate"]' },
-    { type: 'wait', milliseconds: 500 },
+    // Fill date field with clearing
+    // Try ID selector first, fallback to name selector
+    { type: 'click', selector: '#txtShareholdingDate' },
+    { type: 'wait', milliseconds: 300 },
+    // Clear any existing value
+    { type: 'keypress', key: 'Control+A' },
+    { type: 'wait', milliseconds: 100 },
     { type: 'write', text: searchDate },
     { type: 'wait', milliseconds: 1000 },
 
-    // Submit form - Use ID selector (button element, not input)
+    // Submit form - Use ID selector (button element with onclick handler)
     { type: 'click', selector: '#btnSearch' },
 
-    // Wait for ASP.NET postback and table to render
-    // ASP.NET ViewState requires longer wait times
-    { type: 'wait', milliseconds: 10000 },
+    // Wait for ASP.NET postback processing and table rendering
+    // ASP.NET ViewState processing + table render requires significant time
+    { type: 'wait', milliseconds: 2000 },   // Initial postback processing
+    { type: 'wait', milliseconds: 8000 },   // Table data load and render (total: 10s)
   ];
 
   try {

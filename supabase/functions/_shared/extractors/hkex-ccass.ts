@@ -127,9 +127,12 @@ export class HKEXCCASSExtractor extends BaseExtractor<CCAASSRawInput, CCAASSData
   }
 
   /**
-   * Check for error messages or CAPTCHA
+   * Check for error messages, CAPTCHA, and page issues
    */
   private checkForErrors(dom: Document): void {
+    // Get HTML content for text-based checks
+    const htmlContent = dom.documentElement?.innerHTML || '';
+
     // Check for error messages
     const errorMsg = dom.querySelector(SELECTORS.errorMsg);
     if (errorMsg?.textContent) {
@@ -146,6 +149,32 @@ export class HKEXCCASSExtractor extends BaseExtractor<CCAASSRawInput, CCAASSData
     const captcha = dom.querySelector(SELECTORS.captchaContainer);
     if (captcha) {
       throw new Error('CAPTCHA detected - rate limit exceeded');
+    }
+
+    // Check for session timeout
+    const sessionExpired = dom.querySelector('#sessionTimeout, .session-expired');
+    if (sessionExpired || htmlContent.includes('session has expired') || htmlContent.includes('Session Timeout')) {
+      throw new Error('Session expired - please retry the request');
+    }
+
+    // Check for maintenance page
+    if (htmlContent.includes('under maintenance') ||
+        htmlContent.includes('temporarily unavailable') ||
+        htmlContent.includes('system maintenance')) {
+      throw new Error('HKEX website is under maintenance - please try again later');
+    }
+
+    // Check for invalid stock code error
+    if (htmlContent.includes('Invalid Stock Code') ||
+        htmlContent.includes('invalid stock code')) {
+      throw new Error('Invalid stock code - please verify the stock code is correct');
+    }
+
+    // Check for access denied / blocked
+    if (htmlContent.includes('Access Denied') ||
+        htmlContent.includes('403 Forbidden') ||
+        htmlContent.includes('blocked')) {
+      throw new Error('Access denied - possible rate limiting or IP blocking');
     }
   }
 
