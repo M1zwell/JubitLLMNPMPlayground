@@ -15,6 +15,9 @@ import { HKSFCNewsExtractor } from '../_shared/extractors/hksfc-news.ts';
 import { NPMPackageExtractor } from '../_shared/extractors/npm-package.ts';
 import { HKEXCCASSExtractor } from '../_shared/extractors/hkex-ccass.ts';
 
+// Import change tracker
+import { CCAASSChangeTracker } from '../_shared/change-tracker.ts';
+
 // CORS headers
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -45,6 +48,10 @@ interface ScrapeRequest {
     batchMode?: 'sequential' | 'concurrent';  // Sequential (default) or concurrent processing
     batchDelay?: number;  // Delay between requests in ms (default: 5000ms)
     batchSize?: number;   // Number of concurrent requests (for concurrent mode, default: 3)
+    // Firecrawl v2 advanced features
+    captureScreenshot?: boolean;  // Capture screenshot of results (default: false)
+    useJsonExtraction?: boolean;  // Use JSON extraction instead of HTML parsing (default: false)
+    enableChangeTracking?: boolean;  // Track changes and save snapshots (default: false)
   };
 }
 
@@ -194,8 +201,19 @@ async function handleHKEXCCASS(
     dateRange,
     batchMode = 'sequential',
     batchDelay = 5000,  // Default 5 second delay between requests
-    batchSize = 3       // Default 3 concurrent requests
+    batchSize = 3,      // Default 3 concurrent requests
+    captureScreenshot = false,  // Screenshot capture disabled by default
+    useJsonExtraction = false,  // JSON extraction disabled by default
+    enableChangeTracking = false  // Change tracking disabled by default
   } = options;
+
+  // Initialize change tracker if enabled
+  const changeTracker = enableChangeTracking
+    ? new CCAASSChangeTracker(
+        Deno.env.get('SUPABASE_URL')!,
+        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+      )
+    : null;
 
   const totalStocks = stockCodes?.length || 0;
   console.log(`[HKEX CCASS] Batch scraping ${totalStocks} stock codes (mode: ${batchMode})`);
@@ -219,7 +237,9 @@ async function handleHKEXCCASS(
         try {
           rawData = await scrapeCCASSWithFirecrawl(
             formattedStockCode,
-            dateRange?.start
+            dateRange?.start,
+            captureScreenshot,
+            useJsonExtraction
           );
           usedStrategy = 'firecrawl';
         } catch (error) {
@@ -238,14 +258,62 @@ async function handleHKEXCCASS(
         usedStrategy = 'puppeteer';
       }
 
-      // Extract structured data from HTML
-      const extractedData = await extractor.extract({
-        html: rawData.html || rawData.content || '',
-        stockCode: formattedStockCode,
-        requestDate: dateRange?.start || new Date().toISOString().split('T')[0],
-      });
+      // Extract structured data from HTML or JSON
+      let extractedData;
 
-      console.log(`[HKEX CCASS] ✅ Extracted ${extractedData.participants.length} participants for ${stockCode}`);
+      if (useJsonExtraction && rawData.extracted) {
+        // Use AI-extracted JSON data directly
+        console.log(`[HKEX CCASS] Using JSON extraction for ${stockCode}`);
+        extractedData = {
+          stockCode: rawData.extracted.stockCode || formattedStockCode,
+          stockName: rawData.extracted.stockName || 'Unknown',
+          dataDate: rawData.extracted.dataDate || (dateRange?.start || new Date().toISOString().split('T')[0]),
+          participants: rawData.extracted.participants || [],
+          totalParticipants: rawData.extracted.participants?.length || 0,
+          totalShares: rawData.extracted.participants?.reduce((sum: number, p: any) => sum + (p.shareholding || 0), 0) || 0,
+          screenshotUrl: rawData.screenshotUrl,  // Include screenshot URL if captured
+        };
+      } else {
+        // Use HTML parsing extractor
+        extractedData = await extractor.extract({
+          html: rawData.html || rawData.content || '',
+          stockCode: formattedStockCode,
+          requestDate: dateRange?.start || new Date().toISOString().split('T')[0],
+        });
+
+        // Add screenshot URL if captured
+        if (rawData.screenshotUrl) {
+          extractedData.screenshotUrl = rawData.screenshotUrl;
+        }
+      }
+
+      console.log(`[HKEX CCASS] ✅ Extracted ${extractedData.participants.length} participants for ${stockCode}${extractedData.screenshotUrl ? ' (with screenshot)' : ''}`);
+
+      // Process change tracking if enabled
+      if (changeTracker) {
+        try {
+          const { snapshotId, changes } = await changeTracker.processSnapshot({
+            stockCode: extractedData.stockCode,
+            dataDate: extractedData.dataDate,
+            stockName: extractedData.stockName || 'Unknown',
+            totalParticipants: extractedData.totalParticipants,
+            totalShares: extractedData.totalShares,
+            participants: extractedData.participants,
+            screenshotUrl: extractedData.screenshotUrl,
+            extractionMethod: useJsonExtraction ? 'json' : 'html',
+          });
+
+          extractedData.snapshotId = snapshotId;
+          extractedData.changes = changes;
+          extractedData.changeCount = changes.length;
+
+          console.log(`[HKEX CCASS] 📊 Snapshot saved (ID: ${snapshotId}), detected ${changes.length} changes`);
+        } catch (error) {
+          console.error(`[HKEX CCASS] ⚠️  Change tracking failed for ${stockCode}:`, error);
+          extractedData.changeTrackingError = error instanceof Error ? error.message : String(error);
+        }
+      }
+
       return extractedData;
 
     } catch (error) {
@@ -459,6 +527,7 @@ async function scrapeWithFirecrawl(url: string, actions?: any[], options?: {
   maxAge?: number;
   onlyMainContent?: boolean;
   excludeTags?: string[];
+  jsonSchema?: any;  // JSON extraction schema
 }): Promise<any> {
   const apiKey = Deno.env.get('FIRECRAWL_API_KEY');
 
@@ -466,11 +535,11 @@ async function scrapeWithFirecrawl(url: string, actions?: any[], options?: {
     throw new Error('Firecrawl API key not configured');
   }
 
-  console.log('[Firecrawl v2] Scraping:', url, actions ? `with ${actions.length} actions` : '');
+  console.log('[Firecrawl v2] Scraping:', url, actions ? `with ${actions.length} actions` : '', options?.jsonSchema ? '(JSON extraction)' : '');
 
   const requestBody: any = {
     url,
-    formats: ['markdown', 'html'],
+    formats: options?.jsonSchema ? ['extract'] : ['markdown', 'html'],
 
     // V2 features
     onlyMainContent: options?.onlyMainContent ?? !actions, // Get full content when using actions
@@ -480,6 +549,13 @@ async function scrapeWithFirecrawl(url: string, actions?: any[], options?: {
     waitFor: actions ? 3000 : 5000,  // 3s with actions, 5s without
     timeout: 60000  // 60 second timeout for complex pages
   };
+
+  // Add JSON extraction schema if provided
+  if (options?.jsonSchema) {
+    requestBody.extract = {
+      schema: options.jsonSchema
+    };
+  }
 
   // Exclude noise elements for cleaner extraction
   if (options?.excludeTags) {
@@ -511,16 +587,28 @@ async function scrapeWithFirecrawl(url: string, actions?: any[], options?: {
 
   const data = await response.json();
 
+  // Parse screenshot URL from actions if present
+  let screenshotUrl = null;
+  if (data.data?.actions) {
+    const screenshotAction = data.data.actions.find((a: any) => a.type === 'screenshot');
+    if (screenshotAction?.result) {
+      screenshotUrl = screenshotAction.result;
+      console.log('[Firecrawl v2] Screenshot captured:', screenshotUrl);
+    }
+  }
+
   // V2 response format
   return {
     content: data.data?.markdown || data.data?.content,
     html: data.data?.html,
+    extracted: data.data?.extract,  // JSON extracted data
     metadata: {
       ...data.data?.metadata,
       cacheState: data.data?.metadata?.cache_state, // v2 cache indicator
       creditsUsed: data.data?.metadata?.credits_used,
     },
     actions: data.data?.actions, // V2 actions response (screenshots, scrapes, etc.)
+    screenshotUrl,  // Parsed screenshot URL for convenience
   };
 }
 
@@ -570,7 +658,9 @@ async function scrapeWithPuppeteer(url: string): Promise<any> {
  */
 async function scrapeCCASSWithFirecrawl(
   stockCode: string,
-  date?: string
+  date?: string,
+  captureScreenshot = false,
+  useJsonExtraction = false
 ): Promise<any> {
   const ccassUrl = 'https://www3.hkexnews.hk/sdw/search/searchsdw.aspx';
 
@@ -596,12 +686,12 @@ async function scrapeCCASSWithFirecrawl(
     );
   }
 
-  console.log(`[HKEX CCASS] Scraping stock ${formattedStockCode} for date ${searchDate}`);
+  console.log(`[HKEX CCASS] Scraping stock ${formattedStockCode} for date ${searchDate}${captureScreenshot ? ' (with screenshot)' : ''}${useJsonExtraction ? ' (JSON extraction)' : ''}`);
 
   // Define comprehensive actions following Firecrawl v2 best practices
   // Note: HKEX uses ASP.NET forms with ViewState - must trigger proper events
   // Using executeJavascript for reliable field clearing with event triggering
-  const actions = [
+  const actions: any[] = [
     // Wait for initial page load and JavaScript/ASP.NET initialization
     { type: 'wait', milliseconds: 3000 },
 
@@ -650,8 +740,70 @@ async function scrapeCCASSWithFirecrawl(
     { type: 'wait', milliseconds: 8000 },   // Table data load and render (total: 10s)
   ];
 
+  // Add screenshot capture if requested
+  if (captureScreenshot) {
+    actions.push({
+      type: 'screenshot',
+      fullPage: false  // Only capture visible portion (table area)
+    });
+    console.log('[HKEX CCASS] Screenshot capture enabled');
+  }
+
+  // Define JSON extraction schema for CCASS table (if JSON extraction enabled)
+  const jsonSchema = useJsonExtraction ? {
+    type: 'object',
+    properties: {
+      stockCode: {
+        type: 'string',
+        description: 'The stock code (5 digits with leading zeros)'
+      },
+      stockName: {
+        type: 'string',
+        description: 'The full company name'
+      },
+      dataDate: {
+        type: 'string',
+        description: 'The date of shareholding data (YYYY-MM-DD format)'
+      },
+      participants: {
+        type: 'array',
+        description: 'List of all participants (shareholders) from the CCASS table',
+        items: {
+          type: 'object',
+          properties: {
+            participantId: {
+              type: 'string',
+              description: 'Participant ID (e.g., C00019, B01451, A00003)'
+            },
+            participantName: {
+              type: 'string',
+              description: 'Full name of the participant/institution'
+            },
+            address: {
+              type: 'string',
+              description: 'Registered address of the participant'
+            },
+            shareholding: {
+              type: 'number',
+              description: 'Number of shares held (must be integer, not string)'
+            },
+            percentage: {
+              type: 'number',
+              description: 'Percentage of total shares (decimal, e.g., 34.16 for 34.16%)'
+            }
+          },
+          required: ['participantId', 'participantName', 'shareholding', 'percentage']
+        }
+      }
+    },
+    required: ['stockCode', 'participants']
+  } : undefined;
+
   try {
-    const result = await scrapeWithFirecrawl(ccassUrl, actions);
+    const result = await scrapeWithFirecrawl(ccassUrl, actions, {
+      jsonSchema,
+      onlyMainContent: false,  // Need full page for form interaction
+    });
     return result;
   } catch (error) {
     console.error(`[HKEX CCASS] Firecrawl failed for ${stockCode}:`, error);
