@@ -777,14 +777,14 @@ async function scrapeCCASSWithFirecrawl(
     {
       type: 'executeJavascript',
       script: `
-        const field = document.querySelector("#txtShareholdingDate");
-        if (field) {
-          field.value = "";
-          field.focus();
-          field.value = "${searchDate}";
-          field.dispatchEvent(new Event('input', { bubbles: true }));
-          field.dispatchEvent(new Event('change', { bubbles: true }));
-          field.blur();
+        const dateField = document.querySelector("#txtShareholdingDate");
+        if (dateField) {
+          dateField.value = "";
+          dateField.focus();
+          dateField.value = "${searchDate}";
+          dateField.dispatchEvent(new Event('input', { bubbles: true }));
+          dateField.dispatchEvent(new Event('change', { bubbles: true }));
+          dateField.blur();
         }
       `
     },
