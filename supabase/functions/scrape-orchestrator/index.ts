@@ -530,8 +530,8 @@ async function scrapeCCASSWithFirecrawl(
     { type: 'write', text: searchDate },
     { type: 'wait', milliseconds: 1000 },
 
-    // Submit form - Try different selector approaches
-    { type: 'click', selector: 'input[type="submit"][name="btnSearch"]' },
+    // Submit form - Use ID selector (button element, not input)
+    { type: 'click', selector: '#btnSearch' },
 
     // Wait for ASP.NET postback and table to render
     // ASP.NET ViewState requires longer wait times
