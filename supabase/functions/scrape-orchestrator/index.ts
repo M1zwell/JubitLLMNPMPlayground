@@ -391,6 +391,10 @@ async function scrapeWithFirecrawl(url: string, actions?: any[]): Promise<any> {
     url,
     formats: ['markdown', 'html'],
     onlyMainContent: !actions, // Get full content when using actions
+
+    // Wait for JavaScript/React to fully render (especially for SPAs)
+    waitFor: 5000,    // Wait 5 seconds after page load for AJAX/React rendering
+    timeout: 30000    // 30 second total timeout
   };
 
   // Add actions if provided
