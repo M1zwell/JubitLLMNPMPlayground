@@ -1,0 +1,26 @@
+# Daily Scraping Workflow
+name: daily-scraping
+description: "Automated daily batch scraping of all enabled data sources with reporting"
+author: "BMad"
+
+# Configuration
+config_source: "{project-root}/bmad/hk-data-pipeline/config.yaml"
+alert_email: "{config_source}:alert_email"
+tracked_stocks: "{config_source}:tracked_stocks"
+enabled_sources: "{config_source}:enabled_sources"
+failure_threshold: "{config_source}:failure_threshold"
+critical_hours: "{config_source}:critical_hours"
+supabase_url: "{config_source}:supabase_url"
+supabase_anon_key: "{config_source}:supabase_anon_key"
+
+# Workflow files
+installed_path: "{project-root}/bmad/hk-data-pipeline/workflows/daily-scraping"
+template: false  # Action workflow (no document output)
+instructions: "{installed_path}/instructions.md"
+
+# This is an automation workflow - can be triggered by:
+# 1. Manual execution via BMad Builder
+# 2. Cron job / GitHub Actions
+# 3. Data Collector Agent (*scrape-all command)
+
+standalone: true

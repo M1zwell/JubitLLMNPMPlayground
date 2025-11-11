@@ -1,0 +1,94 @@
+# HK Data Pipeline Module Configuration
+# Automated web scraping and data processing for HKEX, HKSFC, and NPM sources
+
+code: hk-data-pipeline
+name: "HK Data Pipeline"
+default_selected: false
+
+# Welcome message shown during installation
+prompt:
+  - "Thank you for choosing HK Data Pipeline!"
+  - "Automated web scraping for Hong Kong financial data (HKEX, HKSFC) and NPM packages"
+  - "Features: Daily batch scraping, on-demand queries, intelligent reporting, and email alerts"
+
+# Core config values are automatically inherited:
+## user_name
+## communication_language
+## document_output_language
+## output_folder
+
+# ============================================================================
+# CONFIGURATION FIELDS
+# ============================================================================
+
+# Alert Email Address
+alert_email:
+  prompt: "Email address for scraping alerts and daily reports?"
+  default: "yying2010@gmail.com"
+  result: "{value}"
+
+# Tracked Stock Codes
+tracked_stocks:
+  prompt: "Which HKEX stock codes to track? (comma-separated, max 10)"
+  default: "00700,00005,00388"
+  result: "{value}"
+
+# Enabled Data Sources
+enabled_sources:
+  prompt: "Which data sources should be enabled?"
+  default: ["hkex", "hksfc", "npm", "llm"]
+  result: "{value}"
+  multi-select:
+    - value: "hkex"
+      label: "HKEX - Hong Kong Stock Exchange (CCASS, announcements)"
+    - value: "hksfc"
+      label: "HKSFC - Securities & Futures Commission (filings, news)"
+    - value: "npm"
+      label: "NPM - Package registry (metadata, GitHub stats)"
+    - value: "llm"
+      label: "LLM Models - artificialanalysis.ai (500+ AI models, pricing, performance)"
+
+# Daily Scraping Schedule
+scraping_schedule:
+  prompt: "When should daily scraping run? (24-hour format, e.g., 09:00)"
+  default: "09:00"
+  result: "{value}"
+
+# ============================================================================
+# STATIC CONFIGURATION (No user prompts)
+# ============================================================================
+
+# Alert Thresholds
+failure_threshold:
+  result: "20"
+
+critical_hours:
+  result: "24"
+
+# Data Paths
+data_path:
+  result: "{project-root}/bmad/hk-data-pipeline/data"
+
+export_path:
+  result: "{output_folder}/hk-data-exports"
+
+# Scraping Constraints
+max_stocks:
+  result: "10"
+
+days_window:
+  result: "10"
+
+# Module Version
+module_version:
+  result: "1.0.0"
+
+# Supabase Connection (from existing .env)
+supabase_url:
+  result: "{env:VITE_SUPABASE_URL}"
+
+supabase_anon_key:
+  result: "{env:VITE_SUPABASE_ANON_KEY}"
+
+firecrawl_api_key:
+  result: "{env:VITE_FIRECRAWL_API_KEY}"

@@ -40,9 +40,17 @@ jobs:
         run: |
           supabase functions deploy unified-scraper --project-ref $SUPABASE_PROJECT_ID
 
+      - name: Deploy llm-update function
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_ID: kiztaihzanqnrcrqaxsv
+        run: |
+          supabase functions deploy llm-update --project-ref $SUPABASE_PROJECT_ID
+
       - name: Deployment summary
         run: |
           echo "✅ Edge Functions deployed successfully!"
-          echo "📦 Functions: scrape-orchestrator, unified-scraper"
+          echo "📦 Functions: scrape-orchestrator, unified-scraper, llm-update"
           echo "🔗 scrape-orchestrator: https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/scrape-orchestrator"
           echo "🔗 unified-scraper: https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/unified-scraper"
+          echo "🔗 llm-update: https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/llm-update"
