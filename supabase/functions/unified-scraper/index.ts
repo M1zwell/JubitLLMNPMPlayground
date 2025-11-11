@@ -13,6 +13,13 @@ import { scrapeLegal } from '../_shared/scrapers/legal-adapter.ts';
 import { scrapeNPM } from '../_shared/scrapers/npm-adapter.ts';
 import { scrapeLLM } from '../_shared/scrapers/llm-adapter.ts';
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey',
+};
+
 // Types
 interface ScraperRequest {
   source: 'hksfc' | 'hkex' | 'legal' | 'npm' | 'llm';
@@ -44,6 +51,14 @@ function generateContentHash(...values: string[]): string {
 // Main handler
 serve(async (req: Request) => {
   const startTime = Date.now();
+
+  // Handle CORS preflight request
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 200,
+      headers: corsHeaders
+    });
+  }
 
   // Initialize Supabase client with service role key
   const supabase = createClient(
@@ -181,7 +196,10 @@ serve(async (req: Request) => {
     console.log(`[Unified Scraper] Complete:`, response);
 
     return new Response(JSON.stringify(response), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders
+      },
       status: 200
     });
 
@@ -214,7 +232,10 @@ serve(async (req: Request) => {
         duration_ms: duration
       }),
       {
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        },
         status: 500
       }
     );
