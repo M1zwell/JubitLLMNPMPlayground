@@ -648,7 +648,7 @@ async function scrapeWithFirecrawl(url: string, actions?: any[], options?: {
 
   // Parse screenshot URL from actions if present
   let screenshotUrl = null;
-  if (data.data?.actions) {
+  if (data.data?.actions && Array.isArray(data.data.actions)) {
     const screenshotAction = data.data.actions.find((a: any) => a.type === 'screenshot');
     if (screenshotAction?.result) {
       screenshotUrl = screenshotAction.result;
