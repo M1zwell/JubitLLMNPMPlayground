@@ -537,23 +537,17 @@ async function scrapeCCASSWithFirecrawl(
     // Wait for initial page load and JavaScript/ASP.NET initialization
     { type: 'wait', milliseconds: 3000 },
 
-    // Fill stock code field with clearing (prevent cached values)
-    // Try ID selector first (more specific), fallback to name selector
+    // Fill stock code field
+    // Use ID selector (more specific than name attribute)
     { type: 'click', selector: '#txtStockCode' },
-    { type: 'wait', milliseconds: 300 },
-    // Clear any existing value by selecting all and overwriting
-    { type: 'keypress', key: 'Control+A' },
-    { type: 'wait', milliseconds: 100 },
+    { type: 'wait', milliseconds: 500 },
     { type: 'write', text: formattedStockCode },
     { type: 'wait', milliseconds: 500 },
 
-    // Fill date field with clearing
-    // Try ID selector first, fallback to name selector
+    // Fill date field
+    // Use ID selector (more specific than name attribute)
     { type: 'click', selector: '#txtShareholdingDate' },
-    { type: 'wait', milliseconds: 300 },
-    // Clear any existing value
-    { type: 'keypress', key: 'Control+A' },
-    { type: 'wait', milliseconds: 100 },
+    { type: 'wait', milliseconds: 500 },
     { type: 'write', text: searchDate },
     { type: 'wait', milliseconds: 1000 },
 
