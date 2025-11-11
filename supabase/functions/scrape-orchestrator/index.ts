@@ -467,7 +467,7 @@ async function handleHKSFCNews(
         const records = extractedData.articles.map(article => ({
           title: article.title,
           filing_date: article.publishDate?.split('T')[0] || new Date().toISOString().split('T')[0],
-          filing_type: article.category,
+          filing_type: article.category.toLowerCase(), // Convert to lowercase for DB constraint
           url: article.url,
           content_hash: `${article.id}-${article.publishDate}`, // Simple hash
           summary: article.summary || null,
