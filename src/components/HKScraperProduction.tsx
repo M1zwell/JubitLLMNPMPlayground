@@ -80,6 +80,9 @@ export default function HKScraperProduction() {
   const [stockCodes, setStockCodes] = useState('00700,00005,00388');
   const [filingType, setFilingType] = useState<string>('all');
 
+  // Validation states
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
   // Database data states
   const [hksfcData, setHksfcData] = useState<HKSFCFiling[]>([]);
   const [hkexData, setHkexData] = useState<HKEXAnnouncement[]>([]);
@@ -142,10 +145,86 @@ export default function HKScraperProduction() {
     }
   }, [activeTab, source, filingType, dateRange.start, dateRange.end, stockCodes]);
 
+  // Validation functions
+  const validateStockCodes = (codes: string): string[] => {
+    const errors: string[] = [];
+    const codeList = codes.split(',').map(c => c.trim()).filter(c => c);
+
+    if (codeList.length === 0) {
+      errors.push('At least one stock code is required');
+      return errors;
+    }
+
+    for (const code of codeList) {
+      // Check if code is 1-5 digits
+      if (!/^\d{1,5}$/.test(code)) {
+        errors.push(`Invalid stock code "${code}": must be 1-5 digits (e.g., "700" or "00700")`);
+      }
+    }
+
+    return errors;
+  };
+
+  const validateDateRange = (start: string, end?: string): string[] => {
+    const errors: string[] = [];
+    const startDate = new Date(start);
+    const endDate = end ? new Date(end) : new Date();
+    const today = new Date();
+    const twelveMonthsAgo = new Date();
+    twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
+
+    // For HKEX, validate 12-month range
+    if (source === 'hkex') {
+      if (startDate < twelveMonthsAgo) {
+        errors.push(
+          `Start date too far in past. HKEX only provides data for past 12 months ` +
+          `(from ${twelveMonthsAgo.toISOString().split('T')[0]})`
+        );
+      }
+    }
+
+    if (startDate > today) {
+      errors.push('Start date cannot be in the future');
+    }
+
+    if (end && endDate > today) {
+      errors.push('End date cannot be in the future');
+    }
+
+    if (end && startDate > endDate) {
+      errors.push('Start date must be before end date');
+    }
+
+    return errors;
+  };
+
+  const validateInputs = (): boolean => {
+    const errors: string[] = [];
+
+    // Validate stock codes for HKEX
+    if (source === 'hkex') {
+      errors.push(...validateStockCodes(stockCodes));
+    }
+
+    // Validate date range
+    errors.push(...validateDateRange(dateRange.start, dateRange.end));
+
+    setValidationErrors(errors);
+    return errors.length === 0;
+  };
+
   // Trigger scraping
   const startScraping = async () => {
-    setIsLoading(true);
+    // Clear previous results and validation errors
     setResult(null);
+    setValidationErrors([]);
+
+    // Validate inputs before scraping
+    if (!validateInputs()) {
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
       // Build request for production scrape-orchestrator Edge Function
@@ -426,7 +505,9 @@ export default function HKScraperProduction() {
                       placeholder="00700,00005,00388"
                       className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Comma-separated</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      1-5 digits, comma-separated (e.g., "700" or "00700")
+                    </p>
                   </div>
                 )}
 
@@ -450,6 +531,11 @@ export default function HKScraperProduction() {
                       className="px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100"
                     />
                   </div>
+                  {source === 'hkex' && (
+                    <p className="text-xs text-yellow-500 mt-1">
+                      ⚠️ HKEX only provides data for past 12 months
+                    </p>
+                  )}
                 </div>
 
                 {/* Start Button */}
@@ -482,6 +568,26 @@ export default function HKScraperProduction() {
             <div className="lg:col-span-2">
               <div className="bg-gray-800 rounded-xl shadow-lg p-6">
                 <h2 className="text-xl font-bold text-gray-100 mb-4">Scraping Results</h2>
+
+                {/* Validation Errors */}
+                {validationErrors.length > 0 && (
+                  <div className="mb-4 p-4 rounded-lg border-2 border-yellow-600 bg-yellow-900/30">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle className="w-6 h-6 text-yellow-500 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-yellow-400 mb-2">Validation Errors</h3>
+                        <ul className="list-disc list-inside space-y-1">
+                          {validationErrors.map((error, idx) => (
+                            <li key={idx} className="text-sm text-yellow-300">{error}</li>
+                          ))}
+                        </ul>
+                        <p className="text-xs text-yellow-500 mt-3">
+                          Please fix the errors above before starting the scrape.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {result ? (
                   <div className={`p-6 rounded-lg border-2 ${
