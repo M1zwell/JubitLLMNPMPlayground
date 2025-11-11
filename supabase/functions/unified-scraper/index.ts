@@ -9,6 +9,7 @@ import { createHash } from 'https://deno.land/std@0.177.0/node/crypto.ts';
 // Import scraper adapters
 import { scrapeHKSFC } from '../_shared/scrapers/hksfc-adapter.ts';
 import { scrapeHKEX } from '../_shared/scrapers/hkex-adapter.ts';
+import { scrapeCCASS } from '../_shared/scrapers/hkex-ccass-adapter.ts';
 import { scrapeLegal } from '../_shared/scrapers/legal-adapter.ts';
 import { scrapeNPM } from '../_shared/scrapers/npm-adapter.ts';
 import { scrapeLLM } from '../_shared/scrapers/llm-adapter.ts';
@@ -22,9 +23,10 @@ const corsHeaders = {
 
 // Types
 interface ScraperRequest {
-  source: 'hksfc' | 'hkex' | 'legal' | 'npm' | 'llm';
+  source: 'hksfc' | 'hkex' | 'ccass' | 'legal' | 'npm' | 'llm';
   limit?: number;
   test_mode?: boolean;
+  stock_code?: string; // For CCASS scraping
 }
 
 interface ScrapedRecord {
@@ -74,9 +76,9 @@ serve(async (req: Request) => {
 
   try {
     // Parse request
-    const { source, limit = 100, test_mode = false }: ScraperRequest = await req.json();
+    const { source, limit = 100, test_mode = false, stock_code = '00700' }: ScraperRequest = await req.json();
 
-    console.log(`[Unified Scraper] Starting scrape: ${source} (limit: ${limit}, test_mode: ${test_mode})`);
+    console.log(`[Unified Scraper] Starting scrape: ${source} (limit: ${limit}, test_mode: ${test_mode}, stock_code: ${stock_code})`);
 
     // Route to appropriate scraper
     let scrapeResults: ScrapedRecord[] = [];
@@ -89,7 +91,12 @@ serve(async (req: Request) => {
 
       case 'hkex':
         scrapeResults = await scrapeHKEX(limit, test_mode);
-        scraperEngine = 'puppeteer'; // HKEX uses Puppeteer for dynamic content
+        scraperEngine = 'firecrawl'; // HKEX uses Firecrawl
+        break;
+
+      case 'ccass':
+        scrapeResults = await scrapeCCASS(stock_code, limit, test_mode);
+        scraperEngine = 'firecrawl-actions'; // CCASS uses Firecrawl with Actions
         break;
 
       case 'legal':
@@ -247,6 +254,7 @@ function getTableName(source: string): string {
   const tableMap: Record<string, string> = {
     hksfc: 'hksfc_filings',
     hkex: 'hkex_announcements',
+    ccass: 'hkex_ccass_holdings',
     legal: 'legal_cases',
     npm: 'npm_packages_scraped',
     llm: 'llm_configs'
@@ -269,6 +277,13 @@ function generateContentHashForRecord(source: string, record: ScrapedRecord): st
         record.announcement_title || '',
         record.announcement_content || '',
         record.url || ''
+      );
+
+    case 'ccass':
+      return generateContentHash(
+        record.stock_code || '',
+        record.participant_id || '',
+        (record.scraped_at || new Date()).toISOString().split('T')[0] // Date only, not timestamp
       );
 
     case 'legal':
