@@ -124,6 +124,7 @@ serve(async (req) => {
       source,
       strategy: result.strategy || 'puppeteer',
       timestamp: new Date().toISOString(),
+      ...(result.dbSummary && { dbSummary: result.dbSummary }), // Include dbSummary if present
     };
 
     return new Response(JSON.stringify(response), {
