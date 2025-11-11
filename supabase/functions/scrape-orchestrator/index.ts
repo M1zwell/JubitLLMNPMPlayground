@@ -41,6 +41,10 @@ interface ScrapeRequest {
     };
     maxRetries?: number;
     timeout?: number;
+    // Batch processing options
+    batchMode?: 'sequential' | 'concurrent';  // Sequential (default) or concurrent processing
+    batchDelay?: number;  // Delay between requests in ms (default: 5000ms)
+    batchSize?: number;   // Number of concurrent requests (for concurrent mode, default: 3)
   };
 }
 
@@ -185,19 +189,29 @@ async function handleHKEXCCASS(
   options: ScrapeRequest['options'],
   strategy: ScrapingStrategy
 ): Promise<any> {
-  const { stockCodes, dateRange } = options;
+  const {
+    stockCodes,
+    dateRange,
+    batchMode = 'sequential',
+    batchDelay = 5000,  // Default 5 second delay between requests
+    batchSize = 3       // Default 3 concurrent requests
+  } = options;
 
-  console.log(`[HKEX CCASS] Scraping ${stockCodes?.length} stock codes`);
+  const totalStocks = stockCodes?.length || 0;
+  console.log(`[HKEX CCASS] Batch scraping ${totalStocks} stock codes (mode: ${batchMode})`);
 
   // Extract structured data using HKEXCCASSExtractor
   const extractor = new HKEXCCASSExtractor();
   const results = [];
   let usedStrategy: 'firecrawl' | 'puppeteer' = 'firecrawl';
 
-  for (const stockCode of stockCodes!) {
+  // Process function for a single stock
+  const processSingleStock = async (stockCode: string, index: number): Promise<any> => {
     try {
       // Format stock code (ensure 5 digits with leading zeros)
       const formattedStockCode = stockCode.padStart(5, '0');
+
+      console.log(`[HKEX CCASS] Processing stock ${index + 1}/${totalStocks}: ${formattedStockCode}`);
 
       // Try Firecrawl with actions first
       let rawData;
@@ -231,24 +245,78 @@ async function handleHKEXCCASS(
         requestDate: dateRange?.start || new Date().toISOString().split('T')[0],
       });
 
-      console.log(`[HKEX CCASS] Extracted ${extractedData.participants.length} participants for ${stockCode}`);
-      results.push(extractedData);
+      console.log(`[HKEX CCASS] ✅ Extracted ${extractedData.participants.length} participants for ${stockCode}`);
+      return extractedData;
 
     } catch (error) {
-      console.error(`[HKEX CCASS] Failed to extract ${stockCode}:`, error);
-      results.push({
+      console.error(`[HKEX CCASS] ❌ Failed to extract ${stockCode}:`, error);
+      return {
         stockCode,
         error: error instanceof Error ? error.message : String(error),
         participants: [],
         totalParticipants: 0,
         totalShares: 0,
-      });
+      };
+    }
+  };
+
+  // Batch processing: Sequential mode (with delays to avoid rate limiting)
+  if (batchMode === 'sequential') {
+    for (let i = 0; i < stockCodes!.length; i++) {
+      const stockCode = stockCodes![i];
+      const result = await processSingleStock(stockCode, i);
+      results.push(result);
+
+      // Add delay between requests (except after last one)
+      if (i < stockCodes!.length - 1) {
+        console.log(`[HKEX CCASS] ⏳ Waiting ${batchDelay}ms before next request...`);
+        await new Promise(resolve => setTimeout(resolve, batchDelay));
+      }
     }
   }
+  // Batch processing: Concurrent mode (process multiple stocks in parallel)
+  else if (batchMode === 'concurrent') {
+    console.log(`[HKEX CCASS] Processing ${batchSize} stocks concurrently`);
+
+    // Split stock codes into batches
+    for (let i = 0; i < stockCodes!.length; i += batchSize) {
+      const batch = stockCodes!.slice(i, i + batchSize);
+      console.log(`[HKEX CCASS] Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(stockCodes!.length / batchSize)}`);
+
+      // Process batch concurrently
+      const batchPromises = batch.map((stockCode, batchIndex) =>
+        processSingleStock(stockCode, i + batchIndex)
+      );
+
+      const batchResults = await Promise.all(batchPromises);
+      results.push(...batchResults);
+
+      // Add delay between batches (except after last batch)
+      if (i + batchSize < stockCodes!.length) {
+        console.log(`[HKEX CCASS] ⏳ Waiting ${batchDelay}ms before next batch...`);
+        await new Promise(resolve => setTimeout(resolve, batchDelay));
+      }
+    }
+  }
+
+  // Calculate summary statistics
+  const successCount = results.filter(r => !r.error).length;
+  const failureCount = results.filter(r => r.error).length;
+  const totalParticipants = results.reduce((sum, r) => sum + (r.totalParticipants || 0), 0);
+
+  console.log(`[HKEX CCASS] Batch complete: ${successCount} succeeded, ${failureCount} failed, ${totalParticipants} total participants`);
 
   return {
     data: results,
     strategy: usedStrategy,
+    batchSummary: {
+      totalStocks,
+      successCount,
+      failureCount,
+      totalParticipants,
+      mode: batchMode,
+      delayMs: batchDelay,
+    },
   };
 }
 
