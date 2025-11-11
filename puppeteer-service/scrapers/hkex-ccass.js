@@ -31,51 +31,72 @@ function formatDate(dateString) {
 
 /**
  * Extract participant data from results table
+ *
+ * Table structure:
+ * <table class="table table-scroll table-sort table-mobile-list">
+ *   <tbody>
+ *     <tr>
+ *       <td class="col-participant-id"><div class="mobile-list-body">C00019</div></td>
+ *       <td class="col-participant-name"><div class="mobile-list-body">HSBC</div></td>
+ *       <td class="col-address"><div class="mobile-list-body">Address...</div></td>
+ *       <td class="col-shareholding"><div class="mobile-list-body">3,219,621,093</div></td>
+ *       <td class="col-shareholding-percent"><div class="mobile-list-body">35.20%</div></td>
+ *     </tr>
+ *   </tbody>
+ * </table>
  */
 async function extractTableData(page) {
   try {
-    // Wait for results table
-    await page.waitForSelector('table.summary-table, table#pnlResultSummary table', {
+    // Wait for results table with specific class structure
+    await page.waitForSelector('table.table-scroll, table.table-sort, tbody tr .col-participant-id', {
       timeout: 15000
     });
 
     const data = await page.evaluate(() => {
-      const tables = document.querySelectorAll('table');
-      let targetTable = null;
-
-      // Find the results table (usually contains "Participant ID")
-      for (const table of tables) {
-        const text = table.innerText || '';
-        if (text.includes('Participant ID') || text.includes('參與者編號')) {
-          targetTable = table;
-          break;
-        }
-      }
+      // Find the CCASS results table by its distinctive classes
+      const targetTable = document.querySelector('table.table-scroll.table-sort.table-mobile-list') ||
+                          document.querySelector('table.table-scroll') ||
+                          document.querySelector('table[class*="table-scroll"]');
 
       if (!targetTable) {
-        return { participants: [], error: 'Results table not found' };
+        return { participants: [], error: 'CCASS results table not found' };
       }
 
-      const rows = Array.from(targetTable.querySelectorAll('tr'));
+      const rows = Array.from(targetTable.querySelectorAll('tbody tr'));
       const participants = [];
 
-      // Skip header row(s)
-      for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].querySelectorAll('td');
-        if (cells.length >= 4) {
-          const participantId = cells[0]?.textContent?.trim() || '';
-          const participantName = cells[1]?.textContent?.trim() || '';
-          const shareholding = cells[2]?.textContent?.trim() || '';
-          const percentage = cells[3]?.textContent?.trim() || '';
+      for (const row of rows) {
+        try {
+          // Extract data from mobile-list-body divs within each column
+          const participantIdEl = row.querySelector('.col-participant-id .mobile-list-body');
+          const participantNameEl = row.querySelector('.col-participant-name .mobile-list-body');
+          const addressEl = row.querySelector('.col-address .mobile-list-body');
+          const shareholdingEl = row.querySelector('.col-shareholding .mobile-list-body');
+          const percentageEl = row.querySelector('.col-shareholding-percent .mobile-list-body');
 
-          if (participantId && shareholding) {
+          const participantId = participantIdEl?.textContent?.trim() || '';
+          const participantName = participantNameEl?.textContent?.trim() || '';
+          const address = addressEl?.textContent?.trim() || '';
+          const shareholdingText = shareholdingEl?.textContent?.trim() || '';
+          const percentageText = percentageEl?.textContent?.trim() || '';
+
+          if (participantId && shareholdingText) {
+            // Parse shareholding: "3,219,621,093" -> 3219621093
+            const shareholding = parseInt(shareholdingText.replace(/,/g, '')) || 0;
+
+            // Parse percentage: "35.20%" -> 35.20
+            const percentage = parseFloat(percentageText.replace('%', '')) || 0;
+
             participants.push({
               participantId,
               participantName,
-              shareholding: parseInt(shareholding.replace(/,/g, '')) || 0,
-              percentage: parseFloat(percentage.replace('%', '')) || 0
+              address,
+              shareholding,
+              percentage
             });
           }
+        } catch (rowError) {
+          console.error('Error parsing row:', rowError);
         }
       }
 
