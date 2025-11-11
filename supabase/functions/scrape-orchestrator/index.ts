@@ -530,24 +530,24 @@ async function scrapeCCASSWithFirecrawl(
 
   console.log(`[HKEX CCASS] Scraping stock ${formattedStockCode} for date ${searchDate}`);
 
-  // Define comprehensive actions following Firecrawl best practices
+  // Define comprehensive actions following Firecrawl v2 best practices
   // Note: HKEX uses ASP.NET forms with ViewState - Firecrawl may not handle this perfectly
-  // Using robust selector fallback strategy and field clearing
+  // Using executeJavascript for reliable field clearing before input
   const actions = [
     // Wait for initial page load and JavaScript/ASP.NET initialization
     { type: 'wait', milliseconds: 3000 },
 
-    // Fill stock code field
-    // Use ID selector (more specific than name attribute)
+    // Clear and fill stock code field using JavaScript for reliability
+    { type: 'executeJavascript', script: 'document.querySelector("#txtStockCode").value = "";' },
     { type: 'click', selector: '#txtStockCode' },
-    { type: 'wait', milliseconds: 500 },
+    { type: 'wait', milliseconds: 300 },
     { type: 'write', text: formattedStockCode },
     { type: 'wait', milliseconds: 500 },
 
-    // Fill date field
-    // Use ID selector (more specific than name attribute)
+    // Clear and fill date field using JavaScript for reliability
+    { type: 'executeJavascript', script: 'document.querySelector("#txtShareholdingDate").value = "";' },
     { type: 'click', selector: '#txtShareholdingDate' },
-    { type: 'wait', milliseconds: 500 },
+    { type: 'wait', milliseconds: 300 },
     { type: 'write', text: searchDate },
     { type: 'wait', milliseconds: 1000 },
 
