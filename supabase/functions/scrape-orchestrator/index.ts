@@ -530,25 +530,47 @@ async function scrapeCCASSWithFirecrawl(
 
   console.log(`[HKEX CCASS] Scraping stock ${formattedStockCode} for date ${searchDate}`);
 
-  // Define comprehensive actions following Firecrawl best practices
-  // Note: HKEX uses ASP.NET forms with ViewState - Firecrawl may not handle this perfectly
-  // Using robust selector fallback strategy and field clearing
+  // Define comprehensive actions following Firecrawl v2 best practices
+  // Note: HKEX uses ASP.NET forms with ViewState - must trigger proper events
+  // Using executeJavascript for reliable field clearing with event triggering
   const actions = [
     // Wait for initial page load and JavaScript/ASP.NET initialization
     { type: 'wait', milliseconds: 3000 },
 
-    // Fill stock code field
-    // Use ID selector (more specific than name attribute)
-    { type: 'click', selector: '#txtStockCode' },
-    { type: 'wait', milliseconds: 500 },
-    { type: 'write', text: formattedStockCode },
+    // Clear and fill stock code field using JavaScript
+    // Trigger change/blur events to ensure ASP.NET validation fires
+    {
+      type: 'executeJavascript',
+      script: `
+        const field = document.querySelector("#txtStockCode");
+        if (field) {
+          field.value = "";
+          field.focus();
+          field.value = "${formattedStockCode}";
+          field.dispatchEvent(new Event('input', { bubbles: true }));
+          field.dispatchEvent(new Event('change', { bubbles: true }));
+          field.blur();
+        }
+      `
+    },
     { type: 'wait', milliseconds: 500 },
 
-    // Fill date field
-    // Use ID selector (more specific than name attribute)
-    { type: 'click', selector: '#txtShareholdingDate' },
-    { type: 'wait', milliseconds: 500 },
-    { type: 'write', text: searchDate },
+    // Clear and fill date field using JavaScript
+    // Trigger change/blur events to ensure ASP.NET validation fires
+    {
+      type: 'executeJavascript',
+      script: `
+        const field = document.querySelector("#txtShareholdingDate");
+        if (field) {
+          field.value = "";
+          field.focus();
+          field.value = "${searchDate}";
+          field.dispatchEvent(new Event('input', { bubbles: true }));
+          field.dispatchEvent(new Event('change', { bubbles: true }));
+          field.blur();
+        }
+      `
+    },
     { type: 'wait', milliseconds: 1000 },
 
     // Submit form - Use ID selector (button element with onclick handler)
