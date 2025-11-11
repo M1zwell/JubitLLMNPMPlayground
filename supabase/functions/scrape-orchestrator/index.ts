@@ -273,7 +273,12 @@ async function handleHKSFCNews(
 
   if (strategy === 'auto' || strategy === 'firecrawl') {
     try {
-      rawData = await scrapeWithFirecrawl(newsUrl);
+      // Use v2 features: caching for news (1 hour), exclude navigation
+      rawData = await scrapeWithFirecrawl(newsUrl, undefined, {
+        maxAge: 3600000, // Cache news for 1 hour (updates frequently)
+        onlyMainContent: true,
+        excludeTags: ['nav', 'footer', 'aside', 'header', 'script', 'style', '.sidebar', '.advertisement']
+      });
       usedStrategy = 'firecrawl';
     } catch (error) {
       console.warn('[HKSFC] Firecrawl failed:', error);
@@ -352,7 +357,11 @@ async function handleCustomURL(
   // Try Firecrawl first if auto
   if (strategy === 'auto' || strategy === 'firecrawl') {
     try {
-      const result = await scrapeWithFirecrawl(url!);
+      // Use v2 features with default caching
+      const result = await scrapeWithFirecrawl(url!, undefined, {
+        maxAge: 86400000, // Cache custom URLs for 1 day
+        onlyMainContent: true,
+      });
       return {
         data: result,
         strategy: 'firecrawl',
@@ -376,33 +385,49 @@ async function handleCustomURL(
 // ============================================================================
 
 /**
- * Scrape with Firecrawl (when available)
+ * Scrape with Firecrawl v2 API (with advanced features)
  */
-async function scrapeWithFirecrawl(url: string, actions?: any[]): Promise<any> {
+async function scrapeWithFirecrawl(url: string, actions?: any[], options?: {
+  maxAge?: number;
+  onlyMainContent?: boolean;
+  excludeTags?: string[];
+}): Promise<any> {
   const apiKey = Deno.env.get('FIRECRAWL_API_KEY');
 
   if (!apiKey) {
     throw new Error('Firecrawl API key not configured');
   }
 
-  console.log('[Firecrawl] Scraping:', url, actions ? `with ${actions.length} actions` : '');
+  console.log('[Firecrawl v2] Scraping:', url, actions ? `with ${actions.length} actions` : '');
 
   const requestBody: any = {
     url,
     formats: ['markdown', 'html'],
-    onlyMainContent: !actions, // Get full content when using actions
+
+    // V2 features
+    onlyMainContent: options?.onlyMainContent ?? !actions, // Get full content when using actions
+    maxAge: options?.maxAge ?? 86400000, // Cache for 1 day by default
 
     // Wait for JavaScript/React to fully render (especially for SPAs)
-    waitFor: 5000,    // Wait 5 seconds after page load for AJAX/React rendering
-    timeout: 30000    // 30 second total timeout
+    waitFor: actions ? 3000 : 5000,  // 3s with actions, 5s without
+    timeout: 60000  // 60 second timeout for complex pages
   };
+
+  // Exclude noise elements for cleaner extraction
+  if (options?.excludeTags) {
+    requestBody.excludeTags = options.excludeTags;
+  } else if (!actions) {
+    // Default exclusions for static pages
+    requestBody.excludeTags = ['nav', 'footer', 'aside', 'header', 'script', 'style'];
+  }
 
   // Add actions if provided
   if (actions && actions.length > 0) {
     requestBody.actions = actions;
   }
 
-  const response = await fetch('https://api.firecrawl.dev/v0/scrape', {
+  // Use v1 endpoint (stable v2 API)
+  const response = await fetch('https://api.firecrawl.dev/v1/scrape', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
@@ -418,10 +443,16 @@ async function scrapeWithFirecrawl(url: string, actions?: any[]): Promise<any> {
 
   const data = await response.json();
 
+  // V2 response format
   return {
     content: data.data?.markdown || data.data?.content,
     html: data.data?.html,
-    metadata: data.data?.metadata,
+    metadata: {
+      ...data.data?.metadata,
+      cacheState: data.data?.metadata?.cache_state, // v2 cache indicator
+      creditsUsed: data.data?.metadata?.credits_used,
+    },
+    actions: data.data?.actions, // V2 actions response (screenshots, scrapes, etc.)
   };
 }
 
@@ -480,20 +511,31 @@ async function scrapeCCASSWithFirecrawl(
 
   console.log(`[HKEX CCASS] Scraping stock ${stockCode} for date ${searchDate}`);
 
-  // Define actions to fill and submit the form
+  // Define comprehensive actions following Firecrawl best practices
   // Note: HKEX uses ASP.NET forms with ViewState - Firecrawl may not handle this perfectly
+  // Following tutorial pattern: wait -> click -> wait -> write -> wait
   const actions = [
-    { type: 'wait', milliseconds: 3000 }, // Wait for page load and JavaScript
-    { type: 'click', selector: 'input[name="txtStockCode"]' }, // Click stock code input (use name attribute)
-    { type: 'wait', milliseconds: 300 },
-    { type: 'write', text: stockCode }, // Enter stock code
-    { type: 'wait', milliseconds: 300 },
-    { type: 'click', selector: 'input[name="txtShareholdingDate"]' }, // Click date input
-    { type: 'wait', milliseconds: 300 },
-    { type: 'write', text: searchDate }, // Enter date (YYYY/MM/DD format)
+    // Wait for initial page load and JavaScript
+    { type: 'wait', milliseconds: 3000 },
+
+    // Fill stock code field
+    { type: 'click', selector: 'input[name="txtStockCode"]' },
     { type: 'wait', milliseconds: 500 },
-    { type: 'click', selector: 'input[name="btnSearch"]' }, // Click search button (use name attribute)
-    { type: 'wait', milliseconds: 10000 }, // Wait longer for results (ASP.NET postback + table render)
+    { type: 'write', text: stockCode },
+    { type: 'wait', milliseconds: 500 },
+
+    // Fill date field
+    { type: 'click', selector: 'input[name="txtShareholdingDate"]' },
+    { type: 'wait', milliseconds: 500 },
+    { type: 'write', text: searchDate },
+    { type: 'wait', milliseconds: 1000 },
+
+    // Submit form - Try different selector approaches
+    { type: 'click', selector: 'input[type="submit"][name="btnSearch"]' },
+
+    // Wait for ASP.NET postback and table to render
+    // ASP.NET ViewState requires longer wait times
+    { type: 'wait', milliseconds: 10000 },
   ];
 
   try {
