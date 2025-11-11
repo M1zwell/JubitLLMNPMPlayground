@@ -157,7 +157,7 @@ export default function HKScraperProduction() {
 
       // Add source-specific options
       if (source === 'hksfc') {
-        requestBody.options.url = 'https://www.sfc.hk/en/News-and-announcements/News/All-news';
+        requestBody.options.url = 'https://apps.sfc.hk/edistributionWeb/gateway/EN/news-and-announcements/news/';
         if (dateRange.start && dateRange.end) {
           requestBody.options.dateRange = {
             start: dateRange.start,

@@ -263,24 +263,35 @@ async function handleHKSFCNews(
 
   console.log('[HKSFC News] Fetching news articles');
 
-  // Build HKSFC news URL
-  const baseUrl = url || 'https://www.sfc.hk/en/News-and-announcements/News/All-news';
+  // Build HKSFC news URL (use React SPA - all URLs redirect here anyway)
+  const baseUrl = url || 'https://apps.sfc.hk/edistributionWeb/gateway/EN/news-and-announcements/news/';
   const newsUrl = buildHKSFCUrl(baseUrl, dateRange);
 
-  // Use Firecrawl if available, fallback to Puppeteer
+  // Use Firecrawl (required for JavaScript rendering)
   let rawData;
-  let usedStrategy: 'firecrawl' | 'puppeteer' = 'puppeteer';
+  let usedStrategy: 'firecrawl' | 'puppeteer' = 'firecrawl';
 
   if (strategy === 'auto' || strategy === 'firecrawl') {
     try {
       rawData = await scrapeWithFirecrawl(newsUrl);
       usedStrategy = 'firecrawl';
     } catch (error) {
-      console.warn('[HKSFC] Firecrawl failed, falling back to Puppeteer:', error);
+      console.warn('[HKSFC] Firecrawl failed:', error);
+
+      // Only fallback to Puppeteer if configured
+      const puppeteerServiceUrl = Deno.env.get('PUPPETEER_SERVICE_URL');
+      if (!puppeteerServiceUrl) {
+        throw new Error('HKSFC scraping requires Firecrawl (React SPA). Puppeteer service not configured as fallback.');
+      }
+
+      console.log('[HKSFC] Falling back to Puppeteer service');
       rawData = await scrapeWithPuppeteer(newsUrl);
+      usedStrategy = 'puppeteer';
     }
   } else {
+    // User explicitly requested Puppeteer
     rawData = await scrapeWithPuppeteer(newsUrl);
+    usedStrategy = 'puppeteer';
   }
 
   // Extract structured data using HKSFCNewsExtractor
@@ -291,6 +302,11 @@ async function handleHKSFCNews(
   });
 
   console.log(`[HKSFC News] Extracted ${extractedData.articles.length} articles`);
+
+  // If no articles found, provide helpful error
+  if (extractedData.articles.length === 0) {
+    throw new Error('No articles extracted from HKSFC. The page structure may have changed or JavaScript rendering failed.');
+  }
 
   return {
     data: extractedData,
