@@ -481,15 +481,19 @@ async function scrapeCCASSWithFirecrawl(
   console.log(`[HKEX CCASS] Scraping stock ${stockCode} for date ${searchDate}`);
 
   // Define actions to fill and submit the form
+  // Note: HKEX uses ASP.NET forms with ViewState - Firecrawl may not handle this perfectly
   const actions = [
-    { type: 'wait', milliseconds: 2000 }, // Wait for page load
-    { type: 'click', selector: '#txtStockCode' }, // Click stock code input
+    { type: 'wait', milliseconds: 3000 }, // Wait for page load and JavaScript
+    { type: 'click', selector: 'input[name="txtStockCode"]' }, // Click stock code input (use name attribute)
+    { type: 'wait', milliseconds: 300 },
     { type: 'write', text: stockCode }, // Enter stock code
-    { type: 'click', selector: '#txtShareholdingDate' }, // Click date input
-    { type: 'write', text: searchDate }, // Enter date
-    { type: 'wait', milliseconds: 500 }, // Brief wait
-    { type: 'click', selector: '#btnSearch' }, // Click search button
-    { type: 'wait', milliseconds: 5000 }, // Wait for results to load
+    { type: 'wait', milliseconds: 300 },
+    { type: 'click', selector: 'input[name="txtShareholdingDate"]' }, // Click date input
+    { type: 'wait', milliseconds: 300 },
+    { type: 'write', text: searchDate }, // Enter date (YYYY/MM/DD format)
+    { type: 'wait', milliseconds: 500 },
+    { type: 'click', selector: 'input[name="btnSearch"]' }, // Click search button (use name attribute)
+    { type: 'wait', milliseconds: 10000 }, // Wait longer for results (ASP.NET postback + table render)
   ];
 
   try {

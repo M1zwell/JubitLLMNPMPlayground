@@ -41,23 +41,27 @@ export interface CCAASSRawInput {
 }
 
 // ============================================================================
-// DOM Selectors (Winston's updated selectors)
+// DOM Selectors (Updated for HKEX mobile-list-body structure)
 // ============================================================================
 
 const SELECTORS = {
-  resultsTable: '#mutualmarket-result table.table, table#pnlResultNormal',
+  // Target the exact table structure with mobile-list-body divs
+  resultsTable: 'table.table-scroll.table-sort.table-mobile-list, table.table-scroll, #mutualmarket-result table.table, table#pnlResultNormal',
   headerRow: 'thead tr, tr:first-child',
-  dataRows: 'tbody tr.row-data, tbody tr, tr.oddRow, tr.evenRow',
+  dataRows: 'tbody tr',
 
-  // Participant data columns
-  participantId: 'td:nth-child(1)',
-  participantName: 'td:nth-child(2)',
-  address: 'td:nth-child(3)',
-  shareholding: 'td:nth-child(4)',
-  percentage: 'td:nth-child(5)',
+  // Participant data columns (using mobile-list-body structure)
+  participantIdCell: '.col-participant-id',
+  participantNameCell: '.col-participant-name',
+  addressCell: '.col-address',
+  shareholdingCell: '.col-shareholding',
+  percentageCell: '.col-shareholding-percent',
+
+  // Mobile list body wrapper
+  mobileListBody: '.mobile-list-body',
 
   // Stock info
-  stockName: '#txtStockName, .stock-name',
+  stockName: '#txtStockName, .stock-name, input[name="txtStockName"]',
 
   // Error/status messages
   errorMsg: '.alert-danger, #lblErrorMsg',
@@ -185,11 +189,15 @@ export class HKEXCCASSExtractor extends BaseExtractor<CCAASSRawInput, CCAASSData
       // Skip if this is actually a header row
       if (row.querySelector('th')) continue;
 
+      // Check if row has at least 4 td cells
       const cells = row.querySelectorAll('td');
-      if (cells.length < 4) continue; // Need at least 4 columns
+      if (cells.length < 4) continue;
 
-      const participant = this.extractParticipantFromRow(cells);
-      if (participant.participantId) {
+      // Extract participant data from the row
+      const participant = this.extractParticipantFromRow(row);
+
+      // Only add if we got a valid participant ID
+      if (participant.participantId && participant.participantId.trim()) {
         participants.push(participant);
       }
     }
@@ -199,14 +207,49 @@ export class HKEXCCASSExtractor extends BaseExtractor<CCAASSRawInput, CCAASSData
 
   /**
    * Extract participant data from a single table row
+   * Supports both mobile-list-body structure and direct cell content
    */
-  private extractParticipantFromRow(cells: any): CCAASSParticipant {
+  private extractParticipantFromRow(row: any): CCAASSParticipant {
+    // Helper to get text from cell (try mobile-list-body first, then direct content)
+    const getCellText = (cell: any): string => {
+      if (!cell) return '';
+
+      // Try to find mobile-list-body div first
+      const mobileBody = cell.querySelector(SELECTORS.mobileListBody);
+      if (mobileBody) {
+        return this.cleanText(mobileBody.textContent || '');
+      }
+
+      // Fallback to direct cell content
+      return this.cleanText(cell.textContent || '');
+    };
+
+    // Extract using column class selectors (preferred for mobile-list-body structure)
+    const participantIdCell = row.querySelector(SELECTORS.participantIdCell);
+    const participantNameCell = row.querySelector(SELECTORS.participantNameCell);
+    const addressCell = row.querySelector(SELECTORS.addressCell);
+    const shareholdingCell = row.querySelector(SELECTORS.shareholdingCell);
+    const percentageCell = row.querySelector(SELECTORS.percentageCell);
+
+    if (participantIdCell) {
+      // New mobile-list-body structure
+      return {
+        participantId: getCellText(participantIdCell),
+        participantName: getCellText(participantNameCell),
+        address: getCellText(addressCell),
+        shareholding: this.parseNumber(getCellText(shareholdingCell)),
+        percentage: this.parsePercentage(getCellText(percentageCell)),
+      };
+    }
+
+    // Fallback to nth-child selectors (old structure)
+    const cells = row.querySelectorAll('td');
     return {
-      participantId: this.cleanText(cells[0]?.textContent || ''),
-      participantName: this.cleanText(cells[1]?.textContent || ''),
-      address: this.cleanText(cells[2]?.textContent || ''),
-      shareholding: this.parseNumber(cells[3]?.textContent || '0'),
-      percentage: this.parsePercentage(cells[4]?.textContent || '0'),
+      participantId: getCellText(cells[0]),
+      participantName: getCellText(cells[1]),
+      address: getCellText(cells[2]),
+      shareholding: this.parseNumber(getCellText(cells[3])),
+      percentage: this.parsePercentage(getCellText(cells[4])),
     };
   }
 
