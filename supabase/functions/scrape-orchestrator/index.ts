@@ -406,12 +406,44 @@ async function scrapeWithFirecrawl(url: string, actions?: any[]): Promise<any> {
 }
 
 /**
- * Scrape with Puppeteer (note: requires Puppeteer to be available in Deno)
+ * Scrape with Puppeteer service (external microservice)
  */
 async function scrapeWithPuppeteer(url: string): Promise<any> {
-  // TODO: Implement Puppeteer scraping in Deno
-  // This requires puppeteer-core or a Deno-compatible browser automation library
-  throw new Error('Puppeteer not yet implemented in Edge Function - use Firecrawl for now');
+  const puppeteerServiceUrl = Deno.env.get('PUPPETEER_SERVICE_URL');
+
+  if (!puppeteerServiceUrl) {
+    throw new Error('PUPPETEER_SERVICE_URL not configured - use Firecrawl instead');
+  }
+
+  console.log('[Puppeteer Service] Calling external service:', puppeteerServiceUrl);
+
+  const response = await fetch(`${puppeteerServiceUrl}/api/scrape/url`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      url,
+      extractData: true
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Puppeteer service error: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (!data.success) {
+    throw new Error(data.error || 'Puppeteer scraping failed');
+  }
+
+  return {
+    content: data.data.content,
+    html: data.data.content,
+    metadata: {
+      title: data.data.title,
+      url: data.data.url
+    }
+  };
 }
 
 /**
@@ -450,15 +482,50 @@ async function scrapeCCASSWithFirecrawl(
 }
 
 /**
- * HKEX CCASS scraping with Puppeteer (fallback)
+ * HKEX CCASS scraping with Puppeteer service (fallback)
  */
 async function scrapeCCASSWithPuppeteer(
   stockCodes: string[],
   dateRange?: { start: string; end: string }
 ): Promise<any> {
-  // TODO: Implement Puppeteer as fallback
-  // This would require deploying a separate Puppeteer service or using Browserless
-  throw new Error('HKEX CCASS Puppeteer fallback not yet implemented - use Firecrawl');
+  const puppeteerServiceUrl = Deno.env.get('PUPPETEER_SERVICE_URL');
+
+  if (!puppeteerServiceUrl) {
+    throw new Error('PUPPETEER_SERVICE_URL not configured - use Firecrawl instead');
+  }
+
+  console.log(`[HKEX CCASS Puppeteer] Calling service for ${stockCodes.length} stocks`);
+
+  const response = await fetch(`${puppeteerServiceUrl}/api/scrape/hkex-ccass`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      stockCodes,
+      date: dateRange?.start
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Puppeteer service error: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (!data.success) {
+    throw new Error(data.error || 'HKEX scraping failed');
+  }
+
+  // Transform response to match expected format
+  const results: Record<string, any> = {};
+  for (const stockData of data.data) {
+    results[stockData.stockCode] = {
+      html: '', // Not available from Puppeteer service
+      content: JSON.stringify(stockData),
+      stockData: stockData
+    };
+  }
+
+  return results;
 }
 
 /**
