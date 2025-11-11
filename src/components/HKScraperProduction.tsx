@@ -110,6 +110,20 @@ export default function HKScraperProduction() {
           .order('scraped_at', { ascending: false })
           .limit(100);
 
+        // Apply date range filter for HKEX
+        if (dateRange.start) {
+          query = query.gte('announcement_date', dateRange.start);
+        }
+        if (dateRange.end) {
+          query = query.lte('announcement_date', dateRange.end);
+        }
+
+        // Apply stock code filter for HKEX
+        if (stockCodes.trim()) {
+          const codes = stockCodes.split(',').map(code => code.trim().padStart(5, '0'));
+          query = query.in('company_code', codes);
+        }
+
         const { data, error } = await query;
         if (error) throw error;
         setHkexData(data || []);
@@ -126,7 +140,7 @@ export default function HKScraperProduction() {
     if (activeTab === 'view') {
       fetchData();
     }
-  }, [activeTab, source, filingType]);
+  }, [activeTab, source, filingType, dateRange.start, dateRange.end, stockCodes]);
 
   // Trigger scraping
   const startScraping = async () => {
@@ -302,7 +316,17 @@ export default function HKScraperProduction() {
 
   const downloadCurrentView = (format: 'csv' | 'json') => {
     const data = source === 'hksfc' ? hksfcData : hkexData;
-    const filename = `${source}_data`;
+
+    // Build filename with filters
+    let filename = `${source}_data`;
+    if (source === 'hkex') {
+      if (stockCodes.trim()) {
+        filename += `_stocks_${stockCodes.replace(/,/g, '-')}`;
+      }
+      if (dateRange.start && dateRange.end) {
+        filename += `_${dateRange.start}_to_${dateRange.end}`;
+      }
+    }
 
     if (format === 'csv') {
       exportToCSV(data, filename);
@@ -585,6 +609,42 @@ export default function HKScraperProduction() {
                         <option value="consultation">Consultation</option>
                       </select>
                     </div>
+                  )}
+
+                  {source === 'hkex' && (
+                    <>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                          Stock Codes
+                        </label>
+                        <input
+                          type="text"
+                          value={stockCodes}
+                          onChange={(e) => setStockCodes(e.target.value)}
+                          placeholder="00700,00005,00388"
+                          className="px-3 py-2 w-48 bg-gray-700 text-gray-100 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                          Date Range
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="date"
+                            value={dateRange.start}
+                            onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
+                            className="px-3 py-2 bg-gray-700 text-gray-100 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500"
+                          />
+                          <input
+                            type="date"
+                            value={dateRange.end}
+                            onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
+                            className="px-3 py-2 bg-gray-700 text-gray-100 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
 
