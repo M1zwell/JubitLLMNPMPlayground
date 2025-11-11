@@ -27,6 +27,7 @@ import EnvironmentChecker from './components/EnvironmentChecker';
 import HKFinancialScraper from './components/HKFinancialScraper';
 import HKScraperProduction from './components/HKScraperProduction';
 import WebScraperDemo from './components/WebScraperDemo';
+import HKScraperWithPuppeteer from './components/HKScraperWithPuppeteer';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -181,6 +182,18 @@ function AppContent() {
                   <Search size={14} />
                   Scraper
                 </button>
+                <button
+                  onClick={() => actions.setCurrentView('puppeteer-scraper')}
+                  className={`btn-minimal ${
+                    state.currentView === 'puppeteer-scraper'
+                      ? 'btn-primary'
+                      : 'btn-ghost'
+                  }`}
+                  title="Puppeteer Scraper - CCASS Holdings & Market Stats"
+                >
+                  <Search size={14} />
+                  Puppeteer
+                </button>
                 {/* Webb SQL Import/Update functions are temporarily disabled */}
                 {/* 
                 <button
@@ -302,6 +315,8 @@ function AppContent() {
           <HKScraperProduction />
         ) : state.currentView === 'web-scraper' ? (
           <WebScraperDemo />
+        ) : state.currentView === 'puppeteer-scraper' ? (
+          <HKScraperWithPuppeteer />
         ) : state.currentView === 'webb-importer' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-white mb-4">

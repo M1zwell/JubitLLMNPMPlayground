@@ -14,6 +14,7 @@ export type PlaygroundView =
   | 'webb-financial'
   | 'hk-scraper'
   | 'web-scraper'
+  | 'puppeteer-scraper'
   | 'webb-importer'
   | 'webb-sql'
   | 'webb-direct-import'
