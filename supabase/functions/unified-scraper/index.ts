@@ -7,12 +7,16 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { createHash } from 'https://deno.land/std@0.177.0/node/crypto.ts';
 
 // Import scraper adapters
-import { scrapeHKSFC } from '../_shared/scrapers/hksfc-adapter.ts';
+import { scrapeHKSFC as scrapeHKSFCV1 } from '../_shared/scrapers/hksfc-adapter.ts';
 import { scrapeHKEX } from '../_shared/scrapers/hkex-adapter.ts';
-import { scrapeCCASS } from '../_shared/scrapers/hkex-ccass-adapter.ts';
+import { scrapeCCASS as scrapeCCASSV1 } from '../_shared/scrapers/hkex-ccass-adapter.ts';
 import { scrapeLegal } from '../_shared/scrapers/legal-adapter.ts';
 import { scrapeNPM } from '../_shared/scrapers/npm-adapter.ts';
 import { scrapeLLM } from '../_shared/scrapers/llm-adapter.ts';
+
+// Import V2 adapters (advanced Firecrawl features)
+import { scrapeHKSFC as scrapeHKSFCV2 } from '../_shared/scrapers/hksfc-adapter-v2.ts';
+import { scrapeCCASS as scrapeCCASSV2 } from '../_shared/scrapers/hkex-ccass-adapter-v2.ts';
 
 // CORS headers
 const corsHeaders = {
@@ -27,6 +31,7 @@ interface ScraperRequest {
   limit?: number;
   test_mode?: boolean;
   stock_code?: string; // For CCASS scraping
+  use_v2?: boolean; // Use V2 scrapers with advanced features (default: true)
 }
 
 interface ScrapedRecord {
@@ -76,9 +81,9 @@ serve(async (req: Request) => {
 
   try {
     // Parse request
-    const { source, limit = 100, test_mode = false, stock_code = '00700' }: ScraperRequest = await req.json();
+    const { source, limit = 100, test_mode = false, stock_code = '00700', use_v2 = true }: ScraperRequest = await req.json();
 
-    console.log(`[Unified Scraper] Starting scrape: ${source} (limit: ${limit}, test_mode: ${test_mode}, stock_code: ${stock_code})`);
+    console.log(`[Unified Scraper] Starting scrape: ${source} (limit: ${limit}, test_mode: ${test_mode}, stock_code: ${stock_code}, use_v2: ${use_v2})`);
 
     // Route to appropriate scraper
     let scrapeResults: ScrapedRecord[] = [];
@@ -86,7 +91,20 @@ serve(async (req: Request) => {
 
     switch (source) {
       case 'hksfc':
-        scrapeResults = await scrapeHKSFC(limit, test_mode);
+        // Use V2 adapter (Map + JSON extraction) by default
+        if (use_v2) {
+          try {
+            scrapeResults = await scrapeHKSFCV2(limit, test_mode);
+            scraperEngine = 'firecrawl-v2-map-json';
+          } catch (error) {
+            console.warn('[Unified Scraper] V2 failed, falling back to V1:', error);
+            scrapeResults = await scrapeHKSFCV1(limit, test_mode);
+            scraperEngine = 'firecrawl-v1-fallback';
+          }
+        } else {
+          scrapeResults = await scrapeHKSFCV1(limit, test_mode);
+          scraperEngine = 'firecrawl-v1';
+        }
         break;
 
       case 'hkex':
@@ -95,8 +113,20 @@ serve(async (req: Request) => {
         break;
 
       case 'ccass':
-        scrapeResults = await scrapeCCASS(stock_code, limit, test_mode);
-        scraperEngine = 'firecrawl-actions'; // CCASS uses Firecrawl with Actions
+        // Use V2 adapter (executeJavascript + JSON extraction) by default
+        if (use_v2) {
+          try {
+            scrapeResults = await scrapeCCASSV2(stock_code, limit, test_mode);
+            scraperEngine = 'firecrawl-v2-actions-json';
+          } catch (error) {
+            console.warn('[Unified Scraper] V2 failed, falling back to V1:', error);
+            scrapeResults = await scrapeCCASSV1(stock_code, limit, test_mode);
+            scraperEngine = 'firecrawl-v1-fallback';
+          }
+        } else {
+          scrapeResults = await scrapeCCASSV1(stock_code, limit, test_mode);
+          scraperEngine = 'firecrawl-v1-actions';
+        }
         break;
 
       case 'legal':
