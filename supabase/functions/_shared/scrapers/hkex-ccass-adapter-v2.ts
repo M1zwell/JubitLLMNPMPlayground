@@ -295,7 +295,7 @@ function parseCCASSMarkdown(markdown: string, stockCode: string): CCassRecord[] 
     for (const match of matches) {
       const participantId = match[1].trim();
       const participantName = match[2].trim();
-      const address = match[3].trim();
+      // const address = match[3].trim(); // Address field removed - not in DB schema
       const shareholdingStr = match[4].replace(/,/g, '');
       const percentageStr = match[5];
 
@@ -307,7 +307,6 @@ function parseCCASSMarkdown(markdown: string, stockCode: string): CCassRecord[] 
           stock_code: stockCode,
           participant_id: participantId,
           participant_name: participantName,
-          address: address || undefined,
           shareholding,
           percentage,
           scraped_at: new Date()
@@ -350,7 +349,6 @@ function generateMockCCASSData(stockCode: string, count: number): CCassRecord[] 
       stock_code: stockCode,
       participant_id: participantId,
       participant_name: participantName,
-      address: `Mock Address ${i + 1}, Hong Kong`,
       shareholding: shareholding,
       percentage: percentage,
       scraped_at: new Date()
