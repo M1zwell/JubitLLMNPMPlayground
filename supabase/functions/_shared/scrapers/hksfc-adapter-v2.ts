@@ -13,11 +13,11 @@ export interface HKSFCRecord {
   content?: string;
   summary?: string;
   filing_type: string;
-  category?: string;
+  // category removed - not in database schema, stored in tags instead
   company_code?: string;
   company_name?: string;
   filing_date?: Date;
-  publish_date?: string;
+  // publish_date removed - not in database schema, using filing_date instead
   url: string;
   pdf_url?: string;
   tags?: string[];

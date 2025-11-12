@@ -10,13 +10,13 @@ const FIRECRAWL_V2_BASE_URL = 'https://api.firecrawl.dev/v2';
 
 export interface CCassRecord {
   stock_code: string;
-  stock_name?: string;
+  // stock_name removed - not in database schema
   participant_id: string;
   participant_name: string;
-  address?: string;
+  // address removed - not in database schema
   shareholding: number;
   percentage: number;
-  data_date?: string;
+  // data_date removed - not in database schema, using scraped_at instead
   scraped_at?: Date;
 }
 
