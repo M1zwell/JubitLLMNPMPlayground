@@ -1,12 +1,40 @@
 // HKSFC Scraper Adapter V2
 // Source: Hong Kong Securities & Futures Commission
-// Engine: Firecrawl V2 API with Map endpoint + JSON extraction
-// Features: URL discovery, structured data extraction, PDF support
+// Engine: Firecrawl V2 API with direct URL scraping + JSON extraction
+// Features: Multi-URL targeted scraping, structured data extraction, PDF support
 
 import { fetchWithRetry } from '../utils/http-client.ts';
 
-const HKSFC_NEWS_BASE_URL = 'https://www.sfc.hk/en/News-and-announcements';
 const FIRECRAWL_V2_BASE_URL = 'https://api.firecrawl.dev/v2';
+
+// Target URLs for different types of HKSFC announcements
+const HKSFC_URLS = [
+  {
+    url: 'https://apps.sfc.hk/edistributionWeb/gateway/EN/news-and-announcements/news/',
+    type: 'news',
+    description: 'English news and announcements'
+  },
+  {
+    url: 'https://sc.sfc.hk/TuniS/apps.sfc.hk/edistributionWeb/gateway/TC/news-and-announcements/news/',
+    type: 'news',
+    description: 'Traditional Chinese news and announcements'
+  },
+  {
+    url: 'https://sc.sfc.hk/TuniS/www.sfc.hk/TC/News-and-announcements/Decisions-statements-and-disclosures/Current-cold-shoulder-orders',
+    type: 'enforcement',
+    description: 'Cold shoulder orders'
+  },
+  {
+    url: 'https://sc.sfc.hk/TuniS/www.sfc.hk/TC/News-and-announcements/High-shareholding-concentration-announcements',
+    type: 'shareholding',
+    description: 'High shareholding concentration announcements'
+  },
+  {
+    url: 'https://sc.sfc.hk/TuniS/www.sfc.hk/TC/News-and-announcements/Policy-statements-and-announcements',
+    type: 'policy',
+    description: 'Policy statements and announcements'
+  }
+];
 
 export interface HKSFCRecord {
   title: string;
@@ -47,67 +75,30 @@ export async function scrapeHKSFC(limit: number = 100, testMode: boolean = false
   }
 }
 
-// Scrape using Firecrawl V2 API with Map + JSON extraction
+// Scrape using Firecrawl V2 API with direct URL scraping + JSON extraction
 async function scrapeWithFirecrawlV2(limit: number, apiKey: string): Promise<HKSFCRecord[]> {
-  console.log('[HKSFC Adapter V2] Using Firecrawl V2 with Map + JSON extraction');
+  console.log('[HKSFC Adapter V2] Using Firecrawl V2 with direct multi-URL scraping');
 
   try {
-    // Step 1: Discover news URLs using Map endpoint
-    console.log('[HKSFC Adapter V2] Step 1: Discovering URLs with Map endpoint...');
-
-    const mapResponse = await fetchWithRetry(`${FIRECRAWL_V2_BASE_URL}/map`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        url: HKSFC_NEWS_BASE_URL,
-        search: 'news',
-        limit: Math.min(limit * 2, 50), // Discover more URLs than needed
-        includeSubdomains: false
-      })
-    }, { maxRetries: 2, backoffFactor: 1 });
-
-    if (!mapResponse.ok) {
-      const errorText = await mapResponse.text();
-      throw new Error(`Firecrawl Map API error: ${mapResponse.status} - ${errorText}`);
-    }
-
-    const mapData = await mapResponse.json();
-
-    if (!mapData.success) {
-      throw new Error(`Map discovery failed: ${mapData.error || 'Unknown error'}`);
-    }
-
-    // Extract URLs from map results
-    const linksData = mapData.data?.links || mapData.links || [];
-    const urls = linksData.map((link: any) =>
-      typeof link === 'string' ? link : link.url
-    ).filter((url: string) =>
-      url.includes('/News/') || url.includes('/news/')
-    );
-
-    console.log(`[HKSFC Adapter V2] Discovered ${urls.length} news URLs`);
-
-    if (urls.length === 0) {
-      console.warn('[HKSFC Adapter V2] No URLs discovered, falling back to direct scraping');
-      return await scrapeDirectWithJSON(HKSFC_NEWS_BASE_URL, apiKey, limit);
-    }
-
-    // Step 2: Scrape discovered URLs with JSON extraction
-    console.log('[HKSFC Adapter V2] Step 2: Scraping URLs with JSON extraction...');
-
     const records: HKSFCRecord[] = [];
-    const urlsToScrape = urls.slice(0, Math.min(limit, 10)); // Limit API calls
 
-    for (const url of urlsToScrape) {
+    // Calculate how many records to get from each URL
+    const recordsPerUrl = Math.ceil(limit / HKSFC_URLS.length);
+
+    console.log(`[HKSFC Adapter V2] Scraping ${HKSFC_URLS.length} URLs (${recordsPerUrl} records per URL)`);
+
+    // Scrape each target URL
+    for (const source of HKSFC_URLS) {
       try {
-        const pageRecords = await scrapePageWithJSON(url, apiKey);
-        records.push(...pageRecords);
+        console.log(`[HKSFC Adapter V2] Scraping ${source.description} (${source.type})...`);
 
-        // Rate limiting
-        if (urlsToScrape.indexOf(url) < urlsToScrape.length - 1) {
+        const pageRecords = await scrapePageWithJSON(source.url, source.type, apiKey);
+        records.push(...pageRecords.slice(0, recordsPerUrl));
+
+        console.log(`[HKSFC Adapter V2] Extracted ${pageRecords.length} records from ${source.type}`);
+
+        // Rate limiting between URLs
+        if (HKSFC_URLS.indexOf(source) < HKSFC_URLS.length - 1) {
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
 
@@ -115,12 +106,12 @@ async function scrapeWithFirecrawlV2(limit: number, apiKey: string): Promise<HKS
         if (records.length >= limit) break;
 
       } catch (error) {
-        console.warn(`[HKSFC Adapter V2] Failed to scrape ${url}:`, error);
+        console.warn(`[HKSFC Adapter V2] Failed to scrape ${source.description}:`, error);
         continue;
       }
     }
 
-    console.log(`[HKSFC Adapter V2] Total scraped: ${records.length} records`);
+    console.log(`[HKSFC Adapter V2] Total scraped: ${records.length} records from ${HKSFC_URLS.length} sources`);
     return records.slice(0, limit);
 
   } catch (error) {
@@ -130,7 +121,7 @@ async function scrapeWithFirecrawlV2(limit: number, apiKey: string): Promise<HKS
 }
 
 // Scrape a single page with JSON extraction
-async function scrapePageWithJSON(url: string, apiKey: string): Promise<HKSFCRecord[]> {
+async function scrapePageWithJSON(url: string, filingType: string, apiKey: string): Promise<HKSFCRecord[]> {
   const response = await fetchWithRetry(`${FIRECRAWL_V2_BASE_URL}/scrape`, {
     method: 'POST',
     headers: {
@@ -260,17 +251,21 @@ async function scrapePageWithJSON(url: string, apiKey: string): Promise<HKSFCRec
       }
     }
 
-    // Determine filing type from category or filingType field
-    let filingType = 'news';
+    // Use filing type from URL configuration (passed as parameter)
+    // Can be overridden by article-specific filingType field
+    let recordFilingType = filingType; // Use parameter as default
     if (article.filingType) {
-      filingType = article.filingType.toLowerCase();
+      recordFilingType = article.filingType.toLowerCase();
     } else if (article.category) {
+      // Map category to filing type if article specifies it
       const cat = article.category.toLowerCase();
-      if (cat.includes('enforcement')) filingType = 'enforcement';
-      else if (cat.includes('corporate')) filingType = 'corporate';
-      else if (cat.includes('circular')) filingType = 'circular';
-      else if (cat.includes('regulatory')) filingType = 'regulatory';
-      else if (cat.includes('consultation')) filingType = 'consultation';
+      if (cat.includes('enforcement')) recordFilingType = 'enforcement';
+      else if (cat.includes('corporate')) recordFilingType = 'corporate';
+      else if (cat.includes('circular')) recordFilingType = 'circular';
+      else if (cat.includes('regulatory')) recordFilingType = 'regulatory';
+      else if (cat.includes('consultation')) recordFilingType = 'consultation';
+      else if (cat.includes('shareholding')) recordFilingType = 'shareholding';
+      else if (cat.includes('policy')) recordFilingType = 'policy';
     }
 
     // Use extracted company code or try to find it
@@ -282,7 +277,7 @@ async function scrapePageWithJSON(url: string, apiKey: string): Promise<HKSFCRec
       title: article.title || 'Untitled',
       content: markdown.substring(0, 1000), // First 1000 chars of markdown
       summary: article.summary || '',
-      filing_type: filingType,
+      filing_type: recordFilingType,
       // category: removed - not in database schema
       company_code: companyCode,
       company_name: article.companyName || (companyCode ? `Company ${companyCode}` : undefined),
@@ -290,7 +285,7 @@ async function scrapePageWithJSON(url: string, apiKey: string): Promise<HKSFCRec
       // publish_date: removed - not in database schema
       url: article.articleUrl || url,
       pdf_url: article.pdfUrl || links.find((link: string) => link.endsWith('.pdf')),
-      tags: article.category ? [article.category, filingType] : [filingType]
+      tags: article.category ? [article.category, recordFilingType] : [recordFilingType]
     };
   });
 
@@ -298,79 +293,14 @@ async function scrapePageWithJSON(url: string, apiKey: string): Promise<HKSFCRec
   if (records.length === 0 && markdown) {
     const titleMatch = markdown.match(/^#\s+(.+)$/m);
     records.push({
-      title: titleMatch ? titleMatch[1] : 'HKSFC News Article',
+      title: titleMatch ? titleMatch[1] : `HKSFC ${filingType} Article`,
       content: markdown.substring(0, 500),
-      filing_type: 'news',
+      filing_type: filingType, // Use the passed filingType parameter
       url
     });
   }
 
   return records;
-}
-
-// Direct scraping with JSON extraction (fallback)
-async function scrapeDirectWithJSON(url: string, apiKey: string, limit: number): Promise<HKSFCRecord[]> {
-  console.log('[HKSFC Adapter V2] Using direct scraping with JSON extraction');
-
-  const response = await fetchWithRetry(`${FIRECRAWL_V2_BASE_URL}/scrape`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      url,
-      formats: [
-        'markdown',
-        'links',
-        {
-          type: 'json',
-          prompt: `Extract all news articles visible on this page. Return an array of articles with title, date, category, and summary.`,
-          schema: {
-            type: 'object',
-            properties: {
-              articles: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    title: { type: 'string' },
-                    date: { type: 'string' },
-                    category: { type: 'string' },
-                    summary: { type: 'string' },
-                    url: { type: 'string' }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      includeTags: ['article', '.news-item', '.list-item', 'h2', 'h3', 'time'],
-      excludeTags: ['nav', 'footer'],
-      onlyMainContent: true,
-      waitFor: 2000,
-      timeout: 45000,
-      maxAge: 0
-    })
-  }, { maxRetries: 2, backoffFactor: 2 });
-
-  if (!response.ok) {
-    throw new Error(`Direct scrape failed: ${response.status}`);
-  }
-
-  const data = await response.json();
-  const jsonData = data.data?.json || {};
-  const articles = jsonData.articles || [];
-
-  return articles.slice(0, limit).map((article: any) => ({
-    title: article.title || 'Untitled',
-    summary: article.summary || '',
-    filing_type: article.category?.toLowerCase().includes('enforcement') ? 'enforcement' : 'news',
-    category: article.category || 'news',
-    filing_date: article.date ? new Date(article.date) : undefined,
-    url: article.url || url
-  }));
 }
 
 // Generate mock data for testing
@@ -387,7 +317,6 @@ function generateMockHKSFCData(count: number): HKSFCRecord[] {
       content: `This is mock content for testing purposes. Article ${i + 1} discusses regulatory matters related to Hong Kong securities market.`,
       summary: `Mock summary for article ${i + 1}`,
       filing_type: filingType,
-      category: filingType,
       company_code: companyCode,
       company_name: companyCode ? `Company ${companyCode}` : undefined,
       filing_date: new Date(currentDate.getTime() - i * 24 * 60 * 60 * 1000),
