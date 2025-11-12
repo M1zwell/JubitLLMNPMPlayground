@@ -45,11 +45,14 @@ interface HKSFCFiling {
   id: string;
   title: string;
   content?: string;
+  summary?: string;
   filing_type: string;
   company_code?: string;
   company_name?: string;
   filing_date?: string;
   url: string;
+  pdf_url?: string;
+  tags?: string[];
   scraped_at: string;
 }
 
@@ -91,6 +94,17 @@ export default function HKScraperProduction() {
   const [hkexData, setHkexData] = useState<HKEXAnnouncement[]>([]);
   const [ccassData, setCcassData] = useState<CCassHolding[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
+
+  // HKSFC Filter states
+  const [hksfcFilters, setHksfcFilters] = useState({
+    filingType: 'all',
+    searchText: '',
+    companyCode: '',
+    dateFrom: '',
+    dateTo: '',
+    selectedTag: 'all',
+    sortBy: 'date-desc'
+  });
 
   // Fetch data from database (READ ONLY)
   const fetchData = async () => {
@@ -137,6 +151,125 @@ export default function HKScraperProduction() {
       fetchData();
     }
   }, [activeTab, source]);
+
+  // Filter and sort HKSFC data
+  const getFilteredHKSFCData = () => {
+    let filtered = [...hksfcData];
+
+    // Filter by filing type
+    if (hksfcFilters.filingType !== 'all') {
+      filtered = filtered.filter(f => f.filing_type === hksfcFilters.filingType);
+    }
+
+    // Filter by search text (title or content)
+    if (hksfcFilters.searchText) {
+      const search = hksfcFilters.searchText.toLowerCase();
+      filtered = filtered.filter(f =>
+        f.title.toLowerCase().includes(search) ||
+        f.content?.toLowerCase().includes(search) ||
+        f.summary?.toLowerCase().includes(search)
+      );
+    }
+
+    // Filter by company code
+    if (hksfcFilters.companyCode) {
+      filtered = filtered.filter(f =>
+        f.company_code?.includes(hksfcFilters.companyCode)
+      );
+    }
+
+    // Filter by tag
+    if (hksfcFilters.selectedTag !== 'all') {
+      filtered = filtered.filter(f =>
+        f.tags?.includes(hksfcFilters.selectedTag)
+      );
+    }
+
+    // Filter by date range
+    if (hksfcFilters.dateFrom) {
+      filtered = filtered.filter(f => {
+        if (!f.filing_date) return false;
+        return new Date(f.filing_date) >= new Date(hksfcFilters.dateFrom);
+      });
+    }
+    if (hksfcFilters.dateTo) {
+      filtered = filtered.filter(f => {
+        if (!f.filing_date) return false;
+        return new Date(f.filing_date) <= new Date(hksfcFilters.dateTo);
+      });
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (hksfcFilters.sortBy) {
+        case 'date-desc':
+          return new Date(b.filing_date || b.scraped_at).getTime() -
+                 new Date(a.filing_date || a.scraped_at).getTime();
+        case 'date-asc':
+          return new Date(a.filing_date || a.scraped_at).getTime() -
+                 new Date(b.filing_date || b.scraped_at).getTime();
+        case 'type':
+          return a.filing_type.localeCompare(b.filing_type);
+        case 'company':
+          return (a.company_code || '').localeCompare(b.company_code || '');
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  };
+
+  // Get all unique tags and filing types from data
+  const getAllTags = () => {
+    const tags = new Set<string>();
+    hksfcData.forEach(f => f.tags?.forEach(t => tags.add(t)));
+    return Array.from(tags);
+  };
+
+  const getAllFilingTypes = () => {
+    const types = new Set<string>();
+    hksfcData.forEach(f => types.add(f.filing_type));
+    return Array.from(types);
+  };
+
+  // Export functions
+  const exportToJSON = () => {
+    const filtered = getFilteredHKSFCData();
+    const dataStr = JSON.stringify(filtered, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `hksfc-filings-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+  };
+
+  const exportToCSV = () => {
+    const filtered = getFilteredHKSFCData();
+    const headers = ['Title', 'Type', 'Company Code', 'Company Name', 'Filing Date', 'Summary', 'URL', 'PDF URL', 'Tags'];
+    const rows = filtered.map(f => [
+      f.title,
+      f.filing_type,
+      f.company_code || '',
+      f.company_name || '',
+      f.filing_date || '',
+      f.summary || '',
+      f.url,
+      f.pdf_url || '',
+      f.tags?.join('; ') || ''
+    ]);
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+    const dataBlob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `hksfc-filings-${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+  };
 
   // Trigger scraping via unified-scraper Edge Function
   // The Edge Function handles both scraping AND database insertion
@@ -387,31 +520,247 @@ export default function HKScraperProduction() {
                 <Loader2 className="animate-spin text-gray-400" size={32} />
               </div>
             ) : (
-              <div className="space-y-2 max-h-96 overflow-y-auto">
+              <div className="space-y-4">
                 {source === 'hksfc' ? (
                   hksfcData.length === 0 ? (
                     <p className="text-center text-gray-500 py-8">
                       No HKSFC data found. Try scraping first.
                     </p>
                   ) : (
-                    hksfcData.map(filing => (
-                      <div key={filing.id} className="p-3 border border-gray-200 rounded-md hover:bg-gray-50">
-                        <h4 className="font-medium text-sm">{filing.title}</h4>
-                        <p className="text-xs text-gray-500 mt-1">
-                          Type: {filing.filing_type} | Date: {filing.filing_date || 'N/A'}
-                        </p>
-                        {filing.url && (
-                          <a
-                            href={filing.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-blue-600 hover:underline mt-1 inline-block"
-                          >
-                            View source →
-                          </a>
-                        )}
+                    <>
+                      {/* Stats Summary */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
+                          <p className="text-xs text-blue-600 font-medium">Total Records</p>
+                          <p className="text-2xl font-bold text-blue-900">{hksfcData.length}</p>
+                        </div>
+                        <div className="p-3 bg-green-50 border border-green-200 rounded-md">
+                          <p className="text-xs text-green-600 font-medium">Filtered</p>
+                          <p className="text-2xl font-bold text-green-900">{getFilteredHKSFCData().length}</p>
+                        </div>
+                        <div className="p-3 bg-purple-50 border border-purple-200 rounded-md">
+                          <p className="text-xs text-purple-600 font-medium">Filing Types</p>
+                          <p className="text-2xl font-bold text-purple-900">{getAllFilingTypes().length}</p>
+                        </div>
+                        <div className="p-3 bg-orange-50 border border-orange-200 rounded-md">
+                          <p className="text-xs text-orange-600 font-medium">Tags</p>
+                          <p className="text-2xl font-bold text-orange-900">{getAllTags().length}</p>
+                        </div>
                       </div>
-                    ))
+
+                      {/* Filter Panel */}
+                      <div className="p-4 bg-gray-50 border border-gray-200 rounded-md space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium text-sm">Filters</h4>
+                          <button
+                            onClick={() => setHksfcFilters({
+                              filingType: 'all',
+                              searchText: '',
+                              companyCode: '',
+                              dateFrom: '',
+                              dateTo: '',
+                              selectedTag: 'all',
+                              sortBy: 'date-desc'
+                            })}
+                            className="text-xs text-blue-600 hover:underline"
+                          >
+                            Clear all
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {/* Search Text */}
+                          <div>
+                            <label className="block text-xs font-medium mb-1">Search</label>
+                            <input
+                              type="text"
+                              value={hksfcFilters.searchText}
+                              onChange={(e) => setHksfcFilters({...hksfcFilters, searchText: e.target.value})}
+                              placeholder="Search title, summary..."
+                              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded"
+                            />
+                          </div>
+
+                          {/* Filing Type */}
+                          <div>
+                            <label className="block text-xs font-medium mb-1">Filing Type</label>
+                            <select
+                              value={hksfcFilters.filingType}
+                              onChange={(e) => setHksfcFilters({...hksfcFilters, filingType: e.target.value})}
+                              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded"
+                            >
+                              <option value="all">All Types</option>
+                              {getAllFilingTypes().map(type => (
+                                <option key={type} value={type}>{type}</option>
+                              ))}
+                            </select>
+                          </div>
+
+                          {/* Tag Filter */}
+                          <div>
+                            <label className="block text-xs font-medium mb-1">Tag</label>
+                            <select
+                              value={hksfcFilters.selectedTag}
+                              onChange={(e) => setHksfcFilters({...hksfcFilters, selectedTag: e.target.value})}
+                              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded"
+                            >
+                              <option value="all">All Tags</option>
+                              {getAllTags().map(tag => (
+                                <option key={tag} value={tag}>{tag}</option>
+                              ))}
+                            </select>
+                          </div>
+
+                          {/* Company Code */}
+                          <div>
+                            <label className="block text-xs font-medium mb-1">Company Code</label>
+                            <input
+                              type="text"
+                              value={hksfcFilters.companyCode}
+                              onChange={(e) => setHksfcFilters({...hksfcFilters, companyCode: e.target.value})}
+                              placeholder="e.g., 0700"
+                              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded"
+                            />
+                          </div>
+
+                          {/* Date From */}
+                          <div>
+                            <label className="block text-xs font-medium mb-1">Date From</label>
+                            <input
+                              type="date"
+                              value={hksfcFilters.dateFrom}
+                              onChange={(e) => setHksfcFilters({...hksfcFilters, dateFrom: e.target.value})}
+                              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded"
+                            />
+                          </div>
+
+                          {/* Date To */}
+                          <div>
+                            <label className="block text-xs font-medium mb-1">Date To</label>
+                            <input
+                              type="date"
+                              value={hksfcFilters.dateTo}
+                              onChange={(e) => setHksfcFilters({...hksfcFilters, dateTo: e.target.value})}
+                              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Sort and Export */}
+                        <div className="flex items-center justify-between pt-2 border-t border-gray-300">
+                          <div className="flex items-center gap-2">
+                            <label className="text-xs font-medium">Sort by:</label>
+                            <select
+                              value={hksfcFilters.sortBy}
+                              onChange={(e) => setHksfcFilters({...hksfcFilters, sortBy: e.target.value})}
+                              className="px-2 py-1 text-xs border border-gray-300 rounded"
+                            >
+                              <option value="date-desc">Date (Newest)</option>
+                              <option value="date-asc">Date (Oldest)</option>
+                              <option value="type">Filing Type</option>
+                              <option value="company">Company Code</option>
+                            </select>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={exportToJSON}
+                              className="btn-minimal btn-secondary text-xs flex items-center gap-1"
+                            >
+                              <FileJson size={14} />
+                              Export JSON
+                            </button>
+                            <button
+                              onClick={exportToCSV}
+                              className="btn-minimal btn-secondary text-xs flex items-center gap-1"
+                            >
+                              <FileSpreadsheet size={14} />
+                              Export CSV
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Filtered Results */}
+                      <div className="space-y-3 max-h-96 overflow-y-auto">
+                        {getFilteredHKSFCData().map(filing => (
+                          <div key={filing.id} className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white">
+                            {/* Header */}
+                            <div className="flex items-start justify-between gap-3 mb-2">
+                              <h4 className="font-semibold text-sm flex-1 leading-snug">{filing.title}</h4>
+                              {filing.company_code && (
+                                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-mono rounded">
+                                  {filing.company_code}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Summary */}
+                            {filing.summary && (
+                              <p className="text-xs text-gray-600 mb-2 leading-relaxed">
+                                {filing.summary}
+                              </p>
+                            )}
+
+                            {/* Tags */}
+                            {filing.tags && filing.tags.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mb-2">
+                                {filing.tags.map((tag, idx) => (
+                                  <span
+                                    key={idx}
+                                    className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Metadata */}
+                            <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
+                              <span className="flex items-center gap-1">
+                                <Building2 size={12} />
+                                {filing.filing_type}
+                              </span>
+                              {filing.filing_date && (
+                                <span className="flex items-center gap-1">
+                                  <Calendar size={12} />
+                                  {new Date(filing.filing_date).toLocaleDateString()}
+                                </span>
+                              )}
+                              {filing.company_name && (
+                                <span className="truncate">
+                                  {filing.company_name}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex items-center gap-2">
+                              <a
+                                href={filing.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-blue-600 hover:underline flex items-center gap-1"
+                              >
+                                <Eye size={12} />
+                                View source
+                              </a>
+                              {filing.pdf_url && (
+                                <a
+                                  href={filing.pdf_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-xs text-green-600 hover:underline flex items-center gap-1"
+                                >
+                                  <Download size={12} />
+                                  Download PDF
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
                   )
                 ) : source === 'hkex' ? (
                   hkexData.length === 0 ? (
