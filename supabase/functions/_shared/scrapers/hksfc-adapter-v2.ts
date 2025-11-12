@@ -283,11 +283,11 @@ async function scrapePageWithJSON(url: string, apiKey: string): Promise<HKSFCRec
       content: markdown.substring(0, 1000), // First 1000 chars of markdown
       summary: article.summary || '',
       filing_type: filingType,
-      category: article.category || filingType,
+      // category: removed - not in database schema
       company_code: companyCode,
       company_name: article.companyName || (companyCode ? `Company ${companyCode}` : undefined),
       filing_date: filingDate,
-      publish_date: article.publishDate || undefined,
+      // publish_date: removed - not in database schema
       url: article.articleUrl || url,
       pdf_url: article.pdfUrl || links.find((link: string) => link.endsWith('.pdf')),
       tags: article.category ? [article.category, filingType] : [filingType]

@@ -255,13 +255,13 @@ async function scrapeWithFirecrawlV2(
 
       return {
         stock_code: jsonData.stockCode || formattedStockCode,
-        stock_name: jsonData.stockName || undefined,
+        // stock_name: removed - not in database schema
         participant_id: p.participantId || '',
         participant_name: p.participantName || '',
-        address: p.address || undefined,
+        // address: removed - not in database schema
         shareholding,
         percentage,
-        data_date: jsonData.dataDate || dateStr,
+        // data_date: removed - not in database schema
         scraped_at: new Date()
       };
     });
