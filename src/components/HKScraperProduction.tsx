@@ -88,6 +88,8 @@ export default function HKScraperProduction() {
   // Filter states
   const [limit, setLimit] = useState(100);
   const [stockCode, setStockCode] = useState('00700'); // For CCASS scraping
+  const [startDate, setStartDate] = useState('2025/11/08');
+  const [endDate, setEndDate] = useState('2025/11/11');
 
   // Database data states
   const [hksfcData, setHksfcData] = useState<HKSFCFiling[]>([]);
@@ -296,7 +298,11 @@ export default function HKScraperProduction() {
           source: source,
           limit: limit,
           test_mode: false,
-          ...(source === 'ccass' && { stock_code: stockCode })
+          ...(source === 'ccass' && {
+            stock_code: stockCode,
+            start_date: startDate,
+            end_date: endDate
+          })
         })
       });
 
@@ -378,20 +384,51 @@ export default function HKScraperProduction() {
 
             {/* Stock Code (CCASS only) */}
             {source === 'ccass' && (
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Stock Code (e.g., 00700 for Tencent)
-                </label>
-                <input
-                  type="text"
-                  value={stockCode}
-                  onChange={(e) => setStockCode(e.target.value)}
-                  placeholder="00700"
-                  maxLength={5}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  disabled={isLoading}
-                />
-              </div>
+              <>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Stock Code (e.g., 00700 for Tencent)
+                  </label>
+                  <input
+                    type="text"
+                    value={stockCode}
+                    onChange={(e) => setStockCode(e.target.value)}
+                    placeholder="00700"
+                    maxLength={5}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      <Calendar className="inline mr-1" size={14} />
+                      Start Date
+                    </label>
+                    <input
+                      type="date"
+                      value={startDate.replace(/\//g, '-')}
+                      onChange={(e) => setStartDate(e.target.value.replace(/-/g, '/'))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      disabled={isLoading}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      <Calendar className="inline mr-1" size={14} />
+                      End Date
+                    </label>
+                    <input
+                      type="date"
+                      value={endDate.replace(/\//g, '-')}
+                      onChange={(e) => setEndDate(e.target.value.replace(/-/g, '/'))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      disabled={isLoading}
+                    />
+                  </div>
+                </div>
+              </>
             )}
 
             {/* Limit */}
