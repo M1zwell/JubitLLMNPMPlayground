@@ -27,7 +27,7 @@ workflow_status:
 
   # Phase 0: Discovery (Optional)
   brainstorm-project: docs/bmm-brainstorming-session-2025-11-10.md
-  research: optional
+  research: docs/bmm-research-technical-2025-11-10.md
 
   # Phase 1: Planning
   prd: required

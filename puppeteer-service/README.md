@@ -1,4 +1,25 @@
-# Puppeteer Scraping Service
+# Puppeteer Scraping Service (ARCHIVED)
+
+**Status:** 🗄️ **Not Deployed - Reference Only**
+**Decision Date:** 2025-11-11
+**Reason:** Using Firecrawl API for all scraping needs. No additional infrastructure needed.
+
+---
+
+## ⚠️ Important Notice
+
+This service is **NOT deployed** to any infrastructure. It exists as reference code only.
+
+**Current Production Setup:**
+- ✅ **Firecrawl API** - Handles all scraping (HKSFC + HKEX)
+- ✅ **Edge Functions** - scrape-orchestrator uses Firecrawl
+- ✅ **$0 additional cost** - No Fly.io, Render, or Railway needed
+
+See `../SCRAPING_DECISION.md` for full analysis.
+
+---
+
+## Original Description
 
 Standalone Node.js microservice providing Puppeteer-based web scraping for HKEX CCASS and HKSFC data.
 
