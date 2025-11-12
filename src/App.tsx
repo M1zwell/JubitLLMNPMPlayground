@@ -26,6 +26,7 @@ import WebbDirectSQLUploader from './components/WebbDirectSQLUploader';
 import EnvironmentChecker from './components/EnvironmentChecker';
 import HKFinancialScraper from './components/HKFinancialScraper';
 import HKScraperProduction from './components/HKScraperProduction';
+import HKScraperModern from './components/HKScraperModern';
 import WebScraperDemo from './components/WebScraperDemo';
 import HKScraperWithPuppeteer from './components/HKScraperWithPuppeteer';
 
@@ -165,10 +166,10 @@ function AppContent() {
                       ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
-                  title="HK Financial Scraper - Dual-engine web scraping / HK金融爬虫"
+                  title="HK Data Hub - Modern CCASS, HKSFC, HKEX integration / 香港数据中心"
                 >
                   <Search size={14} />
-                  HK Scraper
+                  HK Data
                 </button>
                 <button
                   onClick={() => actions.setCurrentView('web-scraper')}
@@ -312,7 +313,7 @@ function AppContent() {
         ) : state.currentView === 'webb-financial' ? (
           <WebbFinancialIntegration />
         ) : state.currentView === 'hk-scraper' ? (
-          <HKScraperProduction />
+          <HKScraperModern />
         ) : state.currentView === 'web-scraper' ? (
           <WebScraperDemo />
         ) : state.currentView === 'puppeteer-scraper' ? (
