@@ -27,6 +27,7 @@ import EnvironmentChecker from './components/EnvironmentChecker';
 import HKFinancialScraper from './components/HKFinancialScraper';
 import HKScraperProduction from './components/HKScraperProduction';
 import HKScraperModern from './components/HKScraperModern';
+import OffshoreDataHub from './components/OffshoreDataHub';
 import WebScraperDemo from './components/WebScraperDemo';
 import HKScraperWithPuppeteer from './components/HKScraperWithPuppeteer';
 
@@ -172,6 +173,18 @@ function AppContent() {
                   HK Data
                 </button>
                 <button
+                  onClick={() => actions.setCurrentView('offshore-data')}
+                  className={`btn-minimal ${
+                    state.currentView === 'offshore-data'
+                      ? 'btn-primary'
+                      : 'btn-ghost'
+                  }`}
+                  title="Offshore Data Hub - Cayman Islands & BVI Financial Entities"
+                >
+                  <Search size={14} />
+                  Offshore
+                </button>
+                <button
                   onClick={() => actions.setCurrentView('web-scraper')}
                   className={`btn-minimal ${
                     state.currentView === 'web-scraper'
@@ -314,6 +327,8 @@ function AppContent() {
           <WebbFinancialIntegration />
         ) : state.currentView === 'hk-scraper' ? (
           <HKScraperModern />
+        ) : state.currentView === 'offshore-data' ? (
+          <OffshoreDataHub />
         ) : state.currentView === 'web-scraper' ? (
           <WebScraperDemo />
         ) : state.currentView === 'puppeteer-scraper' ? (

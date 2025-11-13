@@ -1,0 +1,22 @@
+[
+  {
+    "date": "2025/11/08",
+    "error": "page.waitForTimeout is not a function",
+    "success": false
+  },
+  {
+    "date": "2025/11/09",
+    "error": "page.waitForTimeout is not a function",
+    "success": false
+  },
+  {
+    "date": "2025/11/10",
+    "error": "page.waitForTimeout is not a function",
+    "success": false
+  },
+  {
+    "date": "2025/11/11",
+    "error": "page.waitForTimeout is not a function",
+    "success": false
+  }
+]

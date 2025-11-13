@@ -682,9 +682,11 @@ export default function CIMAViewer() {
                 <p className="text-sm text-gray-700">
                   <strong>Data Source:</strong> CIMA (Cayman Islands Monetary Authority)
                   <br />
-                  <strong>API Endpoint:</strong> https://www.cima.ky/search-entities-cima/get_search_data
+                  <strong>Website:</strong> https://www.cima.ky/search-entities-cima
                   <br />
-                  <strong>Update Method:</strong> Direct API calls for each entity type and category
+                  <strong>Update Method:</strong> Firecrawl browser automation with form submission
+                  <br />
+                  <strong>Technology:</strong> Automated browser actions to select entity types, submit forms, and parse results
                 </p>
               </div>
 

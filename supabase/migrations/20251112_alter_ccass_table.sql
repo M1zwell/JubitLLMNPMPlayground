@@ -67,4 +67,7 @@ COMMENT ON COLUMN hkex_ccass_holdings.stock_name IS 'Full name of the stock';
 COMMENT ON COLUMN hkex_ccass_holdings.shareholding_date IS 'Date of the shareholding snapshot';
 COMMENT ON COLUMN hkex_ccass_holdings.address IS 'Address of the CCASS participant';
 
-RAISE NOTICE 'CCASS table migration completed successfully';
+DO $$
+BEGIN
+  RAISE NOTICE 'CCASS table migration completed successfully';
+END $$;

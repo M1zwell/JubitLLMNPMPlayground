@@ -1,0 +1,82 @@
+[
+  {
+    "tableIndex": 0,
+    "totalRows": 10,
+    "headers": [
+      "1.",
+      "The shareholding information of CCASS Participants and other information made available under this CCASS shareholding search facility (the “Information”) is provided for your personal and non-commercial use only. HKEX and its subsidiaries do not take any responsibility for the Information, nor do they make any warranties, whether express or implied, as to the accuracy, adequacy, quality or fitness for any particular purpose or use of the Information and all such warranties are expressly excluded to the fullest extent that such warranties may be excluded by law. You agree to bear all risks from any use or reliance of or results of using or relying on any of the Information and acknowledge that the way you use or interpret the Information is dependent upon the exercise of your own skill and judgment. HKEX reserves the right to modify or discontinue, temporarily or permanently, the CCASS shareholding search facility and any part of the Information made available thereunder at any time with or without notice."
+    ],
+    "sampleRows": [
+      [
+        "1.",
+        "The shareholding information of CCASS Participants"
+      ],
+      [
+        "",
+        ""
+      ],
+      [
+        "2.",
+        "Unless you have been given express written permiss"
+      ],
+      [
+        "",
+        "2.1",
+        "distribute, display, copy, modify, download, publi"
+      ],
+      [
+        "",
+        "2.2",
+        "create or compile derivative works (including, wit"
+      ]
+    ]
+  },
+  {
+    "tableIndex": 1,
+    "totalRows": 409,
+    "headers": [
+      "Participant ID",
+      "Name of CCASS Participant(* for Consenting Investor Participants )",
+      "Address",
+      "Shareholding",
+      "% of the total number of Issued Shares/ Warrants/ Units"
+    ],
+    "sampleRows": [
+      [
+        "Participant ID",
+        "Name of CCASS Participant(* for Consenting Investo",
+        "Address",
+        "Shareholding",
+        "% of the total number of Issued Shares/ Warrants/ "
+      ],
+      [
+        "Participant ID:\nC00019",
+        "Name of CCASS Participant (* for Consenting Invest",
+        "Address:\nHSBC WEALTH BUSINESS SERVICES 8/F TOWER 2",
+        "Shareholding:\n3,221,123,909",
+        "% of the total number of Issued Shares/ Warrants/ "
+      ],
+      [
+        "Participant ID:\nA00003",
+        "Name of CCASS Participant (* for Consenting Invest",
+        "Address:\n17 TAIPING QIAO STREET XICHENG DISTRICT B",
+        "Shareholding:\n544,488,952",
+        "% of the total number of Issued Shares/ Warrants/ "
+      ],
+      [
+        "Participant ID:\nC00010",
+        "Name of CCASS Participant (* for Consenting Invest",
+        "Address:\n9/F CITI TOWER ONE BAY EAST 83 HOI BUN RO",
+        "Shareholding:\n531,868,125",
+        "% of the total number of Issued Shares/ Warrants/ "
+      ],
+      [
+        "Participant ID:\nA00004",
+        "Name of CCASS Participant (* for Consenting Invest",
+        "Address:\n17 TAIPING QIAO STREET XICHENG DISTRICT B",
+        "Shareholding:\n466,172,346",
+        "% of the total number of Issued Shares/ Warrants/ "
+      ]
+    ]
+  }
+]

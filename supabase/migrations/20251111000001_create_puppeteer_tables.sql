@@ -69,30 +69,72 @@ ALTER TABLE hkex_ccass_holdings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE hkex_market_stats ENABLE ROW LEVEL SECURITY;
 
 -- Allow public read access
-CREATE POLICY "Allow public read access to CCASS holdings"
-  ON hkex_ccass_holdings FOR SELECT
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'hkex_ccass_holdings' AND policyname = 'Allow public read access to CCASS holdings'
+  ) THEN
+    CREATE POLICY "Allow public read access to CCASS holdings"
+      ON hkex_ccass_holdings FOR SELECT
+      USING (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Allow public read access to market stats"
-  ON hkex_market_stats FOR SELECT
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'hkex_market_stats' AND policyname = 'Allow public read access to market stats'
+  ) THEN
+    CREATE POLICY "Allow public read access to market stats"
+      ON hkex_market_stats FOR SELECT
+      USING (true);
+  END IF;
+END $$;
 
 -- Allow authenticated insert/update
-CREATE POLICY "Allow authenticated insert to CCASS holdings"
-  ON hkex_ccass_holdings FOR INSERT
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'hkex_ccass_holdings' AND policyname = 'Allow authenticated insert to CCASS holdings'
+  ) THEN
+    CREATE POLICY "Allow authenticated insert to CCASS holdings"
+      ON hkex_ccass_holdings FOR INSERT
+      WITH CHECK (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Allow authenticated update to CCASS holdings"
-  ON hkex_ccass_holdings FOR UPDATE
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'hkex_ccass_holdings' AND policyname = 'Allow authenticated update to CCASS holdings'
+  ) THEN
+    CREATE POLICY "Allow authenticated update to CCASS holdings"
+      ON hkex_ccass_holdings FOR UPDATE
+      USING (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Allow authenticated insert to market stats"
-  ON hkex_market_stats FOR INSERT
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'hkex_market_stats' AND policyname = 'Allow authenticated insert to market stats'
+  ) THEN
+    CREATE POLICY "Allow authenticated insert to market stats"
+      ON hkex_market_stats FOR INSERT
+      WITH CHECK (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Allow authenticated update to market stats"
-  ON hkex_market_stats FOR UPDATE
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'hkex_market_stats' AND policyname = 'Allow authenticated update to market stats'
+  ) THEN
+    CREATE POLICY "Allow authenticated update to market stats"
+      ON hkex_market_stats FOR UPDATE
+      USING (true);
+  END IF;
+END $$;
 
 -- Comments
 COMMENT ON TABLE hkex_ccass_holdings IS 'CCASS participant shareholding data scraped via Puppeteer';

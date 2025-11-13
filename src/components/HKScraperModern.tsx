@@ -26,6 +26,8 @@ import {
   Activity
 } from 'lucide-react';
 import CCASSViewer from './CCASSViewer';
+import HKSFCViewer from './HKSFCViewer';
+import HKEXViewer from './HKEXViewer';
 
 type DataSource = 'hksfc' | 'hkex' | 'ccass';
 type ViewMode = 'scrape' | 'view' | 'analyze';
@@ -160,20 +162,46 @@ export default function HKScraperModern() {
           )}
 
           {activeSource === 'hksfc' && (
-            <div className="p-8">
-              <ComingSoonPlaceholder
-                title="HKSFC Filings Viewer"
-                description="Advanced filtering and analysis for HKSFC regulatory filings"
-              />
+            <div>
+              {viewMode === 'view' && <HKSFCViewer />}
+              {viewMode === 'analyze' && (
+                <div className="p-8">
+                  <ComingSoonPlaceholder
+                    title="HKSFC Analytics"
+                    description="Advanced analytics for HKSFC regulatory filings"
+                  />
+                </div>
+              )}
+              {viewMode === 'scrape' && (
+                <div className="p-8">
+                  <ComingSoonPlaceholder
+                    title="HKSFC Scraper"
+                    description="Scrape HKSFC filings data"
+                  />
+                </div>
+              )}
             </div>
           )}
 
           {activeSource === 'hkex' && (
-            <div className="p-8">
-              <ComingSoonPlaceholder
-                title="HKEX Announcements Viewer"
-                description="Real-time company announcements and market updates"
-              />
+            <div>
+              {viewMode === 'view' && <HKEXViewer />}
+              {viewMode === 'analyze' && (
+                <div className="p-8">
+                  <ComingSoonPlaceholder
+                    title="HKEX Analytics"
+                    description="Advanced analytics for HKEX announcements"
+                  />
+                </div>
+              )}
+              {viewMode === 'scrape' && (
+                <div className="p-8">
+                  <ComingSoonPlaceholder
+                    title="HKEX Scraper"
+                    description="Scrape HKEX announcement data"
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>

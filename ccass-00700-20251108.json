@@ -1,0 +1,3230 @@
+[
+  {
+    "stockCode": "00700",
+    "stockName": "TENCENT HOLDINGS LIMITED -HKD TRADED SHARES",
+    "date": "2025/11/08",
+    "participants": [
+      {
+        "participantId": "C00019",
+        "participantName": "THE HONGKONG AND SHANGHAI BANKING",
+        "address": "HSBC WEALTH BUSINESS SERVICES 8/F TOWER 2 & 3 HSBC CENTRE 1 SHAM MONG ROAD KOWLOON",
+        "shareholding": "3221123909",
+        "shareholdingFormatted": "3,221,123,909",
+        "percentage": "35.22%"
+      },
+      {
+        "participantId": "A00003",
+        "participantName": "CHINA SECURITIES DEPOSITORY AND CLEARING",
+        "address": "17 TAIPING QIAO STREET XICHENG DISTRICT BEIJING CHINA",
+        "shareholding": "544488952",
+        "shareholdingFormatted": "544,488,952",
+        "percentage": "5.95%"
+      },
+      {
+        "participantId": "C00010",
+        "participantName": "CITIBANK N.A.",
+        "address": "9/F CITI TOWER ONE BAY EAST 83 HOI BUN ROAD KWUN TONG KOWLOON",
+        "shareholding": "531868125",
+        "shareholdingFormatted": "531,868,125",
+        "percentage": "5.81%"
+      },
+      {
+        "participantId": "A00004",
+        "participantName": "CHINA SECURITIES DEPOSITORY AND CLEARING",
+        "address": "17 TAIPING QIAO STREET XICHENG DISTRICT BEIJING CHINA",
+        "shareholding": "466172346",
+        "shareholdingFormatted": "466,172,346",
+        "percentage": "5.09%"
+      },
+      {
+        "participantId": "C00039",
+        "participantName": "STANDARD CHARTERED BANK (HONG KONG) LTD",
+        "address": "18/F STANDARD CHARTERED BANK TOWER MILLENNIUM CITY 388 KWUN TONG ROAD KWUN TONG KOWLOON",
+        "shareholding": "415217756",
+        "shareholdingFormatted": "415,217,756",
+        "percentage": "4.54%"
+      },
+      {
+        "participantId": "B01451",
+        "participantName": "GOLDMAN SACHS (ASIA) SECURITIES LTD",
+        "address": "68TH FLOOR CHEUNG KONG CENTER 2 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "377051578",
+        "shareholdingFormatted": "377,051,578",
+        "percentage": "4.12%"
+      },
+      {
+        "participantId": "B01274",
+        "participantName": "MORGAN STANLEY HONG KONG SECURITIES LTD",
+        "address": "46/F INTERNATIONAL COMMERCE CENTRE 1 AUSTIN ROAD WEST KOWLOON",
+        "shareholding": "343757498",
+        "shareholdingFormatted": "343,757,498",
+        "percentage": "3.75%"
+      },
+      {
+        "participantId": "B01161",
+        "participantName": "UBS SECURITIES HONG KONG LTD",
+        "address": "47-52/F TWO INTERNATIONAL FINANCE CENTRE 8 FINANCE STREET CENTRAL HONG KONG",
+        "shareholding": "296175627",
+        "shareholdingFormatted": "296,175,627",
+        "percentage": "3.23%"
+      },
+      {
+        "participantId": "B01130",
+        "participantName": "BOCI SECURITIES LTD",
+        "address": "22/F GRAND MILLENNIUM PLAZA 181 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "192490708",
+        "shareholdingFormatted": "192,490,708",
+        "percentage": "2.10%"
+      },
+      {
+        "participantId": "C00040",
+        "participantName": "INDUSTRIAL AND COMMERCIAL BANK OF CHINA",
+        "address": "2/F ONE HARBOURFRONT 18-22 TAK FUNG ST HUNG HOM KOWLOON",
+        "shareholding": "95725423",
+        "shareholdingFormatted": "95,725,423",
+        "percentage": "1.04%"
+      },
+      {
+        "participantId": "C00093",
+        "participantName": "BNP PARIBAS",
+        "address": "21/F PCCW TOWER TAIKOO PLACE 979 KING'S ROAD QUARRY BAY HONG KONG",
+        "shareholding": "94374356",
+        "shareholdingFormatted": "94,374,356",
+        "percentage": "1.03%"
+      },
+      {
+        "participantId": "C00033",
+        "participantName": "BANK OF CHINA (HONG KONG) LTD",
+        "address": "23/F BANK OF CHINA CENTRE OLYMPIAN CITY 11 HOI FAI ROAD WEST KOWLOON",
+        "shareholding": "62363870",
+        "shareholdingFormatted": "62,363,870",
+        "percentage": "0.68%"
+      },
+      {
+        "participantId": "B01955",
+        "participantName": "FUTU SECURITIES INTERNATIONAL",
+        "address": "34/F UNITED CENTRE 95 QUEENSWAY ADMIRALTY HONG KONG",
+        "shareholding": "58678912",
+        "shareholdingFormatted": "58,678,912",
+        "percentage": "0.64%"
+      },
+      {
+        "participantId": "B01590",
+        "participantName": "INTERACTIVE BROKERS HONG KONG LTD",
+        "address": "SUITE 1512 TWO PACIFIC PLACE 88 QUEENSWAY HONG KONG",
+        "shareholding": "49221758",
+        "shareholdingFormatted": "49,221,758",
+        "percentage": "0.53%"
+      },
+      {
+        "participantId": "C00016",
+        "participantName": "DBS BANK LTD",
+        "address": "7/F TWO HARBOUR SQUARE 180 WAI YIP STREET KWUN TONG KOWLOON",
+        "shareholding": "42930255",
+        "shareholdingFormatted": "42,930,255",
+        "percentage": "0.46%"
+      },
+      {
+        "participantId": "C00074",
+        "participantName": "DEUTSCHE BANK AG",
+        "address": "58-61/F INTERNATIONAL COMMERCE CENTRE 1 AUSTIN ROAD WEST  KOWLOON",
+        "shareholding": "36250586",
+        "shareholdingFormatted": "36,250,586",
+        "percentage": "0.39%"
+      },
+      {
+        "participantId": "C00018",
+        "participantName": "HANG SENG BANK LTD",
+        "address": "HANG SENG 113 113 ARGYLE STREET MONGKOK KOWLOON",
+        "shareholding": "19969807",
+        "shareholdingFormatted": "19,969,807",
+        "percentage": "0.21%"
+      },
+      {
+        "participantId": "B01565",
+        "participantName": "GUOTAI JUNAN SECURITIES (HONG KONG) LTD",
+        "address": "27/F GRAND MILLENNIUM PLAZA 181 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "19624127",
+        "shareholdingFormatted": "19,624,127",
+        "percentage": "0.21%"
+      },
+      {
+        "participantId": "C00042",
+        "participantName": "CMB WING LUNG BANK LTD",
+        "address": "45 DES VOEUX ROAD CENTRAL   HONG KONG",
+        "shareholding": "19534976",
+        "shareholdingFormatted": "19,534,976",
+        "percentage": "0.21%"
+      },
+      {
+        "participantId": "B01224",
+        "participantName": "MERRILL LYNCH FAR EAST LTD",
+        "address": "C/O BANK OF AMERICA MERRILL LYNCH 38/F CHEUNG KONG CENTER 2 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "13535885",
+        "shareholdingFormatted": "13,535,885",
+        "percentage": "0.14%"
+      },
+      {
+        "participantId": "B01901",
+        "participantName": "CMB INTERNATIONAL SECURITIES LTD",
+        "address": "45/F CHAMPION TOWER 3 GARDEN ROAD CENTRAL HONG KONG",
+        "shareholding": "12316831",
+        "shareholdingFormatted": "12,316,831",
+        "percentage": "0.13%"
+      },
+      {
+        "participantId": "C00015",
+        "participantName": "DBS BANK (HONG KONG) LTD",
+        "address": "6/F TWO HARBOUR SQUARE 180 WAI YIP STREET KWUN TONG KOWLOON",
+        "shareholding": "7896218",
+        "shareholdingFormatted": "7,896,218",
+        "percentage": "0.08%"
+      },
+      {
+        "participantId": "C00011",
+        "participantName": "PUBLIC BANK (HONG KONG) LTD",
+        "address": "PUBLIC BANK CENTRE 120 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "7582630",
+        "shareholdingFormatted": "7,582,630",
+        "percentage": "0.08%"
+      },
+      {
+        "participantId": "B01228",
+        "participantName": "CITIC SECURITIES BROKERAGE (HK) LTD",
+        "address": "26/F CITIC TOWER 1 TIM MEI AVENUE CENTRAL HONG KONG",
+        "shareholding": "6974860",
+        "shareholdingFormatted": "6,974,860",
+        "percentage": "0.07%"
+      },
+      {
+        "participantId": "C00003",
+        "participantName": "THE BANK OF EAST ASIA LTD",
+        "address": "35/F BEA TOWER MILLENNIUM CITY 5 418 KWUN TONG ROAD KWUN TONG KOWLOON",
+        "shareholding": "5910940",
+        "shareholdingFormatted": "5,910,940",
+        "percentage": "0.06%"
+      },
+      {
+        "participantId": "C00088",
+        "participantName": "CHINA MERCHANTS BANK CO LTD",
+        "address": "28/F THREE EXCHANGE SQUARE 8 CONNAUGHT PLACE CENTRAL HONG KONG",
+        "shareholding": "5339114",
+        "shareholdingFormatted": "5,339,114",
+        "percentage": "0.05%"
+      },
+      {
+        "participantId": "B01148",
+        "participantName": "CHINA MERCHANTS SECURITIES (HK) CO LTD",
+        "address": "48/F ONE EXCHANGE SQUARE 8 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "5245795",
+        "shareholdingFormatted": "5,245,795",
+        "percentage": "0.05%"
+      },
+      {
+        "participantId": "B01353",
+        "participantName": "UOB KAY HIAN (HONG KONG) LTD",
+        "address": "6/F HARCOURT HOUSE 39 GLOUCESTER ROAD HONG KONG",
+        "shareholding": "4786238",
+        "shareholdingFormatted": "4,786,238",
+        "percentage": "0.05%"
+      },
+      {
+        "participantId": "B01345",
+        "participantName": "PHILLIP SECURITIES (HONG KONG) LTD",
+        "address": "11/F UNITED CENTRE 95 QUEENSWAY HONG KONG",
+        "shareholding": "3931091",
+        "shareholdingFormatted": "3,931,091",
+        "percentage": "0.04%"
+      },
+      {
+        "participantId": "B01089",
+        "participantName": "HSBC BROKING SECURITIES (HONG KONG) LTD",
+        "address": "LEVEL 25 HSBC MAIN BUILDING 1 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "3900254",
+        "shareholdingFormatted": "3,900,254",
+        "percentage": "0.04%"
+      },
+      {
+        "participantId": "B02142",
+        "participantName": "TIGER BROKERS (HK) GLOBAL LTD",
+        "address": "23/F LI PO CHUN CHAMBERS 189 DES VOEUX ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "3499418",
+        "shareholdingFormatted": "3,499,418",
+        "percentage": "0.03%"
+      },
+      {
+        "participantId": "B01086",
+        "participantName": "EVERBRIGHT SECURITIES INVESTMENT",
+        "address": "28/F LEE GARDEN ONE 33 HYSAN AVENUE CAUSEWAY BAY HONG KONG",
+        "shareholding": "3486915",
+        "shareholdingFormatted": "3,486,915",
+        "percentage": "0.03%"
+      },
+      {
+        "participantId": "B01413",
+        "participantName": "CORE PACIFIC - YAMAICHI INTERNATIONAL",
+        "address": "ROOMS 1101-05 & 09-10 11/F CHINA RESOURCES BUILDING 26 HARBOUR ROAD, WANCHAI HONG KONG",
+        "shareholding": "3281473",
+        "shareholdingFormatted": "3,281,473",
+        "percentage": "0.03%"
+      },
+      {
+        "participantId": "B01654",
+        "participantName": "CHINA INTERNATIONAL CAPITAL CORPORATION",
+        "address": "29/F ONE INTERNATIONAL FINANCE CENTRE 1 HARBOUR VIEW STREET CENTRAL HONG KONG",
+        "shareholding": "3195696",
+        "shareholdingFormatted": "3,195,696",
+        "percentage": "0.03%"
+      },
+      {
+        "participantId": "C00037",
+        "participantName": "SHANGHAI COMMERCIAL BANK LTD",
+        "address": "C/O SECURITIES PROCESSING CENTRE LEVEL 23 TOWER 2 KOWLOON COMMERCE CENTRE 51 KWAI CHEONG ROAD KWAI CHUNG NEW TERRITORIES",
+        "shareholding": "3192498",
+        "shareholdingFormatted": "3,192,498",
+        "percentage": "0.03%"
+      },
+      {
+        "participantId": "B01686",
+        "participantName": "FIRST SHANGHAI SECURITIES LTD",
+        "address": "19/F WING ON HOUSE 71 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "3080900",
+        "shareholdingFormatted": "3,080,900",
+        "percentage": "0.03%"
+      },
+      {
+        "participantId": "B01762",
+        "participantName": "DBS VICKERS (HONG KONG) LTD",
+        "address": "16/F ONE ISLAND EAST 18 WESTLANDS ROAD ISLAND EAST HONG KONG",
+        "shareholding": "3049500",
+        "shareholdingFormatted": "3,049,500",
+        "percentage": "0.03%"
+      },
+      {
+        "participantId": "C00028",
+        "participantName": "NANYANG COMMERCIAL BANK LTD",
+        "address": "30/F NCB INNOVATION CENTRE 888 LAI CHI KOK ROAD CHEUNG SHA WAN KOWLOON",
+        "shareholding": "2906226",
+        "shareholdingFormatted": "2,906,226",
+        "percentage": "0.03%"
+      },
+      {
+        "participantId": "B01727",
+        "participantName": "ICBC (ASIA) SECURITIES LTD",
+        "address": "2/F ONE HARBOURFRONT 18-22 TAK FUNG ST HUNG HOM KOWLOON",
+        "shareholding": "2619636",
+        "shareholdingFormatted": "2,619,636",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "C00058",
+        "participantName": "CHINA CITIC BANK INTERNATIONAL LTD",
+        "address": "30/F TWO TAIKOO PLACE TAIKOO PLACE 979 KING'S ROAD QUARRY BAY HONG KONG",
+        "shareholding": "2462488",
+        "shareholdingFormatted": "2,462,488",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "B01610",
+        "participantName": "KGI ASIA LTD",
+        "address": "41/F CENTRAL PLAZA 18 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "2373664",
+        "shareholdingFormatted": "2,373,664",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "B01695",
+        "participantName": "DAH SING SECURITIES LTD",
+        "address": "SUITE 1910 19/F ISLAND PLACE TOWER 510 KING'S ROAD NORTH POINT HONG KONG",
+        "shareholding": "2353039",
+        "shareholdingFormatted": "2,353,039",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "B01272",
+        "participantName": "FB SECURITIES (HONG KONG) LTD",
+        "address": "ROOM 2501-04 25/F WING ON HOUSE 71 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "2307250",
+        "shareholdingFormatted": "2,307,250",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "C00041",
+        "participantName": "OCBC BANK (HONG KONG) LTD",
+        "address": "1/F EASTERN CENTRAL PLAZA 3 YIU HING ROAD SHAU KEI WAN HONG KONG",
+        "shareholding": "2306893",
+        "shareholdingFormatted": "2,306,893",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "C00036",
+        "participantName": "CHINA CONSTRUCTION BANK (ASIA)",
+        "address": "20/F CCB CENTRE 18 WANG CHIU ROAD KOWLOON BAY KOWLOON",
+        "shareholding": "2271757",
+        "shareholdingFormatted": "2,271,757",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "C00026",
+        "participantName": "CHONG HING BANK LTD",
+        "address": "LEVEL 25 TOWER 2 ENTERPRISE SQUARE FIVE (MEGABOX) 38 WANG CHIU ROAD KOWLOON BAY KOWLOON",
+        "shareholding": "2258138",
+        "shareholdingFormatted": "2,258,138",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "B01825",
+        "participantName": "GUOYUAN SECURITIES BROKERAGE (HONG KONG)",
+        "address": "17/F THREE EXCHANGE SQUARE 8 CONNAUGHT ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "2144500",
+        "shareholdingFormatted": "2,144,500",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "B01138",
+        "participantName": "CLSA LTD",
+        "address": "18/F ONE PACIFIC PLACE 88 QUEENSWAY HONG KONG",
+        "shareholding": "2134444",
+        "shareholdingFormatted": "2,134,444",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "C00002",
+        "participantName": "BANK OF COMMUNICATIONS TRUSTEE LTD",
+        "address": "16/F COS CENTRE 56 TSUN YIP STREET KWUN TONG KOWLOON",
+        "shareholding": "2011967",
+        "shareholdingFormatted": "2,011,967",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "C00111",
+        "participantName": "SOCIETE GENERALE",
+        "address": "38/F THREE PACIFIC PLACE 1 QUEEN'S ROAD EAST HONG KONG",
+        "shareholding": "1986169",
+        "shareholdingFormatted": "1,986,169",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "B01143",
+        "participantName": "HAITONG INTERNATIONAL SECURITIES CO LTD",
+        "address": "22/F LI PO CHUN CHAMBERS 189 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "1922749",
+        "shareholdingFormatted": "1,922,749",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "B01668",
+        "participantName": "BRIGHT SMART SECURITIES INTERNATIONAL",
+        "address": "10/F WING ON HOUSE 71 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "1852941",
+        "shareholdingFormatted": "1,852,941",
+        "percentage": "0.02%"
+      },
+      {
+        "participantId": "B01829",
+        "participantName": "HUATAI FINANCIAL HOLDINGS (HONG KONG)",
+        "address": "62/F THE CENTER 99 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "1747657",
+        "shareholdingFormatted": "1,747,657",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01826",
+        "participantName": "GF SECURITIES (HONG KONG) BROKERAGE LTD",
+        "address": "27/F GF TOWER 81 LOCKHART ROAD WAN CHAI HONG KONG",
+        "shareholding": "1647366",
+        "shareholdingFormatted": "1,647,366",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01938",
+        "participantName": "CHINA INDUSTRIAL SECURITIES",
+        "address": "32/F INFINITUS PLAZA 199 DES VOEUX ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "1627677",
+        "shareholdingFormatted": "1,627,677",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "C00095",
+        "participantName": "EFG BANK AG",
+        "address": "18/F INTERNATIONAL COMMERCE CENTRE 1 AUSTIN ROAD WEST KOWLOON",
+        "shareholding": "1559934",
+        "shareholdingFormatted": "1,559,934",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01581",
+        "participantName": "KINGSWAY FINANCIAL SERVICES GROUP LTD",
+        "address": "7/F TOWER 1 LIPPO CENTRE 89 QUEENSWAY HONG KONG",
+        "shareholding": "1529932",
+        "shareholdingFormatted": "1,529,932",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01256",
+        "participantName": "SINOLINK SECURITIES (HONG KONG) CO LTD",
+        "address": "UNIT 3501-08 35/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "1490000",
+        "shareholdingFormatted": "1,490,000",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01497",
+        "participantName": "SINOPAC SECURITIES (ASIA) LTD",
+        "address": "7/F LEE GARDEN THREE 1 SUNNING ROAD CAUSEWAY BAY HONG KONG",
+        "shareholding": "1340666",
+        "shareholdingFormatted": "1,340,666",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01347",
+        "participantName": "CGS INTERNATIONAL SECURITIES HK LTD",
+        "address": "UNIT 2808B-2811 28/F WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "1311738",
+        "shareholdingFormatted": "1,311,738",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01118",
+        "participantName": "EAST ASIA SECURITIES CO LTD",
+        "address": "C/O BEA SETTLEMENT OPERATIONS DEPT-IOS 35/F BEA TOWER MILLENNIUM CITY 5 418 KWUN TONG ROAD KOWLOON",
+        "shareholding": "1281429",
+        "shareholdingFormatted": "1,281,429",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01264",
+        "participantName": "MIB SECURITIES (HONG KONG) LTD",
+        "address": "28/F LEE GARDEN THREE 1 SUNNING ROAD CAUSEWAY BAY HONG KONG",
+        "shareholding": "1269439",
+        "shareholdingFormatted": "1,269,439",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01842",
+        "participantName": "BOCOM INTERNATIONAL SECURITIES LTD",
+        "address": "11/F MAN YEE BUILDING 68 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "1268522",
+        "shareholdingFormatted": "1,268,522",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B02195",
+        "participantName": "LONG BRIDGE HK LTD",
+        "address": "SUITES 1801-1804 & 1815-1816 18TH FLOOR ONE INTERNATIONAL FINANCE CENTRE NO.1 HARBOUR VIEW STREET HONG KONG",
+        "shareholding": "1203263",
+        "shareholdingFormatted": "1,203,263",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01115",
+        "participantName": "SHENWAN HONGYUAN SECURITIES (H.K.) LTD",
+        "address": "LEVEL 19 28 HENNESSY ROAD HONG KONG",
+        "shareholding": "1177326",
+        "shareholdingFormatted": "1,177,326",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01338",
+        "participantName": "EMPEROR SECURITIES LTD",
+        "address": "23/F-24/F EMPEROR GROUP CENTRE 288 HENNESSY ROAD WANCHAI HONG KONG",
+        "shareholding": "1154991",
+        "shareholdingFormatted": "1,154,991",
+        "percentage": "0.01%"
+      },
+      {
+        "participantId": "B01584",
+        "participantName": "CHIEF SECURITIES LTD",
+        "address": "5/F WORLD-WIDE HOUSE 19 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "908133",
+        "shareholdingFormatted": "908,133",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01890",
+        "participantName": "GUOSEN SECURITIES (HK) BROKERAGE CO LTD",
+        "address": "SUITES 3207-3212 32/F ONE PACIFIC PLACE 88 QUEENSWAY HONG KONG",
+        "shareholding": "898116",
+        "shareholdingFormatted": "898,116",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01885",
+        "participantName": "HAFOO SECURITIES LTD",
+        "address": "UNIT 3203 TOWER 1 ADMIRALTY CENTRE 18 HARCOURT ROAD ADMIRALTY HONG KONG",
+        "shareholding": "832917",
+        "shareholdingFormatted": "832,917",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01777",
+        "participantName": "DAIWA CAPITAL MARKETS HONG KONG LTD",
+        "address": "LEVEL 26 ONE PACIFIC PLACE 88 QUEENSWAY HONG KONG",
+        "shareholding": "822450",
+        "shareholdingFormatted": "822,450",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02132",
+        "participantName": "BOOM SECURITIES (H.K.) LTD",
+        "address": "ROOM 2801 28/F TOWER 1 THE MILLENNITY 98 HOW MING STREET KWUN TONG KOWLOON",
+        "shareholding": "796481",
+        "shareholdingFormatted": "796,481",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01929",
+        "participantName": "CHINA GALAXY INTERNATIONAL SECURITIES",
+        "address": "20/F WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "793902",
+        "shareholdingFormatted": "793,902",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01904",
+        "participantName": "VALUABLE CAPITAL LTD",
+        "address": "ROOM 3606 36/F CHINA MERCHANTS TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "792759",
+        "shareholdingFormatted": "792,759",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02176",
+        "participantName": "PING AN SECURITIES (HONG KONG) CO LTD",
+        "address": "UNITS 3601, 07 & 11-13 36/F THE CENTER 99 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "764011",
+        "shareholdingFormatted": "764,011",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01900",
+        "participantName": "ORIENT SECURITIES (HONG KONG) LTD",
+        "address": "28/F 100 QUEEN'S ROAD CENTER 100 QRC CENTRAL HONG KONG",
+        "shareholding": "756698",
+        "shareholdingFormatted": "756,698",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01459",
+        "participantName": "IFAST SECURITIES (HK) LTD",
+        "address": "SUITES 701-702, 706-713 TOWER 5 THE GATEWAY TSIM SHA TSUI KOWLOON",
+        "shareholding": "660639",
+        "shareholdingFormatted": "660,639",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01773",
+        "participantName": "TOYO SECURITIES ASIA LTD",
+        "address": "SUITES 2301-02 & 16 23/FL CITY PLAZA ONE 1111 KING'S ROAD TAIKOO SHING HONG KONG",
+        "shareholding": "645100",
+        "shareholdingFormatted": "645,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01905",
+        "participantName": "SDICS INTERNATIONAL SECURITIES (HONG",
+        "address": "39/F ONE EXCHANGE SQUARE CENTRAL HONG KONG",
+        "shareholding": "637310",
+        "shareholdingFormatted": "637,310",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01183",
+        "participantName": "CHONG HING SECURITIES LTD",
+        "address": "2/F CHONG HING BANK CENTRE 24 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "634892",
+        "shareholdingFormatted": "634,892",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02042",
+        "participantName": "MONMONKEY GROUP SECURITIES LTD",
+        "address": "UNIT 2418 24/F CHINA MERCHANTS TOWER SHUN TAK CENTRE 168 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "618805",
+        "shareholdingFormatted": "618,805",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "C00048",
+        "participantName": "CHIYU BANKING CORPORATION LTD",
+        "address": "23/F BANK OF CHINA CENTRE OLYMPIAN CITY 11 HOI FAI ROAD WEST KOWLOON KOWLOON",
+        "shareholding": "617420",
+        "shareholdingFormatted": "617,420",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01962",
+        "participantName": "CHINA SECURITIES (INTERNATIONAL)",
+        "address": "18/F TWO EXCHANGE SQUARE 8 CONNAUGHT PLACE CENTRAL HONG KONG",
+        "shareholding": "543032",
+        "shareholdingFormatted": "543,032",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01858",
+        "participantName": "YUANTA SECURITIES (HONG KONG) CO LTD",
+        "address": "23/F TOWER 1 ADMIRALTY CENTRE 18 HARCOURT ROAD ADMIRALTY HONG KONG",
+        "shareholding": "509766",
+        "shareholdingFormatted": "509,766",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01866",
+        "participantName": "ICBC INTERNATIONAL SECURITIES LTD",
+        "address": "37/F ICBC TOWER 3 GARDEN ROAD HONG KONG",
+        "shareholding": "503500",
+        "shareholdingFormatted": "503,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01813",
+        "participantName": "CCB INTERNATIONAL SECURITIES LTD",
+        "address": "12/F CCB TOWER 3 CONNAUGHT ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "485325",
+        "shareholdingFormatted": "485,325",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01849",
+        "participantName": "CIS SECURITIES ASSET MANAGEMENT LTD",
+        "address": "21/F CENTRE POINT 181-185 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "454602",
+        "shareholdingFormatted": "454,602",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01284",
+        "participantName": "HANG SENG SECURITIES LTD",
+        "address": "HANG SENG 113 113 ARGYLE STREET MONGKOK KOWLOON",
+        "shareholding": "376500",
+        "shareholdingFormatted": "376,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01959",
+        "participantName": "ZHONGTAI INTERNATIONAL SECURITIES LTD",
+        "address": "7/F LI PO CHUN CHAMBERS 189 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "364003",
+        "shareholdingFormatted": "364,003",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02192",
+        "participantName": "HUAFU INTERNATIONAL SECURITIES LTD",
+        "address": "UNITS 2603-04 26/F INFINITUS PLAZA 199 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "321700",
+        "shareholdingFormatted": "321,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01623",
+        "participantName": "TAI FUNG KUENTAI SECURITIES CO LTD",
+        "address": "RM 3310 33/F BANK OF AMERICA TOWER 12 HARCOURT ROAD CENTRAL HONG KONG",
+        "shareholding": "320400",
+        "shareholdingFormatted": "320,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01939",
+        "participantName": "SOOCHOW SECURITIES INTERNATIONAL",
+        "address": "LEVEL 17 THREE PACIFIC PLACE 1 QUEEN'S ROAD EAST HONG KONG",
+        "shareholding": "294830",
+        "shareholdingFormatted": "294,830",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01832",
+        "participantName": "MIZUHO SECURITIES ASIA LTD",
+        "address": "14/F-15/F K11 ATELIER 18 SALISBURY ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "268440",
+        "shareholdingFormatted": "268,440",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02159",
+        "participantName": "USMART SECURITIES LTD",
+        "address": "UNIT 2606-07 26/F FWD FINANCIAL CENTRE 308 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "239250",
+        "shareholdingFormatted": "239,250",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02120",
+        "participantName": "LIVERMORE HOLDINGS LTD",
+        "address": "UNIT 1214A 12/F TOWER II CHEUNG SHA WAN PLAZA 833 CHEUNG SHA WAN ROAD KOWLOON",
+        "shareholding": "235801",
+        "shareholdingFormatted": "235,801",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01830",
+        "participantName": "MIRAE ASSET SECURITIES (HK) LTD",
+        "address": "SUITE 8501,8507-8508 85/F ICC KOWLOON",
+        "shareholding": "223101",
+        "shareholdingFormatted": "223,101",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "C00107",
+        "participantName": "INDUSTRIAL BANK CO., LTD.",
+        "address": "12/F ONE INTERNATIONAL FINANCE CENTRE 1 HARBOUR VIEW STREET CENTRAL HONG KONG",
+        "shareholding": "211965",
+        "shareholdingFormatted": "211,965",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01555",
+        "participantName": "ABN AMRO CLEARING HONG KONG LTD",
+        "address": "SUITE 2407-2409 LEVEL 24 THREE PACIFIC PLACE 1 QUEEN'S ROAD EAST HONG KONG",
+        "shareholding": "207206",
+        "shareholdingFormatted": "207,206",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01947",
+        "participantName": "FUBON SECURITIES (HONG KONG) LTD",
+        "address": "UNIT 1002 10/F HONG KONG LI-NING BUILDING 218 ELECTRIC ROAD NORTH POINT HONG KONG",
+        "shareholding": "206859",
+        "shareholdingFormatted": "206,859",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01564",
+        "participantName": "ABCI SECURITIES CO LTD",
+        "address": "13/F FAIRMONT HOUSE 8 COTTON TREE DRIVE CENTRAL HONG KONG",
+        "shareholding": "193300",
+        "shareholdingFormatted": "193,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01129",
+        "participantName": "WOCOM SECURITIES LTD",
+        "address": "RM 1002 WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "191074",
+        "shareholdingFormatted": "191,074",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01833",
+        "participantName": "CTBC ASIA LTD",
+        "address": "RM 2809 28/F TWO INTERNATIONAL FINANCE CENTRE 8 FINANCE STREET CENTRAL HONG KONG",
+        "shareholding": "187600",
+        "shareholdingFormatted": "187,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01423",
+        "participantName": "PRUDENTIAL BROKERAGE LTD",
+        "address": "RM 901-904 WORLD WIDE HOUSE 19 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "183577",
+        "shareholdingFormatted": "183,577",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02102",
+        "participantName": "ZINVEST GLOBAL LTD",
+        "address": "RM 3502 LIPPO CENTRE TOWER 2 89 QUEENSWAY HONG KONG",
+        "shareholding": "181121",
+        "shareholdingFormatted": "181,121",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01181",
+        "participantName": "FOSUN INTERNATIONAL SECURITIES LTD",
+        "address": "SUITE 2101-2105 21/F CHAMPION TOWER 3 GARDEN ROAD CENTRAL HONG KONG",
+        "shareholding": "162965",
+        "shareholdingFormatted": "162,965",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01673",
+        "participantName": "FULBRIGHT SECURITIES LTD",
+        "address": "UNIT 2207 WEST TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "157564",
+        "shareholdingFormatted": "157,564",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01894",
+        "participantName": "MFG LIMITED",
+        "address": "25/F HENLEY BUILDING 5 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "153365",
+        "shareholdingFormatted": "153,365",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01324",
+        "participantName": "FUNDERSTONE SECURITIES LTD",
+        "address": "ROOM 1802 18/F CAPITAL CENTRE NO. 151 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "147700",
+        "shareholdingFormatted": "147,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01973",
+        "participantName": "PC SECURITIES LTD",
+        "address": "11/F LEE GARDEN FIVE 18 HYSAN AVENUE CAUSEWAY BAY HONG KONG",
+        "shareholding": "134000",
+        "shareholdingFormatted": "134,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01556",
+        "participantName": "LUK FOOK SECURITIES (HK) LTD",
+        "address": "UNITS 2201-2205 22/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "131295",
+        "shareholdingFormatted": "131,295",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01209",
+        "participantName": "MASON SECURITIES LTD",
+        "address": "2101 21/F CONVENTION PLAZA OFFICE TOWER 1 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "128432",
+        "shareholdingFormatted": "128,432",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01169",
+        "participantName": "PUBLIC FINANCIAL SECURITIES LTD",
+        "address": "10/F PUBLIC BANK CENTRE 120 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "125170",
+        "shareholdingFormatted": "125,170",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01940",
+        "participantName": "SOFI SECURITIES (HONG KONG) LTD",
+        "address": "21/F H CODE 45 POTTINGER STREET CENTRAL HONG KONG",
+        "shareholding": "118102",
+        "shareholdingFormatted": "118,102",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02206",
+        "participantName": "ZIRCON SECURITIES (HK) LTD",
+        "address": "16/F RYKADAN CAPITAL TOWER 135 HOI BUN ROAD KWUN TONG KOWLOON",
+        "shareholding": "115383",
+        "shareholdingFormatted": "115,383",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02163",
+        "participantName": "GOLDEN EAGLE BROKERAGE LTD",
+        "address": "UNIT 2115 21/F NORTH TOWER CONCORDIA PLAZA NO.1 SCIENCE MUSEUM ROAD KOWLOON",
+        "shareholding": "115299",
+        "shareholdingFormatted": "115,299",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01289",
+        "participantName": "SOUTH CHINA SECURITIES LTD",
+        "address": "28/F BANK OF CHINA TOWER 1 GARDEN RD CENTRAL HONG KONG",
+        "shareholding": "115011",
+        "shareholdingFormatted": "115,011",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01275",
+        "participantName": "SANFULL SECURITIES LTD",
+        "address": "RM 2001-2006 COSCO TOWER 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "109140",
+        "shareholdingFormatted": "109,140",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02032",
+        "participantName": "FORTHRIGHT SECURITIES CO LTD",
+        "address": "20/F GOLDEN CENTRE 188 DES VOEUX ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "107857",
+        "shareholdingFormatted": "107,857",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01123",
+        "participantName": "HING WONG SECURITIES LTD",
+        "address": "19/F UNIT A UNITED CENTRE 95 QUEENSWAY HONG KONG",
+        "shareholding": "104000",
+        "shareholdingFormatted": "104,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01445",
+        "participantName": "VICTORY SECURITIES CO LTD",
+        "address": "RM 1101-3 11/F YARDLEY COMMERCIAL BLDG 3 CONNAUGHT ROAD WEST SHEUNG WAN HONG KONG",
+        "shareholding": "101500",
+        "shareholdingFormatted": "101,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01649",
+        "participantName": "CINDA INTERNATIONAL SECURITIES LTD",
+        "address": "45TH FLOOR COSCO TOWER 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "100880",
+        "shareholdingFormatted": "100,880",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01119",
+        "participantName": "CELESTIAL SECURITIES LTD",
+        "address": "22/F MANHATTAN PLACE 23 WANG TAI ROAD KOWLOON BAY KOWLOON",
+        "shareholding": "100001",
+        "shareholdingFormatted": "100,001",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01875",
+        "participantName": "GUODU SECURITIES (HONG KONG) LTD",
+        "address": "RM 1307 13/F BANK OF AMERICA TOWER 12 HARCOURT ROAD CENTRAL HONG KONG",
+        "shareholding": "100000",
+        "shareholdingFormatted": "100,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01230",
+        "participantName": "GAOYU SECURITIES LIMITED",
+        "address": "SUITE 4409 44/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "98300",
+        "shareholdingFormatted": "98,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01184",
+        "participantName": "QUAM SECURITIES LTD",
+        "address": "5/F,RM 2401&2412 WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "94458",
+        "shareholdingFormatted": "94,458",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02210",
+        "participantName": "ARK GROUP HOLDINGS (HONG KONG) LTD",
+        "address": "34/F TOWER TWO TIMES SQUARE 1 MATHESON STREET CAUSEWAY BAY HONG KONG",
+        "shareholding": "85300",
+        "shareholdingFormatted": "85,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01848",
+        "participantName": "CATHAY SECURITIES (HONG KONG) LTD",
+        "address": "RM 1001 10/F CHINA BUILDING 29 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "84940",
+        "shareholdingFormatted": "84,940",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01455",
+        "participantName": "NATIONAL RESOURCES SECURITIES LTD",
+        "address": "RM 102 1/F ON HONG COMMERCIAL BUILDING 145 HENNESSY ROAD WANCHAI HONG KONG",
+        "shareholding": "84400",
+        "shareholdingFormatted": "84,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01252",
+        "participantName": "CORPORATE BROKERS LTD",
+        "address": "UNIT 408-409 4/F FORTRESS TOWER 250 KING'S ROAD FORTRESS HILL HONG KONG",
+        "shareholding": "84000",
+        "shareholdingFormatted": "84,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01937",
+        "participantName": "CHANGJIANG SECURITIES BROKERAGE (HK) LTD",
+        "address": "UNIT 3605-3611 36/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "82900",
+        "shareholdingFormatted": "82,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02108",
+        "participantName": "WK SECURITIES LTD",
+        "address": "UNIT 1501 15/F TAI TUNG BUILDING NO.8 FLEMING ROAD WAN CHAI HONG KONG",
+        "shareholding": "81700",
+        "shareholdingFormatted": "81,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01265",
+        "participantName": "OCBC SECURITIES BROKERAGE (HK) LTD",
+        "address": "1/F CHUN WO COMMERCIAL CENTRE 23-29 WING WO STREET CENTRAL HONG KONG",
+        "shareholding": "80065",
+        "shareholdingFormatted": "80,065",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01893",
+        "participantName": "WINCO SECURITIES CO LTD",
+        "address": "RM 1404 14/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "78000",
+        "shareholdingFormatted": "78,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02171",
+        "participantName": "DL SECURITIES (HK) LTD",
+        "address": "21/F DL TOWER 92 WELLINGTON STREET CENTRAL HONG KONG",
+        "shareholding": "77000",
+        "shareholdingFormatted": "77,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02175",
+        "participantName": "WEBULL SECURITIES LTD",
+        "address": "SUITES 2509-12 25/F TOWER 6 THE GATEWAY HARBOUR CITY KOWLOON",
+        "shareholding": "73224",
+        "shareholdingFormatted": "73,224",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01669",
+        "participantName": "FIRST SECURITIES (HK) LTD",
+        "address": "RM 1708-1710 17/F CHINA INSURANCE GROUP BUILDING 141 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "71500",
+        "shareholdingFormatted": "71,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01298",
+        "participantName": "GET NICE SECURITIES LTD",
+        "address": "G/F-3/F COSCO TOWER GRAND MILLENNIUM PLAZA 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "70000",
+        "shareholdingFormatted": "70,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01246",
+        "participantName": "ROCTEC SECURITIES CO LTD",
+        "address": "ROOM 3908 39/F THE CENTER 99 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "69600",
+        "shareholdingFormatted": "69,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01810",
+        "participantName": "ASTRUM CAPITAL MANAGEMENT LTD",
+        "address": "RM 2704 TOWER 1 ADMIRALTY CENTRE 18 HARCOURT ROAD ADMIRALTY HONG KONG",
+        "shareholding": "66000",
+        "shareholdingFormatted": "66,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01567",
+        "participantName": "PRIME SECURITIES LTD",
+        "address": "ROOM 1602 16/F KAI TAK COMMERCIAL BUILDING 317-319 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "62450",
+        "shareholdingFormatted": "62,450",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01425",
+        "participantName": "WELLFULL SECURITIES CO LTD",
+        "address": "RM 406 4/F HOUSTON CENTRE 63 MODY ROAD TSIMSHATSUI EAST KOWLOON",
+        "shareholding": "62400",
+        "shareholdingFormatted": "62,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01641",
+        "participantName": "FULL WIN SECURITIES LTD",
+        "address": "RM 1101 11/F YUE SHING COMMERCIAL BUILDING 15-16 QUEEN VICTORIA STREET CENTRAL HONG KONG",
+        "shareholding": "61900",
+        "shareholdingFormatted": "61,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01552",
+        "participantName": "CARRIER STOCK INVESTMENT CO LTD",
+        "address": "FLAT 1A 1/F MAN HING COMMERCIAL BUILDING 79-83 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "61000",
+        "shareholdingFormatted": "61,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01470",
+        "participantName": "HUNG SING SECURITIES LTD",
+        "address": "SUITE 2505 25/F WEST TOWER SHUN TAK CENTRE 200 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "60600",
+        "shareholdingFormatted": "60,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01734",
+        "participantName": "KCG SECURITIES ASIA LTD",
+        "address": "UNIT 2 24/F WORLDWIDE HOUSE 19 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "58205",
+        "shareholdingFormatted": "58,205",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01963",
+        "participantName": "TFI SECURITIES AND FUTURES LTD",
+        "address": "16/F TWO PACIFIC PLACE 88 QUEENSWAY ADMIRALTY HONG KONG",
+        "shareholding": "57700",
+        "shareholdingFormatted": "57,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01980",
+        "participantName": "SHANXI SECURITIES INTERNATIONAL LTD",
+        "address": "UNIT A 29/F ADMIRALTY CENTRE TOWER 1 18 HARCOURT ROAD ADMIRALTY HONG KONG",
+        "shareholding": "56800",
+        "shareholdingFormatted": "56,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01787",
+        "participantName": "SOO PUI CHEN SECURITIES LTD",
+        "address": "RM 802 CHEONG K BUILDING 86 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "56700",
+        "shareholdingFormatted": "56,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01601",
+        "participantName": "CSC SECURITIES (HK) LTD",
+        "address": "3/F 308 CENTRAL DES VOEUX 308 DES VOEUX ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "55500",
+        "shareholdingFormatted": "55,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01753",
+        "participantName": "FORTUNE (HK) SECURITIES LTD",
+        "address": "UNIT 4102-06 41/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "54100",
+        "shareholdingFormatted": "54,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02183",
+        "participantName": "SPDB INTERNATIONAL SECURITIES LTD",
+        "address": "33/F SPD BANK TOWER ONE HENNESSY 1 HENNESSY ROAD HONG KONG",
+        "shareholding": "53700",
+        "shareholdingFormatted": "53,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01198",
+        "participantName": "PO KAY SECURITIES & SHARES CO LTD",
+        "address": "14/F GRAND BUILDING 15-18 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "52600",
+        "shareholdingFormatted": "52,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01915",
+        "participantName": "METAVERSE SECURITIES LTD",
+        "address": "SUITE 4806-07 48/F CENTRAL PLAZA 18 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "50658",
+        "shareholdingFormatted": "50,658",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01351",
+        "participantName": "WING FUNG SECURITIES LTD",
+        "address": "UNIT 1001-8 10/F COSCO TOWER GRAND MILLENNIUM PLAZA 183 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "49800",
+        "shareholdingFormatted": "49,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01356",
+        "participantName": "DELTA ASIA SECURITIES LTD",
+        "address": "5/F LUK KWOK CENTRE 72 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "48400",
+        "shareholdingFormatted": "48,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01551",
+        "participantName": "YUE XIU SECURITIES CO LTD",
+        "address": "ROOM NOS 4917-4937 49/F SUN HUNG KAI CENTRE 30 HABOUR ROAD WAN CHAI HONG KONG",
+        "shareholding": "46920",
+        "shareholdingFormatted": "46,920",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01814",
+        "participantName": "WELL LINK SECURITIES LTD",
+        "address": "UNIT 13-15 11/F CHINA MERCHANTS TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "45600",
+        "shareholdingFormatted": "45,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01322",
+        "participantName": "WATON SECURITIES INTERNATIONAL LIMITED",
+        "address": "SUITES 3605-6 36/F TOWER 6 THE GATEWAY HARBOUR CITY KOWLOON",
+        "shareholding": "42500",
+        "shareholdingFormatted": "42,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01585",
+        "participantName": "SINO GRADE SECURITIES LTD",
+        "address": "ROOM 601-602 6/F TAI PO COMMERCIAL CENTRE 152-172 KWONG FUK ROAD TAI PO NEW TERRITORIES",
+        "shareholding": "42500",
+        "shareholdingFormatted": "42,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02141",
+        "participantName": "XIN YONGAN INTERNATIONAL SECURITIES",
+        "address": "UNITS 3511-15 35/F COSCO TOWER GRAND MILLENNIUM PLAZA 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "42500",
+        "shareholdingFormatted": "42,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01373",
+        "participantName": "CHRISTFUND SECURITIES LTD",
+        "address": "28/F TWO CHINACHEM CENTRAL 26 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "42100",
+        "shareholdingFormatted": "42,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01930",
+        "participantName": "PRIME COURAGE SECURITIES CO LTD",
+        "address": "UNIT A 23/F 88 LOCKHART ROAD WANCHAI HONG KONG",
+        "shareholding": "41400",
+        "shareholdingFormatted": "41,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01588",
+        "participantName": "LEI SHING HONG SECURITIES LTD",
+        "address": "8/F NEW WORLD TOWER I 18 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "40500",
+        "shareholdingFormatted": "40,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02078",
+        "participantName": "AFFLUX SECURITIES LTD",
+        "address": "ROOM 06 11/F EMPEROR GROUP CENTRE 288 HENNESSY ROAD WAN CHAI HONG KONG",
+        "shareholding": "39600",
+        "shareholdingFormatted": "39,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01710",
+        "participantName": "SINO-RICH SECURITIES & FUTURES LTD",
+        "address": "UNIT 2205-06 22/F GLOBAL TRADE SQUARE 21 WONG CHUK HANG ROAD HONG KONG",
+        "shareholding": "39200",
+        "shareholdingFormatted": "39,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01519",
+        "participantName": "GOOD HARVEST SECURITIES CO LTD",
+        "address": "7/F HARBOUR COMMERCIAL BUILDING 122-124 CONNAUGHT ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "38600",
+        "shareholdingFormatted": "38,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01897",
+        "participantName": "CENTRAL WEALTH SECURITIES INVESTMENT LTD",
+        "address": "5/F CHINA TAIPING TOWER PHASE II 8 SUNNING ROAD CAUSEWAY BAY HONG KONG",
+        "shareholding": "38400",
+        "shareholdingFormatted": "38,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01696",
+        "participantName": "HANTEC SECURITIES CO LTD",
+        "address": "12/F SOUTH CHINA BUILDING 1-3 WYNDHAM STREET CENTRAL HONG KONG",
+        "shareholding": "35170",
+        "shareholdingFormatted": "35,170",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01967",
+        "participantName": "YUNFENG SECURITIES LTD",
+        "address": "ROOM 1803-1806 18/F YF LIFE CENTRE 38 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "34372",
+        "shareholdingFormatted": "34,372",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01659",
+        "participantName": "CHEER UNION SECURITIES LTD",
+        "address": "ROOM 2101 21/F TOWER 1 LIPPO CENTRE 89 QUEENSWAY ADMIRALTY HONG KONG",
+        "shareholding": "34000",
+        "shareholdingFormatted": "34,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01576",
+        "participantName": "SIU ON SECURITIES LTD",
+        "address": "32/F SIU ON CENTRE 188 LOCKHART ROAD WANCHAI HONG KONG",
+        "shareholding": "33700",
+        "shareholdingFormatted": "33,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02047",
+        "participantName": "EDDID SECURITIES AND FUTURES LTD",
+        "address": "21/F CITIC TOWER 1 TIM MEI AVENUE CENTRAL HONG KONG",
+        "shareholding": "33400",
+        "shareholdingFormatted": "33,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01514",
+        "participantName": "KARL-THOMSON SECURITIES CO LTD",
+        "address": "RM 607-610 6/F TAI YAU BUILDING 181 JOHNSTON ROAD WANCHAI HONG KONG",
+        "shareholding": "32600",
+        "shareholdingFormatted": "32,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01843",
+        "participantName": "TELECOM KING SECURITIES LTD",
+        "address": "UNIT 1202 12/F TELECOM DIGITAL TOWER 58 TSUN YIP STREET KWUN TONG KOWLOON",
+        "shareholding": "32455",
+        "shareholdingFormatted": "32,455",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02021",
+        "participantName": "NEW HARVEST WEALTH SECURITIES COMPANY",
+        "address": "32/F LEE GARDEN ONE 33 HYSAN AVENUE CAUSEWAY BAY HONG KONG",
+        "shareholding": "31310",
+        "shareholdingFormatted": "31,310",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01511",
+        "participantName": "TAT LEE SECURITIES CO LTD",
+        "address": "RM 1801-1806 PRESIDENT COMMERCIAL CENTRE 608 NATHAN ROAD MONGKOK KOWLOON",
+        "shareholding": "30000",
+        "shareholdingFormatted": "30,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01785",
+        "participantName": "PARTNERS CAPITAL SECURITIES LTD",
+        "address": "UNIT 4911-12 49/F THE CENTRE 99 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "29700",
+        "shareholdingFormatted": "29,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01949",
+        "participantName": "GRAND CHINA SECURITIES LTD",
+        "address": "RM 503 5/F LOKE YEW 50-52 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "29500",
+        "shareholdingFormatted": "29,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01941",
+        "participantName": "CENTALINE SECURITIES LTD",
+        "address": "SUITES 805-806 8/F SOUTH TOWER WORLD FINANCE CENTRE HARBOUR CITY 17-19 CANTON ROAD TSIMSHATSUI KOWLOON",
+        "shareholding": "29274",
+        "shareholdingFormatted": "29,274",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01948",
+        "participantName": "CAITONG INTERNATIONAL SECURITIES CO LTD",
+        "address": "RM 2401-2405 24/F GRAND MILLENNIUM PLAZA 181 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "29200",
+        "shareholdingFormatted": "29,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01439",
+        "participantName": "TAI TAK SECURITIES (ASIA) LTD",
+        "address": "707A WING ON HOUSE 71 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "28300",
+        "shareholdingFormatted": "28,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01267",
+        "participantName": "WINFULL SECURITIES LTD",
+        "address": "RM 1402 FORTIS BANK TOWER 77-79 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "28200",
+        "shareholdingFormatted": "28,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01978",
+        "participantName": "FOUNDER SECURITIES (HONG KONG) LTD",
+        "address": "ROOM 801-02 8/F SHANGHAI INDUSTRIAL INVESTMENT BUILDING 48-62 HENNESSY ROAD WAN CHAI HONG KONG",
+        "shareholding": "28100",
+        "shareholdingFormatted": "28,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01450",
+        "participantName": "DL BROKERAGE LTD",
+        "address": "1/F WING'S BLDG 110-116 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "27400",
+        "shareholdingFormatted": "27,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01853",
+        "participantName": "CMBC SECURITIES CO LTD",
+        "address": "45/F ONE EXCHANGE SQUARE 8 CONNAUGHT PLACE CENTRAL HONG KONG",
+        "shareholding": "27200",
+        "shareholdingFormatted": "27,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01158",
+        "participantName": "SOLID KING SECURITIES LTD",
+        "address": "UNITS 1205-6 12/F WEST TOWER SHUN TAK CENTRE 200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "25500",
+        "shareholdingFormatted": "25,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02156",
+        "participantName": "LINKWAYS INVESTMENT MANAGEMENT LTD",
+        "address": "ROOM 702 7/F DINA HOUSE 3-11 DUDDELL STREET CENTRAL HONG KONG",
+        "shareholding": "25499",
+        "shareholdingFormatted": "25,499",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01782",
+        "participantName": "SEAGA INTERNATIONAL LTD",
+        "address": "3/F MONARCH HOUSE II 501-503 HENNESSY ROAD CAUSEWAY BAY HONG KONG",
+        "shareholding": "25100",
+        "shareholdingFormatted": "25,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01809",
+        "participantName": "CHINA SYSTEM SECURITIES LTD",
+        "address": "ROOM 1201-02 12/F TUNG HIP COMMERCIAL BUILDING 252 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "24900",
+        "shareholdingFormatted": "24,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01580",
+        "participantName": "OSHIDORI SECURITIES LTD",
+        "address": "25/F CHINA UNITED CENTRE 28 MARBLE ROAD NORTH POINT HONG KONG",
+        "shareholding": "24600",
+        "shareholdingFormatted": "24,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01253",
+        "participantName": "STOCKWELL SECURITIES LTD",
+        "address": "UNITS 406-410 4/F TOWER 2 SILVERCORD 30 CANTON ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "24440",
+        "shareholdingFormatted": "24,440",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01645",
+        "participantName": "SELINA & CO LTD",
+        "address": "SUITE 2401 CHINACHEM EXCHANGE SQUARE 1 HOI WAN STREET QUARRY BAY HONG KONG",
+        "shareholding": "23800",
+        "shareholdingFormatted": "23,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01986",
+        "participantName": "HUAJIN SECURITIES (INTERNATIONAL) LTD",
+        "address": "SUITE 1101-1106 11/F CHAMPION TOWER 3 GARDEN ROAD CENTRAL HONG KONG",
+        "shareholding": "23000",
+        "shareholdingFormatted": "23,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01213",
+        "participantName": "MONEYMORE SECURITIES LTD",
+        "address": "6TH FLOOR MALAHON CENTRE 8-12 STANLEY STREET CENTRAL HONG KONG",
+        "shareholding": "21900",
+        "shareholdingFormatted": "21,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01173",
+        "participantName": "RIFA SECURITIES LTD",
+        "address": "LEVEL 7 28 HENNESSY ROAD WANCHAI HONG KONG",
+        "shareholding": "21800",
+        "shareholdingFormatted": "21,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01793",
+        "participantName": "ASIA PACIFIC CAPITAL SECURITIES LTD",
+        "address": "ROOM 509 5/F STAG BUILDING 148-150 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "21800",
+        "shareholdingFormatted": "21,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01458",
+        "participantName": "YICKO SECURITIES LTD",
+        "address": "19TH FLOOR TUNG NING BUILDING 125-7 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "21430",
+        "shareholdingFormatted": "21,430",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01925",
+        "participantName": "BMI SECURITIES LTD",
+        "address": "SUITES 2701-2708 27/F SHUI ON CENTRE 6-8 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "21200",
+        "shareholdingFormatted": "21,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01523",
+        "participantName": "EVER-LONG SECURITIES CO LTD",
+        "address": "ROOMS 301-303 3/F 12 TAIKOO WAN ROAD TAIKOO SHING QUARRY BAY HONG KONG",
+        "shareholding": "20900",
+        "shareholdingFormatted": "20,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01909",
+        "participantName": "SHENG YUAN SECURITIES LTD",
+        "address": "UNITS 3208-9 32/F GRAND MILLENNIUM PLAZA COSCO TOWER 183 QUEEN'S ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "20600",
+        "shareholdingFormatted": "20,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01592",
+        "participantName": "PLATINUM BROKING CO LTD",
+        "address": "21/F LHT TOWER 31 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "20300",
+        "shareholdingFormatted": "20,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01540",
+        "participantName": "UPBEST SECURITIES CO LTD",
+        "address": "2/F WAH KIT COMMERCIAL CENTRE 302 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "20200",
+        "shareholdingFormatted": "20,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01666",
+        "participantName": "GLORY SUN SECURITIES LTD",
+        "address": "ROOM 2307-09 23/F CHINA RESOURCES BUILDING 26 HARBOUR ROAD WAN CHAI HONG KONG",
+        "shareholding": "19600",
+        "shareholdingFormatted": "19,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01714",
+        "participantName": "HEAD & SHOULDERS SECURITIES LTD",
+        "address": "28/F QUEEN'S ROAD CENTRE 152 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "19600",
+        "shareholdingFormatted": "19,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01676",
+        "participantName": "TAI SHING STOCK INVESTMENT CO LTD",
+        "address": "ROOM 801-804 HALESON BUILDING 1 JUBILEE STREET CENTRAL HONG KONG",
+        "shareholding": "19175",
+        "shareholdingFormatted": "19,175",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02030",
+        "participantName": "SR WEALTH SECURITIES LTD",
+        "address": "UNIT 1305 13/F WEST TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "18700",
+        "shareholdingFormatted": "18,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01546",
+        "participantName": "WO FUNG SECURITIES CO LTD",
+        "address": "2/F SIU YING COMM BLDG 151-155 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "18300",
+        "shareholdingFormatted": "18,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01433",
+        "participantName": "HING WAI ALLIED SECURITIES LTD",
+        "address": "RM 2902-2903 118 CONNAUGHT ROAD WEST HONG KONG",
+        "shareholding": "17900",
+        "shareholdingFormatted": "17,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01494",
+        "participantName": "AUDREY CHOW SECURITIES LTD",
+        "address": "6/F GRAND BUILDING 15-18 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "17300",
+        "shareholdingFormatted": "17,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02099",
+        "participantName": "DA INTERNATIONAL FINANCIAL SERVICE LTD",
+        "address": "RM 4704-06 47/F HOPEWELL CENTRE 183 QUEEN'S ROAD EAST WAN CHAI HONG KONG",
+        "shareholding": "16500",
+        "shareholdingFormatted": "16,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01958",
+        "participantName": "TOPAZ FINANCIAL GROUP LTD",
+        "address": "ROOMS 2709-12 27/F WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "16400",
+        "shareholdingFormatted": "16,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02177",
+        "participantName": "ZHESHANG INTERNATIONAL FINANCIAL",
+        "address": "ROOM 1703-06 17/F INFINITUS PLAZA 199 DES VOEUX ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "16300",
+        "shareholdingFormatted": "16,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01886",
+        "participantName": "CNI SECURITIES GROUP LTD",
+        "address": "UNIT A 26/F TIMES MEDIA CENTRE 133 WANCHAI ROAD WANCHAI HONG KONG",
+        "shareholding": "16100",
+        "shareholdingFormatted": "16,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01292",
+        "participantName": "ALPHA SECURITIES CO LTD",
+        "address": "RM 3702A 37/F FAR EAST FINANCE CENTRE 16 HARCOURT ROAD ADMIRALTY HONG KONG",
+        "shareholding": "15800",
+        "shareholdingFormatted": "15,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02181",
+        "participantName": "GRAND CAPITAL SECURITIES LTD",
+        "address": "21/F SILVER FORTUNE PLAZA 1 WELLINGTON STREET CENTRAL HONG KONG",
+        "shareholding": "15800",
+        "shareholdingFormatted": "15,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01971",
+        "participantName": "HGNH INTERNATIONAL SECURITIES CO LTD",
+        "address": "17/F CENTRE POINT 181-185 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "15500",
+        "shareholdingFormatted": "15,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01271",
+        "participantName": "HANG TAI SECURITIES LTD",
+        "address": "ROOM 2105A 21/F K.WAH CENTRE 191 JAVA ROAD NORTH POINT HONG KONG",
+        "shareholding": "15400",
+        "shareholdingFormatted": "15,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01700",
+        "participantName": "REALINK FINANCIAL TRADE LTD",
+        "address": "UNIT 710-715 7/F MILLENNIUM CITY 2 378 KWUN TONG ROAD KOWLOON",
+        "shareholding": "15202",
+        "shareholdingFormatted": "15,202",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01577",
+        "participantName": "YF SECURITIES CO LTD",
+        "address": "11/F CMA BUILDING 64-66 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "15100",
+        "shareholdingFormatted": "15,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02035",
+        "participantName": "PRIME CHINA SECURITIES LTD",
+        "address": "RM B & C 31/F BLOCK B BILLION CENTRE 1 WANG KWONG ROAD KOWLOON",
+        "shareholding": "14800",
+        "shareholdingFormatted": "14,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01401",
+        "participantName": "MEGABASE SECURITIES LTD",
+        "address": "RM 608-609 6/F ONE ISLAND SOUTH 2 HEUNG YIP ROAD HONG KONG",
+        "shareholding": "14300",
+        "shareholdingFormatted": "14,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01936",
+        "participantName": "MIGHTY BROKERAGE (ASIA) LTD",
+        "address": "SHOP 68-70 MANOR CENTRE 218 FUK WING STREET CHEUNG SHA WAN KOWLOON",
+        "shareholding": "14000",
+        "shareholdingFormatted": "14,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01964",
+        "participantName": "HALCYON SECURITIES LTD",
+        "address": "RM 3401 34/F HOPEWELL CENTRE 183 QUEEN'S ROAD EAST WANCHAI HONG KONG",
+        "shareholding": "14000",
+        "shareholdingFormatted": "14,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01510",
+        "participantName": "ORIENTAL PATRON SECURITIES LTD",
+        "address": "SUITES 4004 40/F TWO EXCHANGE SQUARE 8 CONNAUGHT PLACE CENTRAL HONG KONG",
+        "shareholding": "13600",
+        "shareholdingFormatted": "13,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01438",
+        "participantName": "KINGSTON SECURITIES LTD",
+        "address": "72/F THE CENTER 99 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "13500",
+        "shareholdingFormatted": "13,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01653",
+        "participantName": "WAI MAN STOCK & SHARES CO LTD",
+        "address": "RM 2 2/F LAI KWAN COURT 438 CASTLE PEAK ROAD CHEUNG SHA WAN KOWLOON",
+        "shareholding": "13300",
+        "shareholdingFormatted": "13,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01340",
+        "participantName": "LEHIN SECURITIES LTD",
+        "address": "UNIT 1007 10/F CHINA INSURANCE GROUP BUILDING 141 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "12501",
+        "shareholdingFormatted": "12,501",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01350",
+        "participantName": "S. W. WOO & CO LTD",
+        "address": "RM 1803 YUE SHING COMM BLDG 15 QUEEN VICTORIA ST CENTRAL HONG KONG",
+        "shareholding": "12100",
+        "shareholdingFormatted": "12,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01509",
+        "participantName": "UNICORN SECURITIES CO LTD",
+        "address": "RM 502 GENERAL COMMERCIAL BUILDING 156-164 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "11900",
+        "shareholdingFormatted": "11,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01993",
+        "participantName": "CROSBY SECURITIES LTD",
+        "address": "23/F-24/F EMPEROR GROUP CENTRE 288 HENNESSY ROAD WANCHAI HONG KONG",
+        "shareholding": "11850",
+        "shareholdingFormatted": "11,850",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02091",
+        "participantName": "STAR RIVER SECURITIES LTD",
+        "address": "ROOM 2402 WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "11700",
+        "shareholdingFormatted": "11,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01990",
+        "participantName": "GRANDLY FINANCIAL SERVICES LTD",
+        "address": "RM 1403 14/F YUE XIU BUILDING 160-174 LOCKHART ROAD WANCHAI HONG KONG",
+        "shareholding": "11600",
+        "shareholdingFormatted": "11,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01684",
+        "participantName": "WANG ON SECURITIES LTD",
+        "address": "UNIT 3904-06 39/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "11100",
+        "shareholdingFormatted": "11,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02106",
+        "participantName": "HOLLY INTERNATIONAL FINANCIAL HOLDINGS",
+        "address": "FLAT/RM 03-5 20/F JUBILEE CENTRE 46 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "11000",
+        "shareholdingFormatted": "11,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01343",
+        "participantName": "CELETIO INVESTMENTS LTD",
+        "address": "ROOM 2202-3 22/F CHINA INSURANCE GROUP BUILDING 141 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "10800",
+        "shareholdingFormatted": "10,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02003",
+        "participantName": "DONGXING SECURITIES (HONG KONG) CO LTD",
+        "address": "UNIT NOS 7503B-7504 75/F INTERNATIONAL COMMERCE CENTRE 1 AUSTIN ROAD WEST KOWLOON",
+        "shareholding": "10400",
+        "shareholdingFormatted": "10,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01290",
+        "participantName": "SPS SECURITIES LTD",
+        "address": "2/F PINNACLE BUILDING 9 SHIP STREET WANCHAI HONG KONG",
+        "shareholding": "10180",
+        "shareholdingFormatted": "10,180",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01788",
+        "participantName": "SUNRISE SECURITIES LTD",
+        "address": "RM 701-702 YUE SHING COMMERCIAL BUILDING 15 QUEEN VICTORIA STREET CENTRAL HONG KONG",
+        "shareholding": "10000",
+        "shareholdingFormatted": "10,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01483",
+        "participantName": "BULLISH SECURITIES LTD",
+        "address": "RM B 7/F HILLIER COMMERCIAL BUILDING 89 WING LOK ST EAST CENTRAL HONG KONG",
+        "shareholding": "9600",
+        "shareholdingFormatted": "9,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01705",
+        "participantName": "HENIK SECURITIES LTD",
+        "address": "UNIT 901 9/F WORKINGTON TOWER 78 BONHAM STRAND SHEUNG WAN HONG KONG",
+        "shareholding": "9600",
+        "shareholdingFormatted": "9,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01341",
+        "participantName": "TUNG TAI SECURITIES CO LTD",
+        "address": "ROOM 2501 25/F TOWER 1 LIPPO CENTRE 89 QUEENSWAY ADMIRALTY HONG KONG",
+        "shareholding": "9500",
+        "shareholdingFormatted": "9,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01981",
+        "participantName": "BLUESTONE SECURITIES (HK) CO LTD",
+        "address": "ROOM 1701-2 17TH FLOOR STAR HOUSE NO3 SALISBURY ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "9500",
+        "shareholdingFormatted": "9,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02214",
+        "participantName": "WINBULL SECURITIES INTERNATIONAL (HONG",
+        "address": "ROOMS 2202-3 22/F JUBILEE CENTRE 18 FENWICK STREET WAN CHAI HONG KONG",
+        "shareholding": "9300",
+        "shareholdingFormatted": "9,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01469",
+        "participantName": "KAISER SECURITIES LTD",
+        "address": "3102-05 SHUN TAK WEST TOWER 168-200 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "9000",
+        "shareholdingFormatted": "9,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01998",
+        "participantName": "CHINA SUNRISE SECURITIES (INTL) LTD",
+        "address": "UNIT 1501 & 1503 15/F YF LIFE CENTRE 38 GLOUCESTER ROAD WAN CHAI HONG KONG",
+        "shareholding": "9000",
+        "shareholdingFormatted": "9,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01416",
+        "participantName": "VC BROKERAGE LTD",
+        "address": "6/F CENTRE POINT 181-185 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "8900",
+        "shareholdingFormatted": "8,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01615",
+        "participantName": "KAM FAI SECURITIES CO LTD",
+        "address": "21/F CHAMPION BUILDING 287-291 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "8700",
+        "shareholdingFormatted": "8,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01563",
+        "participantName": "XINKONG INTERNATIONAL SECURITIES LTD",
+        "address": "15/F EAST WING CHINA HUARONG TOWER 60 GLOUCESTER ROAD WAN CHAI HONG KONG",
+        "shareholding": "8500",
+        "shareholdingFormatted": "8,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01481",
+        "participantName": "NEW REGION SECURITIES CO LTD",
+        "address": "2907-2909,2912,2914 WING ON HOUSE 71 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "8219",
+        "shareholdingFormatted": "8,219",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01447",
+        "participantName": "BETA INTERNATIONAL SECURITIES LIMITED",
+        "address": "ROOM 3326 33/F CHINA MERCHANTS TOWER SHUN TAK CENTRE 168-200 CONNAUGHT RD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "8100",
+        "shareholdingFormatted": "8,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01863",
+        "participantName": "WESTOCK SECURITIES INTERNATIONAL (HK)",
+        "address": "FLAT 9-10A 10/F WING TUCK COMMERCIAL CENTRE 177-183 WING LOK STREET SHEUNG WAN HONG KONG",
+        "shareholding": "7900",
+        "shareholdingFormatted": "7,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "C00099",
+        "participantName": "TAISHIN INTERNATIONAL BANK CO., LTD",
+        "address": "6/F SUN LIFE TOWER THE GATEWAY 15 CANTON ROAD TSIMSHATSUI KOWLOON",
+        "shareholding": "7822",
+        "shareholdingFormatted": "7,822",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01427",
+        "participantName": "TSE'S SECURITIES LTD",
+        "address": "ROOM 910-911 9/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "7500",
+        "shareholdingFormatted": "7,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02028",
+        "participantName": "SORRENTO SECURITIES LTD",
+        "address": "ROOM 1208 12/F WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "7500",
+        "shareholdingFormatted": "7,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01240",
+        "participantName": "TSUN CHI YUEN SECURITIES CO LTD",
+        "address": "20/F MAN ON COMM BLDG 12 JUBILEE ST CENTRAL HONG KONG",
+        "shareholding": "7433",
+        "shareholdingFormatted": "7,433",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02093",
+        "participantName": "UPMAX SECURITIES LTD",
+        "address": "RM 1717 CHINA MERCHANTS TOWER SHUN TAK CENTRE 168 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "7404",
+        "shareholdingFormatted": "7,404",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01386",
+        "participantName": "SBI CHINA CAPITAL FINANCIAL SERVICES LTD",
+        "address": "4/F HENLEY BUILDING 5 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "7300",
+        "shareholdingFormatted": "7,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01724",
+        "participantName": "RAMON INVESTMENT CO LTD",
+        "address": "RM 201-5 2/F KOWLOON CENTRE 29-39 ASHLEY ROAD KOWLOON",
+        "shareholding": "7300",
+        "shareholdingFormatted": "7,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01320",
+        "participantName": "LUEN FAT SECURITIES CO LTD",
+        "address": "UNITS 603-605 6/F FWD FINANCIAL CENTRE 308 DES VOEUX ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "7100",
+        "shareholdingFormatted": "7,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02075",
+        "participantName": "INNOVAX SECURITIES LTD",
+        "address": "UNIT A-C 20/F NEICH TOWER 128 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "6800",
+        "shareholdingFormatted": "6,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01505",
+        "participantName": "SHACOM SECURITIES LTD",
+        "address": "RM 303 HOUSTON CENTRE 63 MODY ROAD TSIMSHATSUI EAST KOWLOON",
+        "shareholding": "6600",
+        "shareholdingFormatted": "6,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01741",
+        "participantName": "SINOMAX SECURITIES LTD",
+        "address": "28/F SHUN FENG INTERNATIONAL CENTRE NO.182 QUEEN'S ROAD EAST WAN CHAI HONG KONG",
+        "shareholding": "6600",
+        "shareholdingFormatted": "6,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02052",
+        "participantName": "SUNHIGH FINANCIAL HOLDINGS LTD",
+        "address": "UNIT 2107 21/F THE CENTER 99 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "6500",
+        "shareholdingFormatted": "6,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01294",
+        "participantName": "CS WEALTH SECURITIES LTD",
+        "address": "RM 3206 32/F CHINA RESOURCES BUILDING 26 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "6400",
+        "shareholdingFormatted": "6,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01685",
+        "participantName": "ARK SECURITIES (HONG KONG) LTD",
+        "address": "ROOM 1901 19/F EMPEROR GROUP CENTRE 288 HENNESSY ROAD WAN CHAI HONG KONG",
+        "shareholding": "6400",
+        "shareholdingFormatted": "6,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01277",
+        "participantName": "BRADBURY SECURITIES LTD",
+        "address": "SUITES 3606-08 36/F 8 FINANCE STREET TWO INTERNATIONAL FINANCE CENTRE CENTRAL HONG KONG",
+        "shareholding": "6100",
+        "shareholdingFormatted": "6,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02070",
+        "participantName": "UZEN SECURITIES LTD",
+        "address": "8/F EC HEALTHCARE TOWER (CENTRAL) 19-20 CONNAUGHT ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "6000",
+        "shareholdingFormatted": "6,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02116",
+        "participantName": "MOUETTE SECURITIES CO LTD",
+        "address": "ROOM 4024-4033 40/F SUN HUNG KAI CENTRE 30 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "5900",
+        "shareholdingFormatted": "5,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02023",
+        "participantName": "DONGHAI INTERNATIONAL SECURITIES",
+        "address": "20/F SHANGHAI COMMERCIAL BANK TOWER 12 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "5800",
+        "shareholdingFormatted": "5,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01769",
+        "participantName": "ONE CHINA SECURITIES LTD",
+        "address": "2/F CHEONG K. BUILDING 84-86 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "5741",
+        "shareholdingFormatted": "5,741",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01444",
+        "participantName": "YUEXING SECURITIES COMPANY LTD",
+        "address": "9/F THE WORKSTATION 43 LYNDHURST TERRACE CENTRAL HONG KONG",
+        "shareholding": "5400",
+        "shareholdingFormatted": "5,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01680",
+        "participantName": "SUCCESS SECURITIES LTD",
+        "address": "UNITS 1001A & 04B 10/F TOWER 1 ADMIRALTY CENTRE 18 HARCOURT ROAD HONG KONG",
+        "shareholding": "5300",
+        "shareholdingFormatted": "5,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01141",
+        "participantName": "FE SECURITIES LTD",
+        "address": "ROOM 2101 21/F 28 HENNESSY ROAD HONG KONG",
+        "shareholding": "5200",
+        "shareholdingFormatted": "5,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02167",
+        "participantName": "SDG SECURITIES (HK) LTD",
+        "address": "ROOMS 4003-05 40/F CHINA RESOURCES BUILDING 26 HARBOUR ROAD WAN CHAI HONG KONG",
+        "shareholding": "5200",
+        "shareholdingFormatted": "5,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01982",
+        "participantName": "CENTRAL CHINA INTERNATIONAL SECURITIES",
+        "address": "ROOM 1304 13/F ADMIRALTY CENTRE TOWER 1 18 HARCOURT ROAD ADMIRALTY HONG KONG",
+        "shareholding": "5080",
+        "shareholdingFormatted": "5,080",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01677",
+        "participantName": "ANUENUE SECURITIES LTD",
+        "address": "28/F GUANGDONG TOURS CENTER 18 PENNINGTON STREET CAUSEWAY BAY HONG KONG",
+        "shareholding": "5000",
+        "shareholdingFormatted": "5,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01919",
+        "participantName": "TIGER SECURITIES ASSET MANAGEMENT CO LTD",
+        "address": "RM B3 29/F TML TOWER 3 HOI SHING ROAD TSUEN WAN NEW TERRITORIES",
+        "shareholding": "4900",
+        "shareholdingFormatted": "4,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01976",
+        "participantName": "FRONTIER CAPITAL MANAGEMENT LTD",
+        "address": "UNITS 3201-3203 32/F BANK OF AMERICA TOWER 12 HARCOURT ROAD CENTRAL HONG KONG",
+        "shareholding": "4900",
+        "shareholdingFormatted": "4,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02125",
+        "participantName": "CHINA YINSHENG INTERNATIONAL SECURITIES",
+        "address": "6/F 9 DES VOEUX ROAD WEST SHEUNG WAN HONG KONG",
+        "shareholding": "4900",
+        "shareholdingFormatted": "4,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01868",
+        "participantName": "JIMEI SECURITIES LTD",
+        "address": "RM 1305-1306 13/F JUBILEE CENTRE 18 FENWICK STREET / 46 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "4800",
+        "shareholdingFormatted": "4,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01906",
+        "participantName": "IMPERIUM INTERNATIONAL SECURITIES LTD",
+        "address": "RM 2603A 26/F ONE HARBOUR SQUARE 181 HOI BUN ROAD KWUN TONG KOWLOON",
+        "shareholding": "4600",
+        "shareholdingFormatted": "4,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01912",
+        "participantName": "THE CORE SECURITIES COMPANY LTD",
+        "address": "SUITE C 20/F STANDARD CHARTERED BANK BUILDING 4-4A DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "4600",
+        "shareholdingFormatted": "4,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01974",
+        "participantName": "ARISTO SECURITIES LTD",
+        "address": "ROOM B 11/F GOLDEN STAR BUILDING 22 LOCKHART ROAD WANCHAI HONG KONG",
+        "shareholding": "4305",
+        "shareholdingFormatted": "4,305",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02073",
+        "participantName": "SOLOMON JFZ (ASIA) HOLDINGS LTD",
+        "address": "ROOM 1910-1912A TOWER 3 CHINA HONG KONG CITY 33 CANTON ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "4300",
+        "shareholdingFormatted": "4,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01789",
+        "participantName": "HO FUNG SHARES INVESTMENT LTD",
+        "address": "OFFICE B 11/F HING LUNG COMMERCIAL BUILDING 68 BONHAM STRAND EAST SHEUNG WAN HONG KONG",
+        "shareholding": "4273",
+        "shareholdingFormatted": "4,273",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01995",
+        "participantName": "GARY CHENG SECURITIES LTD",
+        "address": "ROOM 1201 12/F ELITE CENTRE 22 HUNG TO ROAD KWUN TONG KOWLOON",
+        "shareholding": "4200",
+        "shareholdingFormatted": "4,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01525",
+        "participantName": "KEE CHEONG SECURITIES CO LTD",
+        "address": "ROOM 2002 20/F WIN CENTURY CENTRE 2A MONGKOK ROAD MONGKOK KOWLOON",
+        "shareholding": "4100",
+        "shareholdingFormatted": "4,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01660",
+        "participantName": "GRANSING SECURITIES CO., LIMITED",
+        "address": "UNIT 802 8/F WORLD-WIDE HOUSE 19 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "4100",
+        "shareholdingFormatted": "4,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01918",
+        "participantName": "REALORD ASIA PACIFIC SECURITIES LTD",
+        "address": "SUITE 2402 24/F JARDINE HOUSE 1 CONNAUGHT PLACE CENTRAL HONG KONG",
+        "shareholding": "4100",
+        "shareholdingFormatted": "4,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "C00108",
+        "participantName": "CHINA MINSHENG BANKING CORP., LTD.",
+        "address": "FLAT 3701-3702, 3712-3716 & 40/F TWO INTERNATIONAL FINANCE CENTRE 8 FINANCE STREET CENTRAL HONG KONG",
+        "shareholding": "4100",
+        "shareholdingFormatted": "4,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02065",
+        "participantName": "FORTUNE ORIGIN SECURITIES LTD",
+        "address": "ROOM 404-405 NAN FUNG TOWER 88 CONNAUGHT ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "3800",
+        "shareholdingFormatted": "3,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02185",
+        "participantName": "KOREA INVESTMENT & SECURITIES ASIA LTD",
+        "address": "SUITES 3716-3719 JARDINE HOUSE 1 CONNAUGHT PLACE CENTRAL HONG KONG",
+        "shareholding": "3800",
+        "shareholdingFormatted": "3,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02212",
+        "participantName": "HUAAN SECURITIES (HONG KONG) BROKERAGE",
+        "address": "8/F LI PO CHUN CHAMBERS 189 DES VOEUX ROAD CENTRAL  HONG KONG",
+        "shareholding": "3800",
+        "shareholdingFormatted": "3,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01080",
+        "participantName": "VMS SECURITIES LTD",
+        "address": "28/F VIVA PLACE 36 HEUNG YIP ROAD WONG CHUK HANG HONG KONG",
+        "shareholding": "3700",
+        "shareholdingFormatted": "3,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01694",
+        "participantName": "MINERVA HOLDING FINANCIAL SECURITIES LTD",
+        "address": "UNIT 1804C 18/F FAR EAST FINANCE CENTRE 16 HARCOURT ROAD HONG KONG",
+        "shareholding": "3700",
+        "shareholdingFormatted": "3,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02020",
+        "participantName": "WEALTH LINK SECURITIES LTD",
+        "address": "SUITE 1008A 10/F OCEAN CENTRE HARBOUR CITY 5 CANTON ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "3400",
+        "shareholdingFormatted": "3,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01608",
+        "participantName": "OPEN SECURITIES LTD",
+        "address": "ROOM 08-09 32/F TOWER 6 THE GATEWAY 9 CANTON ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "3300",
+        "shareholdingFormatted": "3,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02046",
+        "participantName": "CHINA ZHONG HENG FINANCE GROUP LTD",
+        "address": "UNIT 05 9/F BEVERLY HOUSE 93-107 LOCKHART ROAD WAN CHAI HONG KONG",
+        "shareholding": "3200",
+        "shareholdingFormatted": "3,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01754",
+        "participantName": "ASIA PACIFIC SECURITIES LTD",
+        "address": "16/F CMA BUILDING 64-66 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "3100",
+        "shareholdingFormatted": "3,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02081",
+        "participantName": "FIRST FIDELITY CAPITAL (INTERNATIONAL)",
+        "address": "36/F TIMES TOWER 393 JAFFE ROAD WANCHAI HONG KONG",
+        "shareholding": "3000",
+        "shareholdingFormatted": "3,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02128",
+        "participantName": "SILVERBRICKS SECURITIES CO LTD",
+        "address": "ROOM 1601-07 16/F NAN FUNG TOWER 88 CONNAUGHT ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "3000",
+        "shareholdingFormatted": "3,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01665",
+        "participantName": "WINSOME STOCK CO LTD",
+        "address": "TOP FLOOR WING SHUN BUILDING 64-66 BONHAM STRAND WEST HONG KONG",
+        "shareholding": "2900",
+        "shareholdingFormatted": "2,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02061",
+        "participantName": "GRAND PARTNERS SECURITIES LTD",
+        "address": "ROOM 3402 34/F CHINA RESOURCES BUILDING 26 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "2800",
+        "shareholdingFormatted": "2,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01248",
+        "participantName": "KWAN YICK SECURITIES (INTERNATIONAL) LTD",
+        "address": "FLAT B, C & E 3/F HO LEE COMMERCIAL BUILDING 38-44 D'AGUILAR STREET CENTRAL HONG KONG",
+        "shareholding": "2700",
+        "shareholdingFormatted": "2,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01716",
+        "participantName": "ORIENT SECURITIES LTD",
+        "address": "RM 2204 22/F NEW WORLD TOWER 1 16-18 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "2700",
+        "shareholdingFormatted": "2,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01927",
+        "participantName": "KINGKEY SECURITIES GROUP LTD",
+        "address": "13/F NO.88 LOCKHART ROAD WANCHAI  HONG KONG",
+        "shareholding": "2700",
+        "shareholdingFormatted": "2,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01389",
+        "participantName": "ZHONGRONG PT SECURITIES LTD",
+        "address": "ROOM 3505-10 35/F TOWER 5 THE GATEWAY 15 CANTON ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "2600",
+        "shareholdingFormatted": "2,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01784",
+        "participantName": "FU YIP SECURITIES AND INVESTMENT CO LTD",
+        "address": "UNIT 6A01 6/F WAH KIT COMMERCIAL CENTRE 302 DES VOEUX RD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "2600",
+        "shareholdingFormatted": "2,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02134",
+        "participantName": "HOPE SECURITIES LTD",
+        "address": "ROOM 2805 28/F CHINA UNITED CENTRE 28 MARBLE ROAD NORTH POINT HONG KONG",
+        "shareholding": "2600",
+        "shareholdingFormatted": "2,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01571",
+        "participantName": "KARFORD SECURITIES LTD",
+        "address": "FLAT D 7/F MAN LOK BUILDING 89-93 BONHAM STRAND EAST HONG KONG",
+        "shareholding": "2400",
+        "shareholdingFormatted": "2,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01756",
+        "participantName": "CHINA SKY SECURITIES LTD",
+        "address": "UNIT 2302-03 23/F WEST TOWER SHUN TAK CENTRE 200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "2400",
+        "shareholdingFormatted": "2,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02067",
+        "participantName": "LIGHTHOUSE CAPITAL (HK) FINANCIAL LTD",
+        "address": "UNITS 1801-2 18/F HOLLYWOOD CENTRE 233 HOLLYWOOD ROAD SHEUNG WAN HONG KONG",
+        "shareholding": "2400",
+        "shareholdingFormatted": "2,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01751",
+        "participantName": "IMAGI BROKERAGE LTD",
+        "address": "SUITE 2210-11 22/F CHINA UNITED CENTRE 28 MARBLE ROAD NORTH POINT HONG KONG",
+        "shareholding": "2200",
+        "shareholdingFormatted": "2,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01910",
+        "participantName": "FTFT INTERNATIONAL SECURITIES AND",
+        "address": "UNITS 02B-03A 23/F SINO PLAZA 256-257 GLOUCESTER ROAD CAUSEWAY BAY HONG KONG",
+        "shareholding": "2200",
+        "shareholdingFormatted": "2,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02153",
+        "participantName": "WE SECURITIES LTD",
+        "address": "26/F OVEST 77 WING LOK STREET SHEUNG WAN HONG KONG",
+        "shareholding": "2200",
+        "shareholdingFormatted": "2,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01852",
+        "participantName": "ARTA GLOBAL MARKETS LTD",
+        "address": "UNIT 901-02 9/F K11 ATELIER KING'S ROAD 728 KING'S ROAD QUARRY BAY HONG KONG",
+        "shareholding": "2105",
+        "shareholdingFormatted": "2,105",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01743",
+        "participantName": "CEPA ALLIANCE SECURITIES LTD",
+        "address": "FLAT B 7/F 208 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "2100",
+        "shareholdingFormatted": "2,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02138",
+        "participantName": "TIGER FAITH SECURITIES LTD",
+        "address": "ROOM 3505 35/F TOWER 1 LIPPO CENTRE 89 QUEENSWAY ADMIRALTY HONG KONG",
+        "shareholding": "2100",
+        "shareholdingFormatted": "2,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01538",
+        "participantName": "MORTON SECURITIES LTD",
+        "address": "RM 1804-1805 18/F ALLIED KAJIMA BUILDING 138 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "2000",
+        "shareholdingFormatted": "2,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01661",
+        "participantName": "HERMES SECURITIES LTD",
+        "address": "ROOM 2117 CHINA MERCHANTS TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "2000",
+        "shareholdingFormatted": "2,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01759",
+        "participantName": "WINLAND WEALTH MANAGEMENT LTD",
+        "address": "RM 1901 SOUTH CHINA BUILDING 3 WYNDHAM STREET CENTRAL HONG KONG",
+        "shareholding": "2000",
+        "shareholdingFormatted": "2,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02060",
+        "participantName": "LEGO SECURITIES LTD",
+        "address": "ROOM 1506 15/F WHEELOCK HOUSE 20 PEDDER STREET CENTRAL HONG KONG",
+        "shareholding": "2000",
+        "shareholdingFormatted": "2,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02158",
+        "participantName": "DT SECURITIES & FUTURES CO. LTD",
+        "address": "RM 2312 23/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL  HONG KONG",
+        "shareholding": "2000",
+        "shareholdingFormatted": "2,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02193",
+        "participantName": "PATRONS SECURITIES LTD",
+        "address": "UNIT 3214 32/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "2000",
+        "shareholdingFormatted": "2,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01310",
+        "participantName": "TUNG TAK SECURITIES (H.K.) CO LTD",
+        "address": "G/F 169 TAI NAM ST SHAMSHUIPO KOWLOON",
+        "shareholding": "1900",
+        "shareholdingFormatted": "1,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02019",
+        "participantName": "GEO SECURITIES LTD",
+        "address": "24/F STANDARD CHARTERED BANK BUILDING 4-4A DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "1900",
+        "shareholdingFormatted": "1,900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02014",
+        "participantName": "YUET SHEUNG INTERNATIONAL SECURITIES LTD",
+        "address": "ROOM 2704 WEST TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "1800",
+        "shareholdingFormatted": "1,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02016",
+        "participantName": "GOLDHORSE SECURITIES LTD",
+        "address": "UNIT 4308 43/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "1800",
+        "shareholdingFormatted": "1,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02068",
+        "participantName": "CANFIELD SECURITIES CO LTD",
+        "address": "ROOM 2202 22/F FAR EAST FINANCE CENTER 16 HARCOURT ROAD HONG KONG",
+        "shareholding": "1800",
+        "shareholdingFormatted": "1,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02180",
+        "participantName": "PLUTUS SECURITIES LTD",
+        "address": "8/F 80 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "1800",
+        "shareholdingFormatted": "1,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02221",
+        "participantName": "AACAT FINTECH LTD",
+        "address": "ROOMS 1901-02 19/F AXA TOWER LANDMARK EAST 100 HOW MING STREET KWUN TONG KOWLOON",
+        "shareholding": "1800",
+        "shareholdingFormatted": "1,800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01664",
+        "participantName": "ROOFER SECURITIES LTD",
+        "address": "UNIT 25B01 25/F FAR EAST FINANCE CENTER 16 HARCOURT ROAD ADMIRATLY HONG KONG",
+        "shareholding": "1700",
+        "shareholdingFormatted": "1,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01857",
+        "participantName": "KAISA FINANCIAL GROUP CO LTD",
+        "address": "30/F THE CENTER 99 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "1700",
+        "shareholdingFormatted": "1,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02087",
+        "participantName": "GLOBAL MASTERMIND SECURITIES LTD",
+        "address": "UNIT 1203 12/F WEST TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "1700",
+        "shareholdingFormatted": "1,700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02179",
+        "participantName": "YAW KAI FINANCIAL GROUP LTD",
+        "address": "UNIT 1605B-1606A 16/F TOWER A MANULIFE FINANCIAL CENTRE 223-231 WAI YIP STREET KWUN TONG KOWLOON",
+        "shareholding": "1600",
+        "shareholdingFormatted": "1,600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01328",
+        "participantName": "BAN HIN SECURITIES CO LTD",
+        "address": "RM 901-2 LANSING HSE 41-47 QUEEN'S RD C CENTRAL HONG KONG",
+        "shareholding": "1500",
+        "shareholdingFormatted": "1,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01767",
+        "participantName": "NEW GALA SECURITIES CO LTD",
+        "address": "RM 1106 REGENT CENTRE 88 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "1500",
+        "shareholdingFormatted": "1,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01783",
+        "participantName": "FREDDY CO LTD",
+        "address": "RM 2102 21/F MELBOURNE PLAZA 33 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "1500",
+        "shareholdingFormatted": "1,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02085",
+        "participantName": "JOY RICH SECURITIES INVESTMENT LTD",
+        "address": "UNIT 16 22/F SEAPOWER TOWER CONCORDIA PLAZA 1 SCIENCE MUSEUM ROAD KOWLOON",
+        "shareholding": "1500",
+        "shareholdingFormatted": "1,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02096",
+        "participantName": "AFG SECURITIES LTD",
+        "address": "RM B 17/F FORTUNE HOUSE 61 CONNAUGHT ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "1500",
+        "shareholdingFormatted": "1,500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01231",
+        "participantName": "WINNER INTERNATIONAL SECURITIES LTD",
+        "address": "10/F LEE KUM KEE CENTRAL 54-58 DES VOEUX ROAD CENTRAL  HONG KONG",
+        "shareholding": "1400",
+        "shareholdingFormatted": "1,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01935",
+        "participantName": "MAGIC COMPASS SECURITIES LTD",
+        "address": "UNIT 905 9/F CENTRAL PLAZA 18 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "1400",
+        "shareholdingFormatted": "1,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02004",
+        "participantName": "INNOVATION SECURITIES CO LTD",
+        "address": "SUITE 709A ONE PACIFIC PLACE 88 QUEENSWAY ADMIRALTY HONG KONG",
+        "shareholding": "1400",
+        "shareholdingFormatted": "1,400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01988",
+        "participantName": "KOALA SECURITIES LTD",
+        "address": "UNITS 1301-1302 13/F EVERBRIGHT CENTRE 108 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "1300",
+        "shareholdingFormatted": "1,300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01914",
+        "participantName": "JEFFERIES HONG KONG LTD",
+        "address": "26/F & SUITES 2710-12 TWO INTERNATIONAL FINANCE CENTRE 8 FINANCE STREET CENTRAL HONG KONG",
+        "shareholding": "1299",
+        "shareholdingFormatted": "1,299",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01921",
+        "participantName": "GONG PING SECURITIES LTD",
+        "address": "UNIT D 8/F TOWER B BILLION CENTRE 1 WANG KWONG ROAD KOWLOON BAY KOWLOON",
+        "shareholding": "1200",
+        "shareholdingFormatted": "1,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02045",
+        "participantName": "AAA SECURITIES CO. LTD",
+        "address": "SUITE 2202 22/F FU FAI COMMERCIAL CENTRE 27 HILLIER STREET SHEUNG WAN HONG KONG",
+        "shareholding": "1200",
+        "shareholdingFormatted": "1,200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01755",
+        "participantName": "T G SECURITIES LTD",
+        "address": "SUITE 1409, 14/F, NORTH TOWER WORLD FINANCE CENTRE 19 CANTON ROAD, TST KOWLOON",
+        "shareholding": "1159",
+        "shareholdingFormatted": "1,159",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02027",
+        "participantName": "LEADING SECURITIES COMPANY LTD",
+        "address": "8/F PROSPERITY TOWER 39 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "1100",
+        "shareholdingFormatted": "1,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02219",
+        "participantName": "TRADEGO MARKETS LIMITED",
+        "address": "ROOM 3405 WEST TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "1100",
+        "shareholdingFormatted": "1,100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01454",
+        "participantName": "HAO TIAN INTERNATIONAL SECURITIES LTD",
+        "address": "ROOM 2510-2518 25/F SHUI ON CENTRE 6-8 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "1000",
+        "shareholdingFormatted": "1,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01907",
+        "participantName": "CHINA DEMETER SECURITIES LTD",
+        "address": "UNIT A1 35/F UNITED CENTRE 95 QUEENSWAY ADMIRALTY HONG KONG",
+        "shareholding": "1000",
+        "shareholdingFormatted": "1,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "C00083",
+        "participantName": "BANK CONSORTIUM TRUST CO LTD",
+        "address": "18/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "1000",
+        "shareholdingFormatted": "1,000",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01883",
+        "participantName": "CHINA RISE SECURITIES ASSET MANAGEMENT",
+        "address": "10/F ISLAND PLACE TOWER 510 KING'S ROAD NORTH POINT HONG KONG",
+        "shareholding": "900",
+        "shareholdingFormatted": "900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02161",
+        "participantName": "EMPERIO SECURITIES AND ASSETS MANAGEMENT",
+        "address": "28/F AT TOWER 180 ELECTRIC ROAD NORTH POINT HONG KONG",
+        "shareholding": "900",
+        "shareholdingFormatted": "900",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01466",
+        "participantName": "DAOKOU SECURITIES LTD",
+        "address": "UNIT 1406 14/F GREAT EAGLE CENTRE 23 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "800",
+        "shareholdingFormatted": "800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01604",
+        "participantName": "WANHAI SECURITIES (HK) LTD",
+        "address": "ROOM 4036-4039 40/F SUN HUNG KAI CENTRE 30 HARBOUR ROAD WAN CHAI HONG KONG",
+        "shareholding": "800",
+        "shareholdingFormatted": "800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01795",
+        "participantName": "RAFFAELLO SECURITIES (HK) LTD",
+        "address": "1/F 166-168 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "800",
+        "shareholdingFormatted": "800",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02009",
+        "participantName": "GOLDEN RICH SECURITIES LTD",
+        "address": "2201B 22/F TOWER 1 CHINA HONG KONG CITY 33 CANTON ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "700",
+        "shareholdingFormatted": "700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02011",
+        "participantName": "ZHONG YANG SECURITIES LTD",
+        "address": "ROOM 1101 118 CONNAUGHT ROAD WEST HONG KONG",
+        "shareholding": "700",
+        "shareholdingFormatted": "700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02017",
+        "participantName": "WILSON SECURITIES LTD",
+        "address": "UNIT 1005A-B & 1006A 10/F BANK OF AMERICA TOWER 12 HARCOURT ROAD ADMIRALTY HONG KONG",
+        "shareholding": "700",
+        "shareholdingFormatted": "700",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01794",
+        "participantName": "INTERCONTINENT SECURITIES CO LTD",
+        "address": "RM 1802 CAR PO COMMERCIAL BUILDING 37-43 POTTINGER STREET HONG KONG",
+        "shareholding": "600",
+        "shareholdingFormatted": "600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01923",
+        "participantName": "RUISEN PORT SECURITIES LTD",
+        "address": "UNIT 1706 TOWER 1 CHINA HONG KONG CITY 33 CANTON ROAD TSIM SHA TSUI KOWLOON",
+        "shareholding": "600",
+        "shareholdingFormatted": "600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01934",
+        "participantName": "SELECT INVESTMENT SERVICES LTD",
+        "address": "RM 1713B-1714 17/F HONG KONG PLAZA 188 CONNAUGHT ROAD WEST WESTERN DISTRICT HONG KONG",
+        "shareholding": "600",
+        "shareholdingFormatted": "600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02022",
+        "participantName": "CHAOSHANG SECURITIES LTD",
+        "address": "ROOM 2206-2210 CHINA RESOURCES BUILDING 26 HARBOUR ROAD WANCHAI HONG KONG",
+        "shareholding": "600",
+        "shareholdingFormatted": "600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02140",
+        "participantName": "JQ SECURITIES (HONG KONG) LTD",
+        "address": "UNIT 1601-3 TAI TUNG BUILDING 8 FLEMING ROAD WANCHAI HONG KONG",
+        "shareholding": "600",
+        "shareholdingFormatted": "600",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01326",
+        "participantName": "KING SUN SECURITIES LTD",
+        "address": "RM 3909-3910 39/F THE CENTRE 99 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "500",
+        "shareholdingFormatted": "500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01745",
+        "participantName": "GUOCHUANG SECURITIES FINANCIAL HOLDING",
+        "address": "RM B-D 3/F SHING HING COMMERCIAL BUILDING 21-27 WING KUT STREET HONG KONG",
+        "shareholding": "500",
+        "shareholdingFormatted": "500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01821",
+        "participantName": "GETTA SECURITIES LTD",
+        "address": "30/F CHINACHEM CENTURY TOWER 178 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "500",
+        "shareholdingFormatted": "500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01922",
+        "participantName": "SUN SECURITIES LTD",
+        "address": "RM 2104 21/F FAR EAST CONSORTIUM BUILDING 121 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "500",
+        "shareholdingFormatted": "500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02151",
+        "participantName": "SOLITON SECURITIES LTD",
+        "address": "UNIT 1010 10/F COSCO TOWER GRAND MILLENNIUM PLAZA 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "500",
+        "shareholdingFormatted": "500",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01318",
+        "participantName": "OKASAN INTERNATIONAL (ASIA) LTD",
+        "address": "ROOMS 2605-7 26/F WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "400",
+        "shareholdingFormatted": "400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01977",
+        "participantName": "ZHONGCAI SECURITIES LTD",
+        "address": "3/F & 6/F ZHONGCAI CENTRE 131 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "400",
+        "shareholdingFormatted": "400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02077",
+        "participantName": "CONRAD INVESTMENT SERVICES LTD",
+        "address": "23/F TUNG HIP COMMERCIAL BUILDING 244-248 DES VOEUX ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "400",
+        "shareholdingFormatted": "400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02213",
+        "participantName": "CITIC CFI SECURITIES COMPANY LTD",
+        "address": "2312-2316 23/F CITIC TOWER 1 TIM MEI AVENUE, CENTRAL HONG KONG",
+        "shareholding": "400",
+        "shareholdingFormatted": "400",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01527",
+        "participantName": "NITTAN SECURITIES ASIA LTD",
+        "address": "SUITE 709 7/F JARDINE HOUSE 1 CONNAUGHT PLACE CENTRAL HONG KONG",
+        "shareholding": "300",
+        "shareholdingFormatted": "300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01627",
+        "participantName": "SDHG INTERNATIONAL SECURITIES LTD",
+        "address": "38/F THE CENTER 99 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "300",
+        "shareholdingFormatted": "300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01720",
+        "participantName": "NORMAN KONG SECURITIES CO LTD",
+        "address": "RM 504 MONGKOK COMMERCIAL CENTRE 16 ARGYLE STREET MONGKOK KOWLOON",
+        "shareholding": "300",
+        "shareholdingFormatted": "300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01997",
+        "participantName": "SUNCORP SECURITIES LTD",
+        "address": "UNIT 2305 23/F THE CENTER 99 QUEENS ROAD CENTRAL HONG KONG",
+        "shareholding": "300",
+        "shareholdingFormatted": "300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02015",
+        "participantName": "VISION CAPITAL INTERNATIONAL HOLDINGS",
+        "address": "SUITES 3607-09 ICBC TOWER THREE GARDEN ROAD CENTRAL HONG KONG",
+        "shareholding": "300",
+        "shareholdingFormatted": "300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02101",
+        "participantName": "ACER KING SECURITIES INTERNATIONAL LTD",
+        "address": "41/F MONTERY PLAZA 15-17 CHONG YIP STREET KWUN TONG KOWLOON",
+        "shareholding": "300",
+        "shareholdingFormatted": "300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02123",
+        "participantName": "CHINA DIFI SECURITIES LTD",
+        "address": "UNIT A 9/F CHINAWEAL CENTRE 414-424 JAFFE ROAD WAN CHAI HONG KONG",
+        "shareholding": "300",
+        "shareholdingFormatted": "300",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02202",
+        "participantName": "JMC CAPITAL INTERNATIONAL LTD",
+        "address": "23/F NEW WORLD TOWER TWO 16-18 QUEEN'S ROAD CENTRAL  HONG KONG",
+        "shareholding": "243",
+        "shareholdingFormatted": "243",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01227",
+        "participantName": "HOORAY SECURITIES LTD",
+        "address": "ROOM A & B2 11/F GUANGDONG INVESTMENT TOWER 148 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01630",
+        "participantName": "ANLI SECURITIES LTD",
+        "address": "ROOM 2907 29/F WING ON CENTRE 111 CONNAUGHT ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01633",
+        "participantName": "ENLIGHTEN SECURITIES LTD",
+        "address": "ROOM 1106 11/F JUBILEE CENTRE 18 FENWICK STREET WANCHAI HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01972",
+        "participantName": "RICHES DEPOT SECURITIES CO LTD",
+        "address": "RM A UNIT 1701 17/F 1 LYNDHURST TOWER 1 LYNDHURST TERRACE CENTRAL HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02119",
+        "participantName": "GAYANG SECURITIES LTD",
+        "address": "SUITE 1605 16/F 9 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02139",
+        "participantName": "WELL LINK INTERNATIONAL SECURITIES LTD",
+        "address": "UNIT 1113-15 11/F CHINA MERCHANTS TOWER SHUN TAK CENTRE 168-200 CONNAUGHT ROAD CENTRAL HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02155",
+        "participantName": "ADEN FINANCIAL GROUP LTD",
+        "address": "14/F SHANGHAI COMMERCIAL BANK TOWER 12 QUEEN'S ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02162",
+        "participantName": "GAMMA SECURITIES LTD",
+        "address": "SUITE 708 CHAMPION TOWER THREE GARDEN ROAD CENTRAL HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02165",
+        "participantName": "YUEN META (INTERNATIONAL) SECURITIES LTD",
+        "address": "2601 26/F WAN CHAI CENTRAL BUILDING 89 LOCKHART ROAD WAN CHAI HONG KONG",
+        "shareholding": "200",
+        "shareholdingFormatted": "200",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01500",
+        "participantName": "D.J. SECURITIES LTD",
+        "address": "13/F D. J. BUILDING 173 HOI BUN ROAD KWUN TONG KOWLOON",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01619",
+        "participantName": "TUNG WUI SECURITIES CO LTD",
+        "address": "RM 802-803 TUNG MING BUILDING 40-42 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01816",
+        "participantName": "CHEONG LEE SECURITIES LTD",
+        "address": "UNIT B 16/F BANK OF EAST ASIA HARBOUR VIEW CENTRE 56 GLOUCESTER ROAD WANCHAI HONG KONG",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01920",
+        "participantName": "TIANDA SECURITIES LTD",
+        "address": "SUITES 2401-2410 24/F CITIC TOWER 1 TIM MEI AVENUE CENTRAL HONG KONG",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02057",
+        "participantName": "FUNDE SECURITIES LTD",
+        "address": "UNIT 2203 22/F TOWER 1 ADMIRALTY CENTRE 18 HARCOURT RD ADMIRALTY HONG KONG",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02092",
+        "participantName": "I WIN SECURITIES LTD",
+        "address": "ROOM 3001-3002 30/F CHINA INSURANCE GROUP BUILDING 141 DES VOEUX ROAD CENTRAL HONG KONG",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02117",
+        "participantName": "FUTURE SECURITIES LTD",
+        "address": "UNIT 2301 23/F 9 CHONG YIP STREET KWUN TONG KOWLOON",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02194",
+        "participantName": "HARMONIA CAPITAL LTD",
+        "address": "UNIT 2505 25/F COSCO TOWER 183 QUEEN'S ROAD CENTRAL HONG KONG",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B02208",
+        "participantName": "CN FIRST INTERNATIONAL FUTURES LTD",
+        "address": "9/F HUA QIN INTERNATIONAL BUILDING 340 QUEEN'S ROAD CENTRAL SHEUNG WAN HONG KONG",
+        "shareholding": "100",
+        "shareholdingFormatted": "100",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "B01824",
+        "participantName": "INSTINET PACIFIC LTD",
+        "address": "31/F TWO INTERNATIONAL FINANCE CENTRE 8 FINANCE STREET CENTRAL HONG KONG",
+        "shareholding": "82",
+        "shareholdingFormatted": "82",
+        "percentage": "0.00%"
+      },
+      {
+        "participantId": "C00092",
+        "participantName": "CTBC BANK CO LTD",
+        "address": "28/F TWO INTERNATIONAL FINANCE CENTRE 8 FINANCE STREET CENTRAL HONG KONG",
+        "shareholding": "25",
+        "shareholdingFormatted": "25",
+        "percentage": "0.00%"
+      }
+    ],
+    "totalShares": "7069823417",
+    "totalParticipants": 752,
+    "percentageInCCASS": "77.30%",
+    "success": true,
+    "scrapedAt": "2025-11-12T10:12:26.755Z"
+  }
+]

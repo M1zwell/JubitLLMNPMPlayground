@@ -1,0 +1,8 @@
+[
+  {
+    "stockCode": "00700",
+    "date": "2024/10/01",
+    "error": "Protocol error (Runtime.callFunctionOn): Target closed",
+    "success": false
+  }
+]

@@ -34,13 +34,13 @@ CREATE TABLE IF NOT EXISTS hkex_ccass_snapshots (
 );
 
 -- Indexes for fast queries
-CREATE INDEX idx_snapshots_stock_code ON hkex_ccass_snapshots(stock_code);
-CREATE INDEX idx_snapshots_data_date ON hkex_ccass_snapshots(data_date);
-CREATE INDEX idx_snapshots_scraped_at ON hkex_ccass_snapshots(scraped_at);
-CREATE INDEX idx_snapshots_stock_date ON hkex_ccass_snapshots(stock_code, data_date);
+CREATE INDEX IF NOT EXISTS idx_snapshots_stock_code ON hkex_ccass_snapshots(stock_code);
+CREATE INDEX IF NOT EXISTS idx_snapshots_data_date ON hkex_ccass_snapshots(data_date);
+CREATE INDEX IF NOT EXISTS idx_snapshots_scraped_at ON hkex_ccass_snapshots(scraped_at);
+CREATE INDEX IF NOT EXISTS idx_snapshots_stock_date ON hkex_ccass_snapshots(stock_code, data_date);
 
 -- Index for participant searches (JSONB gin index)
-CREATE INDEX idx_snapshots_participants ON hkex_ccass_snapshots USING gin(participants);
+CREATE INDEX IF NOT EXISTS idx_snapshots_participants ON hkex_ccass_snapshots USING gin(participants);
 
 COMMENT ON TABLE hkex_ccass_snapshots IS 'Complete snapshots of HKEX CCASS shareholding data';
 COMMENT ON COLUMN hkex_ccass_snapshots.participants IS 'Array of participant objects with participantId, participantName, address, shareholding, percentage';
@@ -89,12 +89,12 @@ CREATE TABLE IF NOT EXISTS hkex_ccass_changes (
 );
 
 -- Indexes
-CREATE INDEX idx_changes_stock_code ON hkex_ccass_changes(stock_code);
-CREATE INDEX idx_changes_participant_id ON hkex_ccass_changes(participant_id);
-CREATE INDEX idx_changes_detected_at ON hkex_ccass_changes(detected_at);
-CREATE INDEX idx_changes_change_type ON hkex_ccass_changes(change_type);
-CREATE INDEX idx_changes_severity ON hkex_ccass_changes(severity);
-CREATE INDEX idx_changes_stock_dates ON hkex_ccass_changes(stock_code, from_date, to_date);
+CREATE INDEX IF NOT EXISTS idx_changes_stock_code ON hkex_ccass_changes(stock_code);
+CREATE INDEX IF NOT EXISTS idx_changes_participant_id ON hkex_ccass_changes(participant_id);
+CREATE INDEX IF NOT EXISTS idx_changes_detected_at ON hkex_ccass_changes(detected_at);
+CREATE INDEX IF NOT EXISTS idx_changes_change_type ON hkex_ccass_changes(change_type);
+CREATE INDEX IF NOT EXISTS idx_changes_severity ON hkex_ccass_changes(severity);
+CREATE INDEX IF NOT EXISTS idx_changes_stock_dates ON hkex_ccass_changes(stock_code, from_date, to_date);
 
 COMMENT ON TABLE hkex_ccass_changes IS 'Track significant changes in HKEX CCASS shareholdings';
 COMMENT ON COLUMN hkex_ccass_changes.share_change IS 'Absolute change in shares held';
@@ -132,9 +132,9 @@ CREATE TABLE IF NOT EXISTS hkex_change_subscriptions (
 );
 
 -- Indexes
-CREATE INDEX idx_subscriptions_user_id ON hkex_change_subscriptions(user_id);
-CREATE INDEX idx_subscriptions_stock_code ON hkex_change_subscriptions(stock_code);
-CREATE INDEX idx_subscriptions_active ON hkex_change_subscriptions(is_active);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_user_id ON hkex_change_subscriptions(user_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_stock_code ON hkex_change_subscriptions(stock_code);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_active ON hkex_change_subscriptions(is_active);
 
 COMMENT ON TABLE hkex_change_subscriptions IS 'User subscriptions for shareholding change notifications';
 
@@ -221,41 +221,67 @@ ALTER TABLE hkex_ccass_changes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE hkex_change_subscriptions ENABLE ROW LEVEL SECURITY;
 
 -- Policies: Allow public read access (data is public from HKEX)
-CREATE POLICY "Public read access for snapshots"
-  ON hkex_ccass_snapshots FOR SELECT
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_ccass_snapshots' AND policyname = 'Public read access for snapshots') THEN
+    CREATE POLICY "Public read access for snapshots" ON hkex_ccass_snapshots FOR SELECT USING (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Public read access for changes"
-  ON hkex_ccass_changes FOR SELECT
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_ccass_changes' AND policyname = 'Public read access for changes') THEN
+    CREATE POLICY "Public read access for changes" ON hkex_ccass_changes FOR SELECT USING (true);
+  END IF;
+END $$;
 
 -- Policies: Users can manage their own subscriptions
-CREATE POLICY "Users can view their own subscriptions"
-  ON hkex_change_subscriptions FOR SELECT
-  USING (auth.uid() = user_id OR user_id IS NULL);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_change_subscriptions' AND policyname = 'Users can view their own subscriptions') THEN
+    CREATE POLICY "Users can view their own subscriptions" ON hkex_change_subscriptions FOR SELECT USING (auth.uid() = user_id OR user_id IS NULL);
+  END IF;
+END $$;
 
-CREATE POLICY "Users can create their own subscriptions"
-  ON hkex_change_subscriptions FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_change_subscriptions' AND policyname = 'Users can create their own subscriptions') THEN
+    CREATE POLICY "Users can create their own subscriptions" ON hkex_change_subscriptions FOR INSERT WITH CHECK (auth.uid() = user_id);
+  END IF;
+END $$;
 
-CREATE POLICY "Users can update their own subscriptions"
-  ON hkex_change_subscriptions FOR UPDATE
-  USING (auth.uid() = user_id)
-  WITH CHECK (auth.uid() = user_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_change_subscriptions' AND policyname = 'Users can update their own subscriptions') THEN
+    CREATE POLICY "Users can update their own subscriptions" ON hkex_change_subscriptions FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+  END IF;
+END $$;
 
-CREATE POLICY "Users can delete their own subscriptions"
-  ON hkex_change_subscriptions FOR DELETE
-  USING (auth.uid() = user_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_change_subscriptions' AND policyname = 'Users can delete their own subscriptions') THEN
+    CREATE POLICY "Users can delete their own subscriptions" ON hkex_change_subscriptions FOR DELETE USING (auth.uid() = user_id);
+  END IF;
+END $$;
 
 -- Service role can do anything (for background tasks)
-CREATE POLICY "Service role full access to snapshots"
-  ON hkex_ccass_snapshots FOR ALL
-  USING (auth.jwt() ->> 'role' = 'service_role');
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_ccass_snapshots' AND policyname = 'Service role full access to snapshots') THEN
+    CREATE POLICY "Service role full access to snapshots" ON hkex_ccass_snapshots FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+  END IF;
+END $$;
 
-CREATE POLICY "Service role full access to changes"
-  ON hkex_ccass_changes FOR ALL
-  USING (auth.jwt() ->> 'role' = 'service_role');
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_ccass_changes' AND policyname = 'Service role full access to changes') THEN
+    CREATE POLICY "Service role full access to changes" ON hkex_ccass_changes FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+  END IF;
+END $$;
 
-CREATE POLICY "Service role full access to subscriptions"
-  ON hkex_change_subscriptions FOR ALL
-  USING (auth.jwt() ->> 'role' = 'service_role');
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'hkex_change_subscriptions' AND policyname = 'Service role full access to subscriptions') THEN
+    CREATE POLICY "Service role full access to subscriptions" ON hkex_change_subscriptions FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+  END IF;
+END $$;

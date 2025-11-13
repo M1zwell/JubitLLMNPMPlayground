@@ -70,7 +70,13 @@
       "Bash(timeout 90 node:*)",
       "mcp__chrome__list_pages",
       "mcp__chrome__handle_dialog",
-      "Bash(supabase db push:*)"
+      "Bash(supabase db push:*)",
+      "WebFetch(domain:www.cima.ky)",
+      "Bash(supabase login:*)",
+      "Bash(set SUPABASE_ACCESS_TOKEN=sbp_1cf43d8f8eb2dc8df3136a5d8c948e433d100a52)",
+      "Bash(export SUPABASE_ACCESS_TOKEN=sbp_1cf43d8f8eb2dc8df3136a5d8c948e433d100a52)",
+      "Bash(supabase migration repair:*)",
+      "Bash(supabase migration:*)"
     ],
     "deny": [],
     "ask": []

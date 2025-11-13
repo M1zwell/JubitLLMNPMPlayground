@@ -38,20 +38,41 @@ CREATE INDEX IF NOT EXISTS idx_cima_additional_info ON cima_entities USING GIN (
 ALTER TABLE cima_entities ENABLE ROW LEVEL SECURITY;
 
 -- Create policy to allow all operations for authenticated and anon users
-CREATE POLICY "Allow public read access" ON cima_entities
-  FOR SELECT
-  TO public
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'cima_entities' AND policyname = 'Allow public read access'
+  ) THEN
+    CREATE POLICY "Allow public read access" ON cima_entities
+      FOR SELECT
+      TO public
+      USING (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Allow public insert access" ON cima_entities
-  FOR INSERT
-  TO public
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'cima_entities' AND policyname = 'Allow public insert access'
+  ) THEN
+    CREATE POLICY "Allow public insert access" ON cima_entities
+      FOR INSERT
+      TO public
+      WITH CHECK (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Allow public update access" ON cima_entities
-  FOR UPDATE
-  TO public
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'cima_entities' AND policyname = 'Allow public update access'
+  ) THEN
+    CREATE POLICY "Allow public update access" ON cima_entities
+      FOR UPDATE
+      TO public
+      USING (true);
+  END IF;
+END $$;
 
 -- Add comment
 COMMENT ON TABLE cima_entities IS 'CIMA (Cayman Islands Monetary Authority) regulated entities data scraped from www.cima.ky';
@@ -96,20 +117,41 @@ CREATE INDEX IF NOT EXISTS idx_bvi_additional_info ON bvi_entities USING GIN (ad
 ALTER TABLE bvi_entities ENABLE ROW LEVEL SECURITY;
 
 -- Create policy to allow all operations for authenticated and anon users
-CREATE POLICY "Allow public read access" ON bvi_entities
-  FOR SELECT
-  TO public
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'bvi_entities' AND policyname = 'Allow public read access'
+  ) THEN
+    CREATE POLICY "Allow public read access" ON bvi_entities
+      FOR SELECT
+      TO public
+      USING (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Allow public insert access" ON bvi_entities
-  FOR INSERT
-  TO public
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'bvi_entities' AND policyname = 'Allow public insert access'
+  ) THEN
+    CREATE POLICY "Allow public insert access" ON bvi_entities
+      FOR INSERT
+      TO public
+      WITH CHECK (true);
+  END IF;
+END $$;
 
-CREATE POLICY "Allow public update access" ON bvi_entities
-  FOR UPDATE
-  TO public
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'bvi_entities' AND policyname = 'Allow public update access'
+  ) THEN
+    CREATE POLICY "Allow public update access" ON bvi_entities
+      FOR UPDATE
+      TO public
+      USING (true);
+  END IF;
+END $$;
 
 -- Add comment
 COMMENT ON TABLE bvi_entities IS 'BVI FSC (Financial Services Commission) regulated entities data';
