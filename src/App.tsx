@@ -28,8 +28,9 @@ import HKFinancialScraper from './components/HKFinancialScraper';
 import HKScraperProduction from './components/HKScraperProduction';
 import HKScraperModern from './components/HKScraperModern';
 import OffshoreDataHub from './components/OffshoreDataHub';
-import WebScraperDemo from './components/WebScraperDemo';
-import HKScraperWithPuppeteer from './components/HKScraperWithPuppeteer';
+// Scraper components disabled for production
+// import WebScraperDemo from './components/WebScraperDemo';
+// import HKScraperWithPuppeteer from './components/HKScraperWithPuppeteer';
 
 function AppContent() {
   const { state, actions } = usePlayground();
@@ -184,6 +185,8 @@ function AppContent() {
                   <Search size={14} />
                   Offshore
                 </button>
+                {/* Scraper and Puppeteer views disabled for production */}
+                {/*
                 <button
                   onClick={() => actions.setCurrentView('web-scraper')}
                   className={`btn-minimal ${
@@ -208,6 +211,7 @@ function AppContent() {
                   <Search size={14} />
                   Puppeteer
                 </button>
+                */}
                 {/* Webb SQL Import/Update functions are temporarily disabled */}
                 {/* 
                 <button
@@ -329,10 +333,6 @@ function AppContent() {
           <HKScraperModern />
         ) : state.currentView === 'offshore-data' ? (
           <OffshoreDataHub />
-        ) : state.currentView === 'web-scraper' ? (
-          <WebScraperDemo />
-        ) : state.currentView === 'puppeteer-scraper' ? (
-          <HKScraperWithPuppeteer />
         ) : state.currentView === 'webb-importer' ? (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-white mb-4">
