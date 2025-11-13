@@ -15,8 +15,10 @@ export interface CCassHolding {
   id: string;
   stock_code: string;
   stock_name?: string;
+  shareholding_date?: string;
   participant_id: string;
   participant_name: string;
+  address?: string;
   shareholding: string | number;
   percentage: string | number;
   content_hash: string;
@@ -29,6 +31,8 @@ export interface CCASSFilters {
   stockCode?: string;
   participant?: string;
   minPercentage?: number;
+  dateFrom?: string;
+  dateTo?: string;
   limit?: number;
 }
 
@@ -60,8 +64,16 @@ export function useCCASSData(filters?: CCASSFilters) {
         query = query.gte('percentage', filters.minPercentage);
       }
 
-      // Order by shareholding descending
-      query = query.order('shareholding', { ascending: false });
+      if (filters?.dateFrom) {
+        query = query.gte('shareholding_date', filters.dateFrom);
+      }
+
+      if (filters?.dateTo) {
+        query = query.lte('shareholding_date', filters.dateTo);
+      }
+
+      // Order by date desc, then shareholding descending
+      query = query.order('shareholding_date', { ascending: false }).order('shareholding', { ascending: false });
 
       // Apply limit
       const limit = filters?.limit || 100;
@@ -92,6 +104,8 @@ export function useCCASSData(filters?: CCASSFilters) {
     filters?.stockCode,
     filters?.participant,
     filters?.minPercentage,
+    filters?.dateFrom,
+    filters?.dateTo,
     filters?.limit
   ]);
 

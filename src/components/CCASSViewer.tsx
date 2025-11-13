@@ -3,8 +3,8 @@
  * Display and filter HKEX CCASS shareholding data
  */
 
-import React, { useState, useMemo } from 'react';
-import { useCCASSData, getStockStatistics, type CCassHolding } from '../hooks/useCCASSData';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useCCASSData, getStockStatistics, getStockCodes, type CCassHolding } from '../hooks/useCCASSData';
 import {
   Search,
   Download,
@@ -15,19 +15,30 @@ import {
   BarChart3,
   Loader2,
   AlertCircle,
-  Info
+  Info,
+  Calendar
 } from 'lucide-react';
 
 export default function CCASSViewer() {
-  const [stockCode, setStockCode] = useState('00700');
+  const [stockCode, setStockCode] = useState('');
   const [participant, setParticipant] = useState('');
   const [minPercentage, setMinPercentage] = useState<number | undefined>(undefined);
-  const [limit, setLimit] = useState(100);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [limit, setLimit] = useState(500);
+  const [availableStocks, setAvailableStocks] = useState<string[]>([]);
+
+  // Load available stock codes
+  useEffect(() => {
+    getStockCodes().then(setAvailableStocks);
+  }, []);
 
   const { data, isLoading, error, totalRecords, reload } = useCCASSData({
-    stockCode,
+    stockCode: stockCode || undefined,
     participant: participant || undefined,
     minPercentage,
+    dateFrom: dateFrom || undefined,
+    dateTo: dateTo || undefined,
     limit
   });
 
@@ -106,23 +117,58 @@ export default function CCASSViewer() {
           </button>
         </div>
 
-        {/* Filters */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1">
-              Stock Code
-            </label>
-            <input
-              type="text"
-              value={stockCode}
-              onChange={(e) => setStockCode(e.target.value)}
-              placeholder="e.g., 00700"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
-            />
-          </div>
+        {/* Primary Filters - Stock and Date Range */}
+        <div className="p-3 bg-blue-50 rounded-lg border-2 border-blue-200">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-blue-700 mb-1.5 flex items-center gap-1">
+                <Building2 size={14} />
+                Stock Code
+              </label>
+              <select
+                value={stockCode}
+                onChange={(e) => setStockCode(e.target.value)}
+                className="w-full px-3 py-2 text-sm font-medium border-2 border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              >
+                <option value="">All Stocks ({availableStocks.length})</option>
+                {availableStocks.map(code => (
+                  <option key={code} value={code}>{code}</option>
+                ))}
+              </select>
+            </div>
 
+            <div>
+              <label className="block text-sm font-semibold text-blue-700 mb-1.5 flex items-center gap-1">
+                <Calendar size={14} />
+                Date From
+              </label>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="w-full px-3 py-2 text-sm font-medium border-2 border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-blue-700 mb-1.5 flex items-center gap-1">
+                <Calendar size={14} />
+                Date To
+              </label>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="w-full px-3 py-2 text-sm font-medium border-2 border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Secondary Filters */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
               Participant Filter
             </label>
             <input
@@ -130,12 +176,12 @@ export default function CCASSViewer() {
               value={participant}
               onChange={(e) => setParticipant(e.target.value)}
               placeholder="ID or Name"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
               Min Percentage (%)
             </label>
             <input
@@ -144,23 +190,23 @@ export default function CCASSViewer() {
               onChange={(e) => setMinPercentage(e.target.value ? parseFloat(e.target.value) : undefined)}
               placeholder="e.g., 1.0"
               step="0.1"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
               Limit
             </label>
             <select
               value={limit}
               onChange={(e) => setLimit(parseInt(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
             >
-              <option value={50}>50</option>
               <option value={100}>100</option>
               <option value={200}>200</option>
               <option value={500}>500</option>
+              <option value={1000}>1000</option>
             </select>
           </div>
         </div>
@@ -286,6 +332,12 @@ export default function CCASSViewer() {
                     Rank
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Stock Code
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Shareholding Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Participant ID
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -297,9 +349,6 @@ export default function CCASSViewer() {
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Percentage
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Scraped At
-                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -307,6 +356,12 @@ export default function CCASSViewer() {
                   <tr key={holding.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {index + 1}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono font-semibold text-blue-700">
+                      {holding.stock_code}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                      {holding.shareholding_date || 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
                       {holding.participant_id}
@@ -319,9 +374,6 @@ export default function CCASSViewer() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-semibold text-purple-600">
                       {holding.percentage}%
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(holding.scraped_at).toLocaleString()}
                     </td>
                   </tr>
                 ))}
