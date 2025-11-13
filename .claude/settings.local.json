@@ -78,7 +78,8 @@
       "Bash(supabase migration repair:*)",
       "Bash(supabase migration:*)",
       "Bash(timeout 300 node:*)",
-      "WebFetch(domain:www.bvifsc.vg)"
+      "WebFetch(domain:www.bvifsc.vg)",
+      "WebFetch(domain:chathogs.com)"
     ],
     "deny": [],
     "ask": []
