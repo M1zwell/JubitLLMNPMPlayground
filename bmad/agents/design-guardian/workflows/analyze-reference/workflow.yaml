@@ -1,0 +1,30 @@
+# Analyze Reference - Extract Design Tokens from Advanced Page
+name: "analyze-reference"
+description: "Extract and document design tokens from AdvancedPlaygroundDemo.tsx reference"
+author: "BMad"
+
+# Critical variables from agent sidecar context
+config_source: "{project-root}/bmad/bmb/config.yaml"
+user_name: "{config_source}:user_name"
+communication_language: "{config_source}:communication_language"
+date: system-generated
+
+# Agent-specific paths
+agent_folder: "{project-root}/bmad/agents/design-guardian"
+sidecar_folder: "{agent_folder}/design-guardian-sidecar"
+knowledge_folder: "{sidecar_folder}/knowledge"
+
+# Input: Design reference source
+design_reference: "{project-root}/src/components/AdvancedPlaygroundDemo.tsx"
+
+# Output: Updated design system documentation
+design_system_doc: "{knowledge_folder}/design-system.md"
+patterns_doc: "{knowledge_folder}/patterns.md"
+
+# Module path and component files
+installed_path: "{agent_folder}/workflows/analyze-reference"
+template: false # Action workflow - no template needed
+instructions: "{installed_path}/instructions.md"
+
+# Invocation control
+standalone: true

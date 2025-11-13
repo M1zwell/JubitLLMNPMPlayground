@@ -1,0 +1,31 @@
+# Apply to Page - Apply Design System to Specific Component
+name: "apply-to-page"
+description: "Apply design system to a specific component or page with granular approval"
+author: "BMad"
+
+# Critical variables from agent sidecar context
+config_source: "{project-root}/bmad/bmb/config.yaml"
+user_name: "{config_source}:user_name"
+communication_language: "{config_source}:communication_language"
+date: system-generated
+
+# Agent-specific paths
+agent_folder: "{project-root}/bmad/agents/design-guardian"
+sidecar_folder: "{agent_folder}/design-guardian-sidecar"
+knowledge_folder: "{sidecar_folder}/knowledge"
+
+# Design system references
+design_reference: "{project-root}/src/components/AdvancedPlaygroundDemo.tsx"
+design_system_doc: "{knowledge_folder}/design-system.md"
+patterns_doc: "{knowledge_folder}/patterns.md"
+
+# Target component path (will be elicited from user)
+components_path: "{project-root}/src/components"
+
+# Module path and component files
+installed_path: "{agent_folder}/workflows/apply-to-page"
+template: false # Action workflow - no template needed
+instructions: "{installed_path}/instructions.md"
+
+# Invocation control
+standalone: true

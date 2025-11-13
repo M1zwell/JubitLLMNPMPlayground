@@ -1,0 +1,35 @@
+# Check Consistency - Design System Audit Report
+name: "check-consistency"
+description: "Audit all pages for design inconsistencies and generate comprehensive report"
+author: "BMad"
+
+# Critical variables from agent sidecar context
+config_source: "{project-root}/bmad/bmb/config.yaml"
+output_folder: "{config_source}:output_folder"
+user_name: "{config_source}:user_name"
+communication_language: "{config_source}:communication_language"
+date: system-generated
+
+# Agent-specific paths
+agent_folder: "{project-root}/bmad/agents/design-guardian"
+sidecar_folder: "{agent_folder}/design-guardian-sidecar"
+knowledge_folder: "{sidecar_folder}/knowledge"
+
+# Design system references
+design_reference: "{project-root}/src/components/AdvancedPlaygroundDemo.tsx"
+design_system_doc: "{knowledge_folder}/design-system.md"
+patterns_doc: "{knowledge_folder}/patterns.md"
+
+# Components to audit
+components_path: "{project-root}/src/components"
+
+# Module path and component files
+installed_path: "{agent_folder}/workflows/check-consistency"
+template: "{installed_path}/template.md"
+instructions: "{installed_path}/instructions.md"
+
+# Output configuration
+default_output_file: "{output_folder}/design-audit-{date}.md"
+
+# Invocation control
+standalone: true
