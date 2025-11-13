@@ -226,7 +226,7 @@ Query: ${analysisQuery}
               <h3 className="text-lg font-semibold mb-4">🤖 AI-Powered Financial Analysis / AI驱动金融分析</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
                     Ask Webb AI / 询问Webb AI (支持中英文 / Chinese & English)
                   </label>
                   <div className="flex space-x-3">

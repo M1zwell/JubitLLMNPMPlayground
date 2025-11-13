@@ -355,7 +355,7 @@ export default function BVIViewer() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
               {/* Search Text */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Search size={14} className="inline mr-1" />
                   Search Keywords
                 </label>
@@ -364,20 +364,20 @@ export default function BVIViewer() {
                   value={filters.searchText}
                   onChange={(e) => setFilters({...filters, searchText: e.target.value})}
                   placeholder="Search name, license, agent..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
               {/* Entity Type */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Building2 size={14} className="inline mr-1" />
                   Entity Type
                 </label>
                 <select
                   value={filters.entityType}
                   onChange={(e) => setFilters({...filters, entityType: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 font-medium"
                 >
                   <option value="all">All Types</option>
                   {getAllEntityTypes().map(type => (
@@ -388,14 +388,14 @@ export default function BVIViewer() {
 
               {/* License Status */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Shield size={14} className="inline mr-1" />
                   License Status
                 </label>
                 <select
                   value={filters.licenseStatus}
                   onChange={(e) => setFilters({...filters, licenseStatus: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 font-medium"
                 >
                   <option value="all">All Statuses</option>
                   {getAllLicenseStatuses().map(status => (
@@ -408,11 +408,11 @@ export default function BVIViewer() {
             {/* Sort and Export */}
             <div className="flex items-center justify-between pt-4 border-t border-gray-200">
               <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">Sort by:</label>
+                <label className="text-sm font-semibold text-gray-900">Sort by:</label>
                 <select
                   value={filters.sortBy}
                   onChange={(e) => setFilters({...filters, sortBy: e.target.value})}
-                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 text-gray-900 font-medium"
                 >
                   <option value="name-asc">Name (A-Z)</option>
                   <option value="name-desc">Name (Z-A)</option>

@@ -411,7 +411,7 @@ export default function CIMAViewer() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
               {/* Search Text */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Search size={14} className="inline mr-1" />
                   Search Keywords
                 </label>
@@ -420,20 +420,20 @@ export default function CIMAViewer() {
                   value={filters.searchText}
                   onChange={(e) => setFilters({...filters, searchText: e.target.value})}
                   placeholder="Search name, license number..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
               {/* Entity Type */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Building2 size={14} className="inline mr-1" />
                   Entity Type
                 </label>
                 <select
                   value={filters.entityType}
                   onChange={(e) => setFilters({...filters, entityType: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-gray-900 font-medium"
                 >
                   <option value="all">All Types</option>
                   {ENTITY_TYPES.map(type => (
@@ -444,14 +444,14 @@ export default function CIMAViewer() {
 
               {/* Entity Category (for Trust providers) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Award size={14} className="inline mr-1" />
                   Category (Trust)
                 </label>
                 <select
                   value={filters.entityCategory}
                   onChange={(e) => setFilters({...filters, entityCategory: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-gray-900 font-medium"
                   disabled={filters.entityType !== 'Trust & Corporate Services Providers'}
                 >
                   <option value="all">All Categories</option>
@@ -463,14 +463,14 @@ export default function CIMAViewer() {
 
               {/* License Status */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Shield size={14} className="inline mr-1" />
                   License Status
                 </label>
                 <select
                   value={filters.licenseStatus}
                   onChange={(e) => setFilters({...filters, licenseStatus: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-gray-900 font-medium"
                 >
                   <option value="all">All Statuses</option>
                   {getAllLicenseStatuses().map(status => (
@@ -481,11 +481,11 @@ export default function CIMAViewer() {
 
               {/* Registered Agent Status */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Registered Agent</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-1">Registered Agent</label>
                 <select
                   value={filters.registeredAgentStatus}
                   onChange={(e) => setFilters({...filters, registeredAgentStatus: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-gray-900 font-medium"
                 >
                   <option value="all">All</option>
                   <option value="yes">Has Registered Agent Status</option>

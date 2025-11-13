@@ -291,7 +291,7 @@ export default function HKSFCViewer() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
               {/* Search Text */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Search size={14} className="inline mr-1" />
                   Search Keywords
                 </label>
@@ -300,20 +300,20 @@ export default function HKSFCViewer() {
                   value={filters.searchText}
                   onChange={(e) => setFilters({...filters, searchText: e.target.value})}
                   placeholder="Search title, summary, content..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
               {/* Filing Type */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Building2 size={14} className="inline mr-1" />
                   Filing Type
                 </label>
                 <select
                   value={filters.filingType}
                   onChange={(e) => setFilters({...filters, filingType: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 font-medium"
                 >
                   <option value="all">All Types</option>
                   {getAllFilingTypes().map(type => (
@@ -324,14 +324,14 @@ export default function HKSFCViewer() {
 
               {/* Tag Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Tag size={14} className="inline mr-1" />
                   Tag Filter
                 </label>
                 <select
                   value={filters.selectedTag}
                   onChange={(e) => setFilters({...filters, selectedTag: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 font-medium"
                 >
                   <option value="all">All Tags</option>
                   {getAllTags().map(tag => (
@@ -342,19 +342,19 @@ export default function HKSFCViewer() {
 
               {/* Company Code */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Company Code</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-1">Company Code</label>
                 <input
                   type="text"
                   value={filters.companyCode}
                   onChange={(e) => setFilters({...filters, companyCode: e.target.value})}
                   placeholder="e.g., 00700"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
               {/* Date From */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Calendar size={14} className="inline mr-1" />
                   Date From
                 </label>
@@ -362,13 +362,13 @@ export default function HKSFCViewer() {
                   type="date"
                   value={filters.dateFrom}
                   onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
               {/* Date To */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-900 mb-1">
                   <Calendar size={14} className="inline mr-1" />
                   Date To
                 </label>
@@ -376,7 +376,7 @@ export default function HKSFCViewer() {
                   type="date"
                   value={filters.dateTo}
                   onChange={(e) => setFilters({...filters, dateTo: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
             </div>
@@ -384,11 +384,11 @@ export default function HKSFCViewer() {
             {/* Sort and Export */}
             <div className="flex items-center justify-between pt-4 border-t border-gray-200">
               <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">Sort by:</label>
+                <label className="text-sm font-semibold text-gray-900">Sort by:</label>
                 <select
                   value={filters.sortBy}
                   onChange={(e) => setFilters({...filters, sortBy: e.target.value})}
-                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 text-gray-900 font-medium"
                 >
                   <option value="date-desc">Date (Newest First)</option>
                   <option value="date-asc">Date (Oldest First)</option>
