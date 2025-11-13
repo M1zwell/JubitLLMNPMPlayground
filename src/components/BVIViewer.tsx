@@ -29,13 +29,17 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// BVI FSC Entity Types available for scraping
+// BVI FSC Entity Types (matching BVI FSC registry)
 const BVI_ENTITY_TYPES = [
-  'Banking & Fiduciary',
-  'Insurance',
+  'Virtual Assets Service Providers',
+  'Banks',
+  'Trust Companies',
+  'Insurance Companies',
+  'Mutual Funds',
+  'Fund Administrators',
   'Investment Business',
-  'Registered Agents',
-  'VASP'
+  'Approved Auditors',
+  'Insolvency Practitioners'
 ];
 
 interface BVIEntity {

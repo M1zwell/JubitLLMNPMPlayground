@@ -64,7 +64,14 @@ const ENTITY_TYPES = [
   'Investment Business',
   'Insolvency Practitioners',
   'Registered Agents',
-  'Virtual Assets Service Providers'
+  'Virtual Assets Service Providers',
+  'Mutual Fund - Administered',
+  'Mutual Fund - Licenced',
+  'Mutual Fund - Limited Investor',
+  'Mutual Fund - Master Fund',
+  'Mutual Fund - Registered',
+  'Mutual Fund Administrator - Full',
+  'Mutual Fund Administrator - Restricted'
 ];
 
 const TRUST_CATEGORIES = [
