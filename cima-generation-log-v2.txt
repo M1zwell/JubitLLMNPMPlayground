@@ -1,0 +1,19 @@
+🚀 CIMA Mutual Funds Generator
+
+============================================================
+Target: 1800 entities
+============================================================
+
+📊 Current CIMA entities: 17
+📈 Need to generate: 1783 entities
+
+💾 Generating and inserting funds...
+
+  ✅ 100 / 1783 inserted
+  ✅ 200 / 1783 inserted
+  ✅ 300 / 1783 inserted
+  ✅ 400 / 1783 inserted
+  ✅ 500 / 1783 inserted
+  ✅ 600 / 1783 inserted
+  ✅ 700 / 1783 inserted
+  ✅ 800 / 1783 inserted

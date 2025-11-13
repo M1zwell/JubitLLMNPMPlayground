@@ -27,3 +27,59 @@ Stop at: 1800 total entities
 📋 Scraping: Mutual Fund - Licenced...
   ✓ Loaded search page
   ✓ Selected: Mutual Fund - Licenced
+  ✓ Submitted form
+  ✓ Extracted 43 entities
+
+💾 Inserting 43 entities...
+
+  ✅ Inserted/Updated: 0
+  ❌ Failed: 43
+  ⏳ Waiting 3 seconds...
+[3/7] Processing: Mutual Fund - Limited Investor
+  Current total: 17/1800
+
+📋 Scraping: Mutual Fund - Limited Investor...
+  ✓ Loaded search page
+  ✓ Selected: Mutual Fund - Limited Investor
+  ✓ Submitted form
+  ✓ Extracted 0 entities
+  ⏳ Waiting 3 seconds...
+[4/7] Processing: Mutual Fund - Master Fund
+  Current total: 17/1800
+
+📋 Scraping: Mutual Fund - Master Fund...
+  ✓ Loaded search page
+  ✓ Selected: Mutual Fund - Master Fund
+  ✓ Submitted form
+  ❌ Error scraping Mutual Fund - Master Fund: Attempted to use detached Frame '56FBBEE0B491D562D0091B4988333E1A'.
+  ⏳ Waiting 3 seconds...
+[5/7] Processing: Mutual Fund - Registered
+  Current total: 17/1800
+
+📋 Scraping: Mutual Fund - Registered...
+  ❌ Error scraping Mutual Fund - Registered: Attempted to use detached Frame '56FBBEE0B491D562D0091B4988333E1A'.
+  ⏳ Waiting 3 seconds...
+[6/7] Processing: Mutual Fund Administrator - Full
+  Current total: 17/1800
+
+📋 Scraping: Mutual Fund Administrator - Full...
+  ❌ Error scraping Mutual Fund Administrator - Full: Attempted to use detached Frame '56FBBEE0B491D562D0091B4988333E1A'.
+  ⏳ Waiting 3 seconds...
+[7/7] Processing: Mutual Fund Administrator - Restricted
+  Current total: 17/1800
+
+📋 Scraping: Mutual Fund Administrator - Restricted...
+  ❌ Error scraping Mutual Fund Administrator - Restricted: Attempted to use detached Frame '56FBBEE0B491D562D0091B4988333E1A'.
+
+============================================================
+📊 CIMA MUTUAL FUNDS SCRAPING COMPLETE!
+============================================================
+Entities scraped this session: 43
+Total CIMA entities in database: 17
+Target: 1800
+Status: ⚠️ INCOMPLETE
+============================================================
+
+✓ Browser closed
+
+✅ CIMA scraping complete!
