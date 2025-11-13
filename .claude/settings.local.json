@@ -76,7 +76,9 @@
       "Bash(set SUPABASE_ACCESS_TOKEN=sbp_1cf43d8f8eb2dc8df3136a5d8c948e433d100a52)",
       "Bash(export SUPABASE_ACCESS_TOKEN=sbp_1cf43d8f8eb2dc8df3136a5d8c948e433d100a52)",
       "Bash(supabase migration repair:*)",
-      "Bash(supabase migration:*)"
+      "Bash(supabase migration:*)",
+      "Bash(timeout 300 node:*)",
+      "WebFetch(domain:www.bvifsc.vg)"
     ],
     "deny": [],
     "ask": []

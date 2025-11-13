@@ -1,0 +1,88 @@
+🚀 BVI Complete Scraper
+
+============================================================
+Target: BVI FSC Regulated Entities
+Entity Types: 9
+============================================================
+
+🌐 Launching browser...
+✓ Browser launched
+
+[1/9] Processing: Virtual Assets Service Providers
+
+📋 Scraping: Virtual Assets Service Providers...
+  ✓ Loaded page
+  ✓ Extracted 0 entities
+  ⏳ Waiting 3 seconds...
+[2/9] Processing: Banks
+
+📋 Scraping: Banks...
+  ✓ Loaded page
+  ✓ Extracted 0 entities
+  ⏳ Waiting 3 seconds...
+[3/9] Processing: Trust Companies
+
+📋 Scraping: Trust Companies...
+  ✓ Loaded page
+  ✓ Extracted 0 entities
+  ⏳ Waiting 3 seconds...
+[4/9] Processing: Insurance Companies
+
+📋 Scraping: Insurance Companies...
+  ✓ Loaded page
+  ✓ Extracted 0 entities
+  ⏳ Waiting 3 seconds...
+[5/9] Processing: Mutual Funds
+
+📋 Scraping: Mutual Funds...
+  ✓ Loaded page
+  ✓ Extracted 0 entities
+  ⏳ Waiting 3 seconds...
+[6/9] Processing: Fund Administrators
+
+📋 Scraping: Fund Administrators...
+  ✓ Loaded page
+  ✓ Extracted 0 entities
+  ⏳ Waiting 3 seconds...
+[7/9] Processing: Investment Business
+
+📋 Scraping: Investment Business...
+  ✓ Loaded page
+  ✓ Extracted 15 entities
+
+💾 Inserting 15 BVI entities...
+
+  ✅ Inserted/Updated: 15
+  ❌ Failed: 0
+  ⏳ Waiting 3 seconds...
+[8/9] Processing: Approved Auditors
+
+📋 Scraping: Approved Auditors...
+  ✓ Loaded page
+  ✓ Extracted 0 entities
+  ⏳ Waiting 3 seconds...
+[9/9] Processing: Insolvency Practitioners
+
+📋 Scraping: Insolvency Practitioners...
+  ✓ Loaded page
+  ✓ Extracted 15 entities
+
+💾 Inserting 15 BVI entities...
+
+  ✅ Inserted/Updated: 15
+  ❌ Failed: 0
+
+============================================================
+📊 BVI SCRAPING COMPLETE!
+============================================================
+Total entities scraped: 30
+============================================================
+
+📄 Exporting to CSV: bvi-entities-complete.csv
+  ✅ Exported 30 entities to bvi-entities-complete.csv
+
+🎉 Total BVI records in database: 27
+
+✓ Browser closed
+
+✅ BVI scraping complete!

@@ -1,0 +1,127 @@
+🚀 CIMA Complete Entity Scraper
+
+============================================================
+Target: https://www.cima.ky/search-entities-cima
+Entity Types: 13
+============================================================
+
+🌐 Launching browser...
+✓ Browser launched
+
+[1/13] Processing: Banking Class A
+
+📋 Scraping: Banking Class A...
+  ✓ Loaded search page
+  ✓ Selected: Banking Class A
+  ❌ Error scraping Banking Class A: Node is either not clickable or not an Element
+  ⚠️ No entities found for Banking Class A
+  ⏳ Waiting 3 seconds before next type...
+[2/13] Processing: Banking Class B
+
+📋 Scraping: Banking Class B...
+  ✓ Loaded search page
+  ✓ Selected: Banking Class B
+  ❌ Error scraping Banking Class B: Node is either not clickable or not an Element
+  ⚠️ No entities found for Banking Class B
+  ⏳ Waiting 3 seconds before next type...
+[3/13] Processing: Banking Class C
+
+📋 Scraping: Banking Class C...
+  ✓ Loaded search page
+  ✓ Selected: Banking Class C
+  ❌ Error scraping Banking Class C: Node is either not clickable or not an Element
+  ⚠️ No entities found for Banking Class C
+  ⏳ Waiting 3 seconds before next type...
+[4/13] Processing: Trust
+
+📋 Scraping: Trust...
+  ✓ Loaded search page
+  ✓ Selected: Trust
+  ❌ Error scraping Trust: Node is either not clickable or not an Element
+  ⚠️ No entities found for Trust
+  ⏳ Waiting 3 seconds before next type...
+[5/13] Processing: Insurance Class A
+
+📋 Scraping: Insurance Class A...
+  ✓ Loaded search page
+  ✓ Selected: Insurance Class A
+  ❌ Error scraping Insurance Class A: Node is either not clickable or not an Element
+  ⚠️ No entities found for Insurance Class A
+  ⏳ Waiting 3 seconds before next type...
+[6/13] Processing: Insurance Class B
+
+📋 Scraping: Insurance Class B...
+  ✓ Loaded search page
+  ✓ Selected: Insurance Class B
+  ❌ Error scraping Insurance Class B: Node is either not clickable or not an Element
+  ⚠️ No entities found for Insurance Class B
+  ⏳ Waiting 3 seconds before next type...
+[7/13] Processing: Insurance Class C
+
+📋 Scraping: Insurance Class C...
+  ✓ Loaded search page
+  ✓ Selected: Insurance Class C
+  ❌ Error scraping Insurance Class C: Node is either not clickable or not an Element
+  ⚠️ No entities found for Insurance Class C
+  ⏳ Waiting 3 seconds before next type...
+[8/13] Processing: Investment Business
+
+📋 Scraping: Investment Business...
+  ✓ Loaded search page
+  ✓ Selected: Investment Business
+  ❌ Error scraping Investment Business: Node is either not clickable or not an Element
+  ⚠️ No entities found for Investment Business
+  ⏳ Waiting 3 seconds before next type...
+[9/13] Processing: Money Services
+
+📋 Scraping: Money Services...
+  ✓ Loaded search page
+  ✓ Selected: Money Services
+  ❌ Error scraping Money Services: Node is either not clickable or not an Element
+  ⚠️ No entities found for Money Services
+  ⏳ Waiting 3 seconds before next type...
+[10/13] Processing: Virtual Asset
+
+📋 Scraping: Virtual Asset...
+  ✓ Loaded search page
+  ✓ Selected: Virtual Asset
+  ❌ Error scraping Virtual Asset: Node is either not clickable or not an Element
+  ⚠️ No entities found for Virtual Asset
+  ⏳ Waiting 3 seconds before next type...
+[11/13] Processing: Fund Administrator
+
+📋 Scraping: Fund Administrator...
+  ✓ Loaded search page
+  ✓ Selected: Fund Administrator
+  ❌ Error scraping Fund Administrator: Node is either not clickable or not an Element
+  ⚠️ No entities found for Fund Administrator
+  ⏳ Waiting 3 seconds before next type...
+[12/13] Processing: Registered Agent
+
+📋 Scraping: Registered Agent...
+  ✓ Loaded search page
+  ✓ Selected: Registered Agent
+  ❌ Error scraping Registered Agent: Node is either not clickable or not an Element
+  ⚠️ No entities found for Registered Agent
+  ⏳ Waiting 3 seconds before next type...
+[13/13] Processing: Insolvency Practitioner
+
+📋 Scraping: Insolvency Practitioner...
+  ✓ Loaded search page
+  ✓ Selected: Insolvency Practitioner
+  ❌ Error scraping Insolvency Practitioner: Node is either not clickable or not an Element
+  ⚠️ No entities found for Insolvency Practitioner
+
+============================================================
+📊 Scraping Complete!
+Total entities scraped: 0
+============================================================
+
+⚠️ No entities were scraped. Please check the website structure.
+
+🎉 Total records in database: 0
+
+✓ Browser closed
+
+✅ Scraping process complete!
+   Visit: https://chathogs.com → Offshore Data → CIMA tab
