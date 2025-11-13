@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 import CCASSViewer from './CCASSViewer';
 import HKSFCViewer from './HKSFCViewer';
-import HKEXViewer from './HKEXViewer';
+import HKEXDisclosureViewer from './HKEXDisclosureViewer';
 
 type DataSource = 'hksfc' | 'hkex' | 'ccass';
 type ViewMode = 'scrape' | 'view' | 'analyze';
@@ -99,7 +99,7 @@ export default function HKScraperModern() {
               }`}
             >
               <TrendingUp size={20} />
-              HKEX Announcements
+              Disclosure of Interests
             </button>
           </div>
 
@@ -185,20 +185,20 @@ export default function HKScraperModern() {
 
           {activeSource === 'hkex' && (
             <div>
-              {viewMode === 'view' && <HKEXViewer />}
+              {viewMode === 'view' && <HKEXDisclosureViewer />}
               {viewMode === 'analyze' && (
                 <div className="p-8">
                   <ComingSoonPlaceholder
-                    title="HKEX Analytics"
-                    description="Advanced analytics for HKEX announcements"
+                    title="Disclosure Analytics"
+                    description="Advanced analytics for disclosure of interests"
                   />
                 </div>
               )}
               {viewMode === 'scrape' && (
                 <div className="p-8">
                   <ComingSoonPlaceholder
-                    title="HKEX Scraper"
-                    description="Scrape HKEX announcement data"
+                    title="Disclosure Scraper"
+                    description="Scrape disclosure of interests data"
                   />
                 </div>
               )}
