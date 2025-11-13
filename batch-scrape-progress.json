@@ -1,0 +1,623 @@
+{
+  "timestamp": "2025-11-13T11:42:03.474Z",
+  "processed": 77,
+  "total": 88,
+  "results": [
+    {
+      "success": true,
+      "stock_code": "00001",
+      "stock_name": "CK Hutchison Holdings Ltd.",
+      "shareholders_found": 6,
+      "inserted": 6,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00002",
+      "stock_name": "CLP Holdings Ltd.",
+      "shareholders_found": 9,
+      "inserted": 9,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00003",
+      "stock_name": "Hong Kong and China Gas Co. Ltd., The",
+      "shareholders_found": 14,
+      "inserted": 14,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00005",
+      "stock_name": "HSBC Holdings plc",
+      "shareholders_found": 3,
+      "inserted": 3,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00006",
+      "stock_name": "Power Assets Holdings Ltd.",
+      "shareholders_found": 2,
+      "inserted": 2,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00011",
+      "stock_name": "Hang Seng Bank Ltd.",
+      "shareholders_found": 1,
+      "inserted": 1,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00012",
+      "stock_name": "Henderson Land Development Co. Ltd.",
+      "shareholders_found": 13,
+      "inserted": 13,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00016",
+      "stock_name": "Sun Hung Kai Properties Ltd.",
+      "shareholders_found": 16,
+      "inserted": 16,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00027",
+      "stock_name": "Galaxy Entertainment Group Ltd.",
+      "shareholders_found": 6,
+      "inserted": 6,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00066",
+      "stock_name": "MTR Corporation Ltd.",
+      "shareholders_found": 0,
+      "inserted": 0,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00101",
+      "stock_name": "Hang Lung Properties Ltd.",
+      "shareholders_found": 6,
+      "inserted": 6,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00175",
+      "stock_name": "Geely Automobile Holdings Ltd.",
+      "shareholders_found": 4,
+      "inserted": 4,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00241",
+      "stock_name": "Alibaba Health Information Technology Ltd.",
+      "shareholders_found": 7,
+      "inserted": 7,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00267",
+      "stock_name": "CITIC Ltd.",
+      "shareholders_found": 6,
+      "inserted": 6,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00285",
+      "stock_name": "BYD Electronic (International) Co. Ltd.",
+      "shareholders_found": 0,
+      "inserted": 0,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00288",
+      "stock_name": "WH Group Ltd.",
+      "shareholders_found": 11,
+      "inserted": 11,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00291",
+      "stock_name": "China Resources Beer (Holdings) Co. Ltd.",
+      "shareholders_found": 2,
+      "inserted": 2,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00300",
+      "stock_name": "Midea Group Co., Ltd.  - A Shares",
+      "shareholders_found": 3,
+      "inserted": 3,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00316",
+      "stock_name": "Orient Overseas (International) Ltd.",
+      "shareholders_found": 9,
+      "inserted": 9,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00322",
+      "stock_name": "Tingyi (Cayman Islands) Holding Corp.",
+      "shareholders_found": 2,
+      "inserted": 2,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00386",
+      "stock_name": "China Petroleum & Chemical Corporation  - H Shares",
+      "shareholders_found": 3,
+      "inserted": 3,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00388",
+      "stock_name": "Hong Kong Exchanges and Clearing Ltd.",
+      "shareholders_found": 1,
+      "inserted": 1,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00669",
+      "stock_name": "Techtronic Industries Co. Ltd.",
+      "shareholders_found": 4,
+      "inserted": 4,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00688",
+      "stock_name": "China Overseas Land & Investment Ltd.",
+      "shareholders_found": 4,
+      "inserted": 4,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00700",
+      "stock_name": "Tencent Holdings Ltd.",
+      "shareholders_found": 5,
+      "inserted": 5,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00728",
+      "stock_name": "China Telecom Corporation Ltd.  - H Shares",
+      "shareholders_found": 4,
+      "inserted": 4,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00762",
+      "stock_name": "China Unicom (Hong Kong) Ltd.",
+      "shareholders_found": 4,
+      "inserted": 4,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00823",
+      "stock_name": "Link Real Estate Investment Trust",
+      "shareholders_found": 3,
+      "inserted": 3,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00836",
+      "stock_name": "China Resources Power Holdings Co. Ltd.",
+      "shareholders_found": 2,
+      "inserted": 2,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00857",
+      "stock_name": "PetroChina Co. Ltd.  - H Shares",
+      "shareholders_found": 2,
+      "inserted": 2,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00868",
+      "stock_name": "Xinyi Glass Holdings Ltd.",
+      "shareholders_found": 13,
+      "inserted": 13,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00881",
+      "stock_name": "Zhongsheng Group Holdings Ltd.",
+      "shareholders_found": 16,
+      "inserted": 16,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00883",
+      "stock_name": "CNOOC Ltd.",
+      "shareholders_found": 1,
+      "inserted": 1,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00939",
+      "stock_name": "China Construction Bank Corporation  - H Shares",
+      "shareholders_found": 1,
+      "inserted": 1,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00941",
+      "stock_name": "China Mobile Ltd.",
+      "shareholders_found": 3,
+      "inserted": 3,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00960",
+      "stock_name": "Longfor Group Holdings Ltd.",
+      "shareholders_found": 10,
+      "inserted": 10,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00968",
+      "stock_name": "Xinyi Solar Holdings Ltd.",
+      "shareholders_found": 16,
+      "inserted": 16,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00981",
+      "stock_name": "Semiconductor Manufacturing International Corporation",
+      "shareholders_found": 5,
+      "inserted": 5,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "00992",
+      "stock_name": "Lenovo Group Ltd.",
+      "shareholders_found": 31,
+      "inserted": 31,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01024",
+      "stock_name": "Kuaishou Technology - W",
+      "shareholders_found": 13,
+      "inserted": 13,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01038",
+      "stock_name": "CK Infrastructure Holdings Ltd.",
+      "shareholders_found": 1,
+      "inserted": 1,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01044",
+      "stock_name": "Hengan International Group Co. Ltd.",
+      "shareholders_found": 8,
+      "inserted": 8,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01088",
+      "stock_name": "China Shenhua Energy Co. Ltd.  - H Shares",
+      "shareholders_found": 2,
+      "inserted": 2,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01093",
+      "stock_name": "CSPC Pharmaceutical Group Ltd.",
+      "shareholders_found": 4,
+      "inserted": 4,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01099",
+      "stock_name": "Sinopharm Group Co. Ltd.  - H Shares",
+      "shareholders_found": 5,
+      "inserted": 5,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01109",
+      "stock_name": "China Resources Land Ltd.",
+      "shareholders_found": 1,
+      "inserted": 1,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01113",
+      "stock_name": "CK Asset Holdings Ltd.",
+      "shareholders_found": 6,
+      "inserted": 6,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01177",
+      "stock_name": "Sino Biopharmaceutical Ltd.",
+      "shareholders_found": 7,
+      "inserted": 7,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01209",
+      "stock_name": "China Resources Mixc Lifestyle Services Ltd.",
+      "shareholders_found": 3,
+      "inserted": 3,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01211",
+      "stock_name": "BYD Co. Ltd.  - H Shares",
+      "shareholders_found": 5,
+      "inserted": 5,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01299",
+      "stock_name": "AIA Group Ltd.",
+      "shareholders_found": 4,
+      "inserted": 4,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01378",
+      "stock_name": "China Hongqiao Group Ltd.",
+      "shareholders_found": 10,
+      "inserted": 10,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01398",
+      "stock_name": "Industrial and Commercial Bank of China Ltd.  - H Shares",
+      "shareholders_found": 5,
+      "inserted": 5,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01810",
+      "stock_name": "Xiaomi Corporation - W",
+      "shareholders_found": 13,
+      "inserted": 13,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01876",
+      "stock_name": "Budweiser Brewing Co. APAC Ltd.",
+      "shareholders_found": 31,
+      "inserted": 31,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01928",
+      "stock_name": "Sands China Ltd.",
+      "shareholders_found": 2,
+      "inserted": 2,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01929",
+      "stock_name": "Chow Tai Fook Jewellery Group Ltd.",
+      "shareholders_found": 7,
+      "inserted": 7,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "01997",
+      "stock_name": "Wharf Real Estate Investment Co. Ltd.",
+      "shareholders_found": 3,
+      "inserted": 3,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02015",
+      "stock_name": "Li Auto Inc. - W",
+      "shareholders_found": 14,
+      "inserted": 14,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02020",
+      "stock_name": "ANTA Sports Products Ltd.",
+      "shareholders_found": 7,
+      "inserted": 7,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02057",
+      "stock_name": "ZTO Express (Cayman) Inc. - W",
+      "shareholders_found": 14,
+      "inserted": 14,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02269",
+      "stock_name": "WuXi Biologics (Cayman) Inc.",
+      "shareholders_found": 8,
+      "inserted": 8,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02313",
+      "stock_name": "Shenzhou International Group Holdings Ltd.",
+      "shareholders_found": 6,
+      "inserted": 6,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02318",
+      "stock_name": "Ping An Insurance (Group) Co. of China, Ltd.  - H Shares",
+      "shareholders_found": 8,
+      "inserted": 8,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02319",
+      "stock_name": "China Mengniu Dairy Co. Ltd.",
+      "shareholders_found": 11,
+      "inserted": 11,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02331",
+      "stock_name": "Li Ning Co. Ltd.",
+      "shareholders_found": 5,
+      "inserted": 5,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02359",
+      "stock_name": "WuXi AppTec Co., Ltd.  - H Shares",
+      "shareholders_found": 14,
+      "inserted": 14,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02382",
+      "stock_name": "Sunny Optical Technology (Group) Co. Ltd.",
+      "shareholders_found": 10,
+      "inserted": 10,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02388",
+      "stock_name": "BOC Hong Kong (Holdings) Ltd.",
+      "shareholders_found": 0,
+      "inserted": 0,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02618",
+      "stock_name": "JD Logistics, Inc.",
+      "shareholders_found": 6,
+      "inserted": 6,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02628",
+      "stock_name": "China Life Insurance Co. Ltd.  - H Shares",
+      "shareholders_found": 5,
+      "inserted": 5,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02688",
+      "stock_name": "ENN Energy Holdings Ltd.",
+      "shareholders_found": 10,
+      "inserted": 10,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "02899",
+      "stock_name": "Zijin Mining Group Co., Ltd.  - H Shares",
+      "shareholders_found": 4,
+      "inserted": 4,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "03690",
+      "stock_name": "Meituan - W",
+      "shareholders_found": 9,
+      "inserted": 9,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "03692",
+      "stock_name": "Hansoh Pharmaceutical Group Co. Ltd.",
+      "shareholders_found": 10,
+      "inserted": 10,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "03968",
+      "stock_name": "China Merchants Bank Co., Ltd.  - H Shares",
+      "shareholders_found": 9,
+      "inserted": 9,
+      "failed": 0
+    },
+    {
+      "success": true,
+      "stock_code": "03988",
+      "stock_name": "Bank of China Ltd.  - H Shares",
+      "shareholders_found": 6,
+      "inserted": 6,
+      "failed": 0
+    }
+  ]
+}
