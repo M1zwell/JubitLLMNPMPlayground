@@ -6,6 +6,116 @@
 
 ---
 
+## Context-Aware Design System Architecture
+
+**IMPORTANT**: This design system now supports **context-specific pattern variants** to accommodate different interface types while maintaining overall consistency.
+
+### Design Contexts
+
+The application uses **three design contexts**, each with appropriate pattern sets:
+
+#### 1. **Core Context** (Default)
+- **Applies to**: Most application components (authentication, navigation, features, utilities)
+- **Pattern Source**: This document (design-system.md) + patterns.md
+- **Characteristics**: Standard design system from AdvancedPlaygroundDemo.tsx
+- **Examples**: App.tsx, AuthModal.tsx, LLMPlayground.tsx, MultiModelChat.tsx
+
+#### 2. **Data Hub Context**
+- **Applies to**: Financial data management interfaces (scrapers, importers, data viewers)
+- **Pattern Source**: data-hub-patterns.md
+- **Characteristics**:
+  - 4-column colored stats dashboards
+  - Gray filter panels (functional, not decorative)
+  - Enhanced data cards with tags/badges/metadata
+  - Export functionality (JSON, CSV)
+  - Compact spacing for information density
+- **Examples**: HKScraperProduction.tsx, WebbDataImporter.tsx
+- **Why Different**: Data-intensive interfaces require higher information density and functional color coding
+
+#### 3. **Offshore Hub Context**
+- **Applies to**: Premium offshore financial regulatory platforms
+- **Pattern Source**: offshore-hub-patterns.md
+- **Characteristics**:
+  - Page background gradients (cyan/teal)
+  - Text gradient headings
+  - Gradient tab buttons
+  - Large rounded corners (rounded-2xl)
+  - Gradient stat cards
+  - Dual-color jurisdiction scheme
+- **Examples**: OffshoreDataHub.tsx, CIMAViewer.tsx, BVIViewer.tsx
+- **Why Different**: Premium interfaces require enhanced visual treatment to convey quality and brand differentiation
+
+#### 4. **Reference Context** (Read-Only)
+- **Applies to**: Design reference files
+- **Pattern Source**: AdvancedPlaygroundDemo.tsx (NEVER MODIFIED)
+- **Examples**: AdvancedPlaygroundDemo.tsx
+- **Why Special**: This is the golden standard that defines the core design system
+
+### Context Detection
+
+Morgan uses **component-context-map.md** to automatically detect which context a component belongs to based on:
+- Filename patterns (e.g., "Scraper", "Offshore", "CIMA")
+- Content patterns (e.g., page gradients, 4-column stats grids)
+- Feature indicators (e.g., export buttons, filter panels)
+
+See **component-context-map.md** for full detection rules and decision tree.
+
+### Harmonization Strategy
+
+When harmonizing components, Morgan:
+1. **Detects context** using component-context-map.md
+2. **Applies appropriate patterns**:
+   - Core → design-system.md + patterns.md
+   - Data Hub → data-hub-patterns.md
+   - Offshore Hub → offshore-hub-patterns.md
+   - Reference → SKIP (never modify)
+3. **Preserves context-specific patterns** while fixing genuine inconsistencies
+4. **Always adds dark mode** variants regardless of context
+5. **Always fixes spacing** to Tailwind scale regardless of context
+6. **Always fixes typography** to design system regardless of context
+
+### What This Means
+
+✅ **Safe to Harmonize Everywhere**:
+- Typography sizes (text-xs/sm/base/lg/xl/2xl)
+- Font weights (font-normal/medium/semibold/bold)
+- Missing dark mode variants
+- Arbitrary spacing values → Tailwind scale
+- Icon sizes
+
+⚠️ **Context-Specific (Preserve in Data Hub)**:
+- 4-column stats dashboards
+- Gray filter panel backgrounds
+- Compact padding (p-3 instead of p-4)
+- Purple tag badges
+- Highlighted filter sections
+
+⚠️ **Context-Specific (Preserve in Offshore Hub)**:
+- Page background gradients
+- Text gradient headings
+- Gradient tab buttons
+- Large rounded corners (rounded-2xl)
+- Gradient stat cards
+- Dual-color jurisdiction schemes
+
+### Pattern Document Index
+
+| Document | Context | Purpose |
+|----------|---------|---------|
+| **design-system.md** | Core | This document - design tokens for standard components |
+| **patterns.md** | Core | Reusable component patterns from AdvancedPlaygroundDemo.tsx |
+| **data-hub-patterns.md** | Data Hub | Financial data interface patterns (stats, filters, exports) |
+| **offshore-hub-patterns.md** | Offshore Hub | Premium offshore regulatory platform patterns (gradients) |
+| **component-context-map.md** | All | Context detection rules and harmonization strategy |
+
+---
+
+## Core Design System
+
+The following sections define the **Core** design system extracted from AdvancedPlaygroundDemo.tsx. These tokens apply to all contexts unless specifically overridden in context-specific pattern documents.
+
+---
+
 ## Color Palette
 
 ### Base Colors (Light/Dark Mode)

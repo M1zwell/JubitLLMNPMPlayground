@@ -8,9 +8,12 @@
 <workflow>
 
 <step n="1" goal="Load design system knowledge and refresh from reference">
-<action>Load design system documentation:
-- Read {design_system_doc} (complete file - all design tokens)
-- Read {patterns_doc} (complete file - component patterns)
+<action>Load ALL design system documentation (context-aware):
+- Read {design_system_doc} (complete file - includes context-aware architecture)
+- Read {patterns_doc} (complete file - core component patterns)
+- Read {knowledge_folder}/data-hub-patterns.md (complete file - data hub patterns)
+- Read {knowledge_folder}/offshore-hub-patterns.md (complete file - offshore hub patterns)
+- Read {knowledge_folder}/component-context-map.md (complete file - context detection rules)
 - Store as context for harmonization
 </action>
 
@@ -18,37 +21,79 @@
 "The design system was last updated on [extract date from design-system.md].
 Would you like to refresh it from AdvancedPlaygroundDemo.tsx before harmonizing? (y/n)"
 
-If yes: Invoke {agent_folder}/workflows/analyze-reference/workflow.yaml to update design system documentation
+If yes: Invoke {agent_folder}/workflows/analyze-reference/workflow.yaml to update CORE design system documentation
+NOTE: This only updates core patterns, NOT context-specific patterns (data hub, offshore hub)
 </action>
 
-<action>Create design standards checklist:
-- **Primary Color**: Blue (bg-blue-600, not indigo)
-- **Semantic Colors**: Purple (AI), Red (security), Green (success), Yellow (warning), Orange (optimization), Teal (workflow)
-- **Dark Mode**: All colored elements must have dark: variants
-- **Spacing**: Follow Tailwind scale (p-2, p-3, p-4, p-6, not arbitrary values)
-- **Typography**: Use design system font sizes (text-xs/sm/base/lg/xl/2xl)
-- **Component Patterns**: Match Advanced page patterns for buttons, cards, inputs, badges, tabs
+<action>Create design standards checklist BY CONTEXT:
+
+**CORE Context Standards**:
+- Primary Color: Blue (bg-blue-600, not indigo)
+- Semantic Colors: Purple (AI), Red (security), Green (success), Yellow (warning), Orange (optimization), Teal (workflow)
+- Dark Mode: All colored elements must have dark: variants
+- Spacing: Follow Tailwind scale (p-2, p-3, p-4, p-6, not arbitrary values)
+- Typography: Use design system font sizes (text-xs/sm/base/lg/xl/2xl)
+- Component Patterns: Match AdvancedPlaygroundDemo.tsx patterns
+- Border Radius: rounded-lg or rounded-md (standard)
+
+**DATA HUB Context Preservations** (do NOT "fix" these):
+- 4-column stats dashboards (colored) - PRESERVE
+- Gray filter panels (bg-gray-50) - PRESERVE (not a bug)
+- Compact padding (p-3 for stats) - PRESERVE
+- Purple tag badges - PRESERVE (semantic)
+- Highlighted blue filter sections - PRESERVE
+- Export button placement - CHECK style but PRESERVE placement
+
+**OFFSHORE HUB Context Preservations** (do NOT "fix" these):
+- Page background gradients (from-gray-50 via-cyan-50 to-teal-50) - PRESERVE
+- Text gradient headings (from-cyan-600 to-teal-600) - PRESERVE
+- Gradient tab buttons - PRESERVE
+- Large rounded corners (rounded-2xl) - PRESERVE (not a bug, should NOT change to rounded-lg)
+- Gradient stat cards - PRESERVE
+- Dual-color jurisdiction scheme (cyan/teal) - PRESERVE
+- Live status pulse animations - PRESERVE
+
+**REFERENCE Context**:
+- NEVER harmonize AdvancedPlaygroundDemo.tsx - it's the golden standard
+
 </action>
 </step>
 
-<step n="2" goal="Scan and prioritize all components">
+<step n="2" goal="Scan, context-classify, and prioritize all components">
 <action>Discover all .tsx files in {components_path}:
 - Use recursive file search
 - Exclude node_modules, build, dist directories
-- Exclude AdvancedPlaygroundDemo.tsx (it's the reference!)
-- Count total components to harmonize
+- Count total components found
 </action>
 
-<action>For each component, perform quick scan to calculate priority:
+<action>Detect context for EACH component using component-context-map.md rules:
 
-**Priority Calculation**:
-1. Count total issues (colors, typography, spacing, components, dark mode)
+**For Each Component**:
+1. Check if filename is "AdvancedPlaygroundDemo.tsx" → REFERENCE (SKIP harmonization)
+2. Check offshore hub indicators:
+   - Filename contains: Offshore, CIMA, BVI, Cayman, Jurisdiction
+   - If match → OFFSHORE_HUB
+3. Check data hub indicators:
+   - Filename contains: Scraper, Data, Import, Export, Hub, HK, HKSFC, HKEX, CCASS, Webb
+   - If match → DATA_HUB
+4. Otherwise → CORE
+
+Store component with detected context: {{component_name}}: {{context}}
+</action>
+
+<action>For each component (except REFERENCE), perform quick scan to calculate priority:
+
+**Priority Calculation** (CONTEXT-AWARE):
+1. Count total GENUINE issues (excluding context-specific preserved patterns):
+   - CORE: All inconsistencies count
+   - DATA_HUB: Exclude gray filters, 4-col stats, p-3 padding, purple tags, highlighted filters
+   - OFFSHORE_HUB: Exclude page gradients, text gradients, gradient tabs, rounded-2xl, gradient cards
 2. Assess component importance:
    - **Critical**: Main pages (Hub, Markets, Chat) = 3x weight
    - **High**: UI components (affects all pages) = 2.5x weight
-   - **Medium**: Feature pages (HK scrapers, tools) = 1.5x weight
+   - **Medium**: Feature pages (HK scrapers, offshore hubs, tools) = 1.5x weight
    - **Low**: Utilities and helpers = 1x weight
-3. Calculate severity score: (issues × importance weight)
+3. Calculate severity score: (genuine issues × importance weight)
 
 **Categorize by Priority**:
 - Priority 1: Severity > 15 (fix first)
@@ -57,9 +102,13 @@ If yes: Invoke {agent_folder}/workflows/analyze-reference/workflow.yaml to updat
 
 </action>
 
-<action>Group components into batches for approval:
+<action>Group components into batches for approval (BY CONTEXT):
 - Batch size: 5 components per batch
-- Group by similar priority and category
+- Group by CONTEXT first, then by priority
+- Batching strategy:
+  - CORE components together
+  - DATA_HUB components together
+  - OFFSHORE_HUB components together
 - Estimate total batches needed
 </action>
 
@@ -67,24 +116,35 @@ If yes: Invoke {agent_folder}/workflows/analyze-reference/workflow.yaml to updat
 
 **Harmonization Plan**
 
-**Total Components to Harmonize**: [count]
-**Excluded from Harmonization**: AdvancedPlaygroundDemo.tsx (design reference)
+**Total Components Found**: [count]
+**Excluded from Harmonization**:
+- AdvancedPlaygroundDemo.tsx (design reference - never modify)
+
+**Context Distribution**:
+- CORE: [count] components ([batches] batches)
+- DATA_HUB: [count] components ([batches] batches)
+- OFFSHORE_HUB: [count] components ([batches] batches)
+- REFERENCE: 1 component (skipped)
 
 **Priority Breakdown**:
 - Priority 1 (Critical): [count] components
 - Priority 2 (High): [count] components
 - Priority 3 (Medium): [count] components
 
-**Batch Plan**:
+**Batch Plan** (context-grouped):
 - Total Batches: [count]
 - Components per Batch: 5
 - Estimated Time: [hours]
 
-**Will Harmonize**:
-- UI Components: [list]
-- Main Pages: [list]
-- Feature Pages: [list]
-- Utilities: [list]
+**Will Harmonize by Context**:
+- **CORE** ([count] components): [list top 5]
+- **DATA_HUB** ([count] components): [list all]
+- **OFFSHORE_HUB** ([count] components): [list all]
+
+**Context-Specific Harmonization Rules**:
+- CORE → Apply core design system strictly
+- DATA_HUB → Preserve stats dashboards, gray filters, compact spacing, tags
+- OFFSHORE_HUB → Preserve gradients, rounded-2xl, dual-color scheme
 
 </action>
 
@@ -111,37 +171,93 @@ If yes: Invoke {agent_folder}/workflows/analyze-reference/workflow.yaml to updat
 </action>
 </step>
 
-<step n="3" goal="Process each batch with approval" repeat="for-each-batch">
-<action>Select next batch of 5 components (or remaining if < 5)</action>
+<step n="3" goal="Process each batch with approval (context-aware)" repeat="for-each-batch">
+<action>Select next batch of 5 components (or remaining if < 5)
+- Note the CONTEXT of this batch (CORE, DATA_HUB, or OFFSHORE_HUB)
+- Display batch context label prominently
+</action>
 
 <action>For each component in current batch:
 
-**Component Analysis**:
-1. Read complete component file
-2. Identify all inconsistencies:
-   - Colors not matching design system
+**Component Analysis** (CONTEXT-AWARE):
+
+0. **Detect Component Context** (from Step 2):
+   - Context: {{component_context}}
+   - Apply appropriate pattern set:
+     - CORE → design-system.md + patterns.md
+     - DATA_HUB → data-hub-patterns.md
+     - OFFSHORE_HUB → offshore-hub-patterns.md
+
+1. **Read complete component file**
+
+2. **Identify GENUINE inconsistencies** (context-aware):
+
+   **CORE Components**:
+   - Colors not matching design system (flag indigo, check semantic colors)
    - Missing dark mode variants
    - Spacing violations (arbitrary values)
-   - Typography issues
-   - Component pattern mismatches
+   - Typography issues (non-standard sizes/weights)
+   - Component pattern mismatches with AdvancedPlaygroundDemo.tsx
 
-3. Generate fixes:
-   - Map incorrect colors to design system colors
+   **DATA_HUB Components**:
+   - Colors: PRESERVE gray filters, PRESERVE 4-col stats colors, PRESERVE purple tags
+   - Missing dark mode variants (still check!)
+   - Spacing: PRESERVE p-3 for stats cards, flag other arbitrary values
+   - Typography issues (same as CORE)
+   - Component patterns: PRESERVE export buttons, PRESERVE filter panels
+
+   **OFFSHORE_HUB Components**:
+   - Colors: PRESERVE page gradients, PRESERVE text gradients, PRESERVE gradient tabs, PRESERVE dual-color scheme
+   - Missing dark mode variants (still check!)
+   - Spacing violations (same as CORE)
+   - Typography issues (same as CORE)
+   - Border radius: PRESERVE rounded-2xl (do NOT change to rounded-lg!)
+   - Component patterns: PRESERVE gradient stat cards, PRESERVE live indicators
+
+3. **Generate fixes** (context-aware):
+
+   **Always Fix (All Contexts)**:
    - Add missing dark: variants
-   - Replace arbitrary spacing with Tailwind scale
-   - Update typography to match design system
-   - Align component patterns with reference
+   - Fix typography to match design system
+   - Replace arbitrary spacing (except context-allowed values)
+   - Fix icon sizes
 
-4. Create before/after code snippets:
+   **Context-Specific Fixes**:
+   - **CORE**:
+     - Map incorrect colors to semantic palette
+     - Align all patterns with AdvancedPlaygroundDemo.tsx
+     - Standardize border radius to rounded-lg/rounded-md
+
+   - **DATA_HUB**:
+     - DO NOT change gray filter panels to colored
+     - DO NOT remove 4-column stats grids
+     - DO NOT change p-3 to p-4 on stats cards
+     - DO NOT change purple tag backgrounds
+     - DO fix missing dark mode on allowed patterns
+
+   - **OFFSHORE_HUB**:
+     - DO NOT remove page gradients
+     - DO NOT remove text gradients
+     - DO NOT change rounded-2xl to rounded-lg
+     - DO NOT remove gradient tabs
+     - DO NOT remove gradient stat cards
+     - DO fix missing dark mode on gradient elements
+
+4. **Create before/after code snippets**:
    - Show most impactful changes (top 5-10 per file)
    - Include line numbers
-   - Explain why each change improves consistency
+   - Explain WHY each change improves consistency
+   - **Mark context-preserved patterns**: Label changes that PRESERVE context-specific patterns
+   - Example: "✅ PRESERVED: Gray filter panel (data hub pattern)"
+   - Example: "✅ ADDED: Dark mode to gradient heading (offshore hub + dark mode)"
 
-5. Calculate improvement metrics:
+5. **Calculate improvement metrics**:
+   - Context: {{component_context}}
    - Consistency score before: XX%
    - Consistency score after: XX%
    - Dark mode coverage before: XX%
    - Dark mode coverage after: XX%
+   - Context-specific patterns preserved: [count]
 
 </action>
 

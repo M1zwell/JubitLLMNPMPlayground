@@ -8,22 +8,45 @@
 <workflow>
 
 <step n="1" goal="Load design system standards">
-<action>Load design system documentation:
-- Read {design_system_doc} (complete file)
+<action>Load ALL design system documentation:
+- Read {design_system_doc} (complete file - includes context-aware architecture)
 - Read {patterns_doc} (complete file)
+- Read {knowledge_folder}/data-hub-patterns.md (complete file)
+- Read {knowledge_folder}/offshore-hub-patterns.md (complete file)
+- Read {knowledge_folder}/component-context-map.md (complete file - context detection rules)
 - Extract all design standards for comparison
 </action>
 
-<action>Create design system checklist:
-- **Color Standards**: List all approved colors with light/dark variants
-- **Typography Standards**: List approved font sizes, weights, families
-- **Spacing Standards**: List Tailwind spacing scale values (no arbitrary values)
-- **Component Patterns**: List approved button, card, input, badge patterns
-- **Dark Mode Requirements**: All visible elements must have dark: variants
+<action>Create design system checklists BY CONTEXT:
+
+**Core Context Standards** (design-system.md):
+- Color Standards: Semantic colors (purple, blue, red, green, yellow, orange, teal)
+- Typography Standards: text-xs/sm/base/lg/xl/2xl
+- Spacing Standards: Tailwind scale (no arbitrary values)
+- Component Patterns: Standard buttons, cards, inputs from AdvancedPlaygroundDemo.tsx
+- Dark Mode Requirements: All visible elements must have dark: variants
+
+**Data Hub Context Standards** (data-hub-patterns.md):
+- 4-Column Stats Dashboards: PRESERVE (not a bug)
+- Gray Filter Panels: PRESERVE (intentional, not colored)
+- Compact Padding (p-3): PRESERVE for stats cards
+- Purple Tag Badges: PRESERVE (semantic meaning)
+- Export Buttons: Check placement and style
+
+**Offshore Hub Context Standards** (offshore-hub-patterns.md):
+- Page Gradients: PRESERVE (premium treatment)
+- Text Gradients: PRESERVE (headings only)
+- Gradient Tabs: PRESERVE (active state)
+- rounded-2xl: PRESERVE (not a bug, should NOT be rounded-lg)
+- Gradient Stat Cards: PRESERVE (premium pattern)
+- Dual-Color Scheme: PRESERVE (jurisdiction-based)
+
+**Reference Context** (AdvancedPlaygroundDemo.tsx):
+- NEVER AUDIT: Skip entirely
 </action>
 </step>
 
-<step n="2" goal="Discover all components to audit">
+<step n="2" goal="Discover and context-classify all components">
 <action>Scan {components_path} for all .tsx files:
 - Use recursive file search
 - Exclude node_modules and build directories
@@ -31,73 +54,122 @@
 - Store complete file list as {{component_files}}
 </action>
 
-<action>Categorize components by type:
-- **Main Pages**: Hub, markets, playgrounds, chat (user-facing)
-- **HK Scrapers**: All Hong Kong scraper components
-- **Auth Components**: Authentication and user management
-- **UI Components**: Reusable UI elements (buttons, cards, inputs)
-- **Tools**: Import tools, sandboxes, visualizers
-- **Utilities**: Helpers, managers, advisors
+<action>Detect context for EACH component using component-context-map.md rules:
+
+**For Each Component**:
+1. Check if filename is "AdvancedPlaygroundDemo.tsx" → REFERENCE (SKIP)
+2. Check offshore hub indicators:
+   - Filename contains: Offshore, CIMA, BVI, Cayman, Jurisdiction
+   - If match → OFFSHORE_HUB
+3. Check data hub indicators:
+   - Filename contains: Scraper, Data, Import, Export, Hub, HK, HKSFC, HKEX, CCASS, Webb
+   - If match → DATA_HUB
+4. Otherwise → CORE
+
+Store component with detected context: {{component_name}}: {{context}}
+</action>
+
+<action>Categorize components BY CONTEXT:
+
+**Reference Context** (SKIP audit):
+- [List components to skip, e.g., AdvancedPlaygroundDemo.tsx]
+
+**Offshore Hub Context**:
+- [List offshore hub components]
+
+**Data Hub Context**:
+- [List data hub components]
+
+**Core Context**:
+- [List core components]
+
 </action>
 
 <action>Display discovery summary:
-**Components Discovered**:
-- Total files: {{total_components}}
-- Main Pages: [count]
-- HK Scrapers: [count]
-- Auth Components: [count]
-- UI Components: [count]
-- Tools: [count]
-- Utilities: [count]
+**Components Discovered**: {{total_components}}
 
-Starting comprehensive audit...
+**Context Distribution**:
+- Reference (Skip): [count] components
+- Offshore Hub: [count] components
+- Data Hub: [count] components
+- Core: [count] components
+
+Starting context-aware comprehensive audit...
 </action>
 
 <template-output>total_components</template-output>
 </step>
 
-<step n="3" goal="Audit each component for inconsistencies">
-<action>For each component in {{component_files}}, perform comprehensive analysis:
+<step n="3" goal="Audit each component for inconsistencies (context-aware)">
+<action>For each component in {{component_files}}, perform CONTEXT-AWARE analysis:
 
 **For Each Component File**:
 
-1. **Read Complete File**
-2. **Analyze Color Usage**:
-   - Find all color classes (bg-*, text-*, border-*)
-   - Check if colors match design system
-   - Flag non-standard colors (e.g., indigo when should be blue)
-   - Check for missing dark: variants
-   - Count semantic color mismatches
+0. **Check Context** (from Step 2):
+   - If context = REFERENCE → SKIP entirely, log "Skipped {filename} - Design reference (never audit)"
+   - If context = OFFSHORE_HUB → Apply offshore hub audit rules
+   - If context = DATA_HUB → Apply data hub audit rules
+   - If context = CORE → Apply core audit rules
 
-3. **Analyze Typography**:
+1. **Read Complete File** (if not skipped)
+
+2. **Analyze Color Usage** (CONTEXT-AWARE):
+   - Find all color classes (bg-*, text-*, border-*)
+   - Check against CONTEXT-SPECIFIC standards:
+     - **CORE**: Flag indigo (should be blue), check semantic colors
+     - **DATA_HUB**:
+       - ALLOW gray filter panels (bg-gray-50 is correct)
+       - ALLOW 4-column colored stats (blue, green, purple, orange)
+       - ALLOW purple tag badges (semantic)
+     - **OFFSHORE_HUB**:
+       - ALLOW page gradients (from-gray-50 via-cyan-50 to-teal-50)
+       - ALLOW text gradients (from-cyan-600 to-teal-600)
+       - ALLOW gradient backgrounds on tabs/cards
+       - ALLOW dual-color scheme (cyan + teal)
+   - Check for missing dark: variants (ALL CONTEXTS)
+   - Count semantic color mismatches (only non-allowed patterns)
+
+3. **Analyze Typography** (SAME FOR ALL CONTEXTS):
    - Find all font size classes (text-*)
    - Find all font weight classes (font-*)
    - Check against design system typography scale
    - Flag arbitrary font sizes
    - Check heading hierarchy
 
-4. **Analyze Spacing**:
+4. **Analyze Spacing** (CONTEXT-AWARE):
    - Find all padding classes (p-*, px-*, py-*)
    - Find all margin/gap classes (m-*, space-*, gap-*)
    - Check against Tailwind spacing scale
-   - Flag arbitrary values (e.g., p-[13px])
-   - Count spacing violations
+   - **DATA_HUB**: ALLOW p-3 for stats cards (intentional compact spacing)
+   - **CORE/OFFSHORE**: Flag arbitrary values (e.g., p-[13px])
+   - Count spacing violations (excluding allowed context-specific values)
 
-5. **Analyze Component Patterns**:
+5. **Analyze Component Patterns** (CONTEXT-AWARE):
    - Identify buttons, cards, inputs, badges, tabs
-   - Compare against design system patterns
-   - Flag pattern mismatches
-   - Check border radius consistency
+   - Compare against CONTEXT-SPECIFIC patterns:
+     - **CORE**: design-system.md + patterns.md
+     - **DATA_HUB**: data-hub-patterns.md (allow gray filters, export buttons)
+     - **OFFSHORE_HUB**: offshore-hub-patterns.md (allow gradient tabs, live indicators)
+   - Check border radius:
+     - **CORE/DATA_HUB**: Flag if not rounded-lg or rounded-md
+     - **OFFSHORE_HUB**: ALLOW rounded-2xl (intentional premium treatment)
    - Check shadow usage
+   - Flag pattern mismatches (context-specific)
 
-6. **Analyze Dark Mode Coverage**:
+6. **Analyze Dark Mode Coverage** (SAME FOR ALL CONTEXTS):
    - Count total elements with colors
    - Count elements with dark: variants
    - Calculate dark mode coverage percentage
    - List missing dark mode support
 
-7. **Calculate Component Metrics**:
-   - Total issues found: [count]
+7. **Analyze Context-Specific Patterns** (NEW):
+   - **DATA_HUB**: Check for proper export button placement, filter panel structure
+   - **OFFSHORE_HUB**: Check gradient consistency, live status indicators
+   - **CORE**: Check alignment with AdvancedPlaygroundDemo.tsx patterns
+
+8. **Calculate Component Metrics**:
+   - Context: {{component_context}}
+   - Total issues found: [count] (excluding preserved context-specific patterns)
    - Critical issues: [count]
    - High priority issues: [count]
    - Medium priority issues: [count]

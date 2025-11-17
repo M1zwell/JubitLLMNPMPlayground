@@ -296,5 +296,79 @@ Reusable code snippets and patterns extracted from AdvancedPlaygroundDemo.tsx fo
 
 ---
 
-_Last updated: 2025-11-12_
-_Source: AdvancedPlaygroundDemo.tsx_
+## Context-Specific Pattern Extensions
+
+The patterns above represent the **Core** design system. For components with specialized requirements, refer to the following context-specific pattern documents:
+
+### Data Hub Patterns
+**Document**: `data-hub-patterns.md`
+**Use for**: Financial data management interfaces, scrapers, data importers
+
+**Unique Patterns**:
+- **4-Column Stats Dashboard** - Colored metric cards for quick data overview
+- **Gray Filter Panels** - Functional filtering interfaces with export buttons
+- **Enhanced Data Cards** - Rich data display with tags, badges, and metadata
+- **Highlighted Filter Sections** - Blue-bordered primary filters for emphasis
+- **Export Action Buttons** - Compact JSON/CSV export controls
+
+**Example Components**: HKScraperProduction.tsx, WebbDataImporter.tsx
+
+---
+
+### Offshore Hub Patterns
+**Document**: `offshore-hub-patterns.md`
+**Use for**: Premium offshore financial regulatory platforms
+
+**Unique Patterns**:
+- **Page Background Gradients** - Subtle cyan-teal gradients for premium feel
+- **Text Gradient Headings** - Eye-catching gradient text effects
+- **Gradient Tab Buttons** - Premium tab styling with gradient backgrounds
+- **Large Rounded Cards** - Extra-soft rounded-2xl containers
+- **Gradient Stat Cards** - Color-coded metrics with gradient backgrounds
+- **Live Status Indicators** - Animated pulse indicators for real-time data
+- **Dual-Color Jurisdiction Scheme** - Cyan for CIMA, Teal for BVI
+
+**Example Components**: OffshoreDataHub.tsx, CIMAViewer.tsx, BVIViewer.tsx
+
+---
+
+### Quick Pattern Lookup
+
+| Pattern Type | Context | Document |
+|--------------|---------|----------|
+| Semantic Feature Cards | Core | This document |
+| Button Styles | Core | This document |
+| Input Fields | Core | This document |
+| Tabs | Core | This document |
+| 4-Column Stats Dashboard | Data Hub | data-hub-patterns.md |
+| Gray Filter Panels | Data Hub | data-hub-patterns.md |
+| Page Gradients | Offshore Hub | offshore-hub-patterns.md |
+| Text Gradient Headings | Offshore Hub | offshore-hub-patterns.md |
+| Gradient Tab Buttons | Offshore Hub | offshore-hub-patterns.md |
+
+---
+
+### Pattern Selection Guide
+
+**When implementing a component**, ask:
+
+1. **Is it a financial data management interface?**
+   - Has filtering, sorting, export?
+   - Displays large datasets?
+   - Shows stats dashboards?
+   - → Use **data-hub-patterns.md**
+
+2. **Is it a premium offshore regulatory platform?**
+   - Has jurisdiction switching?
+   - Needs premium visual treatment?
+   - Shows offshore financial data?
+   - → Use **offshore-hub-patterns.md**
+
+3. **Otherwise**:
+   - → Use **this document (patterns.md)**
+
+---
+
+_Last updated: 2025-11-17_
+_Core Source: AdvancedPlaygroundDemo.tsx_
+_Extended with context-specific patterns from HKScraperProduction.tsx and OffshoreDataHub.tsx_
