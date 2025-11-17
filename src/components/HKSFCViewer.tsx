@@ -26,7 +26,9 @@ import {
   FileText,
   Grid,
   List,
-  Newspaper
+  Newspaper,
+  Rss,
+  RefreshCw
 } from 'lucide-react';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
@@ -131,6 +133,8 @@ export default function HKSFCViewer() {
   });
 
   const [showFilters, setShowFilters] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string | null>(null);
 
   // Fetch data from database
   const fetchData = async () => {
@@ -150,6 +154,38 @@ export default function HKSFCViewer() {
       setError((err as Error).message);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Sync RSS feeds
+  const syncRSSFeeds = async () => {
+    setIsSyncing(true);
+    setSyncMessage(null);
+    try {
+      const response = await fetch(`${SUPABASE_URL}/functions/v1/hksfc-rss-sync`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSyncMessage(result.message);
+        // Refresh data after sync
+        await fetchData();
+      } else {
+        throw new Error(result.error || 'RSS sync failed');
+      }
+    } catch (err) {
+      console.error('Error syncing RSS feeds:', err);
+      setSyncMessage(`Error: ${(err as Error).message}`);
+    } finally {
+      setIsSyncing(false);
+      // Clear message after 5 seconds
+      setTimeout(() => setSyncMessage(null), 5000);
     }
   };
 
@@ -304,15 +340,40 @@ export default function HKSFCViewer() {
             </h2>
             <p className="text-gray-600 mt-2">Securities & Futures Commission - Latest Filings & Announcements</p>
           </div>
-          <button
-            onClick={fetchData}
-            disabled={isLoading}
-            className="px-5 py-2.5 bg-green-500 text-white rounded-xl hover:bg-green-600 flex items-center gap-2 shadow-lg hover:shadow-xl transition-all font-semibold"
-          >
-            <Search size={18} className={isLoading ? 'animate-spin' : ''} />
-            Refresh
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={syncRSSFeeds}
+              disabled={isSyncing || isLoading}
+              className="px-5 py-2.5 bg-orange-500 text-white rounded-xl hover:bg-orange-600 flex items-center gap-2 shadow-lg hover:shadow-xl transition-all font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Sync latest news from RSS feeds (Press Releases, Circulars, Consultations)"
+            >
+              <Rss size={18} className={isSyncing ? 'animate-spin' : ''} />
+              {isSyncing ? 'Syncing...' : 'Sync RSS'}
+            </button>
+            <button
+              onClick={fetchData}
+              disabled={isLoading}
+              className="px-5 py-2.5 bg-green-500 text-white rounded-xl hover:bg-green-600 flex items-center gap-2 shadow-lg hover:shadow-xl transition-all font-semibold"
+            >
+              <RefreshCw size={18} className={isLoading ? 'animate-spin' : ''} />
+              Refresh
+            </button>
+          </div>
         </div>
+
+        {/* Sync Message */}
+        {syncMessage && (
+          <div className={`mt-4 p-3 rounded-xl ${
+            syncMessage.includes('Error')
+              ? 'bg-red-100 border border-red-200 text-red-700'
+              : 'bg-green-100 border border-green-200 text-green-700'
+          }`}>
+            <p className="text-sm font-medium flex items-center gap-2">
+              {syncMessage.includes('Error') ? <AlertCircle size={16} /> : <Rss size={16} />}
+              {syncMessage}
+            </p>
+          </div>
+        )}
 
         {/* Statistics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
