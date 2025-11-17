@@ -97,6 +97,30 @@ function downloadFile(url, dest) {
 }
 
 /**
+ * Parse numeric value handling commas and parentheses (negatives)
+ */
+function parseNumeric(value) {
+  if (value === null || value === undefined || value === '') return null;
+
+  const str = String(value).trim();
+
+  // Handle non-numeric values
+  if (str === 'n.a.' || str === '-' || str === 'N/A' || str === '') return null;
+
+  // Handle negative values in parentheses: (1,234.5) => -1234.5
+  if (str.startsWith('(') && str.endsWith(')')) {
+    const numStr = str.slice(1, -1).replace(/,/g, '');
+    const num = parseFloat(numStr);
+    return isNaN(num) ? null : -num;
+  }
+
+  // Handle regular numbers with commas: 1,234.5 => 1234.5
+  const numStr = str.replace(/,/g, '');
+  const num = parseFloat(numStr);
+  return isNaN(num) ? null : num;
+}
+
+/**
  * Parse period from various formats
  */
 function parsePeriod(periodStr) {
@@ -178,11 +202,11 @@ function parseTableA1(workbook) {
     records.push({
       period,
       period_type,
-      market_cap: parseFloat(row[1]) || null,
-      turnover: parseFloat(row[2]) || null,
-      total_listings: parseInt(row[3]) || null,
-      new_listings: parseInt(row[4]) || null,
-      funds_raised: parseFloat(row[5]) || null
+      market_cap: parseNumeric(row[1]),
+      turnover: parseNumeric(row[2]),
+      total_listings: parseNumeric(row[3]),
+      new_listings: parseNumeric(row[4]),
+      funds_raised: parseNumeric(row[5])
     });
   }
 
@@ -215,9 +239,9 @@ function parseTableA2(workbook) {
       records.push({
         ...currentPeriod,
         stock_type: String(row[0]).trim(),
-        market_cap: parseFloat(row[1]) || null,
-        percentage: parseFloat(row[2]) || null,
-        number_of_companies: parseInt(row[3]) || null
+        market_cap: parseNumeric(row[1]),
+        percentage: parseNumeric(row[2]),
+        number_of_companies: parseNumeric(row[3])
       });
     }
   }
@@ -248,8 +272,8 @@ function parseTableD4(workbook) {
 
     // Data row
     if (currentPeriod && row[0] && (row[1] || row[2])) {
-      const subscriptions = parseFloat(row[1]) || 0;
-      const redemptions = parseFloat(row[2]) || 0;
+      const subscriptions = parseNumeric(row[1]) || 0;
+      const redemptions = parseNumeric(row[2]) || 0;
 
       records.push({
         ...currentPeriod,
@@ -257,7 +281,7 @@ function parseTableD4(workbook) {
         subscriptions,
         redemptions,
         net_flows: subscriptions - redemptions,
-        flow_rate: parseFloat(row[3]) || null
+        flow_rate: parseNumeric(row[3])
       });
     }
   }
@@ -289,8 +313,8 @@ function parseTableA3(workbook) {
       records.push({
         ...currentPeriod,
         stock_type: String(row[0]).trim(),
-        avg_daily_turnover: parseFloat(row[1]) || null,
-        percentage: parseFloat(row[2]) || null
+        avg_daily_turnover: parseNumeric(row[1]),
+        percentage: parseNumeric(row[2])
       });
     }
   }
@@ -322,8 +346,8 @@ function parseTableC4(workbook) {
       records.push({
         ...currentPeriod,
         activity_type: String(row[0]).trim(),
-        representative_count: parseInt(row[1]) || null,
-        yoy_change: parseFloat(row[2]) || null
+        representative_count: parseNumeric(row[1]),
+        yoy_change: parseNumeric(row[2])
       });
     }
   }
@@ -355,8 +379,8 @@ function parseTableC5(workbook) {
       records.push({
         ...currentPeriod,
         activity_type: String(row[0]).trim(),
-        officer_count: parseInt(row[1]) || null,
-        yoy_change: parseFloat(row[2]) || null
+        officer_count: parseNumeric(row[1]),
+        yoy_change: parseNumeric(row[2])
       });
     }
   }
@@ -388,9 +412,9 @@ function parseTableD3(workbook) {
       records.push({
         ...currentPeriod,
         fund_category: String(row[0]).trim(),
-        nav: parseFloat(row[1]) || null,
-        fund_count: parseInt(row[2]) || null,
-        percentage: parseFloat(row[3]) || null
+        nav: parseNumeric(row[1]),
+        fund_count: parseNumeric(row[2]),
+        percentage: parseNumeric(row[3])
       });
     }
   }
