@@ -138,7 +138,7 @@ async function parseTableA1(data, fileUrl) {
       data: sheetData,
       ...periodInfo
     }, {
-      onConflict: 'table_name, period, year, quarter'
+      onConflict: 'table_name,period,year,quarter'
     });
 
   if (rawError) {
@@ -168,7 +168,7 @@ async function parseTableA2(data, fileUrl) {
       data: sheetData,
       ...periodInfo
     }, {
-      onConflict: 'table_name, period, year, quarter'
+      onConflict: 'table_name,period,year,quarter'
     });
 
   if (rawError) {
@@ -198,7 +198,7 @@ async function parseTableA3(data, fileUrl) {
       data: sheetData,
       ...periodInfo
     }, {
-      onConflict: 'table_name, period, year, quarter'
+      onConflict: 'table_name,period,year,quarter'
     });
 
   if (rawError) {
@@ -228,7 +228,7 @@ async function parseTableC4(data, fileUrl) {
       data: sheetData,
       ...periodInfo
     }, {
-      onConflict: 'table_name, period, year, quarter'
+      onConflict: 'table_name,period,year,quarter'
     });
 
   if (rawError) {
@@ -258,7 +258,7 @@ async function parseTableC5(data, fileUrl) {
       data: sheetData,
       ...periodInfo
     }, {
-      onConflict: 'table_name, period, year, quarter'
+      onConflict: 'table_name,period,year,quarter'
     });
 
   if (rawError) {
@@ -288,7 +288,7 @@ async function parseTableD3(data, fileUrl) {
       data: sheetData,
       ...periodInfo
     }, {
-      onConflict: 'table_name, period, year, quarter'
+      onConflict: 'table_name,period,year,quarter'
     });
 
   if (rawError) {
