@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Download, TrendingUp, Users, DollarSign, FileText, RefreshCw, BarChart3 } from 'lucide-react';
+import { useSFCMarketHighlights, useSFCMarketCapByType, useSFCFundFlows } from '../hooks/useSFCStatistics';
 
 // SFC Statistics Table URLs
 const STATISTICS_URLS = {
@@ -33,6 +34,11 @@ const STATISTICS_URLS = {
     title: 'Mutual Fund NAV',
     url: 'https://www.sfc.hk/-/media/EN/files/SOM/MarketStatistics/d03x.xlsx',
     description: 'Net asset value of authorized mutual funds'
+  },
+  'D4': {
+    title: 'Fund Flows of Authorised Unit Trusts and Mutual Funds',
+    url: 'https://www.sfc.hk/-/media/EN/files/SOM/MarketStatistics/d04x.xlsx',
+    description: 'Subscriptions, redemptions, and net flows by fund type'
   }
 };
 
@@ -50,6 +56,11 @@ const SFCFinancialStatistics: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [statisticsData, setStatisticsData] = useState<Record<string, StatisticsData>>({});
   const [viewMode, setViewMode] = useState<'table' | 'chart'>('chart');
+
+  // Fetch real data from Supabase
+  const { data: marketHighlights, isLoading: loadingA1 } = useSFCMarketHighlights(20);
+  const { data: marketCapByType, isLoading: loadingA2 } = useSFCMarketCapByType();
+  const { data: fundFlows, isLoading: loadingD4 } = useSFCFundFlows(30);
 
   // Mock data for demonstration (replace with actual scraped data)
   const mockMarketHighlights = [
@@ -86,6 +97,24 @@ const SFCFinancialStatistics: React.FC = () => {
     { category: 'Others', nav: 350, count: 190, percentage: 4.9 },
   ];
 
+  const mockFundFlows = [
+    { period: 'Q1 2024', subscriptions: 245, redemptions: 198, netFlows: 47, equityNet: 25, bondNet: 15, mixedNet: 7 },
+    { period: 'Q2 2024', subscriptions: 268, redemptions: 215, netFlows: 53, equityNet: 30, bondNet: 18, mixedNet: 5 },
+    { period: 'Q3 2024', subscriptions: 252, redemptions: 225, netFlows: 27, equityNet: 15, bondNet: 8, mixedNet: 4 },
+    { period: 'Q4 2024', subscriptions: 280, redemptions: 240, netFlows: 40, equityNet: 22, bondNet: 12, mixedNet: 6 },
+    { period: 'Q1 2025', subscriptions: 295, redemptions: 255, netFlows: 40, equityNet: 20, bondNet: 14, mixedNet: 6 },
+    { period: 'Q2 2025', subscriptions: 310, redemptions: 265, netFlows: 45, equityNet: 25, bondNet: 15, mixedNet: 5 },
+    { period: 'Q3 2025', subscriptions: 325, redemptions: 275, netFlows: 50, equityNet: 28, bondNet: 16, mixedNet: 6 },
+  ];
+
+  const mockFundFlowsByType = [
+    { type: 'Equity funds', subscriptions: 325, redemptions: 280, netFlows: 45, percentage: 13.8 },
+    { type: 'Bond funds', subscriptions: 185, redemptions: 165, netFlows: 20, percentage: 10.8 },
+    { type: 'Mixed funds', subscriptions: 95, redemptions: 88, netFlows: 7, percentage: 7.4 },
+    { type: 'Money market funds', subscriptions: 145, redemptions: 140, netFlows: 5, percentage: 3.4 },
+    { type: 'Others', subscriptions: 75, redemptions: 82, netFlows: -7, percentage: -9.3 },
+  ];
+
   const downloadXLSX = (tableId: string) => {
     const url = STATISTICS_URLS[tableId as keyof typeof STATISTICS_URLS]?.url;
     if (url) {
@@ -110,23 +139,49 @@ const SFCFinancialStatistics: React.FC = () => {
     </div>
   );
 
-  const renderTableA1 = () => (
-    <div className="space-y-6">
-      {/* Key Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {renderStatCard('Market Cap', 'HK$37.2T', <DollarSign className="text-blue-600" size={24} />, '+4.2%')}
-        {renderStatCard('Daily Turnover', 'HK$148B', <TrendingUp className="text-green-600" size={24} />, '+3.1%')}
-        {renderStatCard('Listed Companies', '2,665', <BarChart3 className="text-purple-600" size={24} />, '+0.6%')}
-        {renderStatCard('New Listings (Q3)', '15', <FileText className="text-orange-600" size={24} />, '-21%')}
-      </div>
+  const renderTableA1 = () => {
+    // Use real data if available, fall back to mock data
+    const displayData = marketHighlights.length > 0 ? marketHighlights.map(h => ({
+      period: h.period,
+      marketCap: h.market_cap || 0,
+      turnover: h.turnover || 0,
+      listings: h.total_listings || 0,
+      newListings: h.new_listings || 0,
+      fundsRaised: h.funds_raised || 0
+    })) : mockMarketHighlights;
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Market Cap Trend */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Market Capitalisation Trend</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={mockMarketHighlights}>
+    // Get latest metrics
+    const latest = displayData[0] || mockMarketHighlights[0];
+    const previous = displayData[1] || mockMarketHighlights[1];
+
+    const marketCapChange = previous && previous.marketCap ? (((latest.marketCap - previous.marketCap) / previous.marketCap) * 100).toFixed(1) : '0.0';
+    const turnoverChange = previous && previous.turnover ? (((latest.turnover - previous.turnover) / previous.turnover) * 100).toFixed(1) : '0.0';
+
+    return (
+      <div className="space-y-6">
+        {/* Data Source Indicator */}
+        {marketHighlights.length > 0 && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
+            <span className="text-green-700 font-medium">✓ Using Real SFC Data</span>
+            <span className="text-green-600 text-sm">({marketHighlights.length} periods)</span>
+          </div>
+        )}
+
+        {/* Key Metrics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {renderStatCard('Market Cap', `HK$${(latest.marketCap / 1000).toFixed(1)}T`, <DollarSign className="text-blue-600" size={24} />, `${marketCapChange > '0' ? '+' : ''}${marketCapChange}%`)}
+          {renderStatCard('Daily Turnover', `HK$${latest.turnover}B`, <TrendingUp className="text-green-600" size={24} />, `${turnoverChange > '0' ? '+' : ''}${turnoverChange}%`)}
+          {renderStatCard('Listed Companies', latest.listings.toString(), <BarChart3 className="text-purple-600" size={24} />, '+0.6%')}
+          {renderStatCard('New Listings', latest.newListings.toString(), <FileText className="text-orange-600" size={24} />, '-21%')}
+        </div>
+
+        {/* Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Market Cap Trend */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Market Capitalisation Trend</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={displayData.slice(0, 10).reverse()}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="period" stroke="#9ca3af" />
               <YAxis stroke="#9ca3af" />
@@ -141,7 +196,7 @@ const SFCFinancialStatistics: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Average Daily Turnover</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={mockMarketHighlights}>
+            <BarChart data={displayData.slice(0, 10).reverse()}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="period" stroke="#9ca3af" />
               <YAxis stroke="#9ca3af" />
@@ -156,7 +211,7 @@ const SFCFinancialStatistics: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">New Listings & Funds Raised</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={mockMarketHighlights}>
+            <LineChart data={displayData.slice(0, 10).reverse()}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="period" stroke="#9ca3af" />
               <YAxis yAxisId="left" stroke="#9ca3af" />
@@ -173,7 +228,7 @@ const SFCFinancialStatistics: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Total Listed Companies</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={mockMarketHighlights}>
+            <LineChart data={displayData.slice(0, 10).reverse()}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="period" stroke="#9ca3af" />
               <YAxis stroke="#9ca3af" />
@@ -186,6 +241,7 @@ const SFCFinancialStatistics: React.FC = () => {
       </div>
     </div>
   );
+  };
 
   const renderTableA2 = () => (
     <div className="space-y-6">
@@ -346,6 +402,120 @@ const SFCFinancialStatistics: React.FC = () => {
     </div>
   );
 
+  const renderTableD4 = () => (
+    <div className="space-y-6">
+      {/* Key Metrics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {renderStatCard('Total Subscriptions', 'HK$325B', <TrendingUp className="text-green-600" size={24} />, '+5.2%')}
+        {renderStatCard('Total Redemptions', 'HK$275B', <TrendingUp className="text-red-600" size={24} />, '+3.8%')}
+        {renderStatCard('Net Flows', 'HK$50B', <DollarSign className="text-blue-600" size={24} />, '+10.5%')}
+        {renderStatCard('Flow Rate', '15.4%', <BarChart3 className="text-purple-600" size={24} />, '+2.1%')}
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Subscriptions vs Redemptions Trend */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Subscriptions vs Redemptions Trend</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={mockFundFlows}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="period" stroke="#9ca3af" />
+              <YAxis stroke="#9ca3af" />
+              <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
+              <Legend />
+              <Line type="monotone" dataKey="subscriptions" stroke="#10b981" strokeWidth={2} name="Subscriptions (HK$B)" />
+              <Line type="monotone" dataKey="redemptions" stroke="#ef4444" strokeWidth={2} name="Redemptions (HK$B)" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Net Flows Trend */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Net Fund Flows</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={mockFundFlows}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="period" stroke="#9ca3af" />
+              <YAxis stroke="#9ca3af" />
+              <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
+              <Legend />
+              <Bar dataKey="netFlows" fill="#3b82f6" name="Net Flows (HK$B)" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Net Flows by Fund Type */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Net Flows by Fund Type (Q3 2025)</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={mockFundFlowsByType} layout="vertical">
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis type="number" stroke="#9ca3af" />
+              <YAxis dataKey="type" type="category" width={150} stroke="#9ca3af" />
+              <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
+              <Bar dataKey="netFlows" fill="#8b5cf6" name="Net Flows (HK$B)" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Net Flows by Category Over Time */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Net Flows by Category</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={mockFundFlows}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="period" stroke="#9ca3af" />
+              <YAxis stroke="#9ca3af" />
+              <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
+              <Legend />
+              <Line type="monotone" dataKey="equityNet" stroke="#3b82f6" strokeWidth={2} name="Equity (HK$B)" />
+              <Line type="monotone" dataKey="bondNet" stroke="#10b981" strokeWidth={2} name="Bond (HK$B)" />
+              <Line type="monotone" dataKey="mixedNet" stroke="#f59e0b" strokeWidth={2} name="Mixed (HK$B)" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Detailed Table */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Fund Flow Details by Type (Q3 2025)</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-300 font-medium">Fund Type</th>
+                <th className="px-4 py-3 text-right text-gray-700 dark:text-gray-300 font-medium">Subscriptions (HK$B)</th>
+                <th className="px-4 py-3 text-right text-gray-700 dark:text-gray-300 font-medium">Redemptions (HK$B)</th>
+                <th className="px-4 py-3 text-right text-gray-700 dark:text-gray-300 font-medium">Net Flows (HK$B)</th>
+                <th className="px-4 py-3 text-right text-gray-700 dark:text-gray-300 font-medium">Flow Rate (%)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              {mockFundFlowsByType.map((item, index) => (
+                <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                  <td className="px-4 py-3 text-gray-900 dark:text-gray-100">{item.type}</td>
+                  <td className="px-4 py-3 text-right text-gray-900 dark:text-gray-100">{item.subscriptions.toLocaleString()}</td>
+                  <td className="px-4 py-3 text-right text-gray-900 dark:text-gray-100">{item.redemptions.toLocaleString()}</td>
+                  <td className="px-4 py-3 text-right">
+                    <span className={`font-semibold ${item.netFlows >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {item.netFlows >= 0 ? '+' : ''}{item.netFlows.toLocaleString()}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <span className={`font-medium ${item.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {item.percentage >= 0 ? '+' : ''}{item.percentage}%
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     switch (activeTable) {
       case 'A1':
@@ -356,6 +526,8 @@ const SFCFinancialStatistics: React.FC = () => {
         return renderTableC4();
       case 'D3':
         return renderTableD3();
+      case 'D4':
+        return renderTableD4();
       default:
         return renderTableA1();
     }
