@@ -1,5 +1,6 @@
 /**
- * HKSFC RSS Feed Scraper
+ * HKSFC RSS Feed Scraper (Admin Version)
+ * Uses SERVICE ROLE KEY for full insert/update permissions
  * Fetches and scrapes content from all HKSFC RSS feeds
  * - Press releases
  * - Circulars
@@ -13,11 +14,11 @@ const https = require('https');
 const http = require('http');
 const crypto = require('crypto');
 
-// Supabase configuration
+// Supabase configuration with SERVICE ROLE KEY
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://kiztaihzanqnrcrqaxsv.supabase.co';
-const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpenRhaWh6YW5xbnJjcnFheHN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MjgxNzcsImV4cCI6MjA2NzIwNDE3N30.a9ZXqVSmFOH2fBbrMeELPainodMGTAkbyiUVwjmFTK8';
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpenRhaWh6YW5xbnJjcnFheHN2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTYyODE3NywiZXhwIjoyMDY3MjA0MTc3fQ.5D9mVu_ssolTEW1ffotXoBFY65DuMvE7ERUHedj0t2E';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 // RSS Feed URLs
 const RSS_FEEDS = {
@@ -275,7 +276,7 @@ async function processRSSFeed(feedName, feedUrl, limit = 100) {
           .update(item.refNo + item.title + content)
           .digest('hex');
 
-        // Check if exists (use url as unique identifier)
+        // Check if exists
         const { data: existing } = await supabase
           .from('hksfc_filings')
           .select('id, content_hash')
@@ -322,7 +323,7 @@ async function processRSSFeed(feedName, feedUrl, limit = 100) {
             console.log(`  ⊘ Skipped (no changes)`);
           }
         } else {
-          // Insert new filing
+          // Insert new filing (SERVICE ROLE KEY allows this)
           const { error } = await supabase
             .from('hksfc_filings')
             .insert(filing);
@@ -359,10 +360,11 @@ async function main() {
   const maxPerFeed = parseInt(process.argv[2]) || 35; // Default 35 per feed = ~100 total
 
   console.log('═══════════════════════════════════════════════════════');
-  console.log('   HKSFC RSS Feed Scraper');
+  console.log('   HKSFC RSS Feed Scraper (ADMIN - Full Permissions)');
   console.log('═══════════════════════════════════════════════════════');
   console.log(`Max entries per feed: ${maxPerFeed}`);
   console.log(`Total target: ~${maxPerFeed * 3} entries`);
+  console.log(`Using: SERVICE ROLE KEY (can insert new records)`);
 
   const startTime = Date.now();
 
