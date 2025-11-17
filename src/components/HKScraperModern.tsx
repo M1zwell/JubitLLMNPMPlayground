@@ -28,8 +28,9 @@ import {
 import CCASSViewer from './CCASSViewer';
 import HKSFCViewer from './HKSFCViewer';
 import HKEXDisclosureViewer from './HKEXDisclosureViewer';
+import SFCFinancialStatistics from './SFCFinancialStatistics';
 
-type DataSource = 'hksfc' | 'hkex' | 'ccass';
+type DataSource = 'hksfc' | 'hkex' | 'ccass' | 'sfc_stats';
 type ViewMode = 'scrape' | 'view' | 'analyze';
 
 export default function HKScraperModern() {
@@ -100,6 +101,23 @@ export default function HKScraperModern() {
             >
               <TrendingUp size={20} />
               Disclosure of Interests
+            </button>
+
+            <button
+              onClick={() => setActiveSource('sfc_stats')}
+              className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
+                activeSource === 'sfc_stats'
+                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg transform scale-105'
+                  : 'text-gray-600 hover:bg-white hover:shadow'
+              }`}
+            >
+              <BarChart3 size={20} />
+              Financial Statistics
+              <span className={`text-xs px-2 py-0.5 rounded-full ${
+                activeSource === 'sfc_stats' ? 'bg-white/20' : 'bg-orange-100 text-orange-700'
+              }`}>
+                New
+              </span>
             </button>
           </div>
 
@@ -202,6 +220,12 @@ export default function HKScraperModern() {
                   />
                 </div>
               )}
+            </div>
+          )}
+
+          {activeSource === 'sfc_stats' && (
+            <div className="p-8">
+              <SFCFinancialStatistics />
             </div>
           )}
         </div>
