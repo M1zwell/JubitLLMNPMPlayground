@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { FileText, BarChart3, Table as TableIcon, TrendingUp, Sparkles, PieChart, Activity, Users, Shield, DollarSign } from 'lucide-react';
+import { FileText, BarChart3, Table as TableIcon, TrendingUp, Sparkles, PieChart, Activity, Users, Shield, DollarSign, ArrowRightLeft } from 'lucide-react';
 import {
   useSFCMarketHighlights,
   useSFCMarketCapByType,
@@ -16,9 +16,10 @@ import A3LiquidityDashboard from './A3LiquidityDashboard';
 import C4LicensedRepsDashboard from './C4LicensedRepsDashboard';
 import C5ResponsibleOfficersDashboard from './C5ResponsibleOfficersDashboard';
 import D3FundNavDashboard from './D3FundNavDashboard';
+import D4FundFlowsDashboard from './D4FundFlowsDashboard';
 import SFCTablesView from './SFCTablesView';
 
-type TabType = 'tables' | 'analyze' | 'a1-refined' | 'a2-market-structure' | 'a3-liquidity' | 'c4-licensed-reps' | 'c5-responsible-officers' | 'd3-fund-nav';
+type TabType = 'tables' | 'analyze' | 'a1-refined' | 'a2-market-structure' | 'a3-liquidity' | 'c4-licensed-reps' | 'c5-responsible-officers' | 'd3-fund-nav' | 'd4-fund-flows';
 
 const SFCFinancialStatisticsTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('a1-refined');
@@ -83,6 +84,12 @@ const SFCFinancialStatisticsTabs: React.FC = () => {
       label: 'D3: Fund NAV',
       icon: <DollarSign size={18} />,
       description: 'Mutual fund NAV by domicile & type'
+    },
+    {
+      id: 'd4-fund-flows' as TabType,
+      label: 'D4: Fund Flows',
+      icon: <ArrowRightLeft size={18} />,
+      description: 'Annual net fund flows by type'
     }
   ];
 
@@ -173,6 +180,10 @@ const SFCFinancialStatisticsTabs: React.FC = () => {
 
           {activeTab === 'd3-fund-nav' && (
             <D3FundNavDashboard />
+          )}
+
+          {activeTab === 'd4-fund-flows' && (
+            <D4FundFlowsDashboard />
           )}
 
           {activeTab === 'analyze' && (

@@ -1164,6 +1164,104 @@ export function useD3FundNavByType(fundType: string, limit = 100) {
   return { data, isLoading, error };
 }
 
+/**
+ * D4 Fund Flows by Type - Normalized schema
+ */
+export interface D4FundFlowsByType {
+  year: number;
+  domicile: 'HK';
+  fund_type: 'Bond' | 'Equity' | 'Mixed' | 'MoneyMarket' | 'Feeder' | 'FundOfFunds' |
+             'Index' | 'Guaranteed' | 'CommodityVirtual' | 'OtherSpecialised' | 'Total';
+  net_flow_usd_mn: number | null; // Annual net subscription/(redemption) in US$ millions
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * D4 Fund Flows Data - All records
+ */
+export function useD4FundFlows(limit = 100) {
+  const [data, setData] = useState<D4FundFlowsByType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: flowData, error: fetchError } = await supabase
+          .from('d4_fund_flows_by_type')
+          .select('*')
+          .order('year', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(flowData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching D4 fund flows data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * D4 Fund Flows by Year - Filtered for specific year
+ */
+export function useD4FundFlowsByYear(year: number) {
+  const [data, setData] = useState<D4FundFlowsByType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: flowData, error: fetchError } = await supabase
+          .from('d4_fund_flows_by_type')
+          .select('*')
+          .eq('year', year)
+          .eq('domicile', 'HK')
+          .order('net_flow_usd_mn', { ascending: false });
+
+        if (fetchError) throw fetchError;
+
+        setData(flowData || []);
+        setError(null);
+      } catch (err) {
+        console.error(`Error fetching D4 ${year} fund flows:`, err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [year]);
+
+  return { data, isLoading, error };
+}
+
 // Get latest data period
 export async function getLatestDataPeriod(table: string): Promise<string | null> {
   if (!supabase) return null;
