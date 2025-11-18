@@ -590,6 +590,432 @@ export function useA1LatestMetrics() {
   return { data, isLoading, error };
 }
 
+/**
+ * A2 Market Cap by Stock Type - Normalized schema
+ */
+export interface A2MktCapByStockType {
+  id: string;
+  period_type: 'year' | 'quarter';
+  year: number;
+  quarter: number | null;
+  board: 'Main' | 'GEM';
+  stock_type: 'Total' | 'HSI_constituents' | 'nonH_mainland' | 'H_shares';
+  mktcap_hkbn: number | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * A2 Annual Data - Main Board and GEM by stock type
+ */
+export function useA2AnnualData(limit = 50) {
+  const [data, setData] = useState<A2MktCapByStockType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: annualData, error: fetchError } = await supabase
+          .from('a2_mktcap_by_stock_type')
+          .select('*')
+          .eq('period_type', 'year')
+          .order('year', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(annualData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching A2 annual data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * A2 Quarterly Data - Recent quarters
+ */
+export function useA2QuarterlyData(limit = 12) {
+  const [data, setData] = useState<A2MktCapByStockType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: quarterlyData, error: fetchError } = await supabase
+          .from('a2_mktcap_by_stock_type')
+          .select('*')
+          .eq('period_type', 'quarter')
+          .order('year', { ascending: false })
+          .order('quarter', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(quarterlyData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching A2 quarterly data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * A3 Turnover by Stock Type - Normalized schema
+ */
+export interface A3TurnoverByStockType {
+  id: string;
+  period_type: 'year' | 'quarter';
+  year: number;
+  quarter: number | null;
+  board: 'Main' | 'GEM';
+  stock_type: 'Total' | 'HSI_constituents' | 'nonH_mainland' | 'H_shares';
+  avg_turnover_hkmm: number | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * A3 Annual Data - Average daily turnover by stock type
+ */
+export function useA3AnnualData(limit = 200) {
+  const [data, setData] = useState<A3TurnoverByStockType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: annualData, error: fetchError } = await supabase
+          .from('a3_turnover_by_stock_type')
+          .select('*')
+          .eq('period_type', 'year')
+          .order('year', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(annualData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching A3 annual data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * A3 Quarterly Data - Recent quarters
+ */
+export function useA3QuarterlyData(limit = 100) {
+  const [data, setData] = useState<A3TurnoverByStockType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: quarterlyData, error: fetchError } = await supabase
+          .from('a3_turnover_by_stock_type')
+          .select('*')
+          .eq('period_type', 'quarter')
+          .order('year', { ascending: false })
+          .order('quarter', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(quarterlyData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching A3 quarterly data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * C4 Licensed Representatives by Regulated Activity - Normalized schema
+ */
+export interface C4LRRegulatedActivities {
+  id: string;
+  period_type: 'year' | 'quarter';
+  year: number;
+  quarter: number | null;
+  ra1: number | null;  // Dealing in securities
+  ra2: number | null;  // Dealing in futures
+  ra3: number | null;  // Leveraged FX trading
+  ra4: number | null;  // Advising on securities
+  ra5: number | null;  // Advising on futures
+  ra6: number | null;  // Corporate finance
+  ra7: number | null;  // Automated trading services
+  ra8: number | null;  // Securities margin financing
+  ra9: number | null;  // Asset management
+  ra10: number | null; // Credit rating services
+  ra13: number | null; // OTC derivatives
+  lr_total: number | null; // Total count
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * C4 Annual Data - Licensed Representatives by Regulated Activity
+ */
+export function useC4AnnualData(limit = 50) {
+  const [data, setData] = useState<C4LRRegulatedActivities[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: annualData, error: fetchError } = await supabase
+          .from('c4_lr_regulated_activities')
+          .select('*')
+          .eq('period_type', 'year')
+          .order('year', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(annualData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching C4 annual data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * C4 Quarterly Data - Recent quarters
+ */
+export function useC4QuarterlyData(limit = 12) {
+  const [data, setData] = useState<C4LRRegulatedActivities[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: quarterlyData, error: fetchError } = await supabase
+          .from('c4_lr_regulated_activities')
+          .select('*')
+          .eq('period_type', 'quarter')
+          .order('year', { ascending: false })
+          .order('quarter', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(quarterlyData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching C4 quarterly data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * C5 Responsible Officers by Regulated Activity - Normalized schema
+ */
+export interface C5RORegulatedActivities {
+  id: string;
+  period_type: 'year' | 'quarter';
+  year: number;
+  quarter: number | null;
+  ra1: number | null;  // Dealing in securities
+  ra2: number | null;  // Dealing in futures
+  ra3: number | null;  // Leveraged FX trading
+  ra4: number | null;  // Advising on securities
+  ra5: number | null;  // Advising on futures
+  ra6: number | null;  // Corporate finance
+  ra7: number | null;  // Automated trading services
+  ra8: number | null;  // Securities margin financing
+  ra9: number | null;  // Asset management
+  ra10: number | null; // Credit rating services
+  ra13: number | null; // OTC derivatives
+  ro_total: number | null; // Total count
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * C5 Annual Data - Responsible Officers by Regulated Activity
+ */
+export function useC5AnnualData(limit = 50) {
+  const [data, setData] = useState<C5RORegulatedActivities[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: annualData, error: fetchError } = await supabase
+          .from('c5_ro_regulated_activities')
+          .select('*')
+          .eq('period_type', 'year')
+          .order('year', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(annualData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching C5 annual data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * C5 Quarterly Data - Recent quarters
+ */
+export function useC5QuarterlyData(limit = 12) {
+  const [data, setData] = useState<C5RORegulatedActivities[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: quarterlyData, error: fetchError } = await supabase
+          .from('c5_ro_regulated_activities')
+          .select('*')
+          .eq('period_type', 'quarter')
+          .order('year', { ascending: false })
+          .order('quarter', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(quarterlyData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching C5 quarterly data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [limit]);
+
+  return { data, isLoading, error };
+}
+
 // Get latest data period
 export async function getLatestDataPeriod(table: string): Promise<string | null> {
   if (!supabase) return null;

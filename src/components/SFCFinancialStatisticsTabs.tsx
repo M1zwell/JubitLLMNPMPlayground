@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { FileText, BarChart3, Table as TableIcon, TrendingUp, Sparkles } from 'lucide-react';
+import { FileText, BarChart3, Table as TableIcon, TrendingUp, Sparkles, PieChart, Activity, Users, Shield } from 'lucide-react';
 import {
   useSFCMarketHighlights,
   useSFCMarketCapByType,
@@ -11,9 +11,13 @@ import {
 } from '../hooks/useSFCStatistics';
 import SFCAnalyzeDashboard from './SFCAnalyzeDashboard';
 import A1MarketHighlightsDashboard from './A1MarketHighlightsDashboard';
+import A2MarketStructureDashboard from './A2MarketStructureDashboard';
+import A3LiquidityDashboard from './A3LiquidityDashboard';
+import C4LicensedRepsDashboard from './C4LicensedRepsDashboard';
+import C5ResponsibleOfficersDashboard from './C5ResponsibleOfficersDashboard';
 import SFCTablesView from './SFCTablesView';
 
-type TabType = 'tables' | 'analyze' | 'a1-refined';
+type TabType = 'tables' | 'analyze' | 'a1-refined' | 'a2-market-structure' | 'a3-liquidity' | 'c4-licensed-reps' | 'c5-responsible-officers';
 
 const SFCFinancialStatisticsTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('a1-refined');
@@ -45,9 +49,33 @@ const SFCFinancialStatisticsTabs: React.FC = () => {
   const tabs = [
     {
       id: 'a1-refined' as TabType,
-      label: 'Dashboard',
+      label: 'A1: Market Highlights',
       icon: <Sparkles size={18} />,
-      description: 'Interactive charts with filtering & table view'
+      description: 'Market cap, listings & turnover trends'
+    },
+    {
+      id: 'a2-market-structure' as TabType,
+      label: 'A2: Market Structure',
+      icon: <PieChart size={18} />,
+      description: 'Market cap by stock type (HSI, H-shares, Non-H)'
+    },
+    {
+      id: 'a3-liquidity' as TabType,
+      label: 'A3: Liquidity',
+      icon: <Activity size={18} />,
+      description: 'Turnover analysis & trading patterns'
+    },
+    {
+      id: 'c4-licensed-reps' as TabType,
+      label: 'C4: Licensed Reps',
+      icon: <Users size={18} />,
+      description: 'Licensed representatives by regulated activity'
+    },
+    {
+      id: 'c5-responsible-officers' as TabType,
+      label: 'C5: Responsible Officers',
+      icon: <Shield size={18} />,
+      description: 'RO/AO by regulated activity'
     }
   ];
 
@@ -118,6 +146,22 @@ const SFCFinancialStatisticsTabs: React.FC = () => {
         <div className="p-6">
           {activeTab === 'a1-refined' && (
             <A1MarketHighlightsDashboard />
+          )}
+
+          {activeTab === 'a2-market-structure' && (
+            <A2MarketStructureDashboard />
+          )}
+
+          {activeTab === 'a3-liquidity' && (
+            <A3LiquidityDashboard />
+          )}
+
+          {activeTab === 'c4-licensed-reps' && (
+            <C4LicensedRepsDashboard />
+          )}
+
+          {activeTab === 'c5-responsible-officers' && (
+            <C5ResponsibleOfficersDashboard />
           )}
 
           {activeTab === 'analyze' && (
