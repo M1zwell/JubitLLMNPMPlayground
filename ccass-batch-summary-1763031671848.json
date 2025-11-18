@@ -1,0 +1,428 @@
+{
+  "successful": 60,
+  "failed": 0,
+  "totalParticipants": 17128,
+  "totalRecords": 17128,
+  "details": [
+    {
+      "stockCode": "00001",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 323,
+      "stockName": "CK HUTCHISON HOLDINGS LIMITED"
+    },
+    {
+      "stockCode": "00001",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 323,
+      "stockName": "CK HUTCHISON HOLDINGS LIMITED"
+    },
+    {
+      "stockCode": "00002",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 297,
+      "stockName": "CLP HOLDINGS LIMITED"
+    },
+    {
+      "stockCode": "00002",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 298,
+      "stockName": "CLP HOLDINGS LIMITED"
+    },
+    {
+      "stockCode": "00003",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 346,
+      "stockName": "HONG KONG AND CHINA GAS COMPANY LIMITED, THE"
+    },
+    {
+      "stockCode": "00003",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 345,
+      "stockName": "HONG KONG AND CHINA GAS COMPANY LIMITED, THE"
+    },
+    {
+      "stockCode": "00005",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 419,
+      "stockName": "HSBC HOLDINGS PLC"
+    },
+    {
+      "stockCode": "00005",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 418,
+      "stockName": "HSBC HOLDINGS PLC"
+    },
+    {
+      "stockCode": "00006",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 285,
+      "stockName": "POWER ASSETS HOLDINGS LIMITED"
+    },
+    {
+      "stockCode": "00006",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 284,
+      "stockName": "POWER ASSETS HOLDINGS LIMITED"
+    },
+    {
+      "stockCode": "00011",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 303,
+      "stockName": "HANG SENG BANK LTD -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00011",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 303,
+      "stockName": "HANG SENG BANK LTD -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00012",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 267,
+      "stockName": "HENDERSON LAND DEVELOPMENT CO LTD"
+    },
+    {
+      "stockCode": "00012",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 267,
+      "stockName": "HENDERSON LAND DEVELOPMENT CO LTD"
+    },
+    {
+      "stockCode": "00016",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 243,
+      "stockName": "SUN HUNG KAI PROPERTIES LIMITED -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00016",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 244,
+      "stockName": "SUN HUNG KAI PROPERTIES LIMITED -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00027",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 278,
+      "stockName": "GALAXY ENTERTAINMENT GROUP LIMITED"
+    },
+    {
+      "stockCode": "00027",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 278,
+      "stockName": "GALAXY ENTERTAINMENT GROUP LIMITED"
+    },
+    {
+      "stockCode": "00066",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 336,
+      "stockName": "MTR CORPORATION LIMITED"
+    },
+    {
+      "stockCode": "00066",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 338,
+      "stockName": "MTR CORPORATION LIMITED"
+    },
+    {
+      "stockCode": "00101",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 211,
+      "stockName": "HANG LUNG PROPERTIES LIMITED"
+    },
+    {
+      "stockCode": "00101",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 210,
+      "stockName": "HANG LUNG PROPERTIES LIMITED"
+    },
+    {
+      "stockCode": "00175",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 340,
+      "stockName": "GEELY AUTOMOBILE HOLDINGS LIMITED -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00175",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 340,
+      "stockName": "GEELY AUTOMOBILE HOLDINGS LIMITED -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00241",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 305,
+      "stockName": "ALIBABA HEALTH INFORMATION TECHNOLOGY LIMITED"
+    },
+    {
+      "stockCode": "00241",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 304,
+      "stockName": "ALIBABA HEALTH INFORMATION TECHNOLOGY LIMITED"
+    },
+    {
+      "stockCode": "00267",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 279,
+      "stockName": "CITIC LIMITED"
+    },
+    {
+      "stockCode": "00267",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 279,
+      "stockName": "CITIC LIMITED"
+    },
+    {
+      "stockCode": "00285",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 273,
+      "stockName": "BYD ELECTRONIC (INTERNATIONAL) COMPANY LIMITED"
+    },
+    {
+      "stockCode": "00285",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 272,
+      "stockName": "BYD ELECTRONIC (INTERNATIONAL) COMPANY LIMITED"
+    },
+    {
+      "stockCode": "00288",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 210,
+      "stockName": "WH GROUP LIMITED"
+    },
+    {
+      "stockCode": "00288",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 210,
+      "stockName": "WH GROUP LIMITED"
+    },
+    {
+      "stockCode": "00291",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 233,
+      "stockName": "CHINA RESOURCES BEER (HOLDINGS) COMPANY LIMITED-HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00291",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 232,
+      "stockName": "CHINA RESOURCES BEER (HOLDINGS) COMPANY LIMITED-HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00300",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 200,
+      "stockName": "MIDEA GROUP CO., LTD."
+    },
+    {
+      "stockCode": "00300",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 200,
+      "stockName": "MIDEA GROUP CO., LTD."
+    },
+    {
+      "stockCode": "00316",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 206,
+      "stockName": "ORIENT OVERSEAS (INTERNATIONAL) LIMITED"
+    },
+    {
+      "stockCode": "00316",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 206,
+      "stockName": "ORIENT OVERSEAS (INTERNATIONAL) LIMITED"
+    },
+    {
+      "stockCode": "00322",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 154,
+      "stockName": "TINGYI (CAYMAN ISLANDS) HOLDING CORP."
+    },
+    {
+      "stockCode": "00322",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 154,
+      "stockName": "TINGYI (CAYMAN ISLANDS) HOLDING CORP."
+    },
+    {
+      "stockCode": "00386",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 337,
+      "stockName": "CHINA PETROLEUM & CHEMICAL CORPORATION"
+    },
+    {
+      "stockCode": "00386",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 336,
+      "stockName": "CHINA PETROLEUM & CHEMICAL CORPORATION"
+    },
+    {
+      "stockCode": "00388",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 393,
+      "stockName": "HONG KONG EXCHANGES AND CLEARING LIMITED -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00388",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 392,
+      "stockName": "HONG KONG EXCHANGES AND CLEARING LIMITED -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00669",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 191,
+      "stockName": "TECHTRONIC INDUSTRIES CO. LTD."
+    },
+    {
+      "stockCode": "00669",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 193,
+      "stockName": "TECHTRONIC INDUSTRIES CO. LTD."
+    },
+    {
+      "stockCode": "00688",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 261,
+      "stockName": "CHINA OVERSEAS LAND & INVESTMENT LIMITED"
+    },
+    {
+      "stockCode": "00688",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 260,
+      "stockName": "CHINA OVERSEAS LAND & INVESTMENT LIMITED"
+    },
+    {
+      "stockCode": "00700",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 400,
+      "stockName": "TENCENT HOLDINGS LIMITED -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00700",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 401,
+      "stockName": "TENCENT HOLDINGS LIMITED -HKD TRADED SHARES"
+    },
+    {
+      "stockCode": "00728",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 302,
+      "stockName": "CHINA TELECOM CORPORATION LIMITED"
+    },
+    {
+      "stockCode": "00728",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 300,
+      "stockName": "CHINA TELECOM CORPORATION LIMITED"
+    },
+    {
+      "stockCode": "00762",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 286,
+      "stockName": "CHINA UNICOM (HONG KONG) LIMITED"
+    },
+    {
+      "stockCode": "00762",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 284,
+      "stockName": "CHINA UNICOM (HONG KONG) LIMITED"
+    },
+    {
+      "stockCode": "00823",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 321,
+      "stockName": "LINK REAL ESTATE INVESTMENT TRUST"
+    },
+    {
+      "stockCode": "00823",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 320,
+      "stockName": "LINK REAL ESTATE INVESTMENT TRUST"
+    },
+    {
+      "stockCode": "00836",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 239,
+      "stockName": "CHINA RESOURCES POWER HOLDINGS COMPANY LIMITED"
+    },
+    {
+      "stockCode": "00836",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 239,
+      "stockName": "CHINA RESOURCES POWER HOLDINGS COMPANY LIMITED"
+    },
+    {
+      "stockCode": "00857",
+      "date": "2025/11/10",
+      "success": true,
+      "participants": 330,
+      "stockName": "PETROCHINA COMPANY LIMITED"
+    },
+    {
+      "stockCode": "00857",
+      "date": "2025/11/11",
+      "success": true,
+      "participants": 330,
+      "stockName": "PETROCHINA COMPANY LIMITED"
+    }
+  ]
+}

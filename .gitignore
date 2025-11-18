@@ -61,3 +61,4 @@ puppeteer-test-output.txt
 # WSL setup scripts
 install-wsl2.bat
 setup-wsl2.ps1
+nul

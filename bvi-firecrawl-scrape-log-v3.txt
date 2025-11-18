@@ -1,0 +1,179 @@
+🚀 BVI FSC Complete Scraper (Firecrawl)
+
+============================================================
+
+📊 Current BVI entities: 27
+
+============================================================
+📋 Processing: Banking & Fiduciary
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-banking-fiduciary
+✅ Retrieved 16261 characters of content
+📝 Extracted 231 entities
+
+💾 Importing 231 Banking & Fiduciary entities...
+  ✅ 25 / 231 imported
+  ✅ 50 / 231 imported
+  ✅ 75 / 231 imported
+  ✅ 100 / 231 imported
+  ✅ 125 / 231 imported
+  ✅ 150 / 231 imported
+  ✅ 175 / 231 imported
+  ✅ 200 / 231 imported
+  ✅ 225 / 231 imported
+
+📊 Import Results:
+   ✅ Inserted: 231
+   ⏭️  Duplicates: 0
+   ❌ Errors: 0
+
+============================================================
+📋 Processing: Trust Companies
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-trust
+✅ Retrieved 12084 characters of content
+📝 Extracted 121 entities
+
+💾 Importing 121 Trust Companies entities...
+  ✅ 25 / 121 imported
+  ✅ 50 / 121 imported
+  ✅ 75 / 121 imported
+  ✅ 100 / 121 imported
+
+📊 Import Results:
+   ✅ Inserted: 121
+   ⏭️  Duplicates: 0
+   ❌ Errors: 0
+
+============================================================
+📋 Processing: Insurance Companies
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-insurance
+✅ Retrieved 14950 characters of content
+📝 Extracted 171 entities
+
+💾 Importing 171 Insurance Companies entities...
+  ✅ 25 / 171 imported
+  ✅ 50 / 171 imported
+  ✅ 75 / 171 imported
+  ✅ 100 / 171 imported
+  ✅ 125 / 171 imported
+  ✅ 150 / 171 imported
+
+📊 Import Results:
+   ✅ Inserted: 171
+   ⏭️  Duplicates: 0
+   ❌ Errors: 0
+
+============================================================
+📋 Processing: Mutual Funds
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-funds
+✅ Retrieved 12085 characters of content
+📝 Extracted 121 entities
+
+💾 Importing 121 Mutual Funds entities...
+  ✅ 25 / 121 imported
+  ✅ 50 / 121 imported
+  ✅ 75 / 121 imported
+  ✅ 100 / 121 imported
+
+📊 Import Results:
+   ✅ Inserted: 121
+   ⏭️  Duplicates: 0
+   ❌ Errors: 0
+
+============================================================
+📋 Processing: Fund Administrators
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-fund-administrators
+✅ Retrieved 12140 characters of content
+📝 Extracted 121 entities
+
+💾 Importing 121 Fund Administrators entities...
+  ✅ 25 / 121 imported
+  ✅ 50 / 121 imported
+  ✅ 75 / 121 imported
+  ✅ 100 / 121 imported
+
+📊 Import Results:
+   ✅ Inserted: 121
+   ⏭️  Duplicates: 0
+   ❌ Errors: 0
+
+============================================================
+📋 Processing: Investment Business
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-investment-business
+✅ Retrieved 14158 characters of content
+📝 Extracted 151 entities
+
+💾 Importing 151 Investment Business entities...
+  ✅ 25 / 151 imported
+  ✅ 50 / 151 imported
+  ✅ 75 / 151 imported
+  ✅ 100 / 151 imported
+  ✅ 125 / 151 imported
+  ✅ 150 / 151 imported
+
+📊 Import Results:
+   ✅ Inserted: 151
+   ⏭️  Duplicates: 0
+   ❌ Errors: 0
+
+============================================================
+📋 Processing: Approved Auditors
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-approved-auditors
+✅ Retrieved 13860 characters of content
+📝 Extracted 151 entities
+
+💾 Importing 151 Approved Auditors entities...
+  ✅ 25 / 151 imported
+  ✅ 50 / 151 imported
+  ✅ 75 / 151 imported
+  ✅ 100 / 151 imported
+  ✅ 125 / 151 imported
+  ✅ 150 / 151 imported
+
+📊 Import Results:
+   ✅ Inserted: 151
+   ⏭️  Duplicates: 0
+   ❌ Errors: 0
+
+============================================================
+📋 Processing: Insolvency Practitioners
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-insolvency
+✅ Retrieved 12105 characters of content
+📝 Extracted 121 entities
+
+💾 Importing 121 Insolvency Practitioners entities...
+  ✅ 25 / 121 imported
+  ✅ 50 / 121 imported
+  ✅ 75 / 121 imported
+  ✅ 100 / 121 imported
+
+📊 Import Results:
+   ✅ Inserted: 121
+   ⏭️  Duplicates: 0
+   ❌ Errors: 0
+
+============================================================
+📋 Processing: Virtual Assets Service Providers
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-vasp
+✅ Retrieved 15885 characters of content
+📝 Extracted 194 entities
+
+💾 Importing 194 Virtual Assets Service Providers entities...
+  ✅ 25 / 194 imported

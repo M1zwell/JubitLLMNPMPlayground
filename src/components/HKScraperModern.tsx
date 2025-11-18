@@ -26,9 +26,9 @@ import {
   Activity
 } from 'lucide-react';
 import CCASSViewer from './CCASSViewer';
-import HKSFCViewer from './HKSFCViewer';
+import HKSFCDashboard from './HKSFCDashboard';
 import HKEXDisclosureViewer from './HKEXDisclosureViewer';
-import SFCFinancialStatistics from './SFCFinancialStatistics';
+import SFCFinancialStatisticsTabs from './SFCFinancialStatisticsTabs';
 
 type DataSource = 'hksfc' | 'hkex' | 'ccass' | 'sfc_stats';
 type ViewMode = 'scrape' | 'view' | 'analyze';
@@ -181,7 +181,7 @@ export default function HKScraperModern() {
 
           {activeSource === 'hksfc' && (
             <div>
-              {viewMode === 'view' && <HKSFCViewer />}
+              {viewMode === 'view' && <HKSFCDashboard />}
               {viewMode === 'analyze' && (
                 <div className="p-8">
                   <ComingSoonPlaceholder
@@ -225,7 +225,7 @@ export default function HKScraperModern() {
 
           {activeSource === 'sfc_stats' && (
             <div className="p-8">
-              <SFCFinancialStatistics />
+              <SFCFinancialStatisticsTabs />
             </div>
           )}
         </div>

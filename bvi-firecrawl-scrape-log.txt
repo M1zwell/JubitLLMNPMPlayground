@@ -1,0 +1,82 @@
+🚀 BVI FSC Complete Scraper (Firecrawl)
+
+============================================================
+
+📊 Current BVI entities: 27
+
+============================================================
+📋 Processing: Banking & Fiduciary
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-banking-fiduciary
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+📋 Processing: Trust Companies
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-trust
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+📋 Processing: Insurance Companies
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-insurance
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+📋 Processing: Mutual Funds
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-funds
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+📋 Processing: Fund Administrators
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-fund-administrators
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+📋 Processing: Investment Business
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-investment-business
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+📋 Processing: Approved Auditors
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-approved-auditors
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+📋 Processing: Insolvency Practitioners
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-insolvency
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+📋 Processing: Virtual Assets Service Providers
+============================================================
+
+🔥 Scraping with Firecrawl: https://www.bvifsc.vg/regulated-entities-vasp
+❌ Firecrawl error: Firecrawl API error (401): {"success":false,"error":"Unauthorized: Invalid token"}
+
+============================================================
+🎉 SCRAPING COMPLETE!
+============================================================
+
+📊 Overall Statistics:
+   Initial entities: 27
+   Final entities:   27
+   New imports:      0
+   Duplicates:       0
+   Errors:           0
+
+✅ Data visible at: https://chathogs.com → Offshore Data → BVI tab
+

@@ -1,0 +1,40 @@
+🚀 BVI FSC CSV Importer
+
+============================================================
+
+📊 Current BVI entities: 27
+
+============================================================
+📋 Processing: Banking & Fiduciary
+============================================================
+
+📥 Downloading: https://www.bvifsc.vg/banking-fiduciary-data.csv
+❌ Error downloading/parsing CSV: Invalid Opening Quote: a quote is found on field "<!DOCTYPE html>" at line 2, value is "<html xmlns="
+
+============================================================
+📋 Processing: Insurance
+============================================================
+
+📥 Downloading: https://www.bvifsc.vg/insurance-data.csv
+❌ Error downloading/parsing CSV: Invalid Opening Quote: a quote is found on field "<!DOCTYPE html>" at line 2, value is "<html xmlns="
+
+============================================================
+📋 Processing: Investment Business
+============================================================
+
+📥 Downloading: https://www.bvifsc.vg/investment-business-data.csv
+❌ Error downloading/parsing CSV: Invalid Opening Quote: a quote is found on field "<!DOCTYPE html>" at line 2, value is "<html xmlns="
+
+============================================================
+🎉 IMPORT COMPLETE!
+============================================================
+
+📊 Overall Statistics:
+   Initial entities: 27
+   Final entities:   27
+   New imports:      0
+   Duplicates:       0
+   Errors:           0
+
+✅ Data is now visible at: https://chathogs.com → Offshore Data → BVI tab
+

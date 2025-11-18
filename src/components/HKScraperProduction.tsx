@@ -72,8 +72,10 @@ interface CCassHolding {
   id: string;
   stock_code: string;
   stock_name?: string;
+  shareholding_date?: string;
   participant_id: string;
   participant_name: string;
+  address?: string;
   shareholding: number;
   percentage: number;
   scraped_at: string;
@@ -108,6 +110,16 @@ export default function HKScraperProduction() {
     sortBy: 'date-desc'
   });
 
+  // CCASS Filter states
+  const [ccassFilters, setCcassFilters] = useState({
+    stockCode: '',
+    shareholdingDateFrom: '',
+    shareholdingDateTo: '',
+    searchText: '',
+    minShareholding: '',
+    sortBy: 'shareholding-desc'
+  });
+
   // Fetch data from database (READ ONLY)
   const fetchData = async () => {
     setIsLoadingData(true);
@@ -131,11 +143,12 @@ export default function HKScraperProduction() {
         if (error) throw error;
         setHkexData(data || []);
       } else if (source === 'ccass') {
-        const { data, error } = await supabase
+        const { data, error} = await supabase
           .from('hkex_ccass_holdings')
           .select('*')
-          .order('scraped_at', { ascending: false })
-          .limit(100);
+          .order('shareholding_date', { ascending: false })
+          .order('shareholding', { ascending: false })
+          .limit(500);
 
         if (error) throw error;
         setCcassData(data || []);
@@ -233,6 +246,83 @@ export default function HKScraperProduction() {
     const types = new Set<string>();
     hksfcData.forEach(f => types.add(f.filing_type));
     return Array.from(types);
+  };
+
+  // Filter and sort CCASS data
+  const getFilteredCCASSData = () => {
+    let filtered = [...ccassData];
+
+    // Filter by stock code
+    if (ccassFilters.stockCode) {
+      filtered = filtered.filter(h =>
+        h.stock_code.includes(ccassFilters.stockCode)
+      );
+    }
+
+    // Filter by search text (participant name or ID)
+    if (ccassFilters.searchText) {
+      const search = ccassFilters.searchText.toLowerCase();
+      filtered = filtered.filter(h =>
+        h.participant_name.toLowerCase().includes(search) ||
+        h.participant_id.toLowerCase().includes(search) ||
+        h.address?.toLowerCase().includes(search)
+      );
+    }
+
+    // Filter by shareholding date range
+    if (ccassFilters.shareholdingDateFrom) {
+      filtered = filtered.filter(h => {
+        if (!h.shareholding_date) return false;
+        return new Date(h.shareholding_date) >= new Date(ccassFilters.shareholdingDateFrom);
+      });
+    }
+    if (ccassFilters.shareholdingDateTo) {
+      filtered = filtered.filter(h => {
+        if (!h.shareholding_date) return false;
+        return new Date(h.shareholding_date) <= new Date(ccassFilters.shareholdingDateTo);
+      });
+    }
+
+    // Filter by minimum shareholding
+    if (ccassFilters.minShareholding) {
+      const minShares = parseInt(ccassFilters.minShareholding);
+      filtered = filtered.filter(h => h.shareholding >= minShares);
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (ccassFilters.sortBy) {
+        case 'shareholding-desc':
+          return b.shareholding - a.shareholding;
+        case 'shareholding-asc':
+          return a.shareholding - b.shareholding;
+        case 'percentage-desc':
+          return b.percentage - a.percentage;
+        case 'percentage-asc':
+          return a.percentage - b.percentage;
+        case 'date-desc':
+          return new Date(b.shareholding_date || b.scraped_at).getTime() -
+                 new Date(a.shareholding_date || a.scraped_at).getTime();
+        case 'date-asc':
+          return new Date(a.shareholding_date || a.scraped_at).getTime() -
+                 new Date(b.shareholding_date || b.scraped_at).getTime();
+        case 'participant':
+          return a.participant_name.localeCompare(b.participant_name);
+        case 'stock':
+          return a.stock_code.localeCompare(b.stock_code);
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  };
+
+  // Get unique stock codes from CCASS data
+  const getAllStockCodes = () => {
+    const codes = new Set<string>();
+    ccassData.forEach(h => codes.add(h.stock_code));
+    return Array.from(codes).sort();
   };
 
   // Export functions
@@ -832,26 +922,197 @@ export default function HKScraperProduction() {
                       No CCASS data found. Try scraping first.
                     </p>
                   ) : (
-                    ccassData.map(holding => (
-                      <div key={holding.id} className="p-3 border border-gray-200 rounded-md hover:bg-gray-50">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h4 className="font-medium text-sm">{holding.participant_name}</h4>
-                            <p className="text-xs text-gray-500 mt-1">
-                              ID: {holding.participant_id} | Stock: {holding.stock_code}
-                            </p>
+                    <>
+                      {/* CCASS Filters */}
+                      <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-300">
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="text-sm font-semibold">Filters</h3>
+                          <button
+                            onClick={() => setCcassFilters({
+                              stockCode: '',
+                              shareholdingDateFrom: '',
+                              shareholdingDateTo: '',
+                              searchText: '',
+                              minShareholding: '',
+                              sortBy: 'shareholding-desc'
+                            })}
+                            className="text-xs text-blue-600 hover:underline"
+                          >
+                            Clear all
+                          </button>
+                        </div>
+
+                        <div className="space-y-3">
+                          {/* Primary Filters Row - Stock and Date Range */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3 bg-white rounded border border-blue-200">
+                            {/* Stock Code Filter */}
+                            <div>
+                              <label className="block text-sm font-semibold mb-1.5 text-blue-700">
+                                📊 Stock Code
+                              </label>
+                              <select
+                                value={ccassFilters.stockCode}
+                                onChange={(e) => setCcassFilters({...ccassFilters, stockCode: e.target.value})}
+                                className="w-full px-3 py-2 text-sm font-medium border-2 border-blue-300 rounded focus:border-blue-500 focus:outline-none"
+                              >
+                                <option value="">All Stocks ({getAllStockCodes().length})</option>
+                                {getAllStockCodes().map(code => (
+                                  <option key={code} value={code}>{code}</option>
+                                ))}
+                              </select>
+                            </div>
+
+                            {/* Shareholding Date From */}
+                            <div>
+                              <label className="block text-sm font-semibold mb-1.5 text-blue-700">
+                                📅 Date From
+                              </label>
+                              <input
+                                type="date"
+                                value={ccassFilters.shareholdingDateFrom}
+                                onChange={(e) => setCcassFilters({...ccassFilters, shareholdingDateFrom: e.target.value})}
+                                className="w-full px-3 py-2 text-sm font-medium border-2 border-blue-300 rounded focus:border-blue-500 focus:outline-none"
+                              />
+                            </div>
+
+                            {/* Shareholding Date To */}
+                            <div>
+                              <label className="block text-sm font-semibold mb-1.5 text-blue-700">
+                                📅 Date To
+                              </label>
+                              <input
+                                type="date"
+                                value={ccassFilters.shareholdingDateTo}
+                                onChange={(e) => setCcassFilters({...ccassFilters, shareholdingDateTo: e.target.value})}
+                                className="w-full px-3 py-2 text-sm font-medium border-2 border-blue-300 rounded focus:border-blue-500 focus:outline-none"
+                              />
+                            </div>
                           </div>
-                          <div className="text-right">
-                            <p className="text-sm font-semibold">
-                              {holding.shareholding.toLocaleString()}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {holding.percentage}%
-                            </p>
+
+                          {/* Secondary Filters Row */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {/* Search Text */}
+                            <div>
+                              <label className="block text-xs font-medium mb-1">Search Participant</label>
+                              <input
+                                type="text"
+                                value={ccassFilters.searchText}
+                                onChange={(e) => setCcassFilters({...ccassFilters, searchText: e.target.value})}
+                                placeholder="Name, ID, or address..."
+                                className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded"
+                              />
+                            </div>
+
+                            {/* Min Shareholding */}
+                            <div>
+                              <label className="block text-xs font-medium mb-1">Min Shares</label>
+                              <input
+                                type="number"
+                                value={ccassFilters.minShareholding}
+                                onChange={(e) => setCcassFilters({...ccassFilters, minShareholding: e.target.value})}
+                                placeholder="e.g., 1000000"
+                                className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Sort and Actions */}
+                        <div className="flex items-center justify-between pt-2 border-t border-gray-300 mt-3">
+                          <div className="flex items-center gap-2">
+                            <label className="text-xs font-medium">Sort by:</label>
+                            <select
+                              value={ccassFilters.sortBy}
+                              onChange={(e) => setCcassFilters({...ccassFilters, sortBy: e.target.value})}
+                              className="px-2 py-1 text-xs border border-gray-300 rounded"
+                            >
+                              <option value="shareholding-desc">Shareholding (Largest)</option>
+                              <option value="shareholding-asc">Shareholding (Smallest)</option>
+                              <option value="percentage-desc">Percentage (Highest)</option>
+                              <option value="percentage-asc">Percentage (Lowest)</option>
+                              <option value="date-desc">Date (Newest)</option>
+                              <option value="date-asc">Date (Oldest)</option>
+                              <option value="participant">Participant Name</option>
+                              <option value="stock">Stock Code</option>
+                            </select>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                const filtered = getFilteredCCASSData();
+                                alert(`Total Holdings: ${filtered.length}\nTotal Shares: ${filtered.reduce((sum, h) => sum + h.shareholding, 0).toLocaleString()}\nAvg %: ${(filtered.reduce((sum, h) => sum + h.percentage, 0) / filtered.length).toFixed(2)}%`);
+                              }}
+                              className="btn-minimal btn-primary text-xs flex items-center gap-1"
+                            >
+                              <Database size={14} />
+                              Analyze
+                            </button>
                           </div>
                         </div>
                       </div>
-                    ))
+
+                      {/* Filtered Results */}
+                      <div className="space-y-3 max-h-96 overflow-y-auto">
+                        <div className="flex items-center justify-between mb-3 p-2 bg-blue-50 rounded">
+                          <p className="text-xs font-semibold text-gray-700">
+                            Showing {getFilteredCCASSData().length} of {ccassData.length} holdings
+                          </p>
+                          {ccassFilters.stockCode && (
+                            <span className="text-xs text-blue-600">
+                              Filtered by Stock: {ccassFilters.stockCode}
+                            </span>
+                          )}
+                        </div>
+                        {getFilteredCCASSData().map(holding => (
+                          <div key={holding.id} className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white">
+                            {/* Header Row with Date and Stock */}
+                            <div className="flex justify-between items-center mb-3 pb-2 border-b border-gray-200">
+                              <div className="flex items-center gap-3">
+                                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-mono rounded font-semibold">
+                                  {holding.stock_code}
+                                </span>
+                                <div className="flex items-center gap-1">
+                                  <Calendar size={12} className="text-gray-500" />
+                                  <span className="text-sm font-semibold text-gray-700">
+                                    {holding.shareholding_date || 'N/A'}
+                                  </span>
+                                </div>
+                              </div>
+                              {holding.stock_name && (
+                                <span className="text-xs text-gray-500 italic">{holding.stock_name}</span>
+                              )}
+                            </div>
+
+                            {/* Participant Info */}
+                            <div className="mb-3">
+                              <h4 className="font-semibold text-sm mb-1">{holding.participant_name}</h4>
+                              <p className="text-xs text-gray-500">
+                                Participant ID: <span className="font-mono font-medium">{holding.participant_id}</span>
+                              </p>
+                              {holding.address && (
+                                <p className="text-xs text-gray-600 mt-1">{holding.address}</p>
+                              )}
+                            </div>
+
+                            {/* Shareholding Data */}
+                            <div className="grid grid-cols-2 gap-4 mt-3 pt-3 border-t border-gray-100">
+                              <div>
+                                <p className="text-xs text-gray-500 mb-1">Shareholding</p>
+                                <p className="text-base font-bold text-gray-900">
+                                  {holding.shareholding.toLocaleString()}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-xs text-gray-500 mb-1">Percentage</p>
+                                <p className="text-base font-bold text-blue-600">
+                                  {holding.percentage}%
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
                   )
                 )}
               </div>
