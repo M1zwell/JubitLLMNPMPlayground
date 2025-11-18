@@ -22,11 +22,24 @@ interface CardFooterProps {
   className?: string;
 }
 
+interface CardTitleProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
 const CardHeader = ({ children, className }: CardHeaderProps) => {
   return (
     <div className={cn('card-header border-b border-slate-600 p-4', className)}>
       {children}
     </div>
+  );
+};
+
+const CardTitle = ({ children, className }: CardTitleProps) => {
+  return (
+    <h3 className={cn('text-lg font-semibold text-slate-100', className)}>
+      {children}
+    </h3>
   );
 };
 
@@ -85,5 +98,6 @@ Card.displayName = 'Card';
 (Card as any).Header = CardHeader;
 (Card as any).Body = CardBody;
 (Card as any).Footer = CardFooter;
+(Card as any).Title = CardTitle;
 
-export { CardHeader, CardBody, CardFooter };
+export { CardHeader, CardBody, CardFooter, CardTitle };

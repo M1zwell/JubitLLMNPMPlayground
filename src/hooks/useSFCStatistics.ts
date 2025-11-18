@@ -1016,6 +1016,154 @@ export function useC5QuarterlyData(limit = 12) {
   return { data, isLoading, error };
 }
 
+/**
+ * D3 Fund NAV by Type - Normalized schema
+ */
+export interface D3FundNavByType {
+  as_at_date: string; // Date in YYYY-MM-DD format
+  domicile: 'HK' | 'NonHK' | 'All';
+  fund_type: 'Bond' | 'Equity' | 'Mixed' | 'MoneyMarket' | 'Feeder' | 'Index' |
+             'Hedge' | 'Guaranteed' | 'CommodityVirtual' | 'OtherSpecialised' | 'Total';
+  nav_usd_mn: number | null; // Net Asset Value in US$ millions
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * D3 Fund NAV Data - All records with optional filtering
+ */
+export function useD3FundNavData(domicile?: string, limit = 100) {
+  const [data, setData] = useState<D3FundNavByType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        let query = supabase
+          .from('d3_fund_nav_by_type')
+          .select('*')
+          .order('as_at_date', { ascending: false });
+
+        if (domicile) {
+          query = query.eq('domicile', domicile);
+        }
+
+        query = query.limit(limit);
+
+        const { data: navData, error: fetchError } = await query;
+
+        if (fetchError) throw fetchError;
+
+        setData(navData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching D3 fund NAV data:', err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [domicile, limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * D3 Fund NAV by Domicile - Filtered for specific domicile
+ */
+export function useD3FundNavByDomicile(domicile: 'HK' | 'NonHK' | 'All' = 'All', limit = 100) {
+  const [data, setData] = useState<D3FundNavByType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: navData, error: fetchError } = await supabase
+          .from('d3_fund_nav_by_type')
+          .select('*')
+          .eq('domicile', domicile)
+          .order('as_at_date', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(navData || []);
+        setError(null);
+      } catch (err) {
+        console.error(`Error fetching D3 ${domicile} fund NAV data:`, err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [domicile, limit]);
+
+  return { data, isLoading, error };
+}
+
+/**
+ * D3 Fund NAV by Fund Type - Filtered for specific fund type
+ */
+export function useD3FundNavByType(fundType: string, limit = 100) {
+  const [data, setData] = useState<D3FundNavByType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!supabase) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: navData, error: fetchError } = await supabase
+          .from('d3_fund_nav_by_type')
+          .select('*')
+          .eq('fund_type', fundType)
+          .order('as_at_date', { ascending: false })
+          .limit(limit);
+
+        if (fetchError) throw fetchError;
+
+        setData(navData || []);
+        setError(null);
+      } catch (err) {
+        console.error(`Error fetching D3 ${fundType} fund NAV data:`, err);
+        setError((err as Error).message);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [fundType, limit]);
+
+  return { data, isLoading, error };
+}
+
 // Get latest data period
 export async function getLatestDataPeriod(table: string): Promise<string | null> {
   if (!supabase) return null;
