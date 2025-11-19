@@ -171,12 +171,12 @@ app.post('/api/users', limiter, async (req, res) => {
 
     return (
       <div className="space-y-4">
-        <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-100 dark:border-purple-800">
+        <div className="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-lg border border-cyan-100 dark:border-cyan-800">
           <h3 className="font-semibold mb-2 flex items-center">
-            <Sparkles className="w-5 h-5 mr-2 text-purple-600" />
+            <Sparkles className="w-5 h-5 mr-2 text-teal-600" />
             AI代码生成器
           </h3>
-          
+
           <div className="flex space-x-2 mb-4">
             <input
               type="text"
@@ -197,13 +197,13 @@ app.post('/api/users', limiter, async (req, res) => {
           <div className="flex space-x-2 mb-4">
             <button
               onClick={() => setQuery('数据处理')}
-              className="btn-minimal btn-ghost text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300"
+              className="btn-minimal btn-ghost text-xs bg-cyan-100 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300"
             >
               数据处理示例
             </button>
             <button
               onClick={() => setQuery('API服务')}
-              className="btn-minimal btn-ghost text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300"
+              className="btn-minimal btn-ghost text-xs bg-cyan-100 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300"
             >
               API服务示例
             </button>
@@ -225,7 +225,7 @@ app.post('/api/users', limiter, async (req, res) => {
               
               <button
                 onClick={() => setCode(generatedCode)}
-                className="text-sm text-purple-600 hover:text-purple-700 dark:hover:text-purple-400 hover:underline flex items-center"
+                className="text-sm text-teal-600 hover:text-teal-700 dark:hover:text-teal-400 hover:underline flex items-center"
               >
                 使用这段代码 <ArrowRight size={14} className="ml-1" />
               </button>
@@ -234,9 +234,9 @@ app.post('/api/users', limiter, async (req, res) => {
         </div>
 
         {/* AI优化建议 */}
-        <div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-100 dark:border-indigo-800">
+        <div className="bg-pink-50 dark:bg-pink-900/20 p-4 rounded-lg border border-pink-100 dark:border-pink-800">
           <h3 className="font-semibold mb-2 flex items-center">
-            <Brain className="w-5 h-5 mr-2 text-indigo-600" />
+            <Brain className="w-5 h-5 mr-2 text-pink-500" />
             智能优化建议
           </h3>
           
@@ -475,7 +475,7 @@ app.post('/api/users', limiter, async (req, res) => {
                   <div className="text-sm text-gray-600 dark:text-gray-400">峰值内存</div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700 text-center">
-                  <div className="text-2xl font-bold text-purple-600">
+                  <div className="text-2xl font-bold text-teal-600">
                     {metrics.cpuUsage}%
                   </div>
                   <div className="text-sm text-gray-600 dark:text-gray-400">CPU使用率</div>
@@ -758,11 +758,11 @@ app.post('/api/users', limiter, async (req, res) => {
 
           {/* 协作工具 */}
           <div className="flex space-x-2">
-            <button className="flex-1 btn-minimal btn-primary bg-blue-600 hover:bg-blue-700 text-sm">
+            <button className="flex-1 btn-minimal btn-primary bg-teal-600 hover:bg-teal-700 text-sm">
               <GitBranch className="w-4 h-4 mr-1" />
               代码评审
             </button>
-            <button className="flex-1 btn-minimal btn-primary bg-purple-600 hover:bg-purple-700 text-sm">
+            <button className="flex-1 btn-minimal btn-primary bg-pink-400 hover:bg-pink-500 text-sm">
               <Users className="w-4 h-4 mr-1" />
               屏幕共享
             </button>
@@ -793,10 +793,10 @@ app.post('/api/users', limiter, async (req, res) => {
             {pipeline.map((node, index) => (
               <React.Fragment key={node.id}>
                 <div className={`
-                  flex flex-col items-center p-3 rounded-lg border-2 
+                  flex flex-col items-center p-3 rounded-lg border-2
                   ${node.type === 'input' ? 'border-green-400 bg-green-50 dark:bg-green-900/30 text-green-800 dark:text-green-300' :
-                    node.type === 'process' ? 'border-blue-400 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300' :
-                    node.type === 'transform' ? 'border-purple-400 bg-purple-50 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300' :
+                    node.type === 'process' ? 'border-teal-400 bg-teal-50 dark:bg-teal-900/30 text-teal-800 dark:text-teal-300' :
+                    node.type === 'transform' ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/30 text-pink-800 dark:text-pink-300' :
                     'border-orange-400 bg-orange-50 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300'}
                 `}>
                   <span className="text-2xl mb-1">{node.icon}</span>
@@ -859,7 +859,7 @@ app.post('/api/users', limiter, async (req, res) => {
             </h1>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600 dark:text-gray-400">企业版功能预览</span>
-              <button className="btn-minimal btn-primary bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+              <button className="btn-minimal btn-primary bg-gradient-to-r from-cyan-500 to-pink-400 hover:from-cyan-600 hover:to-pink-500">
                 升级到企业版
               </button>
             </div>

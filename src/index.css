@@ -4,10 +4,10 @@
 
 /* 极简化色彩系统 */
 :root {
-  /* 主色调 - 更加轻柔 */
-  --color-primary: #6366f1;
-  --color-primary-light: #8b5cf6;
-  --color-primary-muted: #e0e7ff;
+  /* 主色调 - Turquoise Blue & Soft Pink */
+  --color-primary: #14b8a6;
+  --color-primary-light: #f472b6;
+  --color-primary-muted: #ccfbf1;
   
   /* 中性色 - 清淡为主 */
   --color-neutral-50: #fafafa;
