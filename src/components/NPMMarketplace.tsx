@@ -114,7 +114,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading NPM packages...</p>
+          <p className="text-gray-600 dark:text-gray-300">Loading NPM packages...</p>
         </div>
       </div>
     );
@@ -124,8 +124,8 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
     return (
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-12">
-          <div className="text-red-600 text-lg mb-2">Error loading packages</div>
-          <p className="text-gray-500">{error}</p>
+          <div className="text-red-600 dark:text-red-400 text-lg mb-2">Error loading packages</div>
+          <p className="text-gray-500 dark:text-gray-400">{error}</p>
         </div>
       </div>
     );
@@ -195,13 +195,13 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Search */}
           <div className="relative">
-            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={14} />
             <input
               type="text"
               placeholder="Search packages..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
+              className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-green-500"
             />
           </div>
 
@@ -209,7 +209,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
+            className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-green-500"
           >
             {Object.entries(CATEGORIES).map(([key, category]) => (
               <option key={key} value={key}>{category.name}</option>
@@ -220,7 +220,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
+            className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-green-500"
           >
             {SORT_OPTIONS.map(option => (
               <option key={option.value} value={option.value}>{option.label}</option>
@@ -281,23 +281,23 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
             </div>
 
             {/* Description */}
-            <p className="text-body-sm text-gray-300 mb-3 line-clamp-2">
+            <p className="text-body-sm text-gray-700 dark:text-gray-300 mb-3 line-clamp-2">
               {pkg.description || 'No description available'}
             </p>
 
             {/* Metrics */}
             <div className="grid grid-cols-3 gap-2 mb-3">
-              <div className="bg-gray-800 rounded px-2 py-1 text-center">
-                <div className="text-xs font-medium flex items-center justify-center gap-1">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded px-2 py-1 text-center">
+                <div className="text-xs font-medium flex items-center justify-center gap-1 text-gray-900 dark:text-white">
                   <Star size={10} />
                   {formatNumber(pkg.github_stars)}
                 </div>
               </div>
-              <div className="bg-gray-800 rounded px-2 py-1 text-center">
-                <div className="text-xs font-medium">{pkg.quality_score}</div>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded px-2 py-1 text-center">
+                <div className="text-xs font-medium text-gray-900 dark:text-white">{pkg.quality_score}</div>
               </div>
-              <div className="bg-gray-800 rounded px-2 py-1 text-center">
-                <div className="text-xs font-medium">{pkg.license || 'N/A'}</div>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded px-2 py-1 text-center">
+                <div className="text-xs font-medium text-gray-900 dark:text-white">{pkg.license || 'N/A'}</div>
               </div>
             </div>
 
@@ -366,7 +366,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                 </div>
               </div>
 
-              <p className="text-body-sm text-gray-300 mb-6">{selectedPackage.description}</p>
+              <p className="text-body-sm text-gray-700 dark:text-gray-300 mb-6">{selectedPackage.description}</p>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -422,11 +422,11 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
               
               <div className="space-y-3">
                 {selectedPackage.npm_url && (
-                  <a 
+                  <a
                     href={selectedPackage.npm_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full card-minimal hover:shadow-md transition-shadow bg-red-900/20 border-red-800"
+                    className="block w-full card-minimal hover:shadow-md transition-shadow bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
                   >
                     <div className="flex items-center gap-3">
                       <Package className="text-red-600" size={20} />
@@ -440,11 +440,11 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                 )}
 
                 {selectedPackage.repository_url && (
-                  <a 
+                  <a
                     href={selectedPackage.repository_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full card-minimal hover:shadow-md transition-shadow bg-gray-800 border-gray-700"
+                    className="block w-full card-minimal hover:shadow-md transition-shadow bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700"
                   >
                     <div className="flex items-center gap-3">
                       <Github className="text-gray-400" size={20} />
@@ -458,11 +458,11 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
                 )}
 
                 {selectedPackage.homepage && (
-                  <a 
+                  <a
                     href={selectedPackage.homepage}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full card-minimal hover:shadow-md transition-shadow bg-blue-900/20 border-blue-800"
+                    className="block w-full card-minimal hover:shadow-md transition-shadow bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800"
                   >
                     <div className="flex items-center gap-3">
                       <Globe className="text-blue-600" size={20} />
@@ -477,7 +477,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
 
                 <div className="card-minimal">
                   <h4 className="font-semibold mb-2">Install Command</h4>
-                  <div className="bg-gray-900 text-green-400 rounded p-3 font-mono text-sm">
+                  <div className="bg-gray-900 dark:bg-gray-950 text-green-400 dark:text-green-300 rounded p-3 font-mono text-sm">
                     npm install {selectedPackage.name}
                   </div>
                   <button 

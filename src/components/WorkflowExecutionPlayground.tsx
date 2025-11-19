@@ -382,19 +382,19 @@ export default function WorkflowExecutionPlayground() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white p-6">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 dark:from-purple-400 dark:via-pink-400 dark:to-blue-400 bg-clip-text text-transparent">
           ⚡ LLM + NPM 执行引擎演示
         </h1>
-        <p className="text-gray-300 text-lg">
+        <p className="text-gray-600 dark:text-gray-300 text-lg">
           体验真实的 AI 工作流编排 • 实时执行 • 可视化结果
         </p>
       </div>
 
       <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">
         {/* 控制面板 */}
-        <div className="col-span-3 bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 border border-gray-700">
+        <div className="col-span-3 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 border border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-bold mb-5 flex items-center gap-2">
             🎮 控制面板
           </h2>
@@ -405,7 +405,7 @@ export default function WorkflowExecutionPlayground() {
               <select
                 value={selectedTemplate}
                 onChange={(e) => loadTemplate(e.target.value)}
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:ring-2 focus:ring-purple-500 transition-all"
+                className="w-full p-3 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 transition-all"
               >
                 <option value="">-- 选择模板 --</option>
                 <option value="chatbot">🤖 智能聊天机器人</option>
@@ -421,16 +421,16 @@ export default function WorkflowExecutionPlayground() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="输入您的数据或使用模板默认值..."
-                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white h-32 resize-none focus:ring-2 focus:ring-purple-500 transition-all"
+                className="w-full p-3 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-32 resize-none focus:ring-2 focus:ring-purple-500 transition-all"
               />
             </div>
 
             <button
               onClick={executeWorkflow}
               disabled={isExecuting || nodes.length === 0}
-              className={`w-full py-3 rounded-lg font-bold transition-all duration-300 ${
-                isExecuting 
-                  ? 'bg-gray-600 cursor-not-allowed' 
+              className={`w-full py-3 rounded-lg font-bold transition-all duration-300 text-white ${
+                isExecuting
+                  ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed'
                   : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-lg hover:shadow-xl'
               }`}
             >
@@ -445,8 +445,8 @@ export default function WorkflowExecutionPlayground() {
             </button>
           </div>
 
-          <div className="mt-6 p-4 bg-gray-700/50 rounded-lg">
-            <h3 className="font-bold mb-3 text-gray-300">📚 可用包：</h3>
+          <div className="mt-6 p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg">
+            <h3 className="font-bold mb-3 text-gray-700 dark:text-gray-300">📚 可用包：</h3>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
@@ -463,9 +463,9 @@ export default function WorkflowExecutionPlayground() {
             </div>
           </div>
 
-          <div className="mt-4 p-4 bg-purple-600/20 rounded-lg border border-purple-500/30">
-            <h3 className="font-bold mb-2 text-purple-300">🤖 AI 模型：</h3>
-            <div className="space-y-1 text-xs text-gray-300">
+          <div className="mt-4 p-4 bg-purple-50 dark:bg-purple-600/20 rounded-lg border border-purple-200 dark:border-purple-500/30">
+            <h3 className="font-bold mb-2 text-purple-700 dark:text-purple-300">🤖 AI 模型：</h3>
+            <div className="space-y-1 text-xs text-gray-700 dark:text-gray-300">
               <div>• GPT-4o mini - 快速响应</div>
               <div>• Claude 3.5 Sonnet - 深度分析</div>
               <div>• DeepSeek Coder - 代码生成</div>
@@ -475,7 +475,7 @@ export default function WorkflowExecutionPlayground() {
 
         {/* 工作流可视化 */}
         <div className="col-span-6">
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 h-[600px] relative overflow-hidden border border-gray-700">
+          <div className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 h-[600px] relative overflow-hidden border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               🔗 工作流可视化
               {isExecuting && (
@@ -487,11 +487,11 @@ export default function WorkflowExecutionPlayground() {
             </h2>
             
             {nodes.length === 0 ? (
-              <div className="flex items-center justify-center h-full text-gray-500">
+              <div className="flex items-center justify-center h-full text-gray-400 dark:text-gray-500">
                 <div className="text-center">
                   <div className="text-6xl mb-4 opacity-50">🎯</div>
-                  <div className="text-xl font-bold mb-2">选择一个工作流模板开始</div>
-                  <div className="text-sm">体验 AI 模型与 NPM 包的强大组合</div>
+                  <div className="text-xl font-bold mb-2 text-gray-600 dark:text-gray-400">选择一个工作流模板开始</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">体验 AI 模型与 NPM 包的强大组合</div>
                 </div>
               </div>
             ) : (
@@ -509,14 +509,14 @@ export default function WorkflowExecutionPlayground() {
 
         {/* 执行日志 */}
         <div className="col-span-3">
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 h-[600px] overflow-y-auto border border-gray-700">
+          <div className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 h-[600px] overflow-y-auto border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               📜 执行日志
             </h2>
             
             <div className="font-mono text-sm space-y-1">
               {executionLog.length === 0 ? (
-                <div className="text-gray-500 italic">等待执行...</div>
+                <div className="text-gray-400 dark:text-gray-500 italic">等待执行...</div>
               ) : (
                 executionLog.map((log, index) => (
                   <div 
@@ -541,38 +541,38 @@ export default function WorkflowExecutionPlayground() {
       </div>
 
       {/* 使用说明 */}
-      <div className="max-w-6xl mx-auto mt-8 bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-        <h3 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+      <div className="max-w-6xl mx-auto mt-8 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+        <h3 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
           💡 使用指南
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
-          <div className="bg-gray-700/50 rounded-lg p-4">
+          <div className="bg-gray-100 dark:bg-gray-700/50 rounded-lg p-4">
             <h4 className="font-bold mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-xs">1</span>
+              <span className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-xs text-white">1</span>
               选择模板
             </h4>
-            <p className="text-gray-300">从下拉菜单选择预设的工作流模板，每个模板展示不同的 AI + NPM 功能组合。</p>
+            <p className="text-gray-700 dark:text-gray-300">从下拉菜单选择预设的工作流模板，每个模板展示不同的 AI + NPM 功能组合。</p>
           </div>
-          <div className="bg-gray-700/50 rounded-lg p-4">
+          <div className="bg-gray-100 dark:bg-gray-700/50 rounded-lg p-4">
             <h4 className="font-bold mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-xs">2</span>
+              <span className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-xs text-white">2</span>
               输入数据
             </h4>
-            <p className="text-gray-300">在输入框中提供初始数据，或使用模板的默认值进行快速体验。</p>
+            <p className="text-gray-700 dark:text-gray-300">在输入框中提供初始数据，或使用模板的默认值进行快速体验。</p>
           </div>
-          <div className="bg-gray-700/50 rounded-lg p-4">
+          <div className="bg-gray-100 dark:bg-gray-700/50 rounded-lg p-4">
             <h4 className="font-bold mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-xs">3</span>
+              <span className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-xs text-white">3</span>
               执行工作流
             </h4>
-            <p className="text-gray-300">点击执行按钮，观察数据如何在 LLM 模型和 NPM 包之间流转和处理。</p>
+            <p className="text-gray-700 dark:text-gray-300">点击执行按钮，观察数据如何在 LLM 模型和 NPM 包之间流转和处理。</p>
           </div>
-          <div className="bg-gray-700/50 rounded-lg p-4">
+          <div className="bg-gray-100 dark:bg-gray-700/50 rounded-lg p-4">
             <h4 className="font-bold mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-xs">4</span>
+              <span className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-xs text-white">4</span>
               查看结果
             </h4>
-            <p className="text-gray-300">在日志面板查看详细的执行过程，在节点上查看实时处理结果。</p>
+            <p className="text-gray-700 dark:text-gray-300">在日志面板查看详细的执行过程，在节点上查看实时处理结果。</p>
           </div>
         </div>
       </div>
