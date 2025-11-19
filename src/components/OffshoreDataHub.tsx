@@ -29,23 +29,23 @@ export default function OffshoreDataHub() {
   const [viewMode, setViewMode] = useState<ViewMode>('view');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-gray-900 dark:via-pink-950 dark:to-rose-950 p-3 md:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-teal-50 to-pink-50 dark:from-gray-900 dark:via-cyan-950 dark:to-pink-950 p-3 md:p-6">
       <div className="max-w-7xl mx-auto space-y-4">
         {/* Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 md:p-6 border border-pink-100 dark:border-pink-800">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 md:p-6 border border-cyan-100 dark:border-cyan-800">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6 gap-4">
             <div>
-              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent flex items-center gap-2">
-                <Shield className="text-pink-500" size={32} />
+              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-cyan-600 to-pink-500 bg-clip-text text-transparent flex items-center gap-2">
+                <Shield className="text-teal-500" size={32} />
                 Offshore Financial Data Hub
               </h1>
               <p className="text-gray-600 dark:text-gray-300 mt-1 text-sm md:text-base">
                 Cayman Islands & BVI Regulatory Data Platform
               </p>
             </div>
-            <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/40 dark:to-rose-900/40 rounded-lg border border-pink-200 dark:border-pink-700">
+            <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-cyan-100 to-teal-100 dark:from-cyan-900/40 dark:to-teal-900/40 rounded-lg border border-cyan-200 dark:border-cyan-700">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs md:text-sm font-medium text-pink-700 dark:text-pink-300">Live Data</span>
+              <span className="text-xs md:text-sm font-medium text-cyan-700 dark:text-cyan-300">Live Data</span>
             </div>
           </div>
 
@@ -55,8 +55,8 @@ export default function OffshoreDataHub() {
               onClick={() => setActiveSource('cima')}
               className={`flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all ${
                 activeSource === 'cima'
-                  ? 'bg-gradient-to-r from-pink-500 to-pink-600 text-white shadow-lg md:scale-105'
-                  : 'bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-200 hover:bg-pink-100 dark:hover:bg-pink-900/40 border border-pink-200 dark:border-pink-700'
+                  ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg md:scale-105'
+                  : 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-200 hover:bg-cyan-100 dark:hover:bg-cyan-900/40 border border-cyan-200 dark:border-cyan-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -70,8 +70,8 @@ export default function OffshoreDataHub() {
               onClick={() => setActiveSource('bvi')}
               className={`flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all ${
                 activeSource === 'bvi'
-                  ? 'bg-gradient-to-r from-rose-500 to-rose-600 text-white shadow-lg md:scale-105'
-                  : 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-200 hover:bg-rose-100 dark:hover:bg-rose-900/40 border border-rose-200 dark:border-rose-700'
+                  ? 'bg-gradient-to-r from-pink-400 to-pink-500 text-white shadow-lg md:scale-105'
+                  : 'bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-200 hover:bg-pink-100 dark:hover:bg-pink-900/40 border border-pink-200 dark:border-pink-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -83,15 +83,15 @@ export default function OffshoreDataHub() {
           </div>
 
           {/* View Mode Tabs */}
-          <div className="flex gap-1 sm:gap-2 p-1 bg-pink-50 dark:bg-pink-900/20 rounded-lg border border-pink-100 dark:border-pink-800">
+          <div className="flex gap-1 sm:gap-2 p-1 bg-teal-50 dark:bg-teal-900/20 rounded-lg border border-teal-100 dark:border-teal-800">
             <button
               onClick={() => setViewMode('view')}
               className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'view'
                   ? activeSource === 'cima'
-                    ? 'bg-pink-500 text-white shadow-md'
-                    : 'bg-rose-500 text-white shadow-md'
-                  : 'text-pink-600 dark:text-pink-300 hover:text-pink-900 dark:hover:text-white hover:bg-pink-100 dark:hover:bg-pink-900/40'
+                    ? 'bg-cyan-500 text-white shadow-md'
+                    : 'bg-pink-400 text-white shadow-md'
+                  : 'text-teal-600 dark:text-teal-300 hover:text-teal-900 dark:hover:text-white hover:bg-teal-100 dark:hover:bg-teal-900/40'
               }`}
             >
               <span className="hidden sm:inline">📊 View Data</span>
@@ -102,9 +102,9 @@ export default function OffshoreDataHub() {
               className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'analyze'
                   ? activeSource === 'cima'
-                    ? 'bg-pink-500 text-white shadow-md'
-                    : 'bg-rose-500 text-white shadow-md'
-                  : 'text-pink-600 dark:text-pink-300 hover:text-pink-900 dark:hover:text-white hover:bg-pink-100 dark:hover:bg-pink-900/40'
+                    ? 'bg-cyan-500 text-white shadow-md'
+                    : 'bg-pink-400 text-white shadow-md'
+                  : 'text-teal-600 dark:text-teal-300 hover:text-teal-900 dark:hover:text-white hover:bg-teal-100 dark:hover:bg-teal-900/40'
               }`}
             >
               <span className="hidden sm:inline">📈 Analyze</span>
@@ -115,9 +115,9 @@ export default function OffshoreDataHub() {
               className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'scrape'
                   ? activeSource === 'cima'
-                    ? 'bg-pink-500 text-white shadow-md'
-                    : 'bg-rose-500 text-white shadow-md'
-                  : 'text-pink-600 dark:text-pink-300 hover:text-pink-900 dark:hover:text-white hover:bg-pink-100 dark:hover:bg-pink-900/40'
+                    ? 'bg-cyan-500 text-white shadow-md'
+                    : 'bg-pink-400 text-white shadow-md'
+                  : 'text-teal-600 dark:text-teal-300 hover:text-teal-900 dark:hover:text-white hover:bg-teal-100 dark:hover:bg-teal-900/40'
               }`}
             >
               <span className="hidden sm:inline">🔄 Scrape</span>
@@ -127,7 +127,7 @@ export default function OffshoreDataHub() {
         </div>
 
         {/* Content Area */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-pink-100 dark:border-pink-800">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-teal-100 dark:border-teal-800">
           {activeSource === 'cima' && (
             <div>
               {viewMode === 'view' && <CIMAViewer />}
@@ -180,32 +180,32 @@ export default function OffshoreDataHub() {
         {/* Quick Stats Footer */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <StatCard
-            icon={<Shield className="text-purple-500" />}
+            icon={<Shield className="text-cyan-500" />}
             title="Jurisdictions"
             value="2"
             subtitle="Cayman & BVI"
-            color="purple"
+            color="cyan"
           />
           <StatCard
-            icon={<Database className="text-indigo-500" />}
+            icon={<Database className="text-teal-500" />}
             title="Data Sources"
             value="2"
             subtitle="Active Regulators"
-            color="indigo"
+            color="teal"
           />
           <StatCard
-            icon={<Building2 className="text-violet-500" />}
+            icon={<Building2 className="text-sky-500" />}
             title="Entity Types"
             value="15+"
             subtitle="Categories"
-            color="violet"
+            color="sky"
           />
           <StatCard
-            icon={<Activity className="text-fuchsia-500" />}
+            icon={<Activity className="text-pink-400" />}
             title="Last Update"
             value="Real-time"
             subtitle="Live Sync"
-            color="fuchsia"
+            color="pink"
           />
         </div>
       </div>
@@ -228,10 +228,10 @@ function StatCard({
   color: string;
 }) {
   const colorClasses = {
-    purple: 'from-pink-50 to-pink-100 border-pink-200 dark:from-pink-900/20 dark:to-pink-800/20 dark:border-pink-700',
-    indigo: 'from-rose-50 to-rose-100 border-rose-200 dark:from-rose-900/20 dark:to-rose-800/20 dark:border-rose-700',
-    violet: 'from-fuchsia-50 to-fuchsia-100 border-fuchsia-200 dark:from-fuchsia-900/20 dark:to-fuchsia-800/20 dark:border-fuchsia-700',
-    fuchsia: 'from-pink-50 to-pink-100 border-pink-200 dark:from-pink-900/20 dark:to-pink-800/20 dark:border-pink-700'
+    cyan: 'from-cyan-50 to-cyan-100 border-cyan-200 dark:from-cyan-900/20 dark:to-cyan-800/20 dark:border-cyan-700',
+    teal: 'from-teal-50 to-teal-100 border-teal-200 dark:from-teal-900/20 dark:to-teal-800/20 dark:border-teal-700',
+    sky: 'from-sky-50 to-sky-100 border-sky-200 dark:from-sky-900/20 dark:to-sky-800/20 dark:border-sky-700',
+    pink: 'from-pink-50 to-pink-100 border-pink-200 dark:from-pink-900/20 dark:to-pink-800/20 dark:border-pink-700'
   };
 
   return (
@@ -263,9 +263,9 @@ function ComingSoonPlaceholder({
       <div className="text-4xl md:text-6xl mb-3 md:mb-4">{icon}</div>
       <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
       <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 max-w-md mx-auto">{description}</p>
-      <div className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/40 dark:to-rose-900/40 rounded-lg border border-pink-200 dark:border-pink-700">
-        <div className="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
-        <span className="text-xs md:text-sm font-medium text-pink-700 dark:text-pink-300">Coming Soon</span>
+      <div className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-cyan-100 to-pink-100 dark:from-cyan-900/40 dark:to-pink-900/40 rounded-lg border border-teal-200 dark:border-teal-700">
+        <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse"></div>
+        <span className="text-xs md:text-sm font-medium text-teal-700 dark:text-teal-300">Coming Soon</span>
       </div>
     </div>
   );
