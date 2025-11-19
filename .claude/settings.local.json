@@ -102,7 +102,9 @@
       "Bash(timeout 10 bash:*)",
       "Bash(.gitignore)",
       "Bash(timeout 60 npm run dev)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "Bash(netlify domains:list:*)",
+      "Bash(netlify api:*)"
     ],
     "deny": [],
     "ask": []

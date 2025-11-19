@@ -14,7 +14,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell
 } from 'recharts';
 import {
-  TrendingUp, TrendingDown, Activity, Zap, Filter, Calendar, TableIcon, Download
+  TrendingUp, TrendingDown, Activity, Zap, Filter, Calendar
 } from 'lucide-react';
 import {
   useA2AnnualData,
@@ -31,7 +31,6 @@ const A3LiquidityDashboard: React.FC = () => {
   const { data: a3QuarterlyData, isLoading: isLoadingA3Q } = useA3QuarterlyData(100);
 
   // View state
-  const [viewMode, setViewMode] = useState<'charts' | 'table'>('charts');
   const [yearRange, setYearRange] = useState<{ start: number; end: number }>({ start: 2000, end: 2025 });
 
   const isLoading = isLoadingA2 || isLoadingA3 || isLoadingA3Q;
@@ -244,42 +243,6 @@ const A3LiquidityDashboard: React.FC = () => {
     });
   }, [a2AnnualData, a3AnnualData]);
 
-  // Table data
-  const tableData = useMemo(() => {
-    const annual = filteredA3Data.map(d => ({ ...d, displayPeriod: String(d.year) }));
-    const quarterly = a3QuarterlyData
-      ?.filter(d => d.year >= yearRange.start && d.year <= yearRange.end)
-      .map(d => ({ ...d, displayPeriod: `${d.year} Q${d.quarter}` })) || [];
-
-    return [...annual, ...quarterly].sort((a, b) => {
-      if (a.year !== b.year) return b.year - a.year;
-      return (b.quarter || 0) - (a.quarter || 0);
-    });
-  }, [filteredA3Data, a3QuarterlyData, yearRange]);
-
-  // CSV download
-  const downloadCSV = () => {
-    const headers = ['Period', 'Type', 'Year', 'Quarter', 'Board', 'Stock Type', 'Avg Daily Turnover (HK$ million)'];
-    const rows = tableData.map(d => [
-      d.displayPeriod,
-      d.period_type,
-      d.year,
-      d.quarter || '',
-      d.board,
-      d.stock_type,
-      d.avg_turnover_hkmm || ''
-    ]);
-
-    const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `a3_liquidity_${yearRange.start}-${yearRange.end}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -323,36 +286,10 @@ const A3LiquidityDashboard: React.FC = () => {
               ))}
             </select>
           </div>
-
-          {/* View Mode Toggle */}
-          <div className="flex bg-white border rounded-lg overflow-hidden">
-            <button
-              onClick={() => setViewMode('charts')}
-              className={`px-3 py-2 text-sm font-medium transition-colors ${
-                viewMode === 'charts'
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              <Activity className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setViewMode('table')}
-              className={`px-3 py-2 text-sm font-medium transition-colors ${
-                viewMode === 'table'
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              <TableIcon className="w-4 h-4" />
-            </button>
-          </div>
         </div>
       </div>
 
-      {viewMode === 'charts' ? (
-        <>
-          {/* KPI Cards */}
+      {/* KPI Cards */}
           {liquidityKPIs && (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Total Turnover */}
@@ -548,64 +485,6 @@ const A3LiquidityDashboard: React.FC = () => {
               </p>
             </div>
           </div>
-        </>
-      ) : (
-        /* Table View */
-        <div className="bg-white border rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">A3 Data Table</h3>
-            <button
-              onClick={downloadCSV}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              <Download className="w-4 h-4" />
-              Download CSV
-            </button>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b">
-                <tr>
-                  <th className="text-left p-3 font-semibold">Period</th>
-                  <th className="text-left p-3 font-semibold">Type</th>
-                  <th className="text-left p-3 font-semibold">Board</th>
-                  <th className="text-left p-3 font-semibold">Stock Type</th>
-                  <th className="text-right p-3 font-semibold">Avg Daily Turnover (HK$ m)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableData.slice(0, 100).map((row, idx) => (
-                  <tr
-                    key={`${row.id}-${idx}`}
-                    className={`border-b hover:bg-gray-50 ${
-                      row.year === 2025 && row.quarter === 3 ? 'bg-blue-50' : ''
-                    }`}
-                  >
-                    <td className="p-3">{row.displayPeriod}</td>
-                    <td className="p-3">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        row.period_type === 'year' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
-                      }`}>
-                        {row.period_type === 'year' ? 'Annual' : 'Quarterly'}
-                      </span>
-                    </td>
-                    <td className="p-3">{row.board}</td>
-                    <td className="p-3">{row.stock_type}</td>
-                    <td className="p-3 text-right font-mono">
-                      {row.avg_turnover_hkmm?.toFixed(2) || 'N/A'}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <p className="text-sm text-gray-500 mt-4">
-            Showing first 100 records. Total: {tableData.length} records
-          </p>
-        </div>
-      )}
 
       {/* Data Source Footer */}
       <div className="text-xs text-gray-500 text-center">

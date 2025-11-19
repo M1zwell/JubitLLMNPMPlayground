@@ -1,6 +1,7 @@
 /**
  * HKSFC Statistics Viewer Component
  * Displays SFC market statistics as filterable tables (no charts)
+ * FIXED: Now uses correct database schema field names from Supabase
  */
 
 import React, { useState, useMemo } from 'react';
@@ -32,9 +33,8 @@ type TabType = 'a1' | 'a2' | 'a3' | 'c4' | 'c5' | 'd3' | 'd4';
 export default function HKSFCStatisticsViewer() {
   const [activeTab, setActiveTab] = useState<TabType>('a1');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedYear, setSelectedYear] = useState<string>('all');
 
-  // Fetch data
+  // Fetch data - USING CORRECT HOOKS
   const { data: a1Data, isLoading: a1Loading } = useA1MarketHighlights(100);
   const { data: a2Data, isLoading: a2Loading } = useA2QuarterlyData(100);
   const { data: a3Data, isLoading: a3Loading } = useA3QuarterlyData(100);
@@ -162,7 +162,7 @@ export default function HKSFCStatisticsViewer() {
               SFC Market Statistics - Data Tables
             </h2>
             <p className="text-blue-100 text-lg">
-              Filterable data tables from A1, A2, A3, C4, C5, D3, and D4 sources
+              Real-time data from Supabase: A1, A2, A3, C4, C5, D3, and D4 tables
             </p>
           </div>
           <button
@@ -286,9 +286,10 @@ export default function HKSFCStatisticsViewer() {
   );
 }
 
-// A1 Market Highlights Table
+// A1 Market Highlights Table - FIXED TO USE CORRECT SCHEMA
 function A1Table({ data, searchTerm, isLoading }: any) {
   const filteredData = useMemo(() => {
+    if (!data || !Array.isArray(data)) return [];
     if (!searchTerm) return data;
     return data.filter((row: any) =>
       Object.values(row).some(val =>
@@ -297,39 +298,47 @@ function A1Table({ data, searchTerm, isLoading }: any) {
     );
   }, [data, searchTerm]);
 
-  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading...</div>;
+  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading A1 data from Supabase...</div>;
 
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
           <tr>
+            <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Quarter</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Market Cap (HK$bn)</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Daily Turnover (HK$bn)</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">P/E Ratio</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Dividend Yield (%)</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Total Companies</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">Main Listed</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">GEM Listed</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">Main Cap (HK$bn)</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">GEM Cap (HK$bn)</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">Main Turnover (HK$mn)</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">Trading Days</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((row: any, idx: number) => (
             <tr key={idx} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <td className="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-white">{row.quarter}</td>
-              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {formatHKDBillions(row.market_cap_hkd_bn || 0)}
+              <td className="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-white">{row.year}</td>
+              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                {row.quarter ? `Q${row.quarter}` : 'Annual'}
               </td>
               <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {formatHKDBillions(row.daily_turnover_hkd_bn || 0)}
+                {row.main_listed?.toLocaleString() || 'N/A'}
               </td>
               <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.pe_ratio?.toFixed(2) || 'N/A'}
+                {row.gem_listed?.toLocaleString() || 'N/A'}
               </td>
               <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.dividend_yield?.toFixed(2) || 'N/A'}%
+                {row.main_mktcap_hkbn ? formatHKDBillions(row.main_mktcap_hkbn) : 'N/A'}
               </td>
               <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.total_companies || 'N/A'}
+                {row.gem_mktcap_hkbn ? formatHKDBillions(row.gem_mktcap_hkbn) : 'N/A'}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.main_turnover_hkmm?.toLocaleString() || 'N/A'}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.trading_days || 'N/A'}
               </td>
             </tr>
           ))}
@@ -342,9 +351,10 @@ function A1Table({ data, searchTerm, isLoading }: any) {
   );
 }
 
-// A2 Market Structure Table
+// A2 Market Structure Table - FIXED TO USE CORRECT SCHEMA
 function A2Table({ data, searchTerm, isLoading }: any) {
   const filteredData = useMemo(() => {
+    if (!data || !Array.isArray(data)) return [];
     if (!searchTerm) return data;
     return data.filter((row: any) =>
       Object.values(row).some(val =>
@@ -353,33 +363,31 @@ function A2Table({ data, searchTerm, isLoading }: any) {
     );
   }, [data, searchTerm]);
 
-  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading...</div>;
+  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading A2 data from Supabase...</div>;
 
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
           <tr>
+            <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Quarter</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold">Board</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Stock Type</th>
             <th className="px-4 py-3 text-right text-sm font-semibold">Market Cap (HK$bn)</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Percentage (%)</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">No. of Companies</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((row: any, idx: number) => (
             <tr key={idx} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <td className="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-white">{row.quarter}</td>
+              <td className="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-white">{row.year}</td>
+              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                {row.quarter ? `Q${row.quarter}` : 'Annual'}
+              </td>
+              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{row.board}</td>
               <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{row.stock_type}</td>
               <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {formatHKDBillions(row.market_cap_hkd_bn || 0)}
-              </td>
-              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.percentage?.toFixed(2) || 'N/A'}%
-              </td>
-              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.number_of_companies || 'N/A'}
+                {row.mktcap_hkbn ? formatHKDBillions(row.mktcap_hkbn) : 'N/A'}
               </td>
             </tr>
           ))}
@@ -392,9 +400,10 @@ function A2Table({ data, searchTerm, isLoading }: any) {
   );
 }
 
-// A3 Liquidity Table
+// A3 Liquidity Table - FIXED TO USE CORRECT SCHEMA
 function A3Table({ data, searchTerm, isLoading }: any) {
   const filteredData = useMemo(() => {
+    if (!data || !Array.isArray(data)) return [];
     if (!searchTerm) return data;
     return data.filter((row: any) =>
       Object.values(row).some(val =>
@@ -403,33 +412,31 @@ function A3Table({ data, searchTerm, isLoading }: any) {
     );
   }, [data, searchTerm]);
 
-  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading...</div>;
+  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading A3 data from Supabase...</div>;
 
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
           <tr>
+            <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Quarter</th>
-            <th className="px-4 py-3 text-left text-sm font-semibold">Market Segment</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Turnover (HK$bn)</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Percentage (%)</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Velocity (%)</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold">Board</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold">Stock Type</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">Avg Daily Turnover (HK$mn)</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((row: any, idx: number) => (
             <tr key={idx} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <td className="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-white">{row.quarter}</td>
-              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{row.market_segment}</td>
-              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {formatHKDBillions(row.turnover_hkd_bn || 0)}
+              <td className="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-white">{row.year}</td>
+              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                {row.quarter ? `Q${row.quarter}` : 'Annual'}
               </td>
+              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{row.board}</td>
+              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{row.stock_type}</td>
               <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.percentage?.toFixed(2) || 'N/A'}%
-              </td>
-              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.velocity?.toFixed(2) || 'N/A'}%
+                {row.avg_turnover_hkmm?.toLocaleString() || 'N/A'}
               </td>
             </tr>
           ))}
@@ -442,9 +449,10 @@ function A3Table({ data, searchTerm, isLoading }: any) {
   );
 }
 
-// C4 Licensed Reps Table
+// C4 Licensed Reps Table - FIXED TO USE CORRECT SCHEMA
 function C4Table({ data, searchTerm, isLoading }: any) {
   const filteredData = useMemo(() => {
+    if (!data || !Array.isArray(data)) return [];
     if (!searchTerm) return data;
     return data.filter((row: any) =>
       Object.values(row).some(val =>
@@ -453,7 +461,7 @@ function C4Table({ data, searchTerm, isLoading }: any) {
     );
   }, [data, searchTerm]);
 
-  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading...</div>;
+  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading C4 data from Supabase...</div>;
 
   return (
     <div className="overflow-x-auto">
@@ -461,29 +469,35 @@ function C4Table({ data, searchTerm, isLoading }: any) {
         <thead className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Licensed Reps</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">YoY Change</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">YoY Change (%)</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold">Quarter</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">Total LRs</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">RA1</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">RA4</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">RA6</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">RA9</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((row: any, idx: number) => (
             <tr key={idx} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
               <td className="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-white">{row.year}</td>
-              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.licensed_reps?.toLocaleString() || 'N/A'}
+              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                {row.quarter ? `Q${row.quarter}` : 'Annual'}
               </td>
               <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.yoy_change !== null && row.yoy_change !== undefined
-                  ? (row.yoy_change > 0 ? '+' : '') + row.yoy_change.toLocaleString()
-                  : 'N/A'}
+                {row.lr_total?.toLocaleString() || 'N/A'}
               </td>
-              <td className={`px-4 py-3 text-sm text-right font-semibold ${
-                (row.yoy_change_pct || 0) >= 0 ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {row.yoy_change_pct !== null && row.yoy_change_pct !== undefined
-                  ? (row.yoy_change_pct > 0 ? '+' : '') + row.yoy_change_pct.toFixed(2) + '%'
-                  : 'N/A'}
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.ra1?.toLocaleString() || 'N/A'}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.ra4?.toLocaleString() || 'N/A'}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.ra6?.toLocaleString() || 'N/A'}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.ra9?.toLocaleString() || 'N/A'}
               </td>
             </tr>
           ))}
@@ -496,9 +510,10 @@ function C4Table({ data, searchTerm, isLoading }: any) {
   );
 }
 
-// C5 Licence Classes Table
+// C5 Licence Classes Table - FIXED TO USE CORRECT SCHEMA
 function C5Table({ data, searchTerm, isLoading }: any) {
   const filteredData = useMemo(() => {
+    if (!data || !Array.isArray(data)) return [];
     if (!searchTerm) return data;
     return data.filter((row: any) =>
       Object.values(row).some(val =>
@@ -507,7 +522,7 @@ function C5Table({ data, searchTerm, isLoading }: any) {
     );
   }, [data, searchTerm]);
 
-  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading...</div>;
+  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading C5 data from Supabase...</div>;
 
   return (
     <div className="overflow-x-auto">
@@ -515,31 +530,35 @@ function C5Table({ data, searchTerm, isLoading }: any) {
         <thead className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
-            <th className="px-4 py-3 text-left text-sm font-semibold">Licence Class</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">Count</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">YoY Change</th>
-            <th className="px-4 py-3 text-right text-sm font-semibold">YoY Change (%)</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold">Quarter</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">Total ROs</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">RA1</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">RA4</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">RA6</th>
+            <th className="px-4 py-3 text-right text-sm font-semibold">RA9</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((row: any, idx: number) => (
             <tr key={idx} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
               <td className="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-white">{row.year}</td>
-              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{row.licence_class}</td>
-              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.count?.toLocaleString() || 'N/A'}
+              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                {row.quarter ? `Q${row.quarter}` : 'Annual'}
               </td>
               <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
-                {row.yoy_change !== null && row.yoy_change !== undefined
-                  ? (row.yoy_change > 0 ? '+' : '') + row.yoy_change.toLocaleString()
-                  : 'N/A'}
+                {row.ro_total?.toLocaleString() || 'N/A'}
               </td>
-              <td className={`px-4 py-3 text-sm text-right font-semibold ${
-                (row.yoy_change_pct || 0) >= 0 ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {row.yoy_change_pct !== null && row.yoy_change_pct !== undefined
-                  ? (row.yoy_change_pct > 0 ? '+' : '') + row.yoy_change_pct.toFixed(2) + '%'
-                  : 'N/A'}
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.ra1?.toLocaleString() || 'N/A'}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.ra4?.toLocaleString() || 'N/A'}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.ra6?.toLocaleString() || 'N/A'}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-gray-700 dark:text-gray-300">
+                {row.ra9?.toLocaleString() || 'N/A'}
               </td>
             </tr>
           ))}
@@ -552,9 +571,10 @@ function C5Table({ data, searchTerm, isLoading }: any) {
   );
 }
 
-// D3 Fund NAV Table
+// D3 Fund NAV Table - ALREADY CORRECT
 function D3Table({ data, searchTerm, isLoading }: any) {
   const filteredData = useMemo(() => {
+    if (!data || !Array.isArray(data)) return [];
     if (!searchTerm) return data;
     return data.filter((row: any) =>
       Object.values(row).some(val =>
@@ -563,7 +583,7 @@ function D3Table({ data, searchTerm, isLoading }: any) {
     );
   }, [data, searchTerm]);
 
-  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading...</div>;
+  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading D3 data from Supabase...</div>;
 
   return (
     <div className="overflow-x-auto">
@@ -601,9 +621,10 @@ function D3Table({ data, searchTerm, isLoading }: any) {
   );
 }
 
-// D4 Fund Flows Table
+// D4 Fund Flows Table - ALREADY CORRECT
 function D4Table({ data, searchTerm, isLoading }: any) {
   const filteredData = useMemo(() => {
+    if (!data || !Array.isArray(data)) return [];
     if (!searchTerm) return data;
     return data.filter((row: any) =>
       Object.values(row).some(val =>
@@ -612,7 +633,7 @@ function D4Table({ data, searchTerm, isLoading }: any) {
     );
   }, [data, searchTerm]);
 
-  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading...</div>;
+  if (isLoading) return <div className="p-12 text-center text-gray-500">Loading D4 data from Supabase...</div>;
 
   return (
     <div className="overflow-x-auto">
