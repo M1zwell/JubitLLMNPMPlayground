@@ -194,13 +194,13 @@ const D3FundNavDashboard: React.FC = () => {
           <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             D3: Fund Industry Asset Base
           </h2>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
             Net Asset Value of Authorised Unit Trusts and Mutual Funds
           </p>
         </div>
         <div className="flex gap-2">
           <select
-            className="px-3 py-2 border rounded-lg"
+            className="px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             value={selectedDateRange.start}
             onChange={(e) => setSelectedDateRange({ ...selectedDateRange, start: parseInt(e.target.value) })}
           >
@@ -208,9 +208,9 @@ const D3FundNavDashboard: React.FC = () => {
               <option key={year} value={year}>{year}</option>
             ))}
           </select>
-          <span className="py-2">to</span>
+          <span className="py-2 text-gray-600 dark:text-gray-400">to</span>
           <select
-            className="px-3 py-2 border rounded-lg"
+            className="px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             value={selectedDateRange.end}
             onChange={(e) => setSelectedDateRange({ ...selectedDateRange, end: parseInt(e.target.value) })}
           >
@@ -267,7 +267,7 @@ const D3FundNavDashboard: React.FC = () => {
                 <p className="text-2xl font-bold text-green-900">
                   ${(latestAllTotal / 1000).toFixed(1)}bn
                 </p>
-                <p className="text-xs text-gray-600 mt-1">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   As of {latestDate ? formatQuarter(latestDate) : 'N/A'}
                 </p>
               </div>
@@ -284,7 +284,7 @@ const D3FundNavDashboard: React.FC = () => {
                 <p className="text-2xl font-bold text-orange-900">
                   {latestAllTotal > 0 ? ((latestHKTotal / latestAllTotal) * 100).toFixed(1) : 0}%
                 </p>
-                <p className="text-xs text-gray-600 mt-1">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   Of total authorised funds
                 </p>
               </div>
@@ -301,7 +301,7 @@ const D3FundNavDashboard: React.FC = () => {
             <TrendingUp className="text-purple-600" size={20} />
             NAV Growth Trajectory: HK vs Non-HK vs All Domiciles
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Shows the evolution of fund NAV by domicile. Non-HK funds dominate the market with $2.4 trillion in assets.
           </p>
         </div>
@@ -333,7 +333,7 @@ const D3FundNavDashboard: React.FC = () => {
               <Activity className="text-blue-600" size={20} />
               HK-Domiciled Asset Allocation by Fund Type
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Stacked view showing evolution of bond, equity, mixed, and other fund categories.
             </p>
           </div>
@@ -368,7 +368,7 @@ const D3FundNavDashboard: React.FC = () => {
               <PieChartIcon className="text-green-600" size={20} />
               HK Fund NAV by Type ({latestDate ? formatQuarter(latestDate) : 'Latest'})
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Current distribution of HK-domiciled fund assets across fund types.
             </p>
           </div>
@@ -406,7 +406,7 @@ const D3FundNavDashboard: React.FC = () => {
             <TrendingUp className="text-orange-600" size={20} />
             Passive (Index) Fund Penetration - HK Domiciled
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Index fund NAV as percentage of total HK-domiciled fund NAV. Rising trend indicates growing preference for passive investing.
           </p>
         </div>

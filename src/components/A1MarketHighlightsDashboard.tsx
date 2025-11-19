@@ -214,10 +214,10 @@ const A1MarketHighlightsDashboard: React.FC = () => {
     return (
       <div className="space-y-6 p-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-6"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="h-32 bg-gray-200 rounded"></div>
+              <div key={i} className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
             ))}
           </div>
         </div>
@@ -243,8 +243,8 @@ const A1MarketHighlightsDashboard: React.FC = () => {
         {/* Controls */}
         <div className="flex flex-wrap items-center gap-3">
           {/* Year Range Filter */}
-          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2">
-            <Calendar className="w-4 h-4 text-gray-500" />
+          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2">
+            <Calendar className="w-4 h-4 text-gray-500 dark:text-gray-400" />
             <select
               value={yearRange.start}
               onChange={(e) => setYearRange({ ...yearRange, start: parseInt(e.target.value) })}
@@ -254,7 +254,7 @@ const A1MarketHighlightsDashboard: React.FC = () => {
                 <option key={year} value={year}>{year}</option>
               ))}
             </select>
-            <span className="text-gray-500">-</span>
+            <span className="text-gray-500 dark:text-gray-400">-</span>
             <select
               value={yearRange.end}
               onChange={(e) => setYearRange({ ...yearRange, end: parseInt(e.target.value) })}
@@ -271,8 +271,8 @@ const A1MarketHighlightsDashboard: React.FC = () => {
             onClick={() => setShowGEM(!showGEM)}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
               showGEM
-                ? 'bg-orange-100 text-orange-700 border border-orange-300'
-                : 'bg-gray-100 text-gray-600 border border-gray-300'
+                ? 'bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 border border-orange-300 dark:border-orange-700'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
             }`}
           >
             <Filter className="w-4 h-4" />

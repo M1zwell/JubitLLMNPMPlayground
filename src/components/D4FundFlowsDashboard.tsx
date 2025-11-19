@@ -176,13 +176,13 @@ const D4FundFlowsDashboard: React.FC = () => {
           <h2 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
             D4: Fund Industry Flows
           </h2>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
             Annual Net Subscription/(Redemption) of HK-Domiciled Funds
           </p>
         </div>
         <div className="flex gap-2">
           <select
-            className="px-3 py-2 border rounded-lg"
+            className="px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             value={yearRange.start}
             onChange={(e) => setYearRange({ ...yearRange, start: parseInt(e.target.value) })}
           >
@@ -190,9 +190,9 @@ const D4FundFlowsDashboard: React.FC = () => {
               <option key={year} value={year}>{year}</option>
             ))}
           </select>
-          <span className="py-2">to</span>
+          <span className="py-2 text-gray-600 dark:text-gray-400">to</span>
           <select
-            className="px-3 py-2 border rounded-lg"
+            className="px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             value={yearRange.end}
             onChange={(e) => setYearRange({ ...yearRange, end: parseInt(e.target.value) })}
           >
@@ -228,7 +228,7 @@ const D4FundFlowsDashboard: React.FC = () => {
               {latestTopInflows[0] && (
                 <>
                   <p className="text-xl font-bold text-blue-900">{latestTopInflows[0].fund_type}</p>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                     +${(latestTopInflows[0].net_flow_usd_mn! / 1000).toFixed(1)}bn
                   </p>
                 </>
@@ -245,7 +245,7 @@ const D4FundFlowsDashboard: React.FC = () => {
               {latestTopOutflows[0] && (
                 <>
                   <p className="text-xl font-bold text-red-900">{latestTopOutflows[0].fund_type}</p>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                     ${(latestTopOutflows[0].net_flow_usd_mn! / 1000).toFixed(1)}bn
                   </p>
                 </>
@@ -262,7 +262,7 @@ const D4FundFlowsDashboard: React.FC = () => {
               <p className="text-xl font-bold text-purple-900">
                 {latestTotalFlow >= 0 ? 'Net Inflow' : 'Net Outflow'}
               </p>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                 {latestYear} overall trend
               </p>
             </div>
@@ -278,7 +278,7 @@ const D4FundFlowsDashboard: React.FC = () => {
             <Activity className="text-blue-600" size={20} />
             Annual Net Fund Flows by Type
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Shows which fund categories attract or lose money each year. Positive bars = net inflows, negative bars = net outflows.
           </p>
         </div>
@@ -312,7 +312,7 @@ const D4FundFlowsDashboard: React.FC = () => {
               <TrendingUp className="text-purple-600" size={20} />
               Flows vs Asset Base (% of NAV)
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Net flow as percentage of previous year-end NAV. Shows organic growth rate for each fund type.
             </p>
           </div>
@@ -347,7 +347,7 @@ const D4FundFlowsDashboard: React.FC = () => {
               <DollarSign className="text-green-600" size={20} />
               Total Industry Flows Trend
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Overall industry-wide net inflow/outflow trend. All years show net inflows (positive sentiment).
             </p>
           </div>
