@@ -321,12 +321,18 @@ const D4FundFlowsDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={350}>
               <BarChart data={flowsVsNAVData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="year" tick={{ fontSize: 11 }} />
+                <XAxis
+                  dataKey="year"
+                  tick={{ fontSize: 11 }}
+                  domain={[2019, 2025]}
+                  type="number"
+                  allowDataOverflow={false}
+                />
                 <YAxis tick={{ fontSize: 11 }} label={{ value: 'Flow as % of NAV', angle: -90, position: 'insideLeft' }} />
                 <Tooltip
                   formatter={(value: any, name) => {
-                    if (name === 'flowPercent') return [`${value.toFixed(2)}%`];
-                    return [formatUSDMillions(value, { decimals: 2 })];
+                    if (name === 'Flow % of NAV') return [`${value.toFixed(2)}%`];
+                    return [`${value.toFixed(2)}%`];
                   }}
                   contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px' }}
                 />
