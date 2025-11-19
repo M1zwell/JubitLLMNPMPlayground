@@ -35,7 +35,7 @@ export default function OffshoreDataHub() {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent flex items-center gap-3">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent flex items-center gap-2">
                 <Shield className="text-cyan-500" size={40} />
                 Offshore Financial Data Hub
               </h1>
@@ -129,7 +129,7 @@ export default function OffshoreDataHub() {
             <div>
               {viewMode === 'view' && <CIMAViewer />}
               {viewMode === 'analyze' && (
-                <div className="p-8">
+                <div className="p-4">
                   <ComingSoonPlaceholder
                     title="CIMA Analytics"
                     description="Advanced analytics for Cayman Islands regulated entities"
@@ -138,7 +138,7 @@ export default function OffshoreDataHub() {
                 </div>
               )}
               {viewMode === 'scrape' && (
-                <div className="p-8">
+                <div className="p-4">
                   <ComingSoonPlaceholder
                     title="CIMA Scraper"
                     description="Automated data scraping from CIMA regulatory database"
@@ -153,7 +153,7 @@ export default function OffshoreDataHub() {
             <div>
               {viewMode === 'view' && <BVIViewer />}
               {viewMode === 'analyze' && (
-                <div className="p-8">
+                <div className="p-4">
                   <ComingSoonPlaceholder
                     title="BVI FSC Analytics"
                     description="Advanced analytics for BVI regulated entities"
@@ -162,7 +162,7 @@ export default function OffshoreDataHub() {
                 </div>
               )}
               {viewMode === 'scrape' && (
-                <div className="p-8">
+                <div className="p-4">
                   <ComingSoonPlaceholder
                     title="BVI FSC Scraper"
                     description="Automated data scraping from BVI FSC regulatory database"
@@ -239,7 +239,7 @@ function StatCard({
         <div className="text-sm font-medium text-gray-600 dark:text-gray-300">{title}</div>
         {icon}
       </div>
-      <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{value}</div>
+      <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{value}</div>
       <div className="text-xs text-gray-500 dark:text-gray-400">{subtitle}</div>
     </div>
   );
@@ -258,7 +258,7 @@ function ComingSoonPlaceholder({
   return (
     <div className="text-center py-16">
       <div className="text-6xl mb-4">{icon}</div>
-      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
       <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">{description}</p>
       <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-100 to-teal-100 dark:from-cyan-900 dark:to-teal-900 rounded-lg">
         <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>

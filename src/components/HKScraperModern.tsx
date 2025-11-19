@@ -45,7 +45,7 @@ export default function HKScraperModern() {
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 香港数据中心
               </h1>
               <p className="text-gray-600 mt-2 text-lg">
@@ -168,13 +168,13 @@ export default function HKScraperModern() {
           )}
 
           {activeSource === 'ccass' && viewMode === 'analyze' && (
-            <div className="p-8">
+            <div className="p-4">
               <CCASSAnalytics />
             </div>
           )}
 
           {activeSource === 'ccass' && viewMode === 'scrape' && (
-            <div className="p-8">
+            <div className="p-4">
               <CCASSScrapeTool />
             </div>
           )}
@@ -183,7 +183,7 @@ export default function HKScraperModern() {
             <div>
               {viewMode === 'view' && <HKSFCDashboard />}
               {viewMode === 'analyze' && (
-                <div className="p-8">
+                <div className="p-4">
                   <ComingSoonPlaceholder
                     title="HKSFC Analytics"
                     description="Advanced analytics for HKSFC regulatory filings"
@@ -191,7 +191,7 @@ export default function HKScraperModern() {
                 </div>
               )}
               {viewMode === 'scrape' && (
-                <div className="p-8">
+                <div className="p-4">
                   <ComingSoonPlaceholder
                     title="HKSFC Scraper"
                     description="Scrape HKSFC filings data"
@@ -205,7 +205,7 @@ export default function HKScraperModern() {
             <div>
               {viewMode === 'view' && <HKEXDisclosureViewer />}
               {viewMode === 'analyze' && (
-                <div className="p-8">
+                <div className="p-4">
                   <ComingSoonPlaceholder
                     title="Disclosure Analytics"
                     description="Advanced analytics for disclosure of interests"
@@ -213,7 +213,7 @@ export default function HKScraperModern() {
                 </div>
               )}
               {viewMode === 'scrape' && (
-                <div className="p-8">
+                <div className="p-4">
                   <ComingSoonPlaceholder
                     title="Disclosure Scraper"
                     description="Scrape disclosure of interests data"
@@ -224,7 +224,7 @@ export default function HKScraperModern() {
           )}
 
           {activeSource === 'sfc_stats' && (
-            <div className="p-8">
+            <div className="p-4">
               <SFCFinancialStatisticsTabs />
             </div>
           )}
@@ -293,7 +293,7 @@ function StatCard({
         {icon}
         <p className="text-sm font-medium text-gray-600">{title}</p>
       </div>
-      <p className="text-3xl font-bold text-gray-900 mb-1">{value}</p>
+      <p className="text-2xl font-bold text-gray-900 mb-1">{value}</p>
       <p className="text-xs text-gray-500">{subtitle}</p>
     </div>
   );
@@ -302,11 +302,11 @@ function StatCard({
 // CCASS Analytics Component
 function CCASSAnalytics() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex items-center gap-3">
         <BarChart3 className="text-blue-500" size={32} />
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">CCASS Analytics</h2>
+          <h2 className="text-xl font-bold text-gray-900">CCASS Analytics</h2>
           <p className="text-gray-600">Advanced shareholding analysis and insights</p>
         </div>
       </div>
@@ -398,11 +398,11 @@ function CCASSScrapeTool() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex items-center gap-3">
         <RefreshCw className="text-blue-500" size={32} />
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Scrape CCASS Data</h2>
+          <h2 className="text-xl font-bold text-gray-900">Scrape CCASS Data</h2>
           <p className="text-gray-600">Extract latest shareholding information from HKEX</p>
         </div>
       </div>
