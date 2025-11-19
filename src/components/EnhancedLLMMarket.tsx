@@ -154,7 +154,7 @@ const EnhancedLLMMarket = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading LLM models...</p>
+          <p className="text-gray-600 dark:text-gray-300">Loading LLM models...</p>
         </div>
       </div>
     );
@@ -164,8 +164,8 @@ const EnhancedLLMMarket = () => {
     return (
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-12">
-          <div className="text-red-600 text-lg mb-2">Error loading models</div>
-          <p className="text-gray-500">{error}</p>
+          <div className="text-red-600 dark:text-red-400 text-lg mb-2">Error loading models</div>
+          <p className="text-gray-500 dark:text-gray-400">{error}</p>
         </div>
       </div>
     );
@@ -226,13 +226,13 @@ const EnhancedLLMMarket = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Search */}
           <div className="relative">
-            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={14} />
             <input
               type="text"
               placeholder="Search models..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
+              className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -240,7 +240,7 @@ const EnhancedLLMMarket = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
+            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500"
           >
             {Object.entries(CATEGORIES).map(([key, category]) => (
               <option key={key} value={key}>{category.name}</option>
@@ -251,7 +251,7 @@ const EnhancedLLMMarket = () => {
           <select
             value={selectedProvider}
             onChange={(e) => setSelectedProvider(e.target.value)}
-            className="px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
+            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500"
           >
             {Object.entries(PROVIDERS).map(([key, provider]) => (
               <option key={key} value={key}>{provider.flag} {provider.name}</option>
@@ -263,7 +263,7 @@ const EnhancedLLMMarket = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
+              className="flex-1 px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500"
             >
               {SORT_OPTIONS.map(option => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -271,7 +271,7 @@ const EnhancedLLMMarket = () => {
             </select>
             <button
               onClick={() => setSortDesc(!sortDesc)}
-              className="px-3 py-2 border border-gray-700 rounded-md hover:bg-gray-700 text-sm"
+              className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white text-sm transition-colors"
             >
               {sortDesc ? '↓' : '↑'}
             </button>
@@ -332,12 +332,12 @@ const EnhancedLLMMarket = () => {
 
             {/* Metrics */}
             <div className="grid grid-cols-2 gap-2 mb-3">
-              <div className="bg-gray-800 rounded px-2 py-1 text-center">
-                <div className="text-xs font-medium">${model.output_price}</div>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded px-2 py-1 text-center">
+                <div className="text-xs font-medium text-gray-900 dark:text-white">${model.output_price}</div>
                 <div className="text-caption">Price</div>
               </div>
-              <div className="bg-gray-800 rounded px-2 py-1 text-center">
-                <div className="text-xs font-medium">{model.output_speed.toFixed(0)} tok/s</div>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded px-2 py-1 text-center">
+                <div className="text-xs font-medium text-gray-900 dark:text-white">{model.output_speed.toFixed(0)} tok/s</div>
                 <div className="text-caption">Speed</div>
               </div>
             </div>
@@ -538,7 +538,7 @@ const EnhancedLLMMarket = () => {
 
                 <div className="card-minimal">
                   <h4 className="font-semibold mb-2">Best Use Cases</h4>
-                  <div className="text-sm text-gray-300">
+                  <div className="text-sm text-gray-700 dark:text-gray-300">
                     {selectedModel.category === 'reasoning' && '💡 Complex problem solving, analysis, mathematical reasoning'}
                     {selectedModel.category === 'coding' && '💻 Software development, code review, debugging'}
                     {selectedModel.category === 'multimodal' && '🎯 Image analysis, document processing, multimedia tasks'}
@@ -625,14 +625,14 @@ const EnhancedLLMMarket = () => {
             </div>
           ))}
         </div>
-        
-        <div className="mt-6 card-minimal bg-gray-800">
+
+        <div className="mt-6 card-minimal bg-gray-100 dark:bg-gray-800">
           <h4 className="font-semibold mb-2 flex items-center gap-2">
             <Info size={14} />
             Data Sources & Citations
           </h4>
-          <div className="text-sm text-gray-400 space-y-1">
-            <p>• Performance metrics sourced from <a href="https://artificialanalysis.ai/leaderboards/providers" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700">Artificial Analysis Leaderboard</a></p>
+          <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+            <p>• Performance metrics sourced from <a href="https://artificialanalysis.ai/leaderboards/providers" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">Artificial Analysis Leaderboard</a></p>
             <p>• Model specifications verified against official provider documentation</p>
             <p>• Pricing information cross-referenced with official API documentation</p>
             <p>• Quality indices based on standardized benchmarks (MMLU-Pro, GPQA Diamond, HumanEval, etc.)</p>

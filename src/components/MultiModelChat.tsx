@@ -268,11 +268,11 @@ export const MultiModelChat: React.FC = () => {
   };
 
   return (
-    <Box className="h-screen flex bg-gray-50">
+    <Box className="h-screen flex bg-gray-50 dark:bg-gray-900">
       {/* 侧边栏 - 会话和模型选择 */}
-      <Box className="w-80 bg-gray-800 border-r border-gray-700 flex flex-col">
+      <Box className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
         {/* 会话列表 */}
-        <Box className="p-4 border-b border-gray-200">
+        <Box className="p-4 border-b border-gray-200 dark:border-gray-700">
           <Flex justify="between" align="center" className="mb-4">
             <h3 className="text-lg font-semibold">Chat Sessions</h3>
             <Button onClick={createNewSession} size="sm">
@@ -284,9 +284,9 @@ export const MultiModelChat: React.FC = () => {
               <Card
                 key={session.id}
                 className={`p-3 cursor-pointer transition-colors ${
-                  currentSession?.id === session.id 
-                    ? 'bg-blue-50 border-blue-200' 
-                    : 'hover:bg-gray-50'
+                  currentSession?.id === session.id
+                    ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'
+                    : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
                 onClick={() => {
                   setCurrentSession(session);
@@ -313,8 +313,8 @@ export const MultiModelChat: React.FC = () => {
                 key={model.id}
                 className={`p-3 cursor-pointer transition-colors ${
                   selectedModels.some(m => m.id === model.id)
-                    ? 'bg-green-50 border-green-200'
-                    : 'hover:bg-gray-50'
+                    ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
+                    : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
                 onClick={() => toggleModel(model.id)}
               >
@@ -333,9 +333,9 @@ export const MultiModelChat: React.FC = () => {
           {messages.map(message => (
             <Box key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
               <Card className={`max-w-2xl p-4 ${
-                message.type === 'user' 
-                  ? 'bg-blue-500 text-white ml-12' 
-                  : 'bg-gray-800 mr-12'
+                message.type === 'user'
+                  ? 'bg-blue-500 text-white ml-12'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white mr-12'
               }`}>
                 <div className="whitespace-pre-wrap">{message.content}</div>
                 {message.type === 'user' && (
@@ -348,7 +348,7 @@ export const MultiModelChat: React.FC = () => {
                 {message.modelResponses && message.modelResponses.length > 0 && (
                   <Box className="mt-4 space-y-3">
                     {message.modelResponses.map((response, index) => (
-                      <Card key={response.id} className="p-3 bg-gray-50">
+                      <Card key={response.id} className="p-3 bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
                         <Flex justify="between" align="center" className="mb-2">
                           <span className="font-medium text-sm">{response.modelName}</span>
                           <span className="text-xs text-gray-500">
@@ -376,7 +376,7 @@ export const MultiModelChat: React.FC = () => {
         </Box>
 
         {/* 输入区域 */}
-        <Box className="p-4 border-t border-gray-700 bg-gray-800">
+        <Box className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <Flex gap={2}>
             <Input
               value={inputMessage}
@@ -398,7 +398,7 @@ export const MultiModelChat: React.FC = () => {
             </Button>
           </Flex>
           {selectedModels.length > 0 && (
-            <Flex className="mt-2 text-sm text-gray-600">
+            <Flex className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               Active models: {selectedModels.map(m => m.name).join(', ')}
             </Flex>
           )}
