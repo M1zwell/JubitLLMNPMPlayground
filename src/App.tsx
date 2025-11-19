@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import EnhancedLLMMarket from './components/EnhancedLLMMarket';
 import NPMPlayground from './components/NPMPlayground';
@@ -32,12 +33,58 @@ import OffshoreDataHub from './components/OffshoreDataHub';
 // import WebScraperDemo from './components/WebScraperDemo';
 // import HKScraperWithPuppeteer from './components/HKScraperWithPuppeteer';
 
+// Route configuration - maps view names to URLs
+const ROUTE_MAP = {
+  'integrated-hub': '/',
+  'llm-market': '/llm-market',
+  'llm-playground': '/llm-playground',
+  'npm-market': '/npm-market',
+  'npm-playground': '/npm-playground',
+  'unified-playground': '/unified-playground',
+  'workflow-execution': '/workflow-execution',
+  'advanced-demo': '/advanced-demo',
+  'multi-model-chat': '/multi-chat',
+  'webb-financial': '/webb-financial',
+  'hk-scraper': '/HKdata',  // User's requested URL
+  'offshore-data': '/offshore',  // User's requested URL
+  'webb-importer': '/webb-importer',
+  'webb-sql': '/webb-sql',
+  'webb-direct-import': '/webb-direct-import',
+  'webb-mysql-migrator': '/webb-mysql-migrator',
+  'webb-sql-uploader': '/webb-sql-uploader',
+} as const;
+
+// Reverse map for URL to view
+const URL_TO_VIEW = Object.fromEntries(
+  Object.entries(ROUTE_MAP).map(([view, url]) => [url, view])
+);
+
 function AppContent() {
   const { state, actions } = usePlayground();
   const { user, loading: authLoading } = useAuth();
   const [initialPlaygroundPackage, setInitialPlaygroundPackage] = useState<any>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Sync URL with currentView state
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const viewFromUrl = URL_TO_VIEW[currentPath];
+
+    if (viewFromUrl && viewFromUrl !== state.currentView) {
+      actions.setCurrentView(viewFromUrl as any);
+    }
+  }, [location.pathname]);
+
+  // Helper function to navigate with both URL and state update
+  const navigateToView = (view: keyof typeof ROUTE_MAP) => {
+    const url = ROUTE_MAP[view];
+    navigate(url);
+    actions.setCurrentView(view as any);
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
@@ -55,10 +102,10 @@ function AppContent() {
               {/* 导航按钮 - 更加紧凑 */}
               <nav className="hidden md:flex items-center space-x-1">
                 <button
-                  onClick={() => actions.setCurrentView('integrated-hub')}
+                  onClick={() => navigateToView('integrated-hub')}
                   className={`btn-minimal ${
-                    state.currentView === 'integrated-hub' 
-                      ? 'btn-primary' 
+                    state.currentView === 'integrated-hub'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
@@ -66,10 +113,10 @@ function AppContent() {
                   Hub
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('llm-market')}
+                  onClick={() => navigateToView('llm-market')}
                   className={`btn-minimal ${
-                    state.currentView === 'llm-market' 
-                      ? 'btn-primary' 
+                    state.currentView === 'llm-market'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
@@ -77,10 +124,10 @@ function AppContent() {
                   LLM
                 </button>
                <button
-                 onClick={() => actions.setCurrentView('llm-playground')}
+                 onClick={() => navigateToView('llm-playground')}
                  className={`btn-minimal ${
-                   state.currentView === 'llm-playground' 
-                     ? 'btn-primary' 
+                   state.currentView === 'llm-playground'
+                     ? 'btn-primary'
                      : 'btn-ghost'
                  }`}
                >
@@ -88,10 +135,10 @@ function AppContent() {
                  LLM Play
                </button>
                 <button
-                  onClick={() => actions.setCurrentView('npm-market')}
+                  onClick={() => navigateToView('npm-market')}
                   className={`btn-minimal ${
-                    state.currentView === 'npm-market' 
-                      ? 'btn-primary' 
+                    state.currentView === 'npm-market'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
@@ -99,10 +146,10 @@ function AppContent() {
                   NPM
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('npm-playground')}
+                  onClick={() => navigateToView('npm-playground')}
                   className={`btn-minimal ${
-                    state.currentView === 'npm-playground' 
-                      ? 'btn-primary' 
+                    state.currentView === 'npm-playground'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
@@ -110,30 +157,30 @@ function AppContent() {
                   NPM Playground
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('unified-playground')}
+                  onClick={() => navigateToView('unified-playground')}
                   className={`btn-minimal ${
-                    state.currentView === 'unified-playground' 
-                      ? 'btn-primary' 
+                    state.currentView === 'unified-playground'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
                   Enhanced
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('workflow-execution')}
+                  onClick={() => navigateToView('workflow-execution')}
                   className={`btn-minimal ${
-                    state.currentView === 'workflow-execution' 
-                      ? 'btn-primary' 
+                    state.currentView === 'workflow-execution'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
                   Demo
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('advanced-demo')}
+                  onClick={() => navigateToView('advanced-demo')}
                   className={`btn-minimal ${
-                    state.currentView === 'advanced-demo' 
-                      ? 'btn-primary' 
+                    state.currentView === 'advanced-demo'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
@@ -141,10 +188,10 @@ function AppContent() {
                   Advanced
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('multi-model-chat')}
+                  onClick={() => navigateToView('multi-model-chat')}
                   className={`btn-minimal ${
-                    state.currentView === 'multi-model-chat' 
-                      ? 'btn-primary' 
+                    state.currentView === 'multi-model-chat'
+                      ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
                 >
@@ -152,7 +199,7 @@ function AppContent() {
                   Multi Chat
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('webb-financial')}
+                  onClick={() => navigateToView('webb-financial')}
                   className={`btn-minimal ${
                     state.currentView === 'webb-financial'
                       ? 'btn-primary'
@@ -162,7 +209,7 @@ function AppContent() {
                   🏦 Webb
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('hk-scraper')}
+                  onClick={() => navigateToView('hk-scraper')}
                   className={`btn-minimal ${
                     state.currentView === 'hk-scraper'
                       ? 'btn-primary'
@@ -174,7 +221,7 @@ function AppContent() {
                   HK Data
                 </button>
                 <button
-                  onClick={() => actions.setCurrentView('offshore-data')}
+                  onClick={() => navigateToView('offshore-data')}
                   className={`btn-minimal ${
                     state.currentView === 'offshore-data'
                       ? 'btn-primary'
@@ -308,15 +355,15 @@ function AppContent() {
         ) : state.currentView === 'llm-playground' ? (
           <LLMPlayground />
         ) : state.currentView === 'npm-market' ? (
-          <NPMMarketplace 
+          <NPMMarketplace
             onNavigateToPlayground={(pkg) => {
-              actions.setCurrentView('npm-playground');
+              navigateToView('npm-playground');
               setInitialPlaygroundPackage(pkg);
             }}
           />
         ) : state.currentView === 'npm-playground' ? (
-          <NPMIntegratedPlayground 
-            onNavigateToMarket={() => actions.setCurrentView('npm-market')}
+          <NPMIntegratedPlayground
+            onNavigateToMarket={() => navigateToView('npm-market')}
             initialPackage={initialPlaygroundPackage}
           />
         ) : state.currentView === 'unified-playground' ? (
@@ -410,11 +457,13 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <PlaygroundProvider>
-        <AppContent />
-      </PlaygroundProvider>
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <PlaygroundProvider>
+          <AppContent />
+        </PlaygroundProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
