@@ -37,7 +37,7 @@ import OffshoreDataHub from './components/OffshoreDataHub';
 
 // Route configuration - maps view names to URLs
 const ROUTE_MAP = {
-  'integrated-hub': '/',
+  'integrated-hub': '/hub',
   'llm-market': '/llm-market',
   'llm-playground': '/llm-playground',
   'npm-market': '/npm-market',
@@ -47,7 +47,7 @@ const ROUTE_MAP = {
   'advanced-demo': '/advanced-demo',
   'multi-model-chat': '/multi-chat',
   'webb-financial': '/webb-financial',
-  'hk-scraper': '/HKdata',  // User's requested URL
+  'hk-scraper': '/',  // Homepage - HK Data
   'offshore-data': '/offshore',  // User's requested URL
   'webb-importer': '/webb-importer',
   'webb-sql': '/webb-sql',
