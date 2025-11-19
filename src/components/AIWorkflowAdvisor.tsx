@@ -628,7 +628,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
           {/* Header */}
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-800/20 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-gray-200 dark:bg-gray-800/20 rounded-full flex items-center justify-center">
                 <Bot size={20} className="text-white" />
               </div>
               <div>
@@ -638,7 +638,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
             </div>
             <div className="flex items-center gap-2">
               {hoveredData && (
-                <div className="flex items-center gap-1 bg-gray-800/20 rounded px-2 py-1">
+                <div className="flex items-center gap-1 bg-gray-200 dark:bg-gray-800/20 rounded px-2 py-1">
                   <Quote size={12} className="text-green-300" />
                   <span className="text-xs text-white">{hoveredData.name}</span>
                 </div>

@@ -327,7 +327,7 @@ class NPMInterpreter {
 // Package.json editor component for visualizing and editing package.json
 const PackageJsonEditor = ({ packageJson, onChange }: any) => {
   return (
-    <div className="bg-gray-800 rounded-lg p-4">
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-200 dark:border-gray-700">
       <h3 className="text-lg font-bold mb-2 text-green-400">📦 package.json</h3>
       <pre className="text-sm overflow-auto">
         <code>{JSON.stringify(packageJson, null, 2)}</code>
@@ -398,7 +398,7 @@ const PackageExecutor = ({ packageName, code, onResult }: any) => {
           )}
         </button>
       </div>
-      <pre className="text-xs bg-gray-800 p-2 rounded overflow-auto max-h-40">
+      <pre className="text-xs bg-gray-100 dark:bg-gray-800 p-2 rounded overflow-auto max-h-40 border border-gray-200 dark:border-gray-200 dark:border-gray-700">
         <code className="text-gray-200">{code}</code>
       </pre>
     </div>
@@ -814,13 +814,13 @@ return { numbers, squared, sum };`);
           </div>
           
           <div className="relative mb-4">
-            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" size={14} />
             <input
               type="text"
               placeholder="搜索 NPM 包..."
               value={packageSearchTerm}
               onChange={(e) => setPackageSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-sm"
+              className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-green-500"
             />
           </div>
           
@@ -1025,7 +1025,7 @@ return { numbers, squared, sum };`);
                           </div>
 
                           {result && (
-                            <div className="mt-2 bg-gray-800 rounded p-3">
+                            <div className="mt-2 bg-gray-50 dark:bg-gray-800 rounded p-3 border border-gray-200 dark:border-gray-200 dark:border-gray-700">
                               <div className="text-xs text-green-600 mb-1">✅ 完成</div>
                               <div className="text-sm font-mono whitespace-pre-wrap">{result}</div>
                             </div>
@@ -1033,7 +1033,7 @@ return { numbers, squared, sum };`);
                         </div>
                         
                         {index < workflowCanvas.length - 1 && (
-                          <ArrowRight className="text-gray-400" size={16} />
+                          <ArrowRight className="text-gray-500 dark:text-gray-400" size={16} />
                         )}
                       </div>
                     );
@@ -1155,7 +1155,7 @@ return { numbers, squared, sum };`);
 
               <div className="col-span-4">
                 <div className="bg-gray-800 rounded-lg p-4 max-h-[600px] overflow-y-auto">
-                  <h3 className="font-bold mb-2 text-yellow-400 sticky top-0 bg-gray-800 pb-2">
+                  <h3 className="font-bold mb-2 text-yellow-400 sticky top-0 bg-white dark:bg-gray-800 pb-2">
                     📋 执行结果
                   </h3>
                   
@@ -1172,7 +1172,7 @@ return { numbers, squared, sum };`);
                         >
                           <div className="flex justify-between mb-1">
                             <span className="font-bold">{result.package}</span>
-                            <span className="text-xs text-gray-400">{result.timestamp}</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">{result.timestamp}</span>
                           </div>
                           <pre className="overflow-auto text-xs">
                             {result.success 
@@ -1213,7 +1213,7 @@ return { numbers, squared, sum };`);
                         </span>
                         <div>
                           <div className="font-medium text-sm">{name}</div>
-                          <div className="text-xs text-gray-400">{pkg.description}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{pkg.description}</div>
                         </div>
                       </div>
                     ))}
@@ -1222,7 +1222,7 @@ return { numbers, squared, sum };`);
               </div>
 
               <div className="col-span-6">
-                <div className="bg-gray-800 rounded-lg p-4">
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-200 dark:border-gray-700">
                   <h3 className="font-bold mb-4 text-green-400">🔗 依赖关系图</h3>
                   <div className="relative h-64">
                     {/* 简化的依赖关系可视化 */}
@@ -1272,7 +1272,7 @@ return { numbers, squared, sum };`);
                     </svg>
                   </div>
                   
-                  <div className="mt-4 text-sm text-gray-400">
+                  <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
                     <p>实线：生产依赖 (dependencies)</p>
                     <p>虚线：开发依赖 (devDependencies)</p>
                   </div>
@@ -1313,7 +1313,7 @@ return { numbers, squared, sum };`);
                       <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="ml-4 text-gray-400">NPM Terminal</div>
+                    <div className="ml-4 text-gray-500 dark:text-gray-400">NPM Terminal</div>
                   </div>
                   
                   <div 
@@ -1361,7 +1361,7 @@ return { numbers, squared, sum };`);
                   </div>
                 </div>
 
-                <div className="bg-gray-800 rounded-lg p-4">
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-200 dark:border-gray-700">
                   <h3 className="font-bold mb-2 text-blue-400">💡 使用提示</h3>
                   <ul className="text-sm space-y-1 list-disc list-inside text-gray-300">
                     <li>终端支持上下箭头查看命令历史</li>
@@ -1386,7 +1386,7 @@ return { numbers, squared, sum };`);
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 </div>
-                <div className="ml-4 text-gray-400">NPM Terminal</div>
+                <div className="ml-4 text-gray-500 dark:text-gray-400">NPM Terminal</div>
               </div>
               
               <div 
@@ -1434,7 +1434,7 @@ return { numbers, squared, sum };`);
               </div>
             </div>
 
-            <div className="bg-gray-800 rounded-lg p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-200 dark:border-gray-700">
               <h3 className="font-bold mb-2 text-blue-400">💡 学习要点</h3>
               <ul className="text-sm space-y-1 list-disc list-inside text-gray-300">
                 <li>NPM 是 Node Package Manager</li>

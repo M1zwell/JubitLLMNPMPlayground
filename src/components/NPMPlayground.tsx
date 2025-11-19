@@ -522,13 +522,13 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
           </div>
           
           <div className="relative mb-4">
-            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" size={14} />
             <input
               type="text"
               placeholder="Search atomic functions in market..."
               value={packageSearchTerm}
               onChange={(e) => setPackageSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+              className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-white dark:bg-gray-800 text-sm"
             />
           </div>
           
@@ -547,7 +547,7 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
                   </div>
                 </div>
                 
-                <p className="text-caption text-gray-600 dark:text-gray-300 mb-2 line-clamp-2">
+                <p className="text-caption text-gray-600 dark:text-gray-700 dark:text-gray-300 mb-2 line-clamp-2">
                   {pkg.description}
                 </p>
                 
@@ -634,7 +634,7 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
                 placeholder="Name your workflow..."
                 value={workflowName}
                 onChange={(e) => setWorkflowName(e.target.value)}
-                className="px-3 py-1 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm"
+                className="px-3 py-1 border border-gray-200 dark:border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-white dark:bg-gray-800 text-sm"
               />
               <button
                 onClick={executeWorkflow}
@@ -698,12 +698,12 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
                           </div>
                         </div>
                         
-                        <div className="text-caption text-gray-600 dark:text-gray-300 mb-2">
+                        <div className="text-caption text-gray-600 dark:text-gray-700 dark:text-gray-300 mb-2">
                           Input: {atom.atomicInfo.inputs.join(', ')} → Output: {atom.atomicInfo.outputs.join(', ')}
                         </div>
                         
                         {result && (
-                          <div className="mt-2 bg-gray-50 dark:bg-gray-800 rounded-md p-3">
+                          <div className="mt-2 bg-gray-50 dark:bg-white dark:bg-gray-800 rounded-md p-3">
                             <div className="text-xs text-green-600 mb-1">✅ Completed</div>
                             <div className="text-sm font-mono">{result.output}</div>
                             <div className="text-caption mt-2 flex gap-4">
@@ -716,7 +716,7 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
                       </div>
                       
                       {index < workflowCanvas.length - 1 && (
-                        <ArrowRight className="text-gray-400" size={16} />
+                        <ArrowRight className="text-gray-500 dark:text-gray-400" size={16} />
                       )}
                     </div>
                   );
@@ -734,7 +734,7 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
               </h3>
               <div className="space-y-2">
                 {aiSuggestions.map((suggestion, index) => (
-                  <div key={index} className="bg-white dark:bg-gray-800 rounded-md p-3 border border-gray-200 dark:border-gray-700">
+                  <div key={index} className="bg-white dark:bg-white dark:bg-gray-800 rounded-md p-3 border border-gray-200 dark:border-gray-200 dark:border-gray-700">
                     <div className="font-medium text-sm mb-1">{suggestion.title}</div>
                     <div className="text-caption mb-2">{suggestion.reason}</div>
                     <div className="flex gap-2">
@@ -777,7 +777,7 @@ const NPMPlayground: React.FC<NPMPlaygroundProps> = ({ onNavigateToMarket, initi
                     </div>
                   </div>
                   
-                  <p className="text-caption text-gray-600 dark:text-gray-300 mb-3">{template.description}</p>
+                  <p className="text-caption text-gray-600 dark:text-gray-700 dark:text-gray-300 mb-3">{template.description}</p>
                   
                   <div className="space-y-1 mb-3">
                     <div className="text-xs text-purple-600">💼 {template.realWorldUse}</div>
