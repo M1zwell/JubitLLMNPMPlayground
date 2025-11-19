@@ -29,38 +29,38 @@ export default function OffshoreDataHub() {
   const [viewMode, setViewMode] = useState<ViewMode>('view');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-cyan-50 to-teal-50 dark:from-gray-900 dark:via-cyan-950 dark:to-teal-950 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950 p-3 md:p-6">
+      <div className="max-w-7xl mx-auto space-y-4">
         {/* Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 md:p-6 border border-purple-100 dark:border-purple-800">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6 gap-4">
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent flex items-center gap-2">
-                <Shield className="text-cyan-500" size={40} />
+              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
+                <Shield className="text-purple-500" size={32} />
                 Offshore Financial Data Hub
               </h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-2 text-lg">
+              <p className="text-gray-600 dark:text-gray-300 mt-1 text-sm md:text-base">
                 Cayman Islands & BVI Regulatory Data Platform
               </p>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-100 to-teal-100 dark:from-cyan-900 dark:to-teal-900 rounded-lg">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Live Data</span>
+            <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/40 dark:to-indigo-900/40 rounded-lg border border-purple-200 dark:border-purple-700">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-xs md:text-sm font-medium text-purple-700 dark:text-purple-300">Live Data</span>
             </div>
           </div>
 
           {/* Data Source Tabs */}
-          <div className="flex gap-3 mb-6">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-4 md:mb-6">
             <button
               onClick={() => setActiveSource('cima')}
-              className={`flex-1 px-6 py-4 rounded-xl font-semibold text-lg transition-all ${
+              className={`flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all ${
                 activeSource === 'cima'
-                  ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white shadow-lg scale-105'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg md:scale-105'
+                  : 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-900/40 border border-purple-200 dark:border-purple-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
-                <Shield size={20} />
+                <Shield size={18} />
                 <span>🇰🇾 CIMA</span>
               </div>
               <div className="text-xs mt-1 opacity-90">Cayman Islands</div>
@@ -68,14 +68,14 @@ export default function OffshoreDataHub() {
 
             <button
               onClick={() => setActiveSource('bvi')}
-              className={`flex-1 px-6 py-4 rounded-xl font-semibold text-lg transition-all ${
+              className={`flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all ${
                 activeSource === 'bvi'
-                  ? 'bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-lg scale-105'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-lg md:scale-105'
+                  : 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 border border-indigo-200 dark:border-indigo-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
-                <Shield size={20} />
+                <Shield size={18} />
                 <span>🇻🇬 BVI FSC</span>
               </div>
               <div className="text-xs mt-1 opacity-90">British Virgin Islands</div>
@@ -83,48 +83,51 @@ export default function OffshoreDataHub() {
           </div>
 
           {/* View Mode Tabs */}
-          <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <div className="flex gap-1 sm:gap-2 p-1 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
             <button
               onClick={() => setViewMode('view')}
-              className={`flex-1 px-4 py-2 rounded-md font-medium transition-all ${
+              className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'view'
                   ? activeSource === 'cima'
-                    ? 'bg-cyan-500 text-white shadow-md'
-                    : 'bg-teal-500 text-white shadow-md'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                    ? 'bg-purple-500 text-white shadow-md'
+                    : 'bg-indigo-500 text-white shadow-md'
+                  : 'text-purple-600 dark:text-purple-300 hover:text-purple-900 dark:hover:text-white hover:bg-purple-100 dark:hover:bg-purple-900/40'
               }`}
             >
-              📊 View Data
+              <span className="hidden sm:inline">📊 View Data</span>
+              <span className="sm:hidden">📊 View</span>
             </button>
             <button
               onClick={() => setViewMode('analyze')}
-              className={`flex-1 px-4 py-2 rounded-md font-medium transition-all ${
+              className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'analyze'
                   ? activeSource === 'cima'
-                    ? 'bg-cyan-500 text-white shadow-md'
-                    : 'bg-teal-500 text-white shadow-md'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                    ? 'bg-purple-500 text-white shadow-md'
+                    : 'bg-indigo-500 text-white shadow-md'
+                  : 'text-purple-600 dark:text-purple-300 hover:text-purple-900 dark:hover:text-white hover:bg-purple-100 dark:hover:bg-purple-900/40'
               }`}
             >
-              📈 Analyze
+              <span className="hidden sm:inline">📈 Analyze</span>
+              <span className="sm:hidden">📈</span>
             </button>
             <button
               onClick={() => setViewMode('scrape')}
-              className={`flex-1 px-4 py-2 rounded-md font-medium transition-all ${
+              className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'scrape'
                   ? activeSource === 'cima'
-                    ? 'bg-cyan-500 text-white shadow-md'
-                    : 'bg-teal-500 text-white shadow-md'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                    ? 'bg-purple-500 text-white shadow-md'
+                    : 'bg-indigo-500 text-white shadow-md'
+                  : 'text-purple-600 dark:text-purple-300 hover:text-purple-900 dark:hover:text-white hover:bg-purple-100 dark:hover:bg-purple-900/40'
               }`}
             >
-              🔄 Scrape
+              <span className="hidden sm:inline">🔄 Scrape</span>
+              <span className="sm:hidden">🔄</span>
             </button>
           </div>
         </div>
 
         {/* Content Area */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-purple-100 dark:border-purple-800">
           {activeSource === 'cima' && (
             <div>
               {viewMode === 'view' && <CIMAViewer />}
@@ -175,34 +178,34 @@ export default function OffshoreDataHub() {
         </div>
 
         {/* Quick Stats Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <StatCard
-            icon={<Shield className="text-cyan-500" />}
+            icon={<Shield className="text-purple-500" />}
             title="Jurisdictions"
             value="2"
             subtitle="Cayman & BVI"
-            color="cyan"
-          />
-          <StatCard
-            icon={<Database className="text-teal-500" />}
-            title="Data Sources"
-            value="2"
-            subtitle="Active Regulators"
-            color="teal"
-          />
-          <StatCard
-            icon={<Building2 className="text-purple-500" />}
-            title="Entity Types"
-            value="15+"
-            subtitle="Categories"
             color="purple"
           />
           <StatCard
-            icon={<Activity className="text-orange-500" />}
+            icon={<Database className="text-indigo-500" />}
+            title="Data Sources"
+            value="2"
+            subtitle="Active Regulators"
+            color="indigo"
+          />
+          <StatCard
+            icon={<Building2 className="text-violet-500" />}
+            title="Entity Types"
+            value="15+"
+            subtitle="Categories"
+            color="violet"
+          />
+          <StatCard
+            icon={<Activity className="text-fuchsia-500" />}
             title="Last Update"
             value="Real-time"
             subtitle="Live Sync"
-            color="orange"
+            color="fuchsia"
           />
         </div>
       </div>
@@ -225,21 +228,21 @@ function StatCard({
   color: string;
 }) {
   const colorClasses = {
-    cyan: 'from-cyan-50 to-cyan-100 border-cyan-200',
-    teal: 'from-teal-50 to-teal-100 border-teal-200',
-    purple: 'from-purple-50 to-purple-100 border-purple-200',
-    orange: 'from-orange-50 to-orange-100 border-orange-200'
+    purple: 'from-purple-50 to-purple-100 border-purple-200 dark:from-purple-900/20 dark:to-purple-800/20 dark:border-purple-700',
+    indigo: 'from-indigo-50 to-indigo-100 border-indigo-200 dark:from-indigo-900/20 dark:to-indigo-800/20 dark:border-indigo-700',
+    violet: 'from-violet-50 to-violet-100 border-violet-200 dark:from-violet-900/20 dark:to-violet-800/20 dark:border-violet-700',
+    fuchsia: 'from-fuchsia-50 to-fuchsia-100 border-fuchsia-200 dark:from-fuchsia-900/20 dark:to-fuchsia-800/20 dark:border-fuchsia-700'
   };
 
   return (
     <div
-      className={`bg-gradient-to-br ${colorClasses[color as keyof typeof colorClasses]} dark:from-gray-800 dark:to-gray-700 border dark:border-gray-600 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all`}
+      className={`bg-gradient-to-br ${colorClasses[color as keyof typeof colorClasses]} border rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all`}
     >
       <div className="flex items-center justify-between mb-2">
-        <div className="text-sm font-medium text-gray-600 dark:text-gray-300">{title}</div>
+        <div className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-300">{title}</div>
         {icon}
       </div>
-      <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{value}</div>
+      <div className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">{value}</div>
       <div className="text-xs text-gray-500 dark:text-gray-400">{subtitle}</div>
     </div>
   );
@@ -256,13 +259,13 @@ function ComingSoonPlaceholder({
   icon: string;
 }) {
   return (
-    <div className="text-center py-16">
-      <div className="text-6xl mb-4">{icon}</div>
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
-      <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">{description}</p>
-      <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-100 to-teal-100 dark:from-cyan-900 dark:to-teal-900 rounded-lg">
-        <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Coming Soon</span>
+    <div className="text-center py-12 md:py-16 px-4">
+      <div className="text-4xl md:text-6xl mb-3 md:mb-4">{icon}</div>
+      <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
+      <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 max-w-md mx-auto">{description}</p>
+      <div className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/40 dark:to-indigo-900/40 rounded-lg border border-purple-200 dark:border-purple-700">
+        <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+        <span className="text-xs md:text-sm font-medium text-purple-700 dark:text-purple-300">Coming Soon</span>
       </div>
     </div>
   );

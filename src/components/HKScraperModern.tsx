@@ -38,33 +38,33 @@ export default function HKScraperModern() {
   const [viewMode, setViewMode] = useState<ViewMode>('view');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-blue-950 dark:to-indigo-950">
+      <div className="max-w-7xl mx-auto p-3 md:p-6 space-y-4">
 
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 md:p-6 border border-gray-100 dark:border-gray-700">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6 gap-4">
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 香港数据中心
               </h1>
-              <p className="text-gray-600 mt-2 text-lg">
+              <p className="text-gray-600 dark:text-gray-300 mt-1 md:mt-2 text-sm md:text-base">
                 Hong Kong Market Data Hub - HKSFC, HKEX & CCASS
               </p>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="px-4 py-2 bg-green-100 rounded-full">
-                <span className="text-green-700 font-semibold text-sm">✓ Live</span>
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="px-3 md:px-4 py-1 md:py-2 bg-green-100 dark:bg-green-900/40 rounded-full border border-green-200 dark:border-green-700">
+                <span className="text-green-700 dark:text-green-300 font-semibold text-xs md:text-sm">✓ Live</span>
               </div>
-              <Activity className="text-blue-500 animate-pulse" size={24} />
+              <Activity className="text-blue-500 dark:text-blue-400 animate-pulse" size={20} />
             </div>
           </div>
 
           {/* Data Source Tabs */}
-          <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
+          <div className="flex flex-col sm:flex-row gap-2 p-1 bg-gray-100 dark:bg-gray-700 rounded-xl">
             <button
               onClick={() => setActiveSource('ccass')}
-              className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`flex-1 px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold text-sm md:text-base transition-all duration-200 flex items-center justify-center gap-2 ${
                 activeSource === 'ccass'
                   ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg transform scale-105'
                   : 'text-gray-600 hover:bg-white hover:shadow'
@@ -81,7 +81,7 @@ export default function HKScraperModern() {
 
             <button
               onClick={() => setActiveSource('hksfc')}
-              className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`flex-1 px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold text-sm md:text-base transition-all duration-200 flex items-center justify-center gap-2 ${
                 activeSource === 'hksfc'
                   ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg transform scale-105'
                   : 'text-gray-600 hover:bg-white hover:shadow'
@@ -93,7 +93,7 @@ export default function HKScraperModern() {
 
             <button
               onClick={() => setActiveSource('hkex')}
-              className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`flex-1 px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold text-sm md:text-base transition-all duration-200 flex items-center justify-center gap-2 ${
                 activeSource === 'hkex'
                   ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg transform scale-105'
                   : 'text-gray-600 hover:bg-white hover:shadow'
@@ -105,7 +105,7 @@ export default function HKScraperModern() {
 
             <button
               onClick={() => setActiveSource('sfc_stats')}
-              className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`flex-1 px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold text-sm md:text-base transition-all duration-200 flex items-center justify-center gap-2 ${
                 activeSource === 'sfc_stats'
                   ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg transform scale-105'
                   : 'text-gray-600 hover:bg-white hover:shadow'
@@ -231,7 +231,7 @@ export default function HKScraperModern() {
         </div>
 
         {/* Quick Stats Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <StatCard
             icon={<Building2 className="text-blue-500" />}
             title="Total Records"
