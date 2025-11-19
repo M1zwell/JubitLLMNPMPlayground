@@ -112,11 +112,11 @@ export default function HKScraperModern() {
               }`}
             >
               <BarChart3 size={20} />
-              Financial Statistics
+              Financial Dashboard
               <span className={`text-xs px-2 py-0.5 rounded-full ${
                 activeSource === 'sfc_stats' ? 'bg-white/20' : 'bg-orange-100 text-orange-700'
               }`}>
-                New
+                Charts
               </span>
             </button>
           </div>
