@@ -34,7 +34,7 @@ type DataSource = 'hksfc' | 'hkex' | 'ccass' | 'sfc_stats';
 type ViewMode = 'scrape' | 'view' | 'analyze';
 
 export default function HKScraperModern() {
-  const [activeSource, setActiveSource] = useState<DataSource>('ccass');
+  const [activeSource, setActiveSource] = useState<DataSource>('sfc_stats');
   const [viewMode, setViewMode] = useState<ViewMode>('view');
 
   return (
