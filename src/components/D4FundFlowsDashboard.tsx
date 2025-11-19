@@ -110,25 +110,24 @@ const D4FundFlowsDashboard: React.FC = () => {
       }
     });
 
-    // Calculate flow as % of NAV for key fund types
-    const result: any[] = [];
+    // Calculate flow as % of NAV for key fund types, grouped by year
+    const yearMap = new Map<number, any>();
 
     filteredFlows.forEach(flow => {
       if (flow.fund_type === 'Total') return;
       if (!['Bond', 'Equity', 'MoneyMarket', 'Index'].includes(flow.fund_type)) return;
 
+      if (!yearMap.has(flow.year)) {
+        yearMap.set(flow.year, { year: flow.year });
+      }
+
       const prevYearNAV = yearEndNAV.get(flow.year - 1)?.get(flow.fund_type) || 0;
       const flowAsPercent = prevYearNAV > 0 ? ((flow.net_flow_usd_mn || 0) / prevYearNAV) * 100 : 0;
 
-      result.push({
-        year: flow.year,
-        fundType: flow.fund_type,
-        flowPercent: flowAsPercent,
-        flowAbsolute: flow.net_flow_usd_mn || 0
-      });
+      yearMap.get(flow.year)![flow.fund_type] = flowAsPercent;
     });
 
-    return result;
+    return Array.from(yearMap.values()).sort((a, b) => a.year - b.year);
   }, [filteredFlows, navData]);
 
   // Chart 4: Total Annual Flows Trend
@@ -330,18 +329,14 @@ const D4FundFlowsDashboard: React.FC = () => {
                 />
                 <YAxis tick={{ fontSize: 11 }} label={{ value: 'Flow as % of NAV', angle: -90, position: 'insideLeft' }} />
                 <Tooltip
-                  formatter={(value: any, name) => {
-                    if (name === 'Flow % of NAV') return [`${value.toFixed(2)}%`];
-                    return [`${value.toFixed(2)}%`];
-                  }}
+                  formatter={(value: any) => [`${value.toFixed(2)}%`]}
                   contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px' }} />
-                <Bar dataKey="flowPercent" name="Flow % of NAV">
-                  {flowsVsNAVData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.flowPercent >= 0 ? COLORS.positive : COLORS.negative} />
-                  ))}
-                </Bar>
+                <Bar dataKey="Bond" name="Bond" fill={FUND_COLORS.Bond} />
+                <Bar dataKey="Equity" name="Equity" fill={FUND_COLORS.Equity} />
+                <Bar dataKey="MoneyMarket" name="Money Market" fill={FUND_COLORS.MoneyMarket} />
+                <Bar dataKey="Index" name="Index" fill={FUND_COLORS.Index} />
               </BarChart>
             </ResponsiveContainer>
           </div>
