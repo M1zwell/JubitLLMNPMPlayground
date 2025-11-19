@@ -43,46 +43,104 @@ const C5ResponsibleOfficersDashboard: React.FC = () => {
     return annualData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
   }, [annualData, yearRange]);
 
-  // Multi-series line chart: Top RAs for RO/AO
+  // Filter quarterly data by year range
+  const filteredQuarterlyData = useMemo(() => {
+    return quarterlyData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
+  }, [quarterlyData, yearRange]);
+
+  // Multi-series line chart: Top RAs for RO/AO (combined annual + quarterly)
   const roTrendsData = useMemo(() => {
-    return filteredAnnualData.map(d => ({
+    const annual = filteredAnnualData.map(d => ({
+      period: String(d.year),
       year: d.year,
+      quarter: null,
       RA1: d.ra1 || 0,
       RA2: d.ra2 || 0,
       RA4: d.ra4 || 0,
       RA6: d.ra6 || 0,
       RA9: d.ra9 || 0,
-    })).reverse();
-  }, [filteredAnnualData]);
+    }));
 
-  // Stacked area: Total RO growth
-  const totalROGrowthData = useMemo(() => {
-    return filteredAnnualData.map(d => ({
+    const quarterly = filteredQuarterlyData.map(d => ({
+      period: `${d.year} Q${d.quarter}`,
       year: d.year,
+      quarter: d.quarter,
+      RA1: d.ra1 || 0,
+      RA2: d.ra2 || 0,
+      RA4: d.ra4 || 0,
+      RA6: d.ra6 || 0,
+      RA9: d.ra9 || 0,
+    }));
+
+    return [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData]);
+
+  // Stacked area: Total RO growth (combined annual + quarterly)
+  const totalROGrowthData = useMemo(() => {
+    const annual = filteredAnnualData.map(d => ({
+      period: String(d.year),
+      year: d.year,
+      quarter: null,
       total: d.ro_total || 0,
       dealing: (d.ra1 || 0) + (d.ra2 || 0),
       advising: (d.ra4 || 0) + (d.ra5 || 0) + (d.ra6 || 0),
       assetMgmt: d.ra9 || 0,
       other: (d.ra3 || 0) + (d.ra7 || 0) + (d.ra8 || 0) + (d.ra10 || 0) + (d.ra13 || 0),
-    })).reverse();
-  }, [filteredAnnualData]);
+    }));
 
-  // RO vs LR ratio (assuming 1 RO per 3.6 LRs based on latest data)
+    const quarterly = filteredQuarterlyData.map(d => ({
+      period: `${d.year} Q${d.quarter}`,
+      year: d.year,
+      quarter: d.quarter,
+      total: d.ro_total || 0,
+      dealing: (d.ra1 || 0) + (d.ra2 || 0),
+      advising: (d.ra4 || 0) + (d.ra5 || 0) + (d.ra6 || 0),
+      assetMgmt: d.ra9 || 0,
+      other: (d.ra3 || 0) + (d.ra7 || 0) + (d.ra8 || 0) + (d.ra10 || 0) + (d.ra13 || 0),
+    }));
+
+    return [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData]);
+
+  // RO growth rate (combined annual + quarterly)
   const roGrowthRateData = useMemo(() => {
-    const sorted = [...filteredAnnualData].reverse();
-    return sorted.map((d, idx) => {
-      const total = d.ro_total || 0;
-      const yoyChange = idx > 0 && sorted[idx - 1].ro_total
-        ? ((total - sorted[idx - 1].ro_total!) / sorted[idx - 1].ro_total!) * 100
+    const annual = filteredAnnualData.map(d => ({
+      period: String(d.year),
+      year: d.year,
+      quarter: null,
+      total: d.ro_total || 0,
+    }));
+
+    const quarterly = filteredQuarterlyData.map(d => ({
+      period: `${d.year} Q${d.quarter}`,
+      year: d.year,
+      quarter: d.quarter,
+      total: d.ro_total || 0,
+    }));
+
+    const combined = [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+
+    return combined.map((d, idx) => {
+      const total = d.total;
+      const prevPeriodChange = idx > 0 && combined[idx - 1].total
+        ? ((total - combined[idx - 1].total) / combined[idx - 1].total) * 100
         : 0;
 
       return {
-        year: d.year,
-        total,
-        yoyChange,
+        ...d,
+        periodChange: prevPeriodChange,
       };
     });
-  }, [filteredAnnualData]);
+  }, [filteredAnnualData, filteredQuarterlyData]);
 
   // RA9 dominance in RO vs LR
   const ra9DominanceData = useMemo(() => {
@@ -297,7 +355,7 @@ const C5ResponsibleOfficersDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={roTrendsData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
-                <XAxis dataKey="year" stroke="#9CA3AF" fontSize={12} />
+                <XAxis dataKey="period" stroke="#9CA3AF" fontSize={12} angle={-45} textAnchor="end" height={80} />
                 <YAxis stroke="#9CA3AF" fontSize={12} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151' }}
@@ -323,7 +381,7 @@ const C5ResponsibleOfficersDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={totalROGrowthData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
-                <XAxis dataKey="year" stroke="#9CA3AF" fontSize={12} />
+                <XAxis dataKey="period" stroke="#9CA3AF" fontSize={12} angle={-45} textAnchor="end" height={80} />
                 <YAxis stroke="#9CA3AF" fontSize={12} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151' }}
@@ -344,23 +402,23 @@ const C5ResponsibleOfficersDashboard: React.FC = () => {
           {/* Chart 3: YoY Growth Rate */}
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              RO/AO Year-over-Year Growth Rate
+              RO/AO Period-over-Period Growth Rate
             </h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={roGrowthRateData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
-                <XAxis dataKey="year" stroke="#9CA3AF" fontSize={12} />
+                <XAxis dataKey="period" stroke="#9CA3AF" fontSize={12} angle={-45} textAnchor="end" height={80} />
                 <YAxis stroke="#9CA3AF" fontSize={12} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151' }}
                   labelStyle={{ color: '#F3F4F6' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px' }} />
-                <Bar dataKey="yoyChange" fill="#8b5cf6" name="YoY Growth %" />
+                <Bar dataKey="periodChange" fill="#8b5cf6" name="Period Growth %" />
               </BarChart>
             </ResponsiveContainer>
             <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-              Growth accelerated post-2015, with peaks in 2016-2018. Recent stabilization at ~19K.
+              Growth accelerated post-2015, with peaks in 2016-2018. Recent stabilization showing in quarterly data.
             </p>
           </div>
 

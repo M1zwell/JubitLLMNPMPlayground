@@ -45,10 +45,17 @@ const C4LicensedRepsDashboard: React.FC = () => {
     return annualData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
   }, [annualData, yearRange]);
 
-  // Multi-series line chart data: All RAs over time
+  // Filter quarterly data by year range
+  const filteredQuarterlyData = useMemo(() => {
+    return quarterlyData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
+  }, [quarterlyData, yearRange]);
+
+  // Multi-series line chart data: All RAs over time (combined annual + quarterly)
   const multiSeriesData = useMemo(() => {
-    return filteredAnnualData.map(d => ({
+    const annual = filteredAnnualData.map(d => ({
+      period: String(d.year),
       year: d.year,
+      quarter: null,
       RA1: d.ra1 || 0,
       RA2: d.ra2 || 0,
       RA3: d.ra3 || 0,
@@ -60,20 +67,60 @@ const C4LicensedRepsDashboard: React.FC = () => {
       RA9: d.ra9 || 0,
       RA10: d.ra10 || 0,
       RA13: d.ra13 || 0,
-    })).reverse(); // Oldest to newest for time series
-  }, [filteredAnnualData]);
+    }));
 
-  // Stacked area: Total LR growth over time
-  const totalLRGrowthData = useMemo(() => {
-    return filteredAnnualData.map(d => ({
+    const quarterly = filteredQuarterlyData.map(d => ({
+      period: `${d.year} Q${d.quarter}`,
       year: d.year,
+      quarter: d.quarter,
+      RA1: d.ra1 || 0,
+      RA2: d.ra2 || 0,
+      RA3: d.ra3 || 0,
+      RA4: d.ra4 || 0,
+      RA5: d.ra5 || 0,
+      RA6: d.ra6 || 0,
+      RA7: d.ra7 || 0,
+      RA8: d.ra8 || 0,
+      RA9: d.ra9 || 0,
+      RA10: d.ra10 || 0,
+      RA13: d.ra13 || 0,
+    }));
+
+    return [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData]);
+
+  // Stacked area: Total LR growth over time (combined annual + quarterly)
+  const totalLRGrowthData = useMemo(() => {
+    const annual = filteredAnnualData.map(d => ({
+      period: String(d.year),
+      year: d.year,
+      quarter: null,
       total: d.lr_total || 0,
-      dealing: (d.ra1 || 0) + (d.ra2 || 0) + (d.ra3 || 0), // Dealing activities
-      advising: (d.ra4 || 0) + (d.ra5 || 0) + (d.ra6 || 0), // Advising activities
-      assetMgmt: d.ra9 || 0, // Asset management
-      other: (d.ra7 || 0) + (d.ra8 || 0) + (d.ra10 || 0) + (d.ra13 || 0), // Other
-    })).reverse();
-  }, [filteredAnnualData]);
+      dealing: (d.ra1 || 0) + (d.ra2 || 0) + (d.ra3 || 0),
+      advising: (d.ra4 || 0) + (d.ra5 || 0) + (d.ra6 || 0),
+      assetMgmt: d.ra9 || 0,
+      other: (d.ra7 || 0) + (d.ra8 || 0) + (d.ra10 || 0) + (d.ra13 || 0),
+    }));
+
+    const quarterly = filteredQuarterlyData.map(d => ({
+      period: `${d.year} Q${d.quarter}`,
+      year: d.year,
+      quarter: d.quarter,
+      total: d.lr_total || 0,
+      dealing: (d.ra1 || 0) + (d.ra2 || 0) + (d.ra3 || 0),
+      advising: (d.ra4 || 0) + (d.ra5 || 0) + (d.ra6 || 0),
+      assetMgmt: d.ra9 || 0,
+      other: (d.ra7 || 0) + (d.ra8 || 0) + (d.ra10 || 0) + (d.ra13 || 0),
+    }));
+
+    return [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData]);
 
   // Heatmap data: Recent years x Top RAs
   const heatmapData = useMemo(() => {
@@ -90,22 +137,45 @@ const C4LicensedRepsDashboard: React.FC = () => {
     }));
   }, [filteredAnnualData]);
 
-  // RA1 vs RA4 ratio analysis (Dealing vs Advising)
+  // RA1 vs RA4 ratio analysis (Dealing vs Advising - combined annual + quarterly)
   const dealingVsAdvisingRatio = useMemo(() => {
-    return filteredAnnualData.map(d => {
+    const annual = filteredAnnualData.map(d => {
       const ra1Count = d.ra1 || 0;
       const ra4Count = d.ra4 || 0;
       const ratio = ra4Count > 0 ? ra1Count / ra4Count : 0;
 
       return {
+        period: String(d.year),
         year: d.year,
+        quarter: null,
         ra1: ra1Count,
         ra4: ra4Count,
         ratio: ratio,
         ratioPercent: ratio * 100,
       };
-    }).reverse();
-  }, [filteredAnnualData]);
+    });
+
+    const quarterly = filteredQuarterlyData.map(d => {
+      const ra1Count = d.ra1 || 0;
+      const ra4Count = d.ra4 || 0;
+      const ratio = ra4Count > 0 ? ra1Count / ra4Count : 0;
+
+      return {
+        period: `${d.year} Q${d.quarter}`,
+        year: d.year,
+        quarter: d.quarter,
+        ra1: ra1Count,
+        ra4: ra4Count,
+        ratio: ratio,
+        ratioPercent: ratio * 100,
+      };
+    });
+
+    return [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData]);
 
   if (isLoading) {
     return (
@@ -260,7 +330,7 @@ const C4LicensedRepsDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={multiSeriesData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
-                <XAxis dataKey="year" stroke="#9CA3AF" fontSize={12} />
+                <XAxis dataKey="period" stroke="#9CA3AF" fontSize={12} angle={-45} textAnchor="end" height={80} />
                 <YAxis stroke="#9CA3AF" fontSize={12} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151' }}
@@ -287,7 +357,7 @@ const C4LicensedRepsDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={totalLRGrowthData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
-                <XAxis dataKey="year" stroke="#9CA3AF" fontSize={12} />
+                <XAxis dataKey="period" stroke="#9CA3AF" fontSize={12} angle={-45} textAnchor="end" height={80} />
                 <YAxis stroke="#9CA3AF" fontSize={12} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151' }}
@@ -340,7 +410,7 @@ const C4LicensedRepsDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={dealingVsAdvisingRatio}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
-                <XAxis dataKey="year" stroke="#9CA3AF" fontSize={12} />
+                <XAxis dataKey="period" stroke="#9CA3AF" fontSize={12} angle={-45} textAnchor="end" height={80} />
                 <YAxis yAxisId="left" stroke="#9CA3AF" fontSize={12} />
                 <YAxis yAxisId="right" orientation="right" stroke="#9CA3AF" fontSize={12} />
                 <Tooltip

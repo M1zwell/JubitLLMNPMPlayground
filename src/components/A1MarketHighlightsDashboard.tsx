@@ -100,40 +100,87 @@ const A1MarketHighlightsDashboard: React.FC = () => {
     return annualData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
   }, [annualData, yearRange]);
 
-  // Chart 1: Market Cap Trend
+  // Filter quarterly data by year range
+  const filteredQuarterlyData = useMemo(() => {
+    if (!quarterlyData) return [];
+    return quarterlyData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
+  }, [quarterlyData, yearRange]);
+
+  // Chart 1: Market Cap Trend (combined annual + quarterly)
   const marketCapTrendData = useMemo(() => {
-    return filteredAnnualData
-      .map(d => ({
-        year: d.year,
-        mainCap: d.main_mktcap_hkbn || 0,
-        gemCap: showGEM ? (d.gem_mktcap_hkbn || 0) : undefined,
-        totalCap: (d.main_mktcap_hkbn || 0) + (d.gem_mktcap_hkbn || 0),
-      }))
-      .reverse();
-  }, [filteredAnnualData, showGEM]);
+    const annual = filteredAnnualData.map(d => ({
+      period: String(d.year),
+      year: d.year,
+      quarter: null,
+      mainCap: d.main_mktcap_hkbn || 0,
+      gemCap: showGEM ? (d.gem_mktcap_hkbn || 0) : undefined,
+      totalCap: (d.main_mktcap_hkbn || 0) + (d.gem_mktcap_hkbn || 0),
+    }));
 
-  // Chart 2: Turnover Trend
+    const quarterly = filteredQuarterlyData.map(d => ({
+      period: `${d.year} Q${d.quarter}`,
+      year: d.year,
+      quarter: d.quarter,
+      mainCap: d.main_mktcap_hkbn || 0,
+      gemCap: showGEM ? (d.gem_mktcap_hkbn || 0) : undefined,
+      totalCap: (d.main_mktcap_hkbn || 0) + (d.gem_mktcap_hkbn || 0),
+    }));
+
+    return [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData, showGEM]);
+
+  // Chart 2: Turnover Trend (combined annual + quarterly)
   const turnoverTrendData = useMemo(() => {
-    return filteredAnnualData
-      .map(d => ({
-        year: d.year,
-        mainTurnover: d.main_turnover_hkmm || 0,
-        gemTurnover: showGEM ? (d.gem_turnover_hkmm || 0) : undefined,
-      }))
-      .reverse();
-  }, [filteredAnnualData, showGEM]);
+    const annual = filteredAnnualData.map(d => ({
+      period: String(d.year),
+      year: d.year,
+      quarter: null,
+      mainTurnover: d.main_turnover_hkmm || 0,
+      gemTurnover: showGEM ? (d.gem_turnover_hkmm || 0) : undefined,
+    }));
 
-  // Chart 3: Listed Companies
+    const quarterly = filteredQuarterlyData.map(d => ({
+      period: `${d.year} Q${d.quarter}`,
+      year: d.year,
+      quarter: d.quarter,
+      mainTurnover: d.main_turnover_hkmm || 0,
+      gemTurnover: showGEM ? (d.gem_turnover_hkmm || 0) : undefined,
+    }));
+
+    return [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData, showGEM]);
+
+  // Chart 3: Listed Companies (combined annual + quarterly)
   const listedCompaniesData = useMemo(() => {
-    return filteredAnnualData
-      .map(d => ({
-        year: d.year,
-        mainListed: d.main_listed || 0,
-        gemListed: showGEM ? (d.gem_listed || 0) : undefined,
-        total: (d.main_listed || 0) + (d.gem_listed || 0),
-      }))
-      .reverse();
-  }, [filteredAnnualData, showGEM]);
+    const annual = filteredAnnualData.map(d => ({
+      period: String(d.year),
+      year: d.year,
+      quarter: null,
+      mainListed: d.main_listed || 0,
+      gemListed: showGEM ? (d.gem_listed || 0) : undefined,
+      total: (d.main_listed || 0) + (d.gem_listed || 0),
+    }));
+
+    const quarterly = filteredQuarterlyData.map(d => ({
+      period: `${d.year} Q${d.quarter}`,
+      year: d.year,
+      quarter: d.quarter,
+      mainListed: d.main_listed || 0,
+      gemListed: showGEM ? (d.gem_listed || 0) : undefined,
+      total: (d.main_listed || 0) + (d.gem_listed || 0),
+    }));
+
+    return [...annual, ...quarterly].sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData, showGEM]);
 
   // Chart 4: Quarterly Turnover (all available quarters)
   const quarterlyTurnoverData = useMemo(() => {
@@ -416,16 +463,16 @@ const A1MarketHighlightsDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={marketCapTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="year" stroke="#6b7280" />
+                <XAxis dataKey="period" stroke="#6b7280" angle={-45} textAnchor="end" height={80} />
                 <YAxis stroke="#6b7280" label={{ value: 'HK$ Billions', angle: -90, position: 'insideLeft' }} />
                 <Tooltip
                   formatter={(value: number) => `HK$${formatBillions(value)}`}
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb', borderRadius: '8px' }}
                 />
                 <Legend />
-                <Line type="monotone" dataKey="totalCap" stroke="#3b82f6" strokeWidth={2} name="Total Market Cap" dot={false} />
-                <Line type="monotone" dataKey="mainCap" stroke="#8b5cf6" strokeWidth={2} name="Main Board" dot={false} />
-                {showGEM && <Line type="monotone" dataKey="gemCap" stroke="#f59e0b" strokeWidth={1} name="GEM" dot={false} />}
+                <Line type="monotone" dataKey="totalCap" stroke="#3b82f6" strokeWidth={2} name="Total Market Cap" />
+                <Line type="monotone" dataKey="mainCap" stroke="#8b5cf6" strokeWidth={2} name="Main Board" />
+                {showGEM && <Line type="monotone" dataKey="gemCap" stroke="#f59e0b" strokeWidth={1} name="GEM" />}
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -438,15 +485,15 @@ const A1MarketHighlightsDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={turnoverTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="year" stroke="#6b7280" />
+                <XAxis dataKey="period" stroke="#6b7280" angle={-45} textAnchor="end" height={80} />
                 <YAxis stroke="#6b7280" label={{ value: 'HK$ Millions', angle: -90, position: 'insideLeft' }} />
                 <Tooltip
                   formatter={(value: number) => `HK$${formatMillions(value)}`}
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb', borderRadius: '8px' }}
                 />
                 <Legend />
-                <Line type="monotone" dataKey="mainTurnover" stroke="#8b5cf6" strokeWidth={2} name="Main Board" dot={false} />
-                {showGEM && <Line type="monotone" dataKey="gemTurnover" stroke="#f59e0b" strokeWidth={1} name="GEM" dot={false} />}
+                <Line type="monotone" dataKey="mainTurnover" stroke="#8b5cf6" strokeWidth={2} name="Main Board" />
+                {showGEM && <Line type="monotone" dataKey="gemTurnover" stroke="#f59e0b" strokeWidth={1} name="GEM" />}
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -459,13 +506,13 @@ const A1MarketHighlightsDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={listedCompaniesData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="year" stroke="#6b7280" />
+                <XAxis dataKey="period" stroke="#6b7280" angle={-45} textAnchor="end" height={80} />
                 <YAxis stroke="#6b7280" label={{ value: 'Number of Companies', angle: -90, position: 'insideLeft' }} />
                 <Tooltip contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb', borderRadius: '8px' }} />
                 <Legend />
-                <Line type="monotone" dataKey="total" stroke="#3b82f6" strokeWidth={2} name="Total" dot={false} />
-                <Line type="monotone" dataKey="mainListed" stroke="#8b5cf6" strokeWidth={2} name="Main Board" dot={false} />
-                {showGEM && <Line type="monotone" dataKey="gemListed" stroke="#f59e0b" strokeWidth={2} name="GEM" dot={false} />}
+                <Line type="monotone" dataKey="total" stroke="#3b82f6" strokeWidth={2} name="Total" />
+                <Line type="monotone" dataKey="mainListed" stroke="#8b5cf6" strokeWidth={2} name="Main Board" />
+                {showGEM && <Line type="monotone" dataKey="gemListed" stroke="#f59e0b" strokeWidth={2} name="GEM" />}
               </LineChart>
             </ResponsiveContainer>
           </div>

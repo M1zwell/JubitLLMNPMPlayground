@@ -23,6 +23,7 @@ import {
   A2MktCapByStockType,
   A3TurnoverByStockType
 } from '../hooks/useSFCStatistics';
+import { formatHKDBillions, formatHKDMillions } from '../lib/utils';
 
 const A3LiquidityDashboard: React.FC = () => {
   const { data: a2AnnualData, isLoading: isLoadingA2 } = useA2AnnualData(200);
@@ -77,13 +78,19 @@ const A3LiquidityDashboard: React.FC = () => {
     return a3AnnualData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
   }, [a3AnnualData, yearRange]);
 
-  // Prepare Main Board turnover composition (stacked area)
+  // Filter quarterly data by year range
+  const filteredA3QuarterlyData = useMemo(() => {
+    if (!a3QuarterlyData) return [];
+    return a3QuarterlyData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
+  }, [a3QuarterlyData, yearRange]);
+
+  // Prepare Main Board turnover composition (stacked area - combined annual + quarterly)
   const mainBoardTurnoverData = useMemo(() => {
     if (!filteredA3Data) return [];
 
+    // Annual data points
     const years = [...new Set(filteredA3Data.map(d => d.year))].sort();
-
-    return years.map(year => {
+    const annualPoints = years.map(year => {
       const yearData = filteredA3Data.filter(d => d.year === year && d.board === 'Main');
 
       const hsi = yearData.find(d => d.stock_type === 'HSI_constituents')?.avg_turnover_hkmm || 0;
@@ -91,33 +98,95 @@ const A3LiquidityDashboard: React.FC = () => {
       const hShares = yearData.find(d => d.stock_type === 'H_shares')?.avg_turnover_hkmm || 0;
 
       return {
+        period: String(year),
         year,
+        quarter: null,
         HSI_constituents: hsi,
         nonH_mainland: nonH,
         H_shares: hShares
       };
     });
-  }, [filteredA3Data]);
 
-  // GEM vs Main Board turnover
+    // Quarterly data points
+    const quarterlyPoints = filteredA3QuarterlyData
+      .filter(d => d.board === 'Main')
+      .reduce((acc, item) => {
+        const key = `${item.year}_Q${item.quarter}`;
+        if (!acc[key]) {
+          acc[key] = {
+            period: `${item.year} Q${item.quarter}`,
+            year: item.year,
+            quarter: item.quarter,
+            HSI_constituents: 0,
+            nonH_mainland: 0,
+            H_shares: 0
+          };
+        }
+
+        if (item.stock_type === 'HSI_constituents') acc[key].HSI_constituents = item.avg_turnover_hkmm || 0;
+        if (item.stock_type === 'nonH_mainland') acc[key].nonH_mainland = item.avg_turnover_hkmm || 0;
+        if (item.stock_type === 'H_shares') acc[key].H_shares = item.avg_turnover_hkmm || 0;
+
+        return acc;
+      }, {} as Record<string, any>);
+
+    const quarterlyArray = Object.values(quarterlyPoints);
+
+    return [...annualPoints, ...quarterlyArray].sort((a: any, b: any) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredA3Data, filteredA3QuarterlyData]);
+
+  // GEM vs Main Board turnover (combined annual + quarterly)
   const gemVsMainTurnover = useMemo(() => {
     if (!filteredA3Data) return [];
 
+    // Annual data points
     const years = [...new Set(filteredA3Data.map(d => d.year))].sort();
-
-    return years.map(year => {
+    const annualPoints = years.map(year => {
       const yearData = filteredA3Data.filter(d => d.year === year);
 
       const mainTotal = yearData.find(d => d.board === 'Main' && d.stock_type === 'Total')?.avg_turnover_hkmm || 0;
       const gemTotal = yearData.find(d => d.board === 'GEM' && d.stock_type === 'Total')?.avg_turnover_hkmm || 0;
 
       return {
+        period: String(year),
         year,
+        quarter: null,
         Main: mainTotal,
         GEM: gemTotal
       };
     });
-  }, [filteredA3Data]);
+
+    // Quarterly data points
+    const quarterlyPoints = filteredA3QuarterlyData
+      .filter(d => d.stock_type === 'Total')
+      .reduce((acc, item) => {
+        const key = `${item.year}_Q${item.quarter}`;
+        if (!acc[key]) {
+          acc[key] = {
+            period: `${item.year} Q${item.quarter}`,
+            year: item.year,
+            quarter: item.quarter,
+            Main: 0,
+            GEM: 0
+          };
+        }
+
+        if (item.board === 'Main') acc[key].Main = item.avg_turnover_hkmm || 0;
+        if (item.board === 'GEM') acc[key].GEM = item.avg_turnover_hkmm || 0;
+
+        return acc;
+      }, {} as Record<string, any>);
+
+    const quarterlyArray = Object.values(quarterlyPoints);
+
+    return [...annualPoints, ...quarterlyArray].sort((a: any, b: any) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredA3Data, filteredA3QuarterlyData]);
 
   // Market Cap vs Turnover scatter (join A2 + A3)
   const mktCapVsTurnoverData = useMemo(() => {
@@ -224,9 +293,9 @@ const A3LiquidityDashboard: React.FC = () => {
       {/* Header with period and controls */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Market Structure - Liquidity (Turnover)</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Market Structure - Liquidity (Turnover)</h2>
           {liquidityKPIs && (
-            <p className="text-sm text-gray-500 mt-1">Latest: {liquidityKPIs.period}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Latest: {liquidityKPIs.period}</p>
           )}
         </div>
 
@@ -292,42 +361,42 @@ const A3LiquidityDashboard: React.FC = () => {
                   <Zap className="w-8 h-8 opacity-80" />
                 </div>
                 <div className="text-3xl font-bold mb-1">
-                  HK${(liquidityKPIs.totalTurnover / 1000).toFixed(2)}bn
+                  {formatHKDBillions(liquidityKPIs.totalTurnover / 1000)}
                 </div>
                 <div className="text-sm opacity-90">Avg Daily Turnover</div>
                 <div className="text-xs opacity-75 mt-2">{liquidityKPIs.period}</div>
               </div>
 
               {/* H-share Turnover Penetration */}
-              <div className="bg-white border rounded-lg p-6">
-                <div className="text-sm text-gray-600 mb-1">H-share Trading Share</div>
-                <div className="text-2xl font-bold text-gray-900">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">H-share Trading Share</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                   {liquidityKPIs.hSharePenetration.toFixed(2)}%
                 </div>
-                <div className="text-xs text-gray-500 mt-2">
-                  HK${(liquidityKPIs.hShareTurnover / 1000).toFixed(2)}bn daily
+                <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+                  {formatHKDBillions(liquidityKPIs.hShareTurnover / 1000)} daily
                 </div>
               </div>
 
               {/* Main Board Turnover */}
-              <div className="bg-white border rounded-lg p-6">
-                <div className="text-sm text-gray-600 mb-1">Main Board Turnover</div>
-                <div className="text-2xl font-bold text-gray-900">
-                  HK${(liquidityKPIs.mainTurnover / 1000).toFixed(2)}bn
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Main Board Turnover</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                  {formatHKDBillions(liquidityKPIs.mainTurnover / 1000)}
                 </div>
-                <div className="text-xs text-gray-500 mt-2">
+                <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
                   {(100 - liquidityKPIs.gemShare).toFixed(2)}% of total
                 </div>
               </div>
 
               {/* GEM Share */}
-              <div className="bg-white border rounded-lg p-6">
-                <div className="text-sm text-gray-600 mb-1">GEM Turnover Share</div>
-                <div className="text-2xl font-bold text-gray-900">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">GEM Turnover Share</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                   {liquidityKPIs.gemShare.toFixed(3)}%
                 </div>
-                <div className="text-xs text-gray-500 mt-2">
-                  HK${liquidityKPIs.gemTurnover.toFixed(2)}m daily
+                <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+                  {formatHKDMillions(liquidityKPIs.gemTurnover)} daily
                 </div>
               </div>
             </div>
@@ -336,16 +405,16 @@ const A3LiquidityDashboard: React.FC = () => {
           {/* Charts Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Chart 1: Main Board Turnover Composition */}
-            <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Main Board Turnover by Stock Type ({yearRange.start}-{yearRange.end})
               </h3>
               <ResponsiveContainer width="100%" height={300}>
                 <AreaChart data={mainBoardTurnoverData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" />
+                  <XAxis dataKey="period" angle={-45} textAnchor="end" height={80} />
                   <YAxis label={{ value: 'HK$ million', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
+                  <Tooltip formatter={(value: number) => [formatHKDMillions(value), '']} />
                   <Legend />
                   <Area
                     type="monotone"
@@ -373,14 +442,14 @@ const A3LiquidityDashboard: React.FC = () => {
                   />
                 </AreaChart>
               </ResponsiveContainer>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                 Identify which segments drive trading activity over time
               </p>
             </div>
 
             {/* Chart 2: Turnover Share vs Market Cap Share */}
-            <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Turnover Share vs Market Cap Share (Latest Year)
               </h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -388,20 +457,20 @@ const A3LiquidityDashboard: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis label={{ value: '% Share', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
+                  <Tooltip formatter={(value: number) => [`${value.toFixed(2)}%`]} />
                   <Legend />
                   <Bar dataKey="mktcapShare" fill="#3b82f6" name="Market Cap Share %" />
                   <Bar dataKey="turnoverShare" fill="#10b981" name="Turnover Share %" />
                 </BarChart>
               </ResponsiveContainer>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                 Shows which segments are over-traded (higher turnover % vs market cap %)
               </p>
             </div>
 
             {/* Chart 3: Market Cap vs Turnover Scatter */}
-            <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Market Cap vs Turnover by Stock Type (Latest Year)
               </h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -419,7 +488,14 @@ const A3LiquidityDashboard: React.FC = () => {
                     unit=" m"
                     label={{ value: 'Avg Daily Turnover (HK$ m)', angle: -90, position: 'insideLeft' }}
                   />
-                  <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                  <Tooltip
+                    cursor={{ strokeDasharray: '3 3' }}
+                    formatter={(value: number, name: string) => {
+                      if (name === 'Market Cap') return [formatHKDBillions(value), ''];
+                      if (name === 'Turnover') return [formatHKDMillions(value), ''];
+                      return [value, name];
+                    }}
+                  />
                   <Legend />
                   <Scatter name="Stock Types" data={mktCapVsTurnoverData} fill="#8884d8">
                     {mktCapVsTurnoverData.map((entry, index) => (
@@ -432,22 +508,22 @@ const A3LiquidityDashboard: React.FC = () => {
                   </Scatter>
                 </ScatterChart>
               </ResponsiveContainer>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                 Position indicates trading intensity relative to market size
               </p>
             </div>
 
             {/* Chart 4: GEM vs Main Board Turnover */}
-            <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 GEM vs Main Board Turnover ({yearRange.start}-{yearRange.end})
               </h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={gemVsMainTurnover}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" />
+                  <XAxis dataKey="period" angle={-45} textAnchor="end" height={80} />
                   <YAxis label={{ value: 'HK$ million', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
+                  <Tooltip formatter={(value: number) => [formatHKDMillions(value), '']} />
                   <Legend />
                   <Line
                     type="monotone"
@@ -467,7 +543,7 @@ const A3LiquidityDashboard: React.FC = () => {
                   />
                 </LineChart>
               </ResponsiveContainer>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                 Underlines that GEM is marginal in liquidity terms
               </p>
             </div>

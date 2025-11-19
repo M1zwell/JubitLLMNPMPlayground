@@ -22,6 +22,7 @@ import {
   useA2QuarterlyData,
   A2MktCapByStockType
 } from '../hooks/useSFCStatistics';
+import { formatHKDBillions } from '../lib/utils';
 
 const A2MarketStructureDashboard: React.FC = () => {
   const { data: annualData, isLoading: isLoadingAnnual } = useA2AnnualData(200);
@@ -105,13 +106,19 @@ const A2MarketStructureDashboard: React.FC = () => {
     return annualData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
   }, [annualData, yearRange]);
 
-  // Prepare stacked area chart data (Main Board composition)
+  // Filter quarterly data by year range
+  const filteredQuarterlyData = useMemo(() => {
+    if (!quarterlyData) return [];
+    return quarterlyData.filter(d => d.year >= yearRange.start && d.year <= yearRange.end);
+  }, [quarterlyData, yearRange]);
+
+  // Prepare stacked area chart data (Main Board composition - combined annual + quarterly)
   const mainBoardCompositionData = useMemo(() => {
     if (!filteredAnnualData) return [];
 
+    // Annual data points
     const years = [...new Set(filteredAnnualData.map(d => d.year))].sort();
-
-    return years.map(year => {
+    const annualPoints = years.map(year => {
       const yearData = filteredAnnualData.filter(d => d.year === year && d.board === 'Main');
 
       const hsi = yearData.find(d => d.stock_type === 'HSI_constituents')?.mktcap_hkbn || 0;
@@ -119,37 +126,121 @@ const A2MarketStructureDashboard: React.FC = () => {
       const hShares = yearData.find(d => d.stock_type === 'H_shares')?.mktcap_hkbn || 0;
 
       return {
+        period: String(year),
         year,
+        quarter: null,
         HSI_constituents: hsi,
         nonH_mainland: nonH,
         H_shares: hShares
       };
     });
-  }, [filteredAnnualData]);
 
-  // Prepare GEM vs Main Board data
+    // Quarterly data points
+    const quarterlyPoints = filteredQuarterlyData
+      .filter(d => d.board === 'Main')
+      .reduce((acc, item) => {
+        const key = `${item.year}_Q${item.quarter}`;
+        if (!acc[key]) {
+          acc[key] = {
+            period: `${item.year} Q${item.quarter}`,
+            year: item.year,
+            quarter: item.quarter,
+            HSI_constituents: 0,
+            nonH_mainland: 0,
+            H_shares: 0
+          };
+        }
+
+        if (item.stock_type === 'HSI_constituents') acc[key].HSI_constituents = item.mktcap_hkbn || 0;
+        if (item.stock_type === 'nonH_mainland') acc[key].nonH_mainland = item.mktcap_hkbn || 0;
+        if (item.stock_type === 'H_shares') acc[key].H_shares = item.mktcap_hkbn || 0;
+
+        return acc;
+      }, {} as Record<string, any>);
+
+    const quarterlyArray = Object.values(quarterlyPoints);
+
+    return [...annualPoints, ...quarterlyArray].sort((a: any, b: any) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData]);
+
+  // Prepare GEM vs Main Board data (combined annual + quarterly)
   const gemVsMainData = useMemo(() => {
     if (!filteredAnnualData) return [];
 
+    // Annual data points
     const years = [...new Set(filteredAnnualData.map(d => d.year))].sort();
-
-    return years.map(year => {
+    const annualPoints = years.map(year => {
       const yearData = filteredAnnualData.filter(d => d.year === year);
 
       const mainTotal = yearData.find(d => d.board === 'Main' && d.stock_type === 'Total')?.mktcap_hkbn || 0;
       const gemTotal = yearData.find(d => d.board === 'GEM' && d.stock_type === 'Total')?.mktcap_hkbn || 0;
 
       return {
+        period: String(year),
         year,
+        quarter: null,
         Main: mainTotal,
         GEM: gemTotal
       };
     });
-  }, [filteredAnnualData]);
 
-  // Latest year composition (for pie chart)
+    // Quarterly data points
+    const quarterlyPoints = filteredQuarterlyData
+      .filter(d => d.stock_type === 'Total')
+      .reduce((acc, item) => {
+        const key = `${item.year}_Q${item.quarter}`;
+        if (!acc[key]) {
+          acc[key] = {
+            period: `${item.year} Q${item.quarter}`,
+            year: item.year,
+            quarter: item.quarter,
+            Main: 0,
+            GEM: 0
+          };
+        }
+
+        if (item.board === 'Main') acc[key].Main = item.mktcap_hkbn || 0;
+        if (item.board === 'GEM') acc[key].GEM = item.mktcap_hkbn || 0;
+
+        return acc;
+      }, {} as Record<string, any>);
+
+    const quarterlyArray = Object.values(quarterlyPoints);
+
+    return [...annualPoints, ...quarterlyArray].sort((a: any, b: any) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return (a.quarter || 0) - (b.quarter || 0);
+    });
+  }, [filteredAnnualData, filteredQuarterlyData]);
+
+  // Latest period composition (for pie chart - use quarterly if available)
   const latestYearComposition = useMemo(() => {
-    if (!filteredAnnualData) return [];
+    // Try to use latest quarterly data first
+    if (latestQuarterly) {
+      const latestData = quarterlyData?.filter(
+        d => d.year === latestQuarterly.year &&
+        d.quarter === latestQuarterly.quarter &&
+        d.board === 'Main'
+      ) || [];
+
+      const hsi = latestData.find(d => d.stock_type === 'HSI_constituents')?.mktcap_hkbn || 0;
+      const nonH = latestData.find(d => d.stock_type === 'nonH_mainland')?.mktcap_hkbn || 0;
+      const hShares = latestData.find(d => d.stock_type === 'H_shares')?.mktcap_hkbn || 0;
+
+      if (hsi > 0 || nonH > 0 || hShares > 0) {
+        return [
+          { name: 'HSI Constituents', value: hsi, color: '#3b82f6' },
+          { name: 'Non-H Mainland', value: nonH, color: '#10b981' },
+          { name: 'H-shares', value: hShares, color: '#f59e0b' }
+        ];
+      }
+    }
+
+    // Fallback to annual data
+    if (!filteredAnnualData || filteredAnnualData.length === 0) return [];
 
     const latestYear = Math.max(...filteredAnnualData.map(d => d.year));
     const latestData = filteredAnnualData.filter(d => d.year === latestYear && d.board === 'Main');
@@ -163,7 +254,7 @@ const A2MarketStructureDashboard: React.FC = () => {
       { name: 'Non-H Mainland', value: nonH, color: '#10b981' },
       { name: 'H-shares', value: hShares, color: '#f59e0b' }
     ];
-  }, [filteredAnnualData]);
+  }, [filteredAnnualData, latestQuarterly, quarterlyData]);
 
   // Table data
   const tableData = useMemo(() => {
@@ -214,30 +305,30 @@ const A2MarketStructureDashboard: React.FC = () => {
       {/* Header with period and controls */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Market Structure - Market Cap by Stock Type</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Market Structure - Market Cap by Stock Type</h2>
           {hSharePenetration && (
-            <p className="text-sm text-gray-500 mt-1">Latest: {hSharePenetration.period}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Latest: {hSharePenetration.period}</p>
           )}
         </div>
 
         <div className="flex items-center gap-3">
           {/* Year Range Filter */}
-          <div className="flex items-center gap-2 bg-white border rounded-lg px-3 py-2">
-            <Calendar className="w-4 h-4 text-gray-500" />
+          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2">
+            <Calendar className="w-4 h-4 text-gray-500 dark:text-gray-400" />
             <select
               value={yearRange.start}
               onChange={(e) => setYearRange({ ...yearRange, start: parseInt(e.target.value) })}
-              className="border-0 bg-transparent text-sm focus:outline-none"
+              className="border-0 bg-transparent text-sm font-semibold text-gray-900 dark:text-gray-100 focus:outline-none cursor-pointer"
             >
               {[1997, 2000, 2005, 2010, 2015, 2020].map(year => (
                 <option key={year} value={year}>{year}</option>
               ))}
             </select>
-            <span className="text-gray-400">-</span>
+            <span className="text-gray-600 dark:text-gray-400 font-medium">-</span>
             <select
               value={yearRange.end}
               onChange={(e) => setYearRange({ ...yearRange, end: parseInt(e.target.value) })}
-              className="border-0 bg-transparent text-sm focus:outline-none"
+              className="border-0 bg-transparent text-sm font-semibold text-gray-900 dark:text-gray-100 focus:outline-none cursor-pointer"
             >
               {[2020, 2021, 2022, 2023, 2024, 2025].map(year => (
                 <option key={year} value={year}>{year}</option>
@@ -298,40 +389,40 @@ const A2MarketStructureDashboard: React.FC = () => {
                 </div>
                 <div className="text-sm opacity-90">H-share Penetration</div>
                 <div className="text-xs opacity-75 mt-2">
-                  HK${hSharePenetration.totalHShares.toFixed(2)}bn H-shares
+                  {formatHKDBillions(hSharePenetration.totalHShares)} H-shares
                 </div>
               </div>
 
               {/* Total Market Cap */}
-              <div className="bg-white border rounded-lg p-6">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-2">
                   <BarChart3 className="w-8 h-8 text-blue-500" />
                 </div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">
-                  HK${hSharePenetration.totalMktCap.toFixed(2)}bn
+                <div className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+                  {formatHKDBillions(hSharePenetration.totalMktCap)}
                 </div>
-                <div className="text-sm text-gray-600">Total Market Cap</div>
-                <div className="text-xs text-gray-500 mt-2">{hSharePenetration.period}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Total Market Cap</div>
+                <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">{hSharePenetration.period}</div>
               </div>
 
               {/* Main Board H-shares */}
-              <div className="bg-white border rounded-lg p-6">
-                <div className="text-sm text-gray-600 mb-1">Main Board H-shares</div>
-                <div className="text-2xl font-bold text-gray-900">
-                  HK${hSharePenetration.mainHShares.toFixed(2)}bn
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Main Board H-shares</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                  {formatHKDBillions(hSharePenetration.mainHShares)}
                 </div>
-                <div className="text-xs text-gray-500 mt-2">
+                <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
                   {((hSharePenetration.mainHShares / hSharePenetration.totalMktCap) * 100).toFixed(2)}% of total
                 </div>
               </div>
 
               {/* GEM H-shares */}
-              <div className="bg-white border rounded-lg p-6">
-                <div className="text-sm text-gray-600 mb-1">GEM H-shares</div>
-                <div className="text-2xl font-bold text-gray-900">
-                  HK${hSharePenetration.gemHShares.toFixed(2)}bn
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">GEM H-shares</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                  {formatHKDBillions(hSharePenetration.gemHShares)}
                 </div>
-                <div className="text-xs text-gray-500 mt-2">
+                <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
                   {((hSharePenetration.gemHShares / hSharePenetration.totalMktCap) * 100).toFixed(2)}% of total
                 </div>
               </div>
@@ -341,16 +432,16 @@ const A2MarketStructureDashboard: React.FC = () => {
           {/* Charts Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Chart 1: Main Board Composition (Stacked Area) */}
-            <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Main Board Market Cap by Stock Type ({yearRange.start}-{yearRange.end})
               </h3>
               <ResponsiveContainer width="100%" height={300}>
                 <AreaChart data={mainBoardCompositionData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" />
+                  <XAxis dataKey="period" angle={-45} textAnchor="end" height={80} />
                   <YAxis label={{ value: 'HK$ bn', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
+                  <Tooltip formatter={(value: number) => [formatHKDBillions(value), '']} />
                   <Legend />
                   <Area
                     type="monotone"
@@ -378,14 +469,14 @@ const A2MarketStructureDashboard: React.FC = () => {
                   />
                 </AreaChart>
               </ResponsiveContainer>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                 Shows how Main Board market cap is distributed across stock types over time
               </p>
             </div>
 
             {/* Chart 2: Latest Year Composition (Pie) */}
-            <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Main Board Composition - Latest Year
               </h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -404,32 +495,31 @@ const A2MarketStructureDashboard: React.FC = () => {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value: number) => `HK$${value.toFixed(2)}bn`} />
+                  <Tooltip formatter={(value: number) => [formatHKDBillions(value), '']} />
                 </PieChart>
               </ResponsiveContainer>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                 Current market cap distribution showing the dominance of different stock types
               </p>
             </div>
 
             {/* Chart 3: GEM vs Main Board */}
-            <div className="bg-white border rounded-lg p-6 lg:col-span-2">
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 lg:col-span-2">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 GEM vs Main Board Total Market Cap ({yearRange.start}-{yearRange.end})
               </h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={gemVsMainData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" />
+                  <XAxis dataKey="period" angle={-45} textAnchor="end" height={80} />
                   <YAxis label={{ value: 'HK$ bn', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
+                  <Tooltip formatter={(value: number) => [formatHKDBillions(value), '']} />
                   <Legend />
                   <Line
                     type="monotone"
                     dataKey="Main"
                     stroke="#3b82f6"
                     strokeWidth={2}
-                    dot={{ r: 3 }}
                     name="Main Board"
                   />
                   <Line
@@ -437,12 +527,11 @@ const A2MarketStructureDashboard: React.FC = () => {
                     dataKey="GEM"
                     stroke="#10b981"
                     strokeWidth={2}
-                    dot={{ r: 3 }}
                     name="GEM"
                   />
                 </LineChart>
               </ResponsiveContainer>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                 Emphasizes the scale difference between Main Board and GEM markets
               </p>
             </div>

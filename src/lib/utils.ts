@@ -133,7 +133,7 @@ export interface CurrencyFormatOptions {
 }
 
 /**
- * Format USD millions to billions with "US$" prefix
+ * Format USD millions to billions with "US$" prefix and thousands separators
  * @param valueMn - Value in millions USD
  * @param options - Formatting options
  */
@@ -143,33 +143,49 @@ export function formatUSDMillions(valueMn: number, options: CurrencyFormatOption
   if (compact) {
     const valueBn = valueMn / 1000;
     const sign = showSign && valueBn > 0 ? '+' : '';
-    return `${sign}US$${valueBn.toFixed(decimals)}bn`;
+    const formatted = valueBn.toLocaleString('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+    return `${sign}US$${formatted}bn`;
   }
 
   const sign = showSign && valueMn > 0 ? '+' : '';
-  return `${sign}US$${valueMn.toFixed(decimals)}mn`;
+  const formatted = valueMn.toLocaleString('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
+  return `${sign}US$${formatted}mn`;
 }
 
 /**
- * Format HKD billions with "HK$" prefix
+ * Format HKD billions with "HK$" prefix and thousands separators
  * @param valueBn - Value in billions HKD
  * @param options - Formatting options
  */
 export function formatHKDBillions(valueBn: number, options: CurrencyFormatOptions = {}): string {
   const { decimals = 2, showSign = false } = options;
   const sign = showSign && valueBn > 0 ? '+' : '';
-  return `${sign}HK$${valueBn.toFixed(decimals)}bn`;
+  const formatted = valueBn.toLocaleString('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
+  return `${sign}HK$${formatted}bn`;
 }
 
 /**
- * Format HKD millions with "HK$" prefix
+ * Format HKD millions with "HK$" prefix and thousands separators
  * @param valueMn - Value in millions HKD
  * @param options - Formatting options
  */
 export function formatHKDMillions(valueMn: number, options: CurrencyFormatOptions = {}): string {
   const { decimals = 1, showSign = false } = options;
   const sign = showSign && valueMn > 0 ? '+' : '';
-  return `${sign}HK$${valueMn.toFixed(decimals)}mn`;
+  const formatted = valueMn.toLocaleString('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
+  return `${sign}HK$${formatted}mn`;
 }
 
 /**
