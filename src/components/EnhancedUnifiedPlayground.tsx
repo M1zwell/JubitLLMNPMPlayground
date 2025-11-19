@@ -816,18 +816,18 @@ CMD ["npm", "start"]
         <div 
           className={`
             relative bg-slate-800/50 border rounded-lg p-4 flex-1 transition-all duration-300
-            ${component.type === 'llm' ? 'border-purple-500/50' : 'border-blue-500/50'}
+            ${component.type === 'llm' ? 'border-teal-500/50' : 'border-blue-500/50'}
             ${component.status === 'running' ? 'ring-2 ring-yellow-400 animate-pulse' : ''}
             ${component.status === 'completed' ? 'ring-2 ring-green-400' : ''}
             ${component.status === 'error' ? 'ring-2 ring-red-400' : ''}
-            ${isSelected ? 'ring-2 ring-indigo-400 scale-105' : ''}
+            ${isSelected ? 'ring-2 ring-pink-400 scale-105' : ''}
             hover:scale-102 cursor-pointer group
           `}
           onClick={() => setSelectedComponent(isSelected ? null : component.id)}
         >
           <div className="flex items-center gap-3 mb-3">
             {component.type === 'llm' ? (
-              <Brain className="text-purple-400" size={20} />
+              <Brain className="text-teal-400" size={20} />
             ) : (
               <Package className="text-blue-400" size={20} />
             )}
@@ -965,7 +965,7 @@ CMD ["npm", "start"]
         </div>
 
         {index < workflowComponents.length - 1 && (
-          <ArrowRight className="text-purple-400" size={20} />
+          <ArrowRight className="text-teal-400" size={20} />
         )}
       </div>
     );
@@ -973,9 +973,9 @@ CMD ["npm", "start"]
 
   if (llmLoading || npmLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900 text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-400 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-teal-400 mx-auto mb-4"></div>
           <p className="text-xl text-purple-300">Initializing Enhanced Playground...</p>
           <p className="text-sm text-slate-400 mt-2">Loading AI models and NPM packages...</p>
         </div>
@@ -984,12 +984,12 @@ CMD ["npm", "start"]
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900 text-white">
       <div className="max-w-7xl mx-auto p-6">
         
         {/* Enhanced Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-4">
             🚀 Enhanced AI+NPM Playground
           </h1>
           <p className="text-lg text-purple-300 mb-4">
@@ -1016,7 +1016,7 @@ CMD ["npm", "start"]
             
             <button
               onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
-              className="bg-purple-600/20 hover:bg-purple-600/30 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              className="bg-teal-600/20 hover:bg-teal-600/30 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
             >
               <Settings size={16} />
               Advanced
@@ -1034,14 +1034,14 @@ CMD ["npm", "start"]
         </div>
 
         {/* User Stats & Gamification */}
-        <div className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-xl p-6 mb-8 border border-indigo-400/30">
+        <div className="bg-gradient-to-r from-pink-500/20 to-teal-600/20 rounded-xl p-6 mb-8 border border-pink-400/30">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-400">Level {userStats.level}</div>
+              <div className="text-3xl font-bold text-pink-400">Level {userStats.level}</div>
               <div className="text-sm text-slate-400">AI Architect</div>
               <div className="w-full bg-slate-700 rounded-full h-2 mt-2">
                 <div 
-                  className="bg-indigo-400 h-2 rounded-full transition-all duration-500"
+                  className="bg-pink-400 h-2 rounded-full transition-all duration-500"
                   style={{ width: `${(userStats.xp % 500) / 5}%` }}
                 ></div>
               </div>
@@ -1145,10 +1145,10 @@ CMD ["npm", "start"]
                   
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-purple-400">Deployment Instructions</h4>
+                      <h4 className="font-medium text-teal-400">Deployment Instructions</h4>
                       <button
                         onClick={() => navigator.clipboard.writeText(exportData.deploymentInstructions)}
-                        className="text-xs bg-purple-600/20 hover:bg-purple-600/30 px-2 py-1 rounded flex items-center gap-1"
+                        className="text-xs bg-teal-600/20 hover:bg-teal-600/30 px-2 py-1 rounded flex items-center gap-1"
                       >
                         <Copy size={10} />
                         Copy
@@ -1189,7 +1189,7 @@ CMD ["npm", "start"]
           <div className="col-span-3">
             <div className="sticky top-6">
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Brain className="text-purple-400" />
+                <Brain className="text-teal-400" />
                 LLM Models ({llmModels.length})
               </h2>
               
@@ -1200,10 +1200,10 @@ CMD ["npm", "start"]
                     draggable
                     onDragStart={() => handleDragStart(model, 'llm')}
                     onClick={() => addComponent('llm', model)}
-                    className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 p-4 rounded-lg cursor-pointer hover:scale-105 transition-all duration-200 shadow-lg border border-purple-400/30"
+                    className="bg-gradient-to-r from-teal-600/20 to-pink-500/20 p-4 rounded-lg cursor-pointer hover:scale-105 transition-all duration-200 shadow-lg border border-teal-400/30"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <Brain className="text-purple-400" size={20} />
+                      <Brain className="text-teal-400" size={20} />
                       <div className="flex-1">
                         <h3 className="font-bold text-sm">{model.name}</h3>
                         <p className="text-xs text-slate-400">{model.provider}</p>
@@ -1258,7 +1258,7 @@ CMD ["npm", "start"]
             </div>
             
             <div 
-              className="bg-slate-800/30 backdrop-blur-sm border-2 border-dashed border-purple-400/50 rounded-lg p-6 min-h-96"
+              className="bg-slate-800/30 backdrop-blur-sm border-2 border-dashed border-teal-400/50 rounded-lg p-6 min-h-96"
               onDragOver={handleDragOver}
               onDrop={handleDrop}
             >
@@ -1282,7 +1282,7 @@ CMD ["npm", "start"]
 
             {/* AI Suggestions */}
             {aiSuggestions.length > 0 && (
-              <div className="mt-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-400/50 rounded-lg p-4">
+              <div className="mt-6 bg-gradient-to-r from-blue-600/20 to-teal-600/20 border border-blue-400/50 rounded-lg p-4">
                 <h3 className="font-bold mb-3 flex items-center gap-2">
                   <Lightbulb className="text-yellow-400" />
                   🤖 AI Workflow Suggestions
@@ -1372,7 +1372,7 @@ CMD ["npm", "start"]
         <div className="mt-8 bg-slate-800/30 backdrop-blur-sm rounded-xl p-6 border border-slate-600">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
             <div>
-              <div className="text-2xl font-bold text-purple-400">{workflowComponents.length}</div>
+              <div className="text-2xl font-bold text-teal-400">{workflowComponents.length}</div>
               <div className="text-sm text-slate-400">Components</div>
             </div>
             <div>
@@ -1388,7 +1388,7 @@ CMD ["npm", "start"]
               <div className="text-sm text-slate-400">Avg Time</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-indigo-400">{Math.floor(workflowStats.successRate)}%</div>
+              <div className="text-2xl font-bold text-pink-400">{Math.floor(workflowStats.successRate)}%</div>
               <div className="text-sm text-slate-400">Success Rate</div>
             </div>
           </div>
@@ -1412,7 +1412,7 @@ CMD ["npm", "start"]
               <p className="text-sm text-slate-300">Isolated execution environments with comprehensive security controls</p>
             </div>
             <div>
-              <TrendingUp className="mx-auto mb-2 text-purple-400" size={24} />
+              <TrendingUp className="mx-auto mb-2 text-teal-400" size={24} />
               <h4 className="font-bold mb-2">Production Scale</h4>
               <p className="text-sm text-slate-300">Auto-scaling infrastructure with cost optimization and monitoring</p>
             </div>

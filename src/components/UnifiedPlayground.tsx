@@ -30,7 +30,7 @@ const PerformanceChart = ({ data, title }) => {
             <span className="text-xs w-16 truncate text-slate-300">{item.label}</span>
             <div className="flex-1 bg-slate-700 rounded-full h-1.5">
               <div 
-                className="bg-indigo-500 h-1.5 rounded-full transition-all duration-500"
+                className="bg-pink-400 h-1.5 rounded-full transition-all duration-500"
                 style={{ width: `${(item.value / maxValue) * 100}%` }}
               ></div>
             </div>
@@ -84,7 +84,7 @@ const WorkflowDiagram = ({ workflow, connections }) => {
                   y1={80}
                   x2={220 + index * 120}
                   y2={80}
-                  className="stroke-purple-400"
+                  className="stroke-teal-400"
                   strokeWidth="1.5"
                   markerEnd="url(#arrowhead)"
                 />
@@ -104,7 +104,7 @@ const WorkflowDiagram = ({ workflow, connections }) => {
             >
               <polygon
                 points="0 0, 10 3.5, 0 7"
-                className="fill-purple-400"
+                className="fill-teal-400"
               />
             </marker>
           </defs>
@@ -165,7 +165,7 @@ const GamificationSystem = ({ level, xp, achievements }) => {
   ];
 
   return (
-    <div className="surface-soft rounded-lg compact border-l-2 border-indigo-500">
+    <div className="surface-soft rounded-lg compact border-l-2 border-pink-400">
       <div className="flex items-center justify-between mb-3">
         <div>
           <h3 className="font-medium text-base">{levelTitles[level] || 'Digital God'}</h3>
@@ -558,9 +558,9 @@ console.log('📊 Workflow Results:', results);`
 
   if (llmLoading || npmLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900 text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-400 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-teal-400 mx-auto mb-4"></div>
           <p className="text-xl text-purple-300">Initializing Unified Playground...</p>
         </div>
       </div>
@@ -694,10 +694,10 @@ console.log('📊 Workflow Results:', results);`
                   
                   <div className="bg-slate-800/50 rounded-lg compact">
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-purple-400 text-sm">JavaScript Implementation</h4>
+                      <h4 className="font-medium text-teal-400 text-sm">JavaScript Implementation</h4>
                       <button
                         onClick={() => copyToClipboard(prompts.implementationCode)}
-                        className="compact-sm bg-purple-500/20 hover:bg-purple-500/30 rounded text-xs flex items-center gap-1"
+                        className="compact-sm bg-teal-500/20 hover:bg-teal-500/30 rounded text-xs flex items-center gap-1"
                       >
                         <Copy size={10} />
                         Copy
@@ -744,7 +744,7 @@ console.log('📊 Workflow Results:', results);`
                     className="surface compact rounded-lg cursor-pointer hover:bg-slate-700 transition-all duration-200"
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <BrainIcon size="sm" className="text-indigo-400" />
+                      <BrainIcon size="sm" className="text-pink-400" />
                       <div className="flex-1">
                         <h3 className="font-medium text-sm">{model.name}</h3>
                         <p className="text-xs text-slate-400">{model.provider}</p>
@@ -813,13 +813,13 @@ console.log('📊 Workflow Results:', results);`
                         <div className="text-xs text-slate-400 w-6">{index + 1}.</div>
                         
                         <div className={`
-                          ${isLLM ? 'surface border-l-2 border-indigo-500' : 'surface border-l-2 border-blue-500'}
+                          ${isLLM ? 'surface border-l-2 border-pink-400' : 'surface border-l-2 border-blue-500'}
                           compact rounded-lg flex-1 group relative
                           ${component.status === 'running' ? 'animate-pulse ring-1 ring-amber-400' : ''}
                           ${component.status === 'completed' ? 'ring-1 ring-emerald-400' : ''}
                         `}>
                           <div className="flex items-center gap-2 mb-2">
-                            {isLLM ? <BrainIcon size="sm" className="text-indigo-400" /> : <PackageIcon size="sm" className="text-blue-400" />}
+                            {isLLM ? <BrainIcon size="sm" className="text-pink-400" /> : <PackageIcon size="sm" className="text-blue-400" />}
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <h4 className="font-medium text-sm">{component.data.name}</h4>
@@ -961,7 +961,7 @@ console.log('📊 Workflow Results:', results);`
         <div className="mt-8 glass rounded-lg compact">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
             <div>
-              <div className="text-lg font-medium text-indigo-400">{workflowComponents.length}</div>
+              <div className="text-lg font-medium text-pink-400">{workflowComponents.length}</div>
               <div className="text-xs text-slate-400">Components Added</div>
             </div>
             <div>

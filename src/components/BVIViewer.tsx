@@ -315,7 +315,7 @@ export default function BVIViewer() {
           </div>
           <div className="bg-white rounded-lg p-4 shadow">
             <p className="text-sm text-gray-600">Entity Types</p>
-            <p className="text-2xl font-bold text-purple-600">{getAllEntityTypes().length}</p>
+            <p className="text-2xl font-bold text-teal-600">{getAllEntityTypes().length}</p>
           </div>
           <div className="bg-white rounded-lg p-4 shadow">
             <p className="text-sm text-gray-600">Jurisdiction</p>
@@ -509,7 +509,7 @@ export default function BVIViewer() {
                     )}
                     {entity.registered_agent && (
                       <p className="text-sm text-gray-600 flex items-center gap-2">
-                        <Building2 size={14} className="text-purple-500" />
+                        <Building2 size={14} className="text-teal-500" />
                         Registered Agent: <span className="font-medium">{entity.registered_agent}</span>
                       </p>
                     )}

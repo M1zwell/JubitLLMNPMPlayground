@@ -313,9 +313,9 @@ const A1MarketHighlightsDashboard: React.FC = () => {
           </div>
 
           {/* KPI 2: Average Daily Turnover */}
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 border border-purple-200 dark:border-purple-700 rounded-lg p-3 shadow-sm">
+          <div className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900 dark:to-teal-800 border border-teal-200 dark:border-teal-700 rounded-lg p-3 shadow-sm">
             <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-1.5 text-purple-700 dark:text-purple-300">
+              <div className="flex items-center gap-1.5 text-teal-700 dark:text-purple-300">
                 <BarChart3 className="w-4 h-4" />
                 <span className="text-xs font-medium">Avg Daily Turnover</span>
               </div>
@@ -326,10 +326,10 @@ const A1MarketHighlightsDashboard: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="text-xl font-bold text-purple-900 dark:text-purple-100">
+            <div className="text-xl font-bold text-teal-900 dark:text-teal-100">
               HK${formatMillions(latestKPIs.mainTurnover)}
             </div>
-            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">
+            <div className="text-xs text-teal-600 dark:text-teal-400 mt-0.5">
               {latestKPIs.tradingDays} trading days in {latestKPIs.period}
             </div>
           </div>

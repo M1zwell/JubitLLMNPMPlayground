@@ -281,7 +281,7 @@ CREATE INDEX IF NOT EXISTS "idx_webb_maintenance_log_status" ON "webb_maintenanc
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg">
+      <div className="bg-gradient-to-r from-blue-600 to-teal-600 text-white p-6 rounded-lg">
         <h1 className="text-2xl font-bold mb-2">⚡ Webb Database Direct SQL Import</h1>
         <p className="opacity-90">
           直接导入Webb数据库结构文件到Supabase PostgreSQL / Direct import of Webb database structure files to Supabase PostgreSQL

@@ -240,7 +240,7 @@ Query: ${analysisQuery}
                     <Button
                       onClick={performAnalysis}
                       disabled={isLoading || !analysisQuery.trim()}
-                      className="bg-purple-600 hover:bg-purple-700"
+                      className="bg-teal-600 hover:bg-teal-700"
                     >
                       {isLoading ? '分析中... / Analyzing...' : '🔍 Analyze / 分析'}
                     </Button>

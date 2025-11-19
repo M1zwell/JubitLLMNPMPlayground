@@ -35,7 +35,7 @@ const PerformanceChart: React.FC<{ data: MetricData[]; title: string }> = ({ dat
             <span className="text-sm w-20 truncate text-gray-300">{item.label}</span>
             <div className="flex-1 bg-gray-700/50 rounded-full h-3 overflow-hidden">
               <div 
-                className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-1000 ease-out relative"
+                className="bg-gradient-to-r from-blue-500 to-teal-500 h-3 rounded-full transition-all duration-1000 ease-out relative"
                 style={{ width: `${Math.min((item.value / maxValue) * 100, 100)}%` }}
               >
                 <div className="absolute inset-0 bg-gray-800/20 animate-pulse rounded-full"></div>
@@ -129,7 +129,7 @@ const WorkflowDiagram: React.FC<{ workflow: any[]; connections?: any[] }> = ({
   return (
     <div className="bg-gray-800/5 rounded-lg p-4 border border-white/10">
       <h3 className="font-bold mb-3 flex items-center gap-2">
-        <Activity size={16} className="text-purple-400" />
+        <Activity size={16} className="text-teal-400" />
         Workflow Visualization
       </h3>
       <div className="relative overflow-x-auto">
@@ -175,7 +175,7 @@ const WorkflowDiagram: React.FC<{ workflow: any[]; connections?: any[] }> = ({
                   rx={8}
                   className={`${
                     isLLM 
-                      ? 'fill-purple-600/30 stroke-purple-400' 
+                      ? 'fill-teal-600/30 stroke-teal-400' 
                       : 'fill-blue-600/30 stroke-blue-400'
                   } ${isRunning ? 'animate-pulse' : ''}`}
                   strokeWidth="2"
@@ -220,12 +220,12 @@ const WorkflowDiagram: React.FC<{ workflow: any[]; connections?: any[] }> = ({
                       y1={y + 20}
                       x2={x + 100}
                       y2={y + 20}
-                      className="stroke-purple-400"
+                      className="stroke-teal-400"
                       strokeWidth="2"
                     />
                     <polygon
                       points={`${x + 100},${y + 16} ${x + 108},${y + 20} ${x + 100},${y + 24}`}
-                      className="fill-purple-400"
+                      className="fill-teal-400"
                     />
                   </>
                 )}
@@ -274,7 +274,7 @@ const CostBreakdown: React.FC<{ data: MetricData[] }> = ({ data }) => {
       <div className="space-y-2">
         {data.map((item, index) => {
           const percentage = total > 0 ? (item.value / total) * 100 : 0;
-          const colors = ['bg-yellow-500', 'bg-blue-500', 'bg-green-500', 'bg-purple-500'];
+          const colors = ['bg-yellow-500', 'bg-blue-500', 'bg-green-500', 'bg-teal-500'];
           
           return (
             <div key={index} className="flex items-center gap-3">
@@ -335,9 +335,9 @@ const WorkflowVisualization: React.FC<WorkflowVisualizationProps> = ({
   return (
     <div className="space-y-6">
       {/* Real-time Metrics Dashboard */}
-      <div className="bg-gradient-to-r from-slate-800/50 to-purple-900/50 rounded-xl p-6 border border-purple-400/30">
+      <div className="bg-gradient-to-r from-slate-800/50 to-teal-900/50 rounded-xl p-6 border border-teal-400/30">
         <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-          <Gauge className="text-purple-400" />
+          <Gauge className="text-teal-400" />
           Real-time Performance Dashboard
         </h2>
         <RealTimeMetrics stats={executionStats} />

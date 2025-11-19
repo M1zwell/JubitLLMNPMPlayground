@@ -96,8 +96,8 @@ const IntegratedPlaygroundHub: React.FC = () => {
       {/* Quick Stats Dashboard */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700 text-center">
-          <Brain className="mx-auto mb-2 text-purple-600 dark:text-purple-400" size={20} />
-          <div className="text-xl font-semibold text-purple-600 dark:text-purple-400">{safeState.llmModels.length}</div>
+          <Brain className="mx-auto mb-2 text-teal-600 dark:text-teal-400" size={20} />
+          <div className="text-xl font-semibold text-teal-600 dark:text-teal-400">{safeState.llmModels.length}</div>
           <div className="text-sm text-gray-600 dark:text-gray-400">LLM Models</div>
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700 text-center">
@@ -126,7 +126,7 @@ const IntegratedPlaygroundHub: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold flex items-center gap-2">
-              <Brain className="text-purple-600 dark:text-purple-400" size={16} />
+              <Brain className="text-teal-600 dark:text-teal-400" size={16} />
               LLM Models
             </h3>
             <button
@@ -173,7 +173,7 @@ const IntegratedPlaygroundHub: React.FC = () => {
                   }}
                   className={`p-3 rounded-md cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-700 border ${
                     safeState.selectedLLMModel?.id === model.id
-                      ? 'border-purple-600 dark:border-purple-500 bg-purple-50 dark:bg-purple-900/30'
+                      ? 'border-teal-600 dark:border-teal-500 bg-teal-50 dark:bg-teal-900/30'
                       : 'border-gray-200 dark:border-gray-700'
                   }`}
                 >

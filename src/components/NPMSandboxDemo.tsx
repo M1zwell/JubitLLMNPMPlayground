@@ -319,7 +319,7 @@ export default function NPMSandboxDemo() {
             onClick={() => setActiveTab('playground')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'playground' 
-                ? 'bg-purple-600 text-white' 
+                ? 'bg-teal-600 text-white' 
                 : 'bg-gray-700 hover:bg-gray-600'
             }`}
           >
@@ -487,7 +487,7 @@ export default function NPMSandboxDemo() {
               </div>
               
               <div className="mt-6 bg-gray-800 rounded-lg p-4">
-                <h3 className="font-bold mb-2 text-purple-400">✏️ 自定义代码</h3>
+                <h3 className="font-bold mb-2 text-teal-400">✏️ 自定义代码</h3>
                 <textarea
                   className="w-full h-32 bg-gray-700 rounded p-2 text-sm font-mono"
                   placeholder="// 编写你的代码，可以使用 lodash (_), mathjs (math), papaparse (Papa)"
@@ -497,7 +497,7 @@ const squared = _.map(numbers, n => math.pow(n, 2));
 const sum = math.sum(squared);
 return { numbers, squared, sum };`}
                 />
-                <button className="mt-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded">
+                <button className="mt-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 rounded">
                   运行代码
                 </button>
               </div>
@@ -540,7 +540,7 @@ return { numbers, squared, sum };`}
         )}
 
         {/* 底部提示 */}
-        <div className="mt-8 bg-gradient-to-r from-blue-900 to-purple-900 rounded-lg p-6">
+        <div className="mt-8 bg-gradient-to-r from-blue-900 to-teal-900 rounded-lg p-6">
           <h2 className="text-xl font-bold mb-3">🚀 从 NPM 基础到 LLM Playground</h2>
           <div className="grid grid-cols-3 gap-4 text-sm">
             <div>
@@ -552,7 +552,7 @@ return { numbers, squared, sum };`}
               <p>安全地在浏览器中运行 npm 包代码</p>
             </div>
             <div>
-              <h3 className="font-bold mb-1 text-purple-400">3. LLM 集成</h3>
+              <h3 className="font-bold mb-1 text-teal-400">3. LLM 集成</h3>
               <p>将 npm 包与 AI 模型结合，创建强大工作流</p>
             </div>
           </div>

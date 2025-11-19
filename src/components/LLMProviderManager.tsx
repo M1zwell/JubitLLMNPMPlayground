@@ -224,7 +224,7 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
     <div className="bg-white/90 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200 dark:border-slate-600">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-gray-900 dark:text-white">
-          <Brain className="text-purple-500 dark:text-purple-400" />
+          <Brain className="text-teal-500 dark:text-teal-400" />
           LLM Provider Management
         </h2>
         <div className="text-sm text-gray-600 dark:text-gray-600 dark:text-slate-400">
@@ -378,7 +378,7 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
               )}
 
               {provider.name === 'Ollama (Local)' && (
-                <button className="bg-purple-600/20 hover:bg-purple-600/30 px-3 py-2 rounded text-sm transition-colors flex items-center gap-1">
+                <button className="bg-teal-600/20 hover:bg-teal-600/30 px-3 py-2 rounded text-sm transition-colors flex items-center gap-1">
                   <Globe size={14} />
                   Install
                 </button>
@@ -405,7 +405,7 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
             <div className="text-gray-600 dark:text-slate-400">Models Available</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-purple-400">
+            <div className="text-lg font-bold text-teal-400">
               ${providers.filter(p => p.status === 'connected' && p.pricing.input > 0).reduce((min, p) => Math.min(min, p.pricing.input), Infinity).toFixed(2)}
             </div>
             <div className="text-gray-600 dark:text-slate-400">Lowest Cost (1M tokens)</div>

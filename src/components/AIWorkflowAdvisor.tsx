@@ -587,7 +587,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
       {showQuotePreview && hoveredData && !isOpen && (
         <div className="fixed bottom-20 right-6 w-80 bg-slate-800 border border-slate-600 rounded-lg shadow-xl p-4 z-40 animate-slide-up">
           <div className="flex items-start gap-3 mb-3">
-            {hoveredData.type === 'llm' ? <Brain size={20} className="text-purple-400 mt-1" /> : <Package size={20} className="text-blue-400 mt-1" />}
+            {hoveredData.type === 'llm' ? <Brain size={20} className="text-teal-400 mt-1" /> : <Package size={20} className="text-blue-400 mt-1" />}
             <div>
               <h4 className="font-bold text-white">{hoveredData.name}</h4>
               <p className="text-xs text-slate-400">{hoveredData.type === 'llm' ? hoveredData.provider : `v${hoveredData.version}`}</p>
@@ -601,7 +601,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
           
           <button
             onClick={() => handleQuoteData(hoveredData)}
-            className="w-full bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded text-sm transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-teal-600 hover:bg-teal-700 px-3 py-2 rounded text-sm transition-colors flex items-center justify-center gap-2"
           >
             <Bot size={16} />
             Ask AI About This
@@ -613,7 +613,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-50 hover:scale-110"
+          className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-50 hover:scale-110"
         >
           <Bot className="text-white" size={24} />
           <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full flex items-center justify-center animate-pulse">
@@ -626,7 +626,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-slate-800 rounded-xl shadow-2xl border border-slate-600 flex flex-col z-50 overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 flex items-center justify-between">
+          <div className="bg-gradient-to-r from-teal-600 to-blue-600 p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gray-200 dark:bg-gray-800/20 rounded-full flex items-center justify-center">
                 <Bot size={20} className="text-white" />
@@ -659,7 +659,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
                 <div className={`max-w-[85%] ${message.type === 'user' ? 'bg-blue-600' : 'bg-slate-700'} rounded-lg p-3`}>
                   <div className="flex items-start gap-2 mb-2">
                     {message.type === 'assistant' ? (
-                      <Bot size={16} className="text-purple-400 mt-1 flex-shrink-0" />
+                      <Bot size={16} className="text-teal-400 mt-1 flex-shrink-0" />
                     ) : (
                       <User size={16} className="text-blue-400 mt-1 flex-shrink-0" />
                     )}
@@ -670,7 +670,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
                   {message.quotedData && (
                     <div className="mt-2 bg-slate-600/50 rounded-lg p-2 border-l-2 border-green-400">
                       <div className="flex items-center gap-2 mb-1">
-                        {message.quotedData.type === 'llm' ? <Brain size={12} className="text-purple-400" /> : <Package size={12} className="text-blue-400" />}
+                        {message.quotedData.type === 'llm' ? <Brain size={12} className="text-teal-400" /> : <Package size={12} className="text-blue-400" />}
                         <span className="text-xs font-medium text-white">{message.quotedData.name}</span>
                         <span className="text-xs text-slate-400">({message.quotedData.type})</span>
                       </div>
@@ -705,7 +705,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
                                   <span className="w-4 h-4 bg-slate-500 rounded-full flex items-center justify-center text-white text-xs">
                                     {step.order}
                                   </span>
-                                  {step.type === 'llm' ? <Brain size={12} className="text-purple-400" /> : <Package size={12} className="text-blue-400" />}
+                                  {step.type === 'llm' ? <Brain size={12} className="text-teal-400" /> : <Package size={12} className="text-blue-400" />}
                                   <span className="text-slate-300">{step.component?.name || 'Component'}</span>
                                 </div>
                               ))}
@@ -743,7 +743,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
                       {message.components.map((comp, index) => (
                         <div key={index} className="bg-slate-600/50 rounded-lg p-2 border border-slate-500 flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            {comp.type === 'llm' ? <Brain size={14} className="text-purple-400" /> : <Package size={14} className="text-blue-400" />}
+                            {comp.type === 'llm' ? <Brain size={14} className="text-teal-400" /> : <Package size={14} className="text-blue-400" />}
                             <div>
                               <div className="text-sm font-medium text-white">{comp.component.name}</div>
                               <div className="text-xs text-slate-400">{comp.reason}</div>
@@ -767,7 +767,7 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
             {isTyping && (
               <div className="flex justify-start">
                 <div className="bg-slate-700 rounded-lg p-3 flex items-center gap-2">
-                  <Bot size={16} className="text-purple-400" />
+                  <Bot size={16} className="text-teal-400" />
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-slate-500 rounded-full animate-bounce"></div>
                     <div className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -820,12 +820,12 @@ const AIWorkflowAdvisor: React.FC<AIWorkflowAdvisorProps> = ({
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder="Ask me about workflows, LLMs, or NPM packages..."
-                className="flex-1 bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="flex-1 bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isTyping}
-                className="bg-purple-600 hover:bg-purple-700 disabled:bg-slate-600 px-3 py-2 rounded-lg transition-colors"
+                className="bg-teal-600 hover:bg-teal-700 disabled:bg-slate-600 px-3 py-2 rounded-lg transition-colors"
               >
                 <Send size={16} />
               </button>

@@ -69,7 +69,7 @@ const getTagColor = (tag: string) => {
   if (tagLower.includes('disclosure') || tagLower.includes('announcement')) return 'bg-blue-100 text-blue-700 border-blue-200';
   if (tagLower.includes('financial') || tagLower.includes('report')) return 'bg-green-100 text-green-700 border-green-200';
   if (tagLower.includes('warning') || tagLower.includes('alert')) return 'bg-orange-100 text-orange-700 border-orange-200';
-  return 'bg-purple-100 text-purple-700 border-purple-200';
+  return 'bg-teal-100 text-teal-700 border-teal-200';
 };
 
 // Filing type color mapping
@@ -78,7 +78,7 @@ const getFilingTypeColor = (type: string) => {
   if (typeLower.includes('enforcement') || typeLower.includes('disciplinary')) return 'bg-red-500 text-white';
   if (typeLower.includes('consultation') || typeLower.includes('proposal')) return 'bg-blue-500 text-white';
   if (typeLower.includes('guideline') || typeLower.includes('circular')) return 'bg-green-500 text-white';
-  if (typeLower.includes('news') || typeLower.includes('announcement')) return 'bg-purple-500 text-white';
+  if (typeLower.includes('news') || typeLower.includes('announcement')) return 'bg-teal-500 text-white';
   return 'bg-gray-500 text-white';
 };
 
@@ -385,9 +385,9 @@ export default function HKSFCViewer() {
             <p className="text-sm text-gray-600 font-medium">Showing</p>
             <p className="text-3xl font-bold text-blue-600 mt-1">{filteredData.length}</p>
           </div>
-          <div className="bg-white/80 backdrop-blur rounded-xl p-4 shadow-md border border-purple-100">
+          <div className="bg-white/80 backdrop-blur rounded-xl p-4 shadow-md border border-teal-100">
             <p className="text-sm text-gray-600 font-medium">Categories</p>
-            <p className="text-3xl font-bold text-purple-600 mt-1">{getAllFilingTypes().length}</p>
+            <p className="text-3xl font-bold text-teal-600 mt-1">{getAllFilingTypes().length}</p>
           </div>
           <div className="bg-white/80 backdrop-blur rounded-xl p-4 shadow-md border border-orange-100">
             <p className="text-sm text-gray-600 font-medium">New (7d)</p>
@@ -524,7 +524,7 @@ export default function HKSFCViewer() {
               {/* Tag Filter */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1">
-                  <Tag size={14} className="text-purple-500" />
+                  <Tag size={14} className="text-teal-500" />
                   Topic Tag
                 </label>
                 <select
@@ -769,7 +769,7 @@ export default function HKSFCViewer() {
               {/* Timeline View */}
               {viewMode === 'timeline' && (
                 <div className="relative">
-                  <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-200 via-blue-200 to-purple-200"></div>
+                  <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-200 via-blue-200 to-teal-200"></div>
                   <div className="space-y-6">
                     {filteredData.map((filing, index) => (
                       <div key={filing.id} className="relative pl-16">

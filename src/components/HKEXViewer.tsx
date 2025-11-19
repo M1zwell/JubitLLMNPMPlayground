@@ -199,11 +199,11 @@ export default function HKEXViewer() {
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-6">
+      <div className="bg-gradient-to-r from-teal-50 to-pink-50 rounded-xl shadow-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <TrendingUp className="text-purple-500" />
+              <TrendingUp className="text-teal-500" />
               HKEX Announcements Viewer
             </h2>
             <p className="text-gray-600 mt-1">Hong Kong Stock Exchange corporate announcements</p>
@@ -211,7 +211,7 @@ export default function HKEXViewer() {
           <button
             onClick={fetchData}
             disabled={isLoading}
-            className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
+            className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
           >
             <Search size={16} className={isLoading ? 'animate-spin' : ''} />
             Refresh
@@ -222,7 +222,7 @@ export default function HKEXViewer() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-lg p-4 shadow">
             <p className="text-sm text-gray-600">Total Announcements</p>
-            <p className="text-2xl font-bold text-purple-600">{data.length}</p>
+            <p className="text-2xl font-bold text-teal-600">{data.length}</p>
           </div>
           <div className="bg-white rounded-lg p-4 shadow">
             <p className="text-sm text-gray-600">Filtered Results</p>
@@ -241,7 +241,7 @@ export default function HKEXViewer() {
           <div className="flex items-center justify-between">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 font-semibold text-gray-900 hover:text-purple-600 transition-colors"
+              className="flex items-center gap-2 font-semibold text-gray-900 hover:text-teal-600 transition-colors"
             >
               <Filter size={18} />
               Filters & Search
@@ -263,7 +263,7 @@ export default function HKEXViewer() {
         </div>
 
         {showFilters && (
-          <div className="p-6 bg-gradient-to-br from-gray-50 to-purple-50">
+          <div className="p-6 bg-gradient-to-br from-gray-50 to-teal-50">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
               {/* Search Text */}
               <div>
@@ -276,7 +276,7 @@ export default function HKEXViewer() {
                   value={filters.searchText}
                   onChange={(e) => setFilters({...filters, searchText: e.target.value})}
                   placeholder="Search title, content..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
@@ -289,7 +289,7 @@ export default function HKEXViewer() {
                 <select
                   value={filters.announcementType}
                   onChange={(e) => setFilters({...filters, announcementType: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 font-medium"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 font-medium"
                 >
                   <option value="all">All Types</option>
                   {getAllAnnouncementTypes().map(type => (
@@ -306,7 +306,7 @@ export default function HKEXViewer() {
                   value={filters.companyCode}
                   onChange={(e) => setFilters({...filters, companyCode: e.target.value})}
                   placeholder="e.g., 00700"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
@@ -320,7 +320,7 @@ export default function HKEXViewer() {
                   type="date"
                   value={filters.dateFrom}
                   onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
@@ -334,7 +334,7 @@ export default function HKEXViewer() {
                   type="date"
                   value={filters.dateTo}
                   onChange={(e) => setFilters({...filters, dateTo: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
             </div>
@@ -346,7 +346,7 @@ export default function HKEXViewer() {
                 <select
                   value={filters.sortBy}
                   onChange={(e) => setFilters({...filters, sortBy: e.target.value})}
-                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-gray-900 font-medium"
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 text-gray-900 font-medium"
                 >
                   <option value="date-desc">Date (Newest First)</option>
                   <option value="date-asc">Date (Oldest First)</option>
@@ -385,9 +385,9 @@ export default function HKEXViewer() {
 
       {/* Loading State */}
       {isLoading && (
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-8 flex items-center justify-center gap-2">
-          <Loader2 className="animate-spin text-purple-500" size={24} />
-          <p className="text-purple-700">Loading HKEX announcements...</p>
+        <div className="bg-teal-50 border border-teal-200 rounded-lg p-8 flex items-center justify-center gap-2">
+          <Loader2 className="animate-spin text-teal-500" size={24} />
+          <p className="text-teal-700">Loading HKEX announcements...</p>
         </div>
       )}
 
@@ -406,7 +406,7 @@ export default function HKEXViewer() {
               <p className="text-gray-500">No announcements found matching your criteria</p>
               <button
                 onClick={clearFilters}
-                className="mt-4 text-sm text-purple-600 hover:text-purple-700 hover:underline"
+                className="mt-4 text-sm text-teal-600 hover:text-teal-700 hover:underline"
               >
                 Clear all filters
               </button>
@@ -419,7 +419,7 @@ export default function HKEXViewer() {
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <h4 className="font-semibold text-gray-900 flex-1 leading-snug">{announcement.announcement_title}</h4>
                     {announcement.company_code && (
-                      <span className="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-mono rounded-lg">
+                      <span className="px-3 py-1 bg-teal-100 text-teal-700 text-sm font-mono rounded-lg">
                         {announcement.company_code}
                       </span>
                     )}
@@ -435,7 +435,7 @@ export default function HKEXViewer() {
                   {/* Metadata */}
                   <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-3 pb-3 border-b border-gray-100">
                     <span className="flex items-center gap-1">
-                      <Building2 size={14} className="text-purple-500" />
+                      <Building2 size={14} className="text-teal-500" />
                       {announcement.announcement_type}
                     </span>
                     {announcement.announcement_date && (
@@ -458,7 +458,7 @@ export default function HKEXViewer() {
                       href={announcement.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1 hover:underline"
+                      className="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1 hover:underline"
                     >
                       <Eye size={14} />
                       View Announcement

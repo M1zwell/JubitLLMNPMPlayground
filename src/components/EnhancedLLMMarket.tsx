@@ -8,7 +8,7 @@ import AIWorkflowAdvisor, { AIAdvisorEventManager } from './AIWorkflowAdvisor';
 
 const CATEGORIES = {
   all: { name: 'All Models', icon: Globe, color: 'text-gray-500' },
-  reasoning: { name: 'Reasoning', icon: Brain, color: 'text-purple-600' },
+  reasoning: { name: 'Reasoning', icon: Brain, color: 'text-teal-600' },
   coding: { name: 'Coding', icon: Code, color: 'text-blue-600' },
   multimodal: { name: 'Multimodal', icon: Eye, color: 'text-green-600' },
   lightweight: { name: 'Lightweight', icon: Zap, color: 'text-cyan-600' },
@@ -201,7 +201,7 @@ const EnhancedLLMMarket = () => {
           <div className="text-caption">Avg Price/1M</div>
         </div>
         <div className="card-minimal text-center">
-          <div className="text-2xl font-semibold text-purple-600">{stats.openSource}</div>
+          <div className="text-2xl font-semibold text-teal-600">{stats.openSource}</div>
           <div className="text-caption">Open Source</div>
         </div>
       </div>
@@ -519,7 +519,7 @@ const EnhancedLLMMarket = () => {
                       <div className="text-blue-600">⚡ High-speed inference</div>
                     )}
                     {selectedModel.license === 'Open' && (
-                      <div className="text-purple-600">🔓 Open source advantage</div>
+                      <div className="text-teal-600">🔓 Open source advantage</div>
                     )}
                     {selectedModel.context_window >= 100000 && (
                       <div className="text-cyan-600">📚 Long context support</div>

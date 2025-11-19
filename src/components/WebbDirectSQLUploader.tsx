@@ -234,7 +234,7 @@ export const WebbDirectSQLUploader: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg">
+      <div className="bg-gradient-to-r from-blue-600 to-teal-600 text-white p-6 rounded-lg">
         <h1 className="text-2xl font-bold mb-2">Webb Direct SQL Uploader</h1>
         <p className="text-blue-100">
           Direct upload and processing of Webb CCASS and Enigma SQL files to Supabase PostgreSQL
@@ -301,13 +301,13 @@ export const WebbDirectSQLUploader: React.FC = () => {
                 <span className={`px-2 py-1 text-xs rounded-full ${
                   file.type === 'structure' ? 'bg-blue-100 text-blue-800' :
                   file.type === 'data' ? 'bg-green-100 text-green-800' :
-                  'bg-purple-100 text-purple-800'
+                  'bg-teal-100 text-teal-800'
                 }`}>
                   {file.type}
                 </span>
                 <span className={`px-2 py-1 text-xs rounded-full ${
                   file.schema === 'ccass' ? 'bg-orange-100 text-orange-800' :
-                  'bg-indigo-100 text-indigo-800'
+                  'bg-pink-100 text-pink-800'
                 }`}>
                   {file.schema.toUpperCase()}
                 </span>

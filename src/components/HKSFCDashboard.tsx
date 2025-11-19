@@ -49,7 +49,7 @@ export default function HKSFCDashboard() {
             onClick={() => setActiveTab('statistics')}
             className={`flex-1 py-4 px-8 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
               activeTab === 'statistics'
-                ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-xl transform scale-105'
+                ? 'bg-gradient-to-r from-blue-500 to-pink-500 text-white shadow-xl transform scale-105'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:scale-102'
             }`}
           >

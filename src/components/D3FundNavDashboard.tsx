@@ -192,7 +192,7 @@ const D3FundNavDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <h2 className="text-xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
             D3: Fund Industry Asset Base
           </h2>
           <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
@@ -224,12 +224,12 @@ const D3FundNavDashboard: React.FC = () => {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-3">
+        <div className="bg-gradient-to-br from-teal-50 to-teal-100 border border-teal-200 rounded-lg p-3">
           <div className="pt-2">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-purple-600">HK Domiciled NAV</p>
-                <p className="text-xl font-bold text-purple-900">
+                <p className="text-sm font-medium text-teal-600">HK Domiciled NAV</p>
+                <p className="text-xl font-bold text-teal-900">
                   {formatUSDMillions(latestHKTotal)}
                 </p>
                 <p className={`text-xs flex items-center gap-1 mt-1 ${qoqHKChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -237,7 +237,7 @@ const D3FundNavDashboard: React.FC = () => {
                   {qoqHKChange.toFixed(2)}% QoQ
                 </p>
               </div>
-              <DollarSign className="text-purple-600" size={20} />
+              <DollarSign className="text-teal-600" size={20} />
             </div>
           </div>
         </div>
@@ -299,7 +299,7 @@ const D3FundNavDashboard: React.FC = () => {
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
         <div className="mb-2">
           <h3 className="flex items-center gap-2">
-            <TrendingUp className="text-purple-600" size={20} />
+            <TrendingUp className="text-teal-600" size={20} />
             NAV Growth Trajectory: HK vs Non-HK vs All Domiciles
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">

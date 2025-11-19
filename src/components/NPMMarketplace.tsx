@@ -56,14 +56,14 @@ const CATEGORIES = {
   'all-packages': { name: 'All Packages', icon: Package, color: 'text-gray-500' },
   'front-end': { name: 'Front-end', icon: Globe, color: 'text-blue-500' },
   'back-end': { name: 'Back-end', icon: Code, color: 'text-green-500' },
-  'cli-tools': { name: 'CLI Tools', icon: Terminal, color: 'text-purple-500' },
-  documentation: { name: 'Documentation', icon: BookOpen, color: 'text-indigo-600' },
+  'cli-tools': { name: 'CLI Tools', icon: Terminal, color: 'text-teal-500' },
+  documentation: { name: 'Documentation', icon: BookOpen, color: 'text-pink-500' },
   'css-styling': { name: 'CSS & Styling', icon: Palette, color: 'text-pink-500' },
   'frameworks': { name: 'Frameworks', icon: Zap, color: 'text-yellow-500' },
   'testing': { name: 'Testing', icon: CheckCircle, color: 'text-cyan-500' },
   iot: { name: 'IoT', icon: Wifi, color: 'text-emerald-600' },
   coverage: { name: 'Coverage', icon: BarChart3, color: 'text-orange-600' },
-  mobile: { name: 'Mobile', icon: Smartphone, color: 'text-purple-600' },
+  mobile: { name: 'Mobile', icon: Smartphone, color: 'text-teal-600' },
   robotics: { name: 'Robotics', icon: Cpu, color: 'text-red-600' },
   math: { name: 'Math', icon: Calculator, color: 'text-blue-600' }
 };
@@ -161,7 +161,7 @@ const NPMMarketplace: React.FC<NPMMarketplaceProps> = ({ onNavigateToPlayground 
           <div className="text-caption">Avg Quality</div>
         </div>
         <div className="card-minimal text-center">
-          <div className="text-2xl font-semibold text-purple-600">{stats.withTypeScript}</div>
+          <div className="text-2xl font-semibold text-teal-600">{stats.withTypeScript}</div>
           <div className="text-caption">TypeScript Ready</div>
         </div>
       </div>

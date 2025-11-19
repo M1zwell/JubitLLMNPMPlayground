@@ -233,8 +233,8 @@ const C4LicensedRepsDashboard: React.FC = () => {
           {/* RA4 - Advising on Securities */}
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-2">
-              <Activity className="text-purple-600" size={24} />
-              <span className="text-xs bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 px-2 py-1 rounded">
+              <Activity className="text-teal-600" size={24} />
+              <span className="text-xs bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-purple-300 px-2 py-1 rounded">
                 RA4
               </span>
             </div>

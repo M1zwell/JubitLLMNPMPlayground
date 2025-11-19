@@ -277,11 +277,11 @@ export default function HKEXDisclosureViewer() {
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-6">
+      <div className="bg-gradient-to-r from-teal-50 to-pink-50 rounded-xl shadow-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <Users className="text-purple-500" />
+              <Users className="text-teal-500" />
               HKEX Disclosure of Interests
             </h2>
             <p className="text-gray-600 mt-1">Substantial Shareholder Holdings / 主要股东持股</p>
@@ -289,7 +289,7 @@ export default function HKEXDisclosureViewer() {
           <button
             onClick={fetchData}
             disabled={isLoading}
-            className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
+            className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
           >
             <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
             Refresh
@@ -297,7 +297,7 @@ export default function HKEXDisclosureViewer() {
         </div>
 
         {/* Scrape Panel */}
-        <div className="bg-white rounded-lg p-4 border border-purple-200">
+        <div className="bg-white rounded-lg p-4 border border-teal-200">
           <h3 className="text-sm font-semibold text-gray-900 mb-2">Scrape New Data / 抓取新数据</h3>
           <div className="flex items-center gap-2">
             <input
@@ -305,7 +305,7 @@ export default function HKEXDisclosureViewer() {
               value={scrapeStockCode}
               onChange={(e) => setScrapeStockCode(e.target.value)}
               placeholder="Stock code (e.g., 00700)"
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
               maxLength={5}
             />
             <button
@@ -332,7 +332,7 @@ export default function HKEXDisclosureViewer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
           <div className="bg-white rounded-lg p-4 shadow">
             <p className="text-sm text-gray-600">Total Records</p>
-            <p className="text-2xl font-bold text-purple-600">{data.length}</p>
+            <p className="text-2xl font-bold text-teal-600">{data.length}</p>
           </div>
           <div className="bg-white rounded-lg p-4 shadow">
             <p className="text-sm text-gray-600">Filtered Results</p>
@@ -359,7 +359,7 @@ export default function HKEXDisclosureViewer() {
           <div className="flex items-center justify-between">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 font-semibold text-gray-900 hover:text-purple-600 transition-colors"
+              className="flex items-center gap-2 font-semibold text-gray-900 hover:text-teal-600 transition-colors"
             >
               <Filter size={18} />
               Filters & Search
@@ -380,7 +380,7 @@ export default function HKEXDisclosureViewer() {
         </div>
 
         {showFilters && (
-          <div className="p-6 bg-gradient-to-br from-gray-50 to-purple-50">
+          <div className="p-6 bg-gradient-to-br from-gray-50 to-teal-50">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               {/* Search Text */}
               <div>
@@ -393,7 +393,7 @@ export default function HKEXDisclosureViewer() {
                   value={filters.searchText}
                   onChange={(e) => setFilters({...filters, searchText: e.target.value})}
                   placeholder="Shareholder, stock name..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
@@ -408,7 +408,7 @@ export default function HKEXDisclosureViewer() {
                   value={filters.stockCode}
                   onChange={(e) => setFilters({...filters, stockCode: e.target.value})}
                   placeholder="e.g., 00700"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
@@ -424,7 +424,7 @@ export default function HKEXDisclosureViewer() {
                   onChange={(e) => setFilters({...filters, minPercentage: e.target.value ? parseFloat(e.target.value) : 0})}
                   placeholder="e.g., 5"
                   step="0.1"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
 
@@ -438,7 +438,7 @@ export default function HKEXDisclosureViewer() {
                   type="date"
                   value={filters.dateFrom}
                   onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-900 placeholder-gray-500"
                 />
               </div>
             </div>
@@ -450,7 +450,7 @@ export default function HKEXDisclosureViewer() {
                 <select
                   value={filters.sortBy}
                   onChange={(e) => setFilters({...filters, sortBy: e.target.value})}
-                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-gray-900 font-medium"
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 text-gray-900 font-medium"
                 >
                   <option value="percentage-desc">Percentage (High to Low)</option>
                   <option value="percentage-asc">Percentage (Low to High)</option>
@@ -493,9 +493,9 @@ export default function HKEXDisclosureViewer() {
 
       {/* Loading State */}
       {isLoading && (
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-8 flex items-center justify-center gap-2">
-          <Loader2 className="animate-spin text-purple-500" size={24} />
-          <p className="text-purple-700">Loading disclosure data...</p>
+        <div className="bg-teal-50 border border-teal-200 rounded-lg p-8 flex items-center justify-center gap-2">
+          <Loader2 className="animate-spin text-teal-500" size={24} />
+          <p className="text-teal-700">Loading disclosure data...</p>
         </div>
       )}
 
@@ -514,7 +514,7 @@ export default function HKEXDisclosureViewer() {
               <p className="text-gray-500">No disclosure data found</p>
               <button
                 onClick={clearFilters}
-                className="mt-4 text-sm text-purple-600 hover:text-purple-700 hover:underline"
+                className="mt-4 text-sm text-teal-600 hover:text-teal-700 hover:underline"
               >
                 Clear all filters
               </button>
@@ -532,7 +532,7 @@ export default function HKEXDisclosureViewer() {
                       </p>
                     </div>
                     <div className="flex flex-col items-end gap-1">
-                      <div className="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg font-semibold text-lg">
+                      <div className="px-3 py-1 bg-teal-100 text-teal-700 rounded-lg font-semibold text-lg">
                         {disclosure.percentage_long?.toFixed(2)}%
                       </div>
                       <span className="text-xs text-gray-500">Long Position</span>
@@ -577,7 +577,7 @@ export default function HKEXDisclosureViewer() {
                         href={disclosure.notice_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-purple-600 hover:text-purple-700 hover:underline flex items-center gap-1"
+                        className="text-teal-600 hover:text-teal-700 hover:underline flex items-center gap-1"
                       >
                         <Eye size={14} />
                         View Notice

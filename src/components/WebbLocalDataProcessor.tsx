@@ -265,8 +265,8 @@ export const WebbLocalDataProcessor: React.FC = () => {
               Estimated Records / 预估记录数
             </div>
           </div>
-          <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+          <div className="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-lg">
+            <div className="text-2xl font-bold text-teal-600 dark:text-teal-400">
               {localFileStats.lastModified}
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-300">

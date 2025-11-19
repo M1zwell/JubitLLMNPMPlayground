@@ -731,7 +731,7 @@ export const WebbMySQLMigrator: React.FC = () => {
                 <div className="text-sm text-gray-600 dark:text-gray-400">Records Migrated</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-2xl font-bold text-teal-600">
                   {(progress.totalEstimatedRecords / 1000000).toFixed(1)}M
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Total Records</div>

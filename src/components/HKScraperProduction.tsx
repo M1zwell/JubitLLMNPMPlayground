@@ -665,9 +665,9 @@ export default function HKScraperProduction() {
                           <p className="text-xs text-green-600 font-medium">Filtered</p>
                           <p className="text-2xl font-bold text-green-900">{getFilteredHKSFCData().length}</p>
                         </div>
-                        <div className="p-3 bg-purple-50 border border-purple-200 rounded-md">
-                          <p className="text-xs text-purple-600 font-medium">Filing Types</p>
-                          <p className="text-2xl font-bold text-purple-900">{getAllFilingTypes().length}</p>
+                        <div className="p-3 bg-teal-50 border border-teal-200 rounded-md">
+                          <p className="text-xs text-teal-600 font-medium">Filing Types</p>
+                          <p className="text-2xl font-bold text-teal-900">{getAllFilingTypes().length}</p>
                         </div>
                         <div className="p-3 bg-orange-50 border border-orange-200 rounded-md">
                           <p className="text-xs text-orange-600 font-medium">Tags</p>
@@ -834,7 +834,7 @@ export default function HKScraperProduction() {
                                 {filing.tags.map((tag, idx) => (
                                   <span
                                     key={idx}
-                                    className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded"
+                                    className="px-2 py-0.5 bg-teal-100 text-teal-700 text-xs rounded"
                                   >
                                     {tag}
                                   </span>

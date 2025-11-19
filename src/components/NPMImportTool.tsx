@@ -44,7 +44,7 @@ const IMPORT_PRESETS: ImportPreset[] = [
     name: 'Front-end Components',
     query: 'keywords:react-component OR keywords:ui-component OR keywords:vue-component OR keywords:ui-library OR keywords:design-system',
     description: 'UI component libraries and design systems',
-    icon: <span className="text-indigo-500">🧩</span>,
+    icon: <span className="text-pink-400">🧩</span>,
     limit: 200
   },
   {
@@ -72,7 +72,7 @@ const IMPORT_PRESETS: ImportPreset[] = [
     name: 'Mobile',
     query: 'keywords:mobile OR keywords:react-native OR keywords:ionic OR keywords:cordova OR keywords:ios OR keywords:android',
     description: 'Mobile app development tools and frameworks',
-    icon: <span className="text-purple-500">📱</span>,
+    icon: <span className="text-teal-500">📱</span>,
     limit: 150
   },
   {

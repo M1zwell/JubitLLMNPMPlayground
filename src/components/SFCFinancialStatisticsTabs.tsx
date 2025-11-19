@@ -107,7 +107,7 @@ const SFCFinancialStatisticsTabs: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 text-white">
+      <div className="bg-gradient-to-r from-blue-600 to-teal-600 rounded-lg p-6 text-white">
         <div className="flex items-center gap-3 mb-2">
           <TrendingUp size={32} />
           <h2 className="text-2xl font-bold">HK Market Insights Cockpit</h2>

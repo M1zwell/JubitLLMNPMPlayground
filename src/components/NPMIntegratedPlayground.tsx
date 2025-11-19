@@ -894,7 +894,7 @@ return { numbers, squared, sum };`);
                     <p className="text-caption text-gray-300 mb-3">{template.description}</p>
                     
                     <div className="space-y-1 mb-3">
-                      <div className="text-xs text-purple-600 flex items-center gap-1">
+                      <div className="text-xs text-teal-600 flex items-center gap-1">
                         <Clock size={10} />
                         {template.estimatedTime}
                       </div>
@@ -918,19 +918,19 @@ return { numbers, squared, sum };`);
               </div>
               
               <h2 className="text-lg font-medium mt-6 mb-3 flex items-center gap-2">
-                <Brain className="text-purple-600" size={16} />
+                <Brain className="text-teal-600" size={16} />
                 AI 建议
               </h2>
               
-              <div className="card-minimal bg-purple-900/20 border-purple-800">
+              <div className="card-minimal bg-teal-900/20 border-purple-800">
                 <h3 className="font-medium text-sm mb-2">推荐组合</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-purple-600" />
+                    <CheckCircle className="w-4 h-4 text-teal-600" />
                     <span>CSV解析 → 数据验证 → 数学计算</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-purple-600" />
+                    <CheckCircle className="w-4 h-4 text-teal-600" />
                     <span>HTTP请求 → 数据转换 → 验证</span>
                   </div>
                 </div>
@@ -1136,7 +1136,7 @@ return { numbers, squared, sum };`);
                 </div>
                 
                 <div className="mt-6 bg-gray-800 rounded-lg p-4">
-                  <h3 className="font-bold mb-2 text-purple-400">✏️ 自定义代码</h3>
+                  <h3 className="font-bold mb-2 text-teal-400">✏️ 自定义代码</h3>
                   <textarea
                     className="w-full h-40 bg-gray-700 rounded p-2 text-sm font-mono text-gray-200"
                     placeholder="// 编写你的代码，可以使用 lodash (_), mathjs (math), papaparse (Papa), validator"
@@ -1145,7 +1145,7 @@ return { numbers, squared, sum };`);
                   />
                   <button 
                     onClick={executeCustomCode}
-                    className="mt-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white"
+                    className="mt-2 px-4 py-2 bg-teal-600 hover:bg-purple-700 rounded text-white"
                   >
                     <Play size={14} className="inline mr-1" />
                     运行代码
@@ -1279,9 +1279,9 @@ return { numbers, squared, sum };`);
                 </div>
                 
                 <div className="bg-gray-800 rounded-lg p-4 mt-4">
-                  <h3 className="font-bold mb-2 text-purple-400">🚀 NPM 命令</h3>
+                  <h3 className="font-bold mb-2 text-teal-400">🚀 NPM 命令</h3>
                   <div className="grid grid-cols-2 gap-2">
-                    <button className="bg-purple-600 hover:bg-purple-700 text-white rounded p-2 text-sm flex items-center justify-center">
+                    <button className="bg-teal-600 hover:bg-purple-700 text-white rounded p-2 text-sm flex items-center justify-center">
                       <RefreshCw size={14} className="mr-1" />
                       npm install
                     </button>
@@ -1460,7 +1460,7 @@ return { numbers, squared, sum };`);
             <p className="text-caption">通过拖放组合NPM包创建数据处理工作流</p>
           </div>
           <div>
-            <Code className="mx-auto mb-2 text-purple-600" size={20} />
+            <Code className="mx-auto mb-2 text-teal-600" size={20} />
             <h4 className="font-semibold mb-1">代码执行</h4>
             <p className="text-caption">在安全沙箱中直接运行NPM包代码</p>
           </div>

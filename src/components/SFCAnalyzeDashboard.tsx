@@ -220,7 +220,7 @@ const SFCAnalyzeDashboard: React.FC<Props> = ({
           value={kpis.listings}
           unit=""
           change={kpis.listingsChange}
-          icon={<BarChart3 className="text-purple-600" size={24} />}
+          icon={<BarChart3 className="text-teal-600" size={24} />}
         />
         <KPICard
           title="Fund Industry"

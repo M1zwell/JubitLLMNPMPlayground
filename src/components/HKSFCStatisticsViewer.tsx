@@ -154,7 +154,7 @@ export default function HKSFCStatisticsViewer() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 shadow-2xl">
+      <div className="bg-gradient-to-r from-blue-600 to-pink-700 rounded-2xl p-8 shadow-2xl">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
@@ -190,7 +190,7 @@ export default function HKSFCStatisticsViewer() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`p-4 rounded-xl font-semibold transition-all flex items-center gap-3 ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg transform scale-105'
+                    ? 'bg-gradient-to-r from-blue-500 to-pink-400 text-white shadow-lg transform scale-105'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
@@ -228,7 +228,7 @@ export default function HKSFCStatisticsViewer() {
         {/* Fund Statistics (D3, D4) */}
         <div>
           <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-            <PieChart size={20} className="text-purple-500" />
+            <PieChart size={20} className="text-teal-500" />
             Fund Statistics
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -238,7 +238,7 @@ export default function HKSFCStatisticsViewer() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`p-4 rounded-xl font-semibold transition-all flex items-center gap-3 ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg transform scale-105'
+                    ? 'bg-gradient-to-r from-teal-500 to-pink-500 text-white shadow-lg transform scale-105'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
@@ -303,7 +303,7 @@ function A1Table({ data, searchTerm, isLoading }: any) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
+        <thead className="bg-gradient-to-r from-blue-500 to-pink-400 text-white">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Quarter</th>
@@ -368,7 +368,7 @@ function A2Table({ data, searchTerm, isLoading }: any) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
+        <thead className="bg-gradient-to-r from-blue-500 to-pink-400 text-white">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Quarter</th>
@@ -417,7 +417,7 @@ function A3Table({ data, searchTerm, isLoading }: any) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
+        <thead className="bg-gradient-to-r from-blue-500 to-pink-400 text-white">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Quarter</th>
@@ -588,7 +588,7 @@ function D3Table({ data, searchTerm, isLoading }: any) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+        <thead className="bg-gradient-to-r from-teal-500 to-pink-500 text-white">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-semibold">Date</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Domicile</th>
@@ -638,7 +638,7 @@ function D4Table({ data, searchTerm, isLoading }: any) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+        <thead className="bg-gradient-to-r from-teal-500 to-pink-500 text-white">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-semibold">Year</th>
             <th className="px-4 py-3 text-left text-sm font-semibold">Domicile</th>

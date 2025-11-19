@@ -293,7 +293,7 @@ const A3LiquidityDashboard: React.FC = () => {
           {liquidityKPIs && (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Total Turnover */}
-              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white">
+              <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg p-6 text-white">
                 <div className="flex items-center justify-between mb-2">
                   <Zap className="w-8 h-8 opacity-80" />
                 </div>

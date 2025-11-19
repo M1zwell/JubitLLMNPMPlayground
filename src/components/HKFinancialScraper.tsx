@@ -336,7 +336,7 @@ export default function HKFinancialScraper() {
   // ============================================================================
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-pink-900 to-teal-900 p-6">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex items-center justify-between">
@@ -425,13 +425,13 @@ export default function HKFinancialScraper() {
           {/* HKSFC Sources */}
           <div className="bg-gray-800 rounded-xl shadow-lg p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-purple-600 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-teal-600 flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
                 HKSFC Sources
               </h2>
               <button
                 onClick={() => selectAllCategory('HKSFC')}
-                className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200"
+                className="px-3 py-1 text-sm bg-teal-100 text-teal-700 rounded-lg hover:bg-teal-200"
               >
                 {scraperTargets.filter(t => t.category === 'HKSFC').every(t => selectedTargets.includes(t.id))
                   ? 'Deselect All'
@@ -446,18 +446,18 @@ export default function HKFinancialScraper() {
                   className={`
                     p-4 rounded-lg border-2 cursor-pointer transition-all
                     ${selectedTargets.includes(target.id)
-                      ? 'border-purple-500 bg-purple-900 shadow-md'
-                      : 'border-gray-700 hover:border-purple-300 hover:bg-purple-900/50'}
+                      ? 'border-teal-500 bg-teal-900 shadow-md'
+                      : 'border-gray-700 hover:border-purple-300 hover:bg-teal-900/50'}
                   `}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="text-purple-600">{target.icon}</div>
+                    <div className="text-teal-600">{target.icon}</div>
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-100 ">{target.name}</h3>
                       <p className="text-sm text-gray-400 mt-1">{target.description}</p>
                     </div>
                     {selectedTargets.includes(target.id) && (
-                      <CheckCircle className="w-5 h-5 text-purple-600" />
+                      <CheckCircle className="w-5 h-5 text-teal-600" />
                     )}
                   </div>
                 </div>
@@ -676,7 +676,7 @@ export default function HKFinancialScraper() {
                 w-full px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2
                 ${isLoading || selectedTargets.length === 0
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'}
+                  : 'bg-gradient-to-r from-blue-600 to-teal-600 text-white hover:from-blue-700 hover:to-teal-700'}
               `}
             >
               {isLoading ? (
@@ -765,7 +765,7 @@ export default function HKFinancialScraper() {
                         <div className="flex gap-2">
                           <button
                             onClick={() => setPreviewData({ open: true, result })}
-                            className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 flex items-center gap-1"
+                            className="px-3 py-1 text-sm bg-teal-100 text-teal-700 rounded hover:bg-teal-200 flex items-center gap-1"
                           >
                             <Eye className="w-4 h-4" />
                             Preview

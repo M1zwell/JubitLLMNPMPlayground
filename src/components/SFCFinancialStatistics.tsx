@@ -213,7 +213,7 @@ const SFCFinancialStatistics: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 text-white">
+      <div className="bg-gradient-to-r from-blue-600 to-teal-600 rounded-lg p-6 text-white">
         <h2 className="text-2xl font-bold mb-2">SFC Financial Statistics Dashboard</h2>
         <p className="text-blue-100">Hong Kong securities market insights from 1,046 real data points</p>
         {marketHighlights.length > 0 && (
@@ -244,7 +244,7 @@ const SFCFinancialStatistics: React.FC = () => {
           value={kpis.listings}
           unit=""
           change={kpis.listingsChange}
-          icon={<BarChart3 className="text-purple-600" size={24} />}
+          icon={<BarChart3 className="text-teal-600" size={24} />}
         />
         <KPICard
           title="Fund Industry"

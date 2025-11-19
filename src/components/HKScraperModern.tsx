@@ -38,14 +38,14 @@ export default function HKScraperModern() {
   const [viewMode, setViewMode] = useState<ViewMode>('view');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-blue-950 dark:to-indigo-950">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-pink-50 dark:from-gray-900 dark:via-blue-950 dark:to-indigo-950">
       <div className="max-w-7xl mx-auto p-3 md:p-6 space-y-4">
 
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 md:p-6 border border-gray-100 dark:border-gray-700">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6 gap-4">
             <div>
-              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent">
                 香港数据中心
               </h1>
               <p className="text-gray-600 dark:text-gray-300 mt-1 md:mt-2 text-sm md:text-base">
@@ -66,7 +66,7 @@ export default function HKScraperModern() {
               onClick={() => setActiveSource('ccass')}
               className={`flex-1 px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold text-sm md:text-base transition-all duration-200 flex items-center justify-center gap-2 ${
                 activeSource === 'ccass'
-                  ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg transform scale-105'
+                  ? 'bg-gradient-to-r from-blue-500 to-pink-400 text-white shadow-lg transform scale-105'
                   : 'text-gray-600 hover:bg-white hover:shadow'
               }`}
             >
@@ -95,7 +95,7 @@ export default function HKScraperModern() {
               onClick={() => setActiveSource('hkex')}
               className={`flex-1 px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold text-sm md:text-base transition-all duration-200 flex items-center justify-center gap-2 ${
                 activeSource === 'hkex'
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg transform scale-105'
+                  ? 'bg-gradient-to-r from-teal-500 to-pink-500 text-white shadow-lg transform scale-105'
                   : 'text-gray-600 hover:bg-white hover:shadow'
               }`}
             >
@@ -247,7 +247,7 @@ export default function HKScraperModern() {
             color="green"
           />
           <StatCard
-            icon={<TrendingUp className="text-purple-500" />}
+            icon={<TrendingUp className="text-teal-500" />}
             title="Stocks Tracked"
             value="1"
             subtitle="00700 - Tencent"
@@ -283,7 +283,7 @@ function StatCard({
   const colorClasses = {
     blue: 'from-blue-50 to-blue-100 border-blue-200',
     green: 'from-green-50 to-green-100 border-green-200',
-    purple: 'from-purple-50 to-purple-100 border-purple-200',
+    purple: 'from-teal-50 to-teal-100 border-teal-200',
     orange: 'from-orange-50 to-orange-100 border-orange-200'
   };
 
@@ -313,7 +313,7 @@ function CCASSAnalytics() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Concentration Analysis */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+        <div className="bg-gradient-to-br from-blue-50 to-pink-50 rounded-xl p-6 border border-blue-200">
           <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <TrendingUp size={20} className="text-blue-600" />
             Ownership Concentration
@@ -325,7 +325,7 @@ function CCASSAnalytics() {
             </div>
             <div className="flex justify-between items-center p-3 bg-white rounded-lg">
               <span className="text-sm text-gray-600">Top 5 Concentration</span>
-              <span className="font-bold text-purple-600">56.73%</span>
+              <span className="font-bold text-teal-600">56.73%</span>
             </div>
             <div className="flex justify-between items-center p-3 bg-white rounded-lg">
               <span className="text-sm text-gray-600">Top 10 Concentration</span>
@@ -351,14 +351,14 @@ function CCASSAnalytics() {
             </div>
             <div className="flex justify-between items-center p-3 bg-white rounded-lg">
               <span className="text-sm text-gray-600">Investor Participants</span>
-              <span className="font-bold text-purple-600">10</span>
+              <span className="font-bold text-teal-600">10</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Coming Soon Features */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200">
+      <div className="bg-gradient-to-r from-teal-50 to-pink-50 rounded-xl p-6 border border-teal-200">
         <h3 className="font-semibold text-gray-900 mb-4">🚀 Coming Soon</h3>
         <ul className="space-y-2 text-sm text-gray-700">
           <li className="flex items-center gap-2">
@@ -370,7 +370,7 @@ function CCASSAnalytics() {
             Institutional holding change alerts
           </li>
           <li className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+            <span className="w-2 h-2 bg-teal-500 rounded-full"></span>
             Multi-stock comparison analysis
           </li>
           <li className="flex items-center gap-2">
@@ -407,7 +407,7 @@ function CCASSScrapeTool() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 border border-blue-200">
+      <div className="bg-gradient-to-br from-blue-50 to-pink-50 rounded-xl p-8 border border-blue-200">
         <div className="max-w-2xl mx-auto space-y-6">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -425,7 +425,7 @@ function CCASSScrapeTool() {
           <button
             onClick={handleScrape}
             disabled={isScraping}
-            className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+            className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-pink-400 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-pink-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
           >
             {isScraping ? (
               <>
@@ -478,12 +478,12 @@ function CCASSScrapeTool() {
 function ComingSoonPlaceholder({ title, description }: { title: string; description: string }) {
   return (
     <div className="text-center py-16">
-      <div className="inline-block p-6 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full mb-6">
+      <div className="inline-block p-6 bg-gradient-to-br from-blue-100 to-pink-100 rounded-full mb-6">
         <Database size={64} className="text-blue-600" />
       </div>
       <h2 className="text-3xl font-bold text-gray-900 mb-3">{title}</h2>
       <p className="text-gray-600 text-lg mb-6 max-w-md mx-auto">{description}</p>
-      <div className="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-full font-semibold">
+      <div className="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-pink-400 text-white rounded-full font-semibold">
         🚧 Coming Soon
       </div>
     </div>

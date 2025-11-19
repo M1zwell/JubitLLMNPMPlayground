@@ -242,7 +242,7 @@ export default function CCASSViewer() {
 
       {/* Statistics Panel */}
       {showStats && stats && (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-md p-6">
+        <div className="bg-gradient-to-r from-blue-50 to-pink-50 rounded-lg shadow-md p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
             <TrendingUp className="text-blue-500" />
             {stats.stockName || stats.stockCode} Statistics
@@ -261,7 +261,7 @@ export default function CCASSViewer() {
 
             <div className="bg-white rounded-lg p-4 shadow">
               <p className="text-sm text-gray-600">Top 5 Concentration</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.top5Percentage}%</p>
+              <p className="text-2xl font-bold text-teal-600">{stats.top5Percentage}%</p>
             </div>
 
             <div className="bg-white rounded-lg p-4 shadow">
@@ -372,7 +372,7 @@ export default function CCASSViewer() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-semibold text-blue-600">
                       {formatNumber(holding.shareholding)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-semibold text-purple-600">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-semibold text-teal-600">
                       {holding.percentage}%
                     </td>
                   </tr>

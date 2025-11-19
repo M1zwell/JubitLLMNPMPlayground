@@ -132,7 +132,7 @@ const DataPreviewModal: React.FC<DataPreviewModalProps> = ({
                 </span>
                 <span className="text-gray-600">•</span>
                 <span className="flex items-center gap-1">
-                  Source: <span className="font-semibold text-purple-400">{metadata.source}</span>
+                  Source: <span className="font-semibold text-teal-400">{metadata.source}</span>
                 </span>
                 {processedData.length !== metadata.recordCount && (
                   <>
@@ -306,7 +306,7 @@ const DataPreviewModal: React.FC<DataPreviewModalProps> = ({
             <button
               onClick={() => onExport('xlsx')}
               disabled={processedData.length === 0}
-              className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Download size={16} />
               Export XLSX

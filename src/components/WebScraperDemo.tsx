@@ -108,7 +108,7 @@ export default function WebScraperDemo() {
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
             Web Scraper
           </h1>
           <p className="text-gray-400">
@@ -170,7 +170,7 @@ export default function WebScraperDemo() {
               </Button>
               <Button
                 onClick={handleTestMCP}
-                className="flex-1 bg-purple-600 hover:bg-purple-700"
+                className="flex-1 bg-teal-600 hover:bg-teal-700"
               >
                 Test MCP Servers
               </Button>
@@ -224,7 +224,7 @@ export default function WebScraperDemo() {
             {/* Metadata */}
             {result.metadata && (
               <Card className="bg-gray-800 border-gray-700 p-6">
-                <h3 className="text-lg font-semibold mb-3 text-purple-400">
+                <h3 className="text-lg font-semibold mb-3 text-teal-400">
                   Metadata
                 </h3>
                 <div className="space-y-2 text-sm">
@@ -312,7 +312,7 @@ export default function WebScraperDemo() {
               </p>
             </div>
             <div className="bg-gray-900 p-3 rounded">
-              <div className="font-semibold text-purple-400">✓ MCP Servers</div>
+              <div className="font-semibold text-teal-400">✓ MCP Servers</div>
               <p className="text-gray-400 mt-1">
                 Use Claude Code to access Firecrawl MCP, Puppeteer MCP, and Chrome
                 DevTools MCP servers configured in .claude/settings.local.json
@@ -330,7 +330,7 @@ export default function WebScraperDemo() {
 
         {/* MCP Configuration */}
         <Card className="bg-gray-800 border-gray-700 p-6">
-          <h3 className="text-lg font-semibold mb-3 text-purple-400">
+          <h3 className="text-lg font-semibold mb-3 text-teal-400">
             MCP Server Configuration
           </h3>
           <div className="bg-gray-900 p-4 rounded-lg">

@@ -288,7 +288,7 @@ export default function WorkflowExecutionPlayground() {
   const NodeComponent = ({ node }: { node: WorkflowNode }) => {
     const colors = {
       input: 'from-green-500 to-green-600',
-      llm: 'from-purple-500 to-purple-600',
+      llm: 'from-teal-500 to-teal-600',
       npm: 'from-blue-500 to-blue-600',
       output: 'from-orange-500 to-orange-600'
     };
@@ -384,7 +384,7 @@ export default function WorkflowExecutionPlayground() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white p-6">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 dark:from-purple-400 dark:via-pink-400 dark:to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-teal-600 via-pink-600 to-blue-600 dark:from-teal-400 dark:via-pink-400 dark:to-blue-400 bg-clip-text text-transparent">
           ⚡ LLM + NPM 执行引擎演示
         </h1>
         <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -405,7 +405,7 @@ export default function WorkflowExecutionPlayground() {
               <select
                 value={selectedTemplate}
                 onChange={(e) => loadTemplate(e.target.value)}
-                className="w-full p-3 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 transition-all"
+                className="w-full p-3 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-teal-500 transition-all"
               >
                 <option value="">-- 选择模板 --</option>
                 <option value="chatbot">🤖 智能聊天机器人</option>
@@ -421,7 +421,7 @@ export default function WorkflowExecutionPlayground() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="输入您的数据或使用模板默认值..."
-                className="w-full p-3 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-32 resize-none focus:ring-2 focus:ring-purple-500 transition-all"
+                className="w-full p-3 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-32 resize-none focus:ring-2 focus:ring-teal-500 transition-all"
               />
             </div>
 
@@ -463,7 +463,7 @@ export default function WorkflowExecutionPlayground() {
             </div>
           </div>
 
-          <div className="mt-4 p-4 bg-purple-50 dark:bg-purple-600/20 rounded-lg border border-purple-200 dark:border-purple-500/30">
+          <div className="mt-4 p-4 bg-teal-50 dark:bg-teal-600/20 rounded-lg border border-purple-200 dark:border-teal-500/30">
             <h3 className="font-bold mb-2 text-purple-700 dark:text-purple-300">🤖 AI 模型：</h3>
             <div className="space-y-1 text-xs text-gray-700 dark:text-gray-300">
               <div>• GPT-4o mini - 快速响应</div>
@@ -525,7 +525,7 @@ export default function WorkflowExecutionPlayground() {
                       log.includes('❌') ? 'text-red-400' : 
                       log.includes('✅') ? 'text-green-400' :
                       log.includes('🚀') ? 'text-blue-400' :
-                      log.includes('🤖') ? 'text-purple-400' :
+                      log.includes('🤖') ? 'text-teal-400' :
                       log.includes('📦') ? 'text-cyan-400' :
                       'text-gray-300'
                     } ${log.startsWith('  ') ? 'pl-4 text-xs' : ''}`}
@@ -542,7 +542,7 @@ export default function WorkflowExecutionPlayground() {
 
       {/* 使用说明 */}
       <div className="max-w-6xl mx-auto mt-8 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-        <h3 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+        <h3 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-teal-600 dark:from-blue-400 dark:to-teal-400 bg-clip-text text-transparent">
           💡 使用指南
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
@@ -562,7 +562,7 @@ export default function WorkflowExecutionPlayground() {
           </div>
           <div className="bg-gray-100 dark:bg-gray-700/50 rounded-lg p-4">
             <h4 className="font-bold mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-xs text-white">3</span>
+              <span className="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center text-xs text-white">3</span>
               执行工作流
             </h4>
             <p className="text-gray-700 dark:text-gray-300">点击执行按钮，观察数据如何在 LLM 模型和 NPM 包之间流转和处理。</p>

@@ -439,7 +439,7 @@ export const WebbSQLImporter: React.FC = () => {
   const ProgressBar: React.FC<{ percentage: number }> = ({ percentage }) => (
     <div className="w-full bg-gray-200 rounded-full h-3 dark:bg-gray-700">
       <div 
-        className="bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 h-3 rounded-full transition-all duration-500 ease-out"
+        className="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 h-3 rounded-full transition-all duration-500 ease-out"
         style={{ width: `${percentage}%` }}
       />
     </div>
@@ -482,8 +482,8 @@ export const WebbSQLImporter: React.FC = () => {
               Estimated Records / 预估记录
             </div>
           </div>
-          <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+          <div className="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-lg">
+            <div className="text-2xl font-bold text-teal-600 dark:text-teal-400">
               {importStats.dataSize}
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-300">
@@ -604,7 +604,7 @@ export const WebbSQLImporter: React.FC = () => {
           <Button
             onClick={startSQLImport}
             disabled={isImporting}
-            className="bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 hover:from-blue-700 hover:via-purple-700 hover:to-green-700 text-white px-8 py-3 font-semibold"
+            className="bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 hover:from-blue-700 hover:via-teal-700 hover:to-green-700 text-white px-8 py-3 font-semibold"
           >
             {isImporting ? '⚡ Importing SQL Files...' : '🚀 Start SQL Import / 开始SQL导入'}
           </Button>

@@ -105,7 +105,7 @@ const LLMUpdateManager: React.FC<UpdateManagerProps> = ({ onUpdateComplete }) =>
     <div className="card-minimal">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Database className="text-purple-600" size={16} />
+          <Database className="text-teal-600" size={16} />
           <div>
             <h3 className="text-subheading">LLM Data Manager</h3>
             <p className="text-caption">Keep model data current with artificialanalysis.ai</p>

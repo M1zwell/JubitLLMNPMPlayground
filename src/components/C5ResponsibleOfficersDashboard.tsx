@@ -205,7 +205,7 @@ const C5ResponsibleOfficersDashboard: React.FC = () => {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-gray-400">Loading C5 data...</p>
         </div>
       </div>
@@ -220,8 +220,8 @@ const C5ResponsibleOfficersDashboard: React.FC = () => {
           {/* Total RO/AO */}
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-2">
-              <Shield className="text-purple-600" size={24} />
-              <span className="text-xs bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 px-2 py-1 rounded">
+              <Shield className="text-teal-600" size={24} />
+              <span className="text-xs bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-purple-300 px-2 py-1 rounded">
                 {latestQuarterly.year} Q{latestQuarterly.quarter}
               </span>
             </div>

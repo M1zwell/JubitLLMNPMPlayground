@@ -358,7 +358,7 @@ export default function CIMAViewer() {
               <Building2 size={14} />
               Entity Types
             </p>
-            <p className="text-2xl font-bold text-purple-600">{new Set(data.map(e => e.entity_type)).size}</p>
+            <p className="text-2xl font-bold text-teal-600">{new Set(data.map(e => e.entity_type)).size}</p>
           </div>
           <div className="bg-white rounded-lg p-4 shadow">
             <p className="text-sm text-gray-600 flex items-center gap-1">
@@ -604,7 +604,7 @@ export default function CIMAViewer() {
                     </span>
                     {entity.entity_category && (
                       <span className="flex items-center gap-1">
-                        <Award size={14} className="text-purple-500" />
+                        <Award size={14} className="text-teal-500" />
                         {entity.entity_category}
                       </span>
                     )}
@@ -746,7 +746,7 @@ export default function CIMAViewer() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => setSelectedTrustCategories(TRUST_CATEGORIES)}
-                        className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded hover:bg-purple-200"
+                        className="text-xs px-2 py-1 bg-teal-100 text-teal-700 rounded hover:bg-teal-200"
                       >
                         Select All
                       </button>
@@ -766,7 +766,7 @@ export default function CIMAViewer() {
                           checked={selectedTrustCategories.includes(category)}
                           onChange={() => toggleTrustCategory(category)}
                           disabled={isUpdating}
-                          className="w-4 h-4 text-purple-500 focus:ring-purple-500 rounded"
+                          className="w-4 h-4 text-teal-500 focus:ring-teal-500 rounded"
                         />
                         <span className="text-sm text-gray-700">{category}</span>
                       </label>

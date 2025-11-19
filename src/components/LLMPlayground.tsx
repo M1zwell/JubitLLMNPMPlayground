@@ -495,7 +495,7 @@ function applyTransformation(data) {
           {/* 模型选择 */}
           <div className="card-minimal">
             <h3 className="text-subheading mb-4 flex items-center gap-2">
-              <Brain className="text-purple-600" size={16} />
+              <Brain className="text-teal-600" size={16} />
               模型选择
             </h3>
             
@@ -504,7 +504,7 @@ function applyTransformation(data) {
               <input
                 type="text"
                 placeholder="搜索模型..."
-                className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-purple-500"
+                className="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-teal-500"
               />
             </div>
             
@@ -515,7 +515,7 @@ function applyTransformation(data) {
                   onClick={() => setSelectedModel(model)}
                   className={`p-3 rounded-md cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-700 border ${
                     selectedModel?.id === model.id
-                      ? 'border-purple-600 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-500'
+                      ? 'border-teal-600 bg-teal-50 dark:bg-teal-900/20 dark:border-teal-500'
                       : 'border-gray-200 dark:border-gray-700'
                   }`}
                 >
@@ -691,7 +691,7 @@ function applyTransformation(data) {
                     onChange={(e) => setCustomSettings(prev => ({...prev, systemPrompt: e.target.value}))}
                     placeholder="设置系统提示词以控制模型行为..."
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
               </div>
@@ -771,7 +771,7 @@ function applyTransformation(data) {
                           message.role === 'user'
                             ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
                             : message.role === 'system'
-                            ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 text-xs'
+                            ? 'bg-teal-50 dark:bg-teal-900/30 text-purple-800 dark:text-purple-200 text-xs'
                             : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
                         }`}
                       >
@@ -817,7 +817,7 @@ function applyTransformation(data) {
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="输入您的消息..."
                   rows={3}
-                  className="flex-1 px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm resize-none focus:ring-2 focus:ring-purple-500"
+                  className="flex-1 px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm resize-none focus:ring-2 focus:ring-teal-500"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
@@ -856,7 +856,7 @@ function applyTransformation(data) {
                 </div>
                 <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-md">
                   <div className="text-caption">上下文</div>
-                  <div className="text-sm font-semibold text-purple-600 dark:text-purple-400">{Math.round(selectedModel.context_window/1000)}K</div>
+                  <div className="text-sm font-semibold text-teal-600 dark:text-teal-400">{Math.round(selectedModel.context_window/1000)}K</div>
                 </div>
               </div>
             )}

@@ -255,18 +255,18 @@ const D4FundFlowsDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-3">
+        <div className="bg-gradient-to-br from-teal-50 to-teal-100 border border-teal-200 rounded-lg p-3">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-purple-600">Flow Pattern</p>
-              <p className="text-xl font-bold text-purple-900">
+              <p className="text-sm font-medium text-teal-600">Flow Pattern</p>
+              <p className="text-xl font-bold text-teal-900">
                 {latestTotalFlow >= 0 ? 'Net Inflow' : 'Net Outflow'}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                 {latestYear} overall trend
               </p>
             </div>
-            <Activity className="text-purple-600" size={32} />
+            <Activity className="text-teal-600" size={32} />
           </div>
         </div>
       </div>
@@ -309,7 +309,7 @@ const D4FundFlowsDashboard: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
           <div className="mb-2">
             <h3 className="flex items-center gap-2 text-lg font-semibold">
-              <TrendingUp className="text-purple-600" size={20} />
+              <TrendingUp className="text-teal-600" size={20} />
               Flows vs Asset Base (% of NAV)
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
