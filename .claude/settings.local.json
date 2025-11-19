@@ -104,7 +104,8 @@
       "Bash(timeout 60 npm run dev)",
       "Bash(move:*)",
       "Bash(netlify domains:list:*)",
-      "Bash(netlify api:*)"
+      "Bash(netlify api:*)",
+      "Bash(netlify unlink:*)"
     ],
     "deny": [],
     "ask": []

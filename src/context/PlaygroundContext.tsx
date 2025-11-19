@@ -106,7 +106,7 @@ const PlaygroundContext = createContext<PlaygroundContextType | undefined>(undef
 
 // Initial state
 const initialState: PlaygroundState = {
-  currentView: 'integrated-hub',
+  currentView: 'hk-scraper',
   isLoading: false,
   error: null,
   
