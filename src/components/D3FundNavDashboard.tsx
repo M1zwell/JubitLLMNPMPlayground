@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { TrendingUp, TrendingDown, DollarSign, PieChartIcon, Activity } from 'lucide-react';
 import { useD3FundNavByDomicile } from '../hooks/useSFCStatistics';
+import { formatUSDMillions } from '../lib/utils';
 
 const D3FundNavDashboard: React.FC = () => {
   const [selectedDateRange, setSelectedDateRange] = useState({ start: 2020, end: 2025 });
@@ -229,7 +230,7 @@ const D3FundNavDashboard: React.FC = () => {
               <div>
                 <p className="text-sm font-medium text-purple-600">HK Domiciled NAV</p>
                 <p className="text-2xl font-bold text-purple-900">
-                  ${(latestHKTotal / 1000).toFixed(1)}bn
+                  {formatUSDMillions(latestHKTotal)}
                 </p>
                 <p className={`text-xs flex items-center gap-1 mt-1 ${qoqHKChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                   {qoqHKChange >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
@@ -247,7 +248,7 @@ const D3FundNavDashboard: React.FC = () => {
               <div>
                 <p className="text-sm font-medium text-blue-600">Non-HK Domiciled NAV</p>
                 <p className="text-2xl font-bold text-blue-900">
-                  ${(latestNonHKTotal / 1000).toFixed(1)}bn
+                  {formatUSDMillions(latestNonHKTotal)}
                 </p>
                 <p className={`text-xs flex items-center gap-1 mt-1 ${qoqNonHKChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                   {qoqNonHKChange >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
@@ -265,7 +266,7 @@ const D3FundNavDashboard: React.FC = () => {
               <div>
                 <p className="text-sm font-medium text-green-600">Total NAV (All)</p>
                 <p className="text-2xl font-bold text-green-900">
-                  ${(latestAllTotal / 1000).toFixed(1)}bn
+                  {formatUSDMillions(latestAllTotal)}
                 </p>
                 <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   As of {latestDate ? formatQuarter(latestDate) : 'N/A'}
@@ -312,7 +313,7 @@ const D3FundNavDashboard: React.FC = () => {
               <XAxis dataKey="quarter" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} label={{ value: 'NAV (US$ millions)', angle: -90, position: 'insideLeft' }} />
               <Tooltip
-                formatter={(value: any) => [`$${(value / 1000).toFixed(1)}bn`, '']}
+                formatter={(value: any) => [formatUSDMillions(value), '']}
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px' }}
               />
               <Legend />
@@ -344,7 +345,7 @@ const D3FundNavDashboard: React.FC = () => {
                 <XAxis dataKey="quarter" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip
-                  formatter={(value: any) => [`$${(value / 1000).toFixed(2)}bn`]}
+                  formatter={(value: any) => [formatUSDMillions(value, { decimals: 2 })]}
                   contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px' }} />
@@ -390,7 +391,7 @@ const D3FundNavDashboard: React.FC = () => {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value: any) => [`$${(value / 1000).toFixed(2)}bn`]}
+                  formatter={(value: any) => [formatUSDMillions(value, { decimals: 2 })]}
                   contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px' }}
                 />
               </PieChart>

@@ -121,3 +121,74 @@ export const theme = {
     xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
   },
 } as const;
+
+/**
+ * Currency formatting utilities for consistent display across dashboards
+ */
+
+export interface CurrencyFormatOptions {
+  decimals?: number;
+  showSign?: boolean;
+  compact?: boolean;
+}
+
+/**
+ * Format USD millions to billions with "US$" prefix
+ * @param valueMn - Value in millions USD
+ * @param options - Formatting options
+ */
+export function formatUSDMillions(valueMn: number, options: CurrencyFormatOptions = {}): string {
+  const { decimals = 1, showSign = false, compact = true } = options;
+
+  if (compact) {
+    const valueBn = valueMn / 1000;
+    const sign = showSign && valueBn > 0 ? '+' : '';
+    return `${sign}US$${valueBn.toFixed(decimals)}bn`;
+  }
+
+  const sign = showSign && valueMn > 0 ? '+' : '';
+  return `${sign}US$${valueMn.toFixed(decimals)}mn`;
+}
+
+/**
+ * Format HKD billions with "HK$" prefix
+ * @param valueBn - Value in billions HKD
+ * @param options - Formatting options
+ */
+export function formatHKDBillions(valueBn: number, options: CurrencyFormatOptions = {}): string {
+  const { decimals = 2, showSign = false } = options;
+  const sign = showSign && valueBn > 0 ? '+' : '';
+  return `${sign}HK$${valueBn.toFixed(decimals)}bn`;
+}
+
+/**
+ * Format HKD millions with "HK$" prefix
+ * @param valueMn - Value in millions HKD
+ * @param options - Formatting options
+ */
+export function formatHKDMillions(valueMn: number, options: CurrencyFormatOptions = {}): string {
+  const { decimals = 1, showSign = false } = options;
+  const sign = showSign && valueMn > 0 ? '+' : '';
+  return `${sign}HK$${valueMn.toFixed(decimals)}mn`;
+}
+
+/**
+ * Format currency for Recharts tooltip
+ * @param currency - 'USD' or 'HKD'
+ * @param unit - 'millions' or 'billions'
+ */
+export function getCurrencyFormatter(currency: 'USD' | 'HKD', unit: 'millions' | 'billions') {
+  return (value: number) => {
+    if (currency === 'USD') {
+      if (unit === 'billions') {
+        return formatUSDMillions(value * 1000, { decimals: 2, compact: true });
+      }
+      return formatUSDMillions(value, { decimals: 1, compact: false });
+    } else {
+      if (unit === 'billions') {
+        return formatHKDBillions(value, { decimals: 2 });
+      }
+      return formatHKDMillions(value, { decimals: 1 });
+    }
+  };
+}

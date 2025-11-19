@@ -201,33 +201,33 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'connected':
-        return <CheckCircle className="text-green-400" size={16} />;
+        return <CheckCircle className="text-green-500" size={16} />;
       case 'error':
-        return <AlertTriangle className="text-red-400" size={16} />;
+        return <AlertTriangle className="text-red-500" size={16} />;
       default:
-        return <div className="w-4 h-4 bg-gray-600 rounded-full"></div>;
+        return <div className="w-4 h-4 bg-gray-400 dark:bg-gray-600 rounded-full"></div>;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'connected':
-        return 'border-green-400/50 bg-green-600/10';
+        return 'border-green-400/50 dark:border-green-400/50 bg-green-100/50 dark:bg-green-600/10';
       case 'error':
-        return 'border-red-400/50 bg-red-600/10';
+        return 'border-red-400/50 dark:border-red-400/50 bg-red-100/50 dark:bg-red-600/10';
       default:
-        return 'border-gray-600/50 bg-gray-800/30';
+        return 'border-gray-300/50 dark:border-gray-600/50 bg-gray-100/50 dark:bg-gray-800/30';
     }
   };
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-600">
+    <div className="bg-white/90 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200 dark:border-slate-600">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold flex items-center gap-2">
-          <Brain className="text-purple-400" />
+        <h2 className="text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-gray-900 dark:text-white">
+          <Brain className="text-purple-500 dark:text-purple-400" />
           LLM Provider Management
         </h2>
-        <div className="text-sm text-slate-400">
+        <div className="text-sm text-gray-600 dark:text-gray-600 dark:text-slate-400">
           {providers.filter(p => p.status === 'connected').length} of {providers.length} connected
         </div>
       </div>
@@ -242,8 +242,8 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{provider.icon}</span>
                 <div>
-                  <h3 className="font-bold text-white">{provider.name}</h3>
-                  <p className="text-xs text-slate-400">{provider.description}</p>
+                  <h3 className="font-bold text-gray-900 dark:text-white">{provider.name}</h3>
+                  <p className="text-xs text-gray-600 dark:text-slate-400">{provider.description}</p>
                 </div>
               </div>
               
@@ -274,11 +274,11 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
                     value={apiKeys[provider.id] || ''}
                     onChange={(e) => updateApiKey(provider.id, e.target.value)}
                     placeholder={`Enter your ${provider.name} API key...`}
-                    className="w-full bg-slate-700/50 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-400 text-sm pr-10"
+                    className="w-full bg-slate-700/50 border border-slate-600 rounded px-3 py-2 text-gray-900 dark:text-white placeholder-slate-400 text-sm pr-10"
                   />
                   <button
                     onClick={() => toggleApiKeyVisibility(provider.id)}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-300"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 dark:text-slate-400 hover:text-slate-300"
                   >
                     {showApiKeys[provider.id] ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
@@ -299,7 +299,7 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
                   </span>
                 ))}
                 {provider.models.length > 3 && (
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-gray-600 dark:text-slate-400">
                     +{provider.models.length - 3} more
                   </span>
                 )}
@@ -324,7 +324,7 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
             {/* Pricing */}
             <div className="mb-4">
               <div className="text-sm font-medium mb-2 text-slate-300">Pricing</div>
-              <div className="text-xs text-slate-400">
+              <div className="text-xs text-gray-600 dark:text-slate-400">
                 {provider.pricing.input > 0 ? (
                   <>Input: ${provider.pricing.input} • Output: ${provider.pricing.output} {provider.pricing.unit}</>
                 ) : (
@@ -396,25 +396,25 @@ const LLMProviderManager: React.FC<LLMProviderManagerProps> = ({ onProvidersUpda
             <div className="text-lg font-bold text-green-400">
               {providers.filter(p => p.status === 'connected').length}
             </div>
-            <div className="text-slate-400">Connected</div>
+            <div className="text-gray-600 dark:text-slate-400">Connected</div>
           </div>
           <div className="text-center">
             <div className="text-lg font-bold text-blue-400">
               {providers.filter(p => p.status === 'connected').reduce((sum, p) => sum + p.models.length, 0)}
             </div>
-            <div className="text-slate-400">Models Available</div>
+            <div className="text-gray-600 dark:text-slate-400">Models Available</div>
           </div>
           <div className="text-center">
             <div className="text-lg font-bold text-purple-400">
               ${providers.filter(p => p.status === 'connected' && p.pricing.input > 0).reduce((min, p) => Math.min(min, p.pricing.input), Infinity).toFixed(2)}
             </div>
-            <div className="text-slate-400">Lowest Cost (1M tokens)</div>
+            <div className="text-gray-600 dark:text-slate-400">Lowest Cost (1M tokens)</div>
           </div>
         </div>
       </div>
 
       {/* Help */}
-      <div className="mt-4 text-xs text-slate-400">
+      <div className="mt-4 text-xs text-gray-600 dark:text-slate-400">
         <p>💡 <strong>Tip:</strong> API keys are stored securely in your browser's local storage. Connect multiple providers to access more models and features.</p>
       </div>
     </div>

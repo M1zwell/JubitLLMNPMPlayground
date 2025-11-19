@@ -18,11 +18,11 @@ export function EnvironmentChecker() {
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      <div className="bg-gray-900 text-white rounded-lg shadow-2xl border border-gray-700 overflow-hidden max-w-md">
+      <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden max-w-md">
         {/* Header */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-800 transition-colors"
+          className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         >
           <div className="flex items-center space-x-2">
             {validation.valid ? (
@@ -43,10 +43,10 @@ export function EnvironmentChecker() {
 
         {/* Expanded Content */}
         {isExpanded && (
-          <div className="px-4 py-3 space-y-3 border-t border-gray-700 max-h-96 overflow-y-auto">
+          <div className="px-4 py-3 space-y-3 border-t border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
             {/* Environment Info */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-400 mb-2">Environment</h3>
+              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">Environment</h3>
               <div className="space-y-1 text-sm">
                 <InfoRow label="Mode" value={ENV.mode} />
                 <InfoRow label="Base URL" value={ENV.app.baseUrl} />
@@ -56,7 +56,7 @@ export function EnvironmentChecker() {
 
             {/* Supabase Configuration */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-400 mb-2">Supabase</h3>
+              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">Supabase</h3>
               <div className="space-y-1 text-sm">
                 <StatusRow
                   label="URL"
@@ -73,7 +73,7 @@ export function EnvironmentChecker() {
 
             {/* Features */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-400 mb-2">Features</h3>
+              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">Features</h3>
               <div className="space-y-1 text-sm">
                 <StatusRow
                   label="Multi-Model Chat"
@@ -113,7 +113,7 @@ export function EnvironmentChecker() {
             )}
 
             {/* Quick Actions */}
-            <div className="pt-2 border-t border-gray-700">
+            <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => {
                   console.clear();
@@ -136,8 +136,8 @@ export function EnvironmentChecker() {
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between items-center">
-      <span className="text-gray-400">{label}:</span>
-      <span className="text-white font-mono text-xs truncate ml-2 max-w-[200px]">
+      <span className="text-gray-500 dark:text-gray-400">{label}:</span>
+      <span className="text-gray-900 dark:text-white font-mono text-xs truncate ml-2 max-w-[200px]">
         {value}
       </span>
     </div>
@@ -161,9 +161,9 @@ function StatusRow({
         ) : (
           <XCircle className="w-4 h-4 text-red-500" />
         )}
-        <span className="text-gray-400">{label}:</span>
+        <span className="text-gray-500 dark:text-gray-400">{label}:</span>
       </div>
-      <span className="text-white font-mono text-xs truncate ml-2 max-w-[200px]">
+      <span className="text-gray-900 dark:text-white font-mono text-xs truncate ml-2 max-w-[200px]">
         {value}
       </span>
     </div>

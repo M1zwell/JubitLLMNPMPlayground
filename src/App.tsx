@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { DarkModeProvider } from './contexts/DarkModeContext';
 import EnhancedLLMMarket from './components/EnhancedLLMMarket';
 import NPMPlayground from './components/NPMPlayground';
 import NPMMarketplace from './components/NPMMarketplace';
@@ -14,6 +15,7 @@ import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
 import UserMenu from './components/auth/UserMenu';
 import UserProfile from './components/auth/UserProfile';
+import DarkModeToggle from './components/DarkModeToggle';
 import { Brain, Package, User, Workflow, Search } from 'lucide-react';
 import AdvancedPlaygroundDemo from './components/AdvancedPlaygroundDemo';
 import { MultiModelChat } from './components/MultiModelChat';
@@ -324,11 +326,14 @@ function AppContent() {
                 */}
               </nav>
 
+              {/* Dark Mode Toggle */}
+              <DarkModeToggle />
+
               {/* 用户认证 */}
               {authLoading ? (
                 <div className="w-8 h-8 bg-gray-700 rounded-full animate-pulse"></div>
               ) : user ? (
-                <UserMenu 
+                <UserMenu
                   onOpenProfile={() => setShowUserProfile(true)}
                   onOpenSettings={() => {}}
                 />
@@ -458,11 +463,13 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <PlaygroundProvider>
-          <AppContent />
-        </PlaygroundProvider>
-      </AuthProvider>
+      <DarkModeProvider>
+        <AuthProvider>
+          <PlaygroundProvider>
+            <AppContent />
+          </PlaygroundProvider>
+        </AuthProvider>
+      </DarkModeProvider>
     </BrowserRouter>
   );
 }

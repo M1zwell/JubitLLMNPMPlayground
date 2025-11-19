@@ -5,6 +5,7 @@ import {
 import { TrendingUp, TrendingDown, DollarSign, Activity, AlertCircle } from 'lucide-react';
 import { useD4FundFlows } from '../hooks/useSFCStatistics';
 import { useD3FundNavByDomicile } from '../hooks/useSFCStatistics';
+import { formatUSDMillions } from '../lib/utils';
 
 const D4FundFlowsDashboard: React.FC = () => {
   const [yearRange, setYearRange] = useState({ start: 2019, end: 2025 });
@@ -210,7 +211,7 @@ const D4FundFlowsDashboard: React.FC = () => {
             <div>
               <p className="text-sm font-medium text-green-600">{latestYear} Total Net Flow</p>
               <p className="text-2xl font-bold text-green-900">
-                ${(latestTotalFlow / 1000).toFixed(1)}bn
+                {formatUSDMillions(latestTotalFlow, { showSign: latestTotalFlow !== 0 })}
               </p>
               <p className={`text-xs flex items-center gap-1 mt-1 ${yoyChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {yoyChange >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
@@ -229,7 +230,7 @@ const D4FundFlowsDashboard: React.FC = () => {
                 <>
                   <p className="text-xl font-bold text-blue-900">{latestTopInflows[0].fund_type}</p>
                   <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                    +${(latestTopInflows[0].net_flow_usd_mn! / 1000).toFixed(1)}bn
+                    {formatUSDMillions(latestTopInflows[0].net_flow_usd_mn!, { showSign: true })}
                   </p>
                 </>
               )}
@@ -246,7 +247,7 @@ const D4FundFlowsDashboard: React.FC = () => {
                 <>
                   <p className="text-xl font-bold text-red-900">{latestTopOutflows[0].fund_type}</p>
                   <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                    ${(latestTopOutflows[0].net_flow_usd_mn! / 1000).toFixed(1)}bn
+                    {formatUSDMillions(latestTopOutflows[0].net_flow_usd_mn!)}
                   </p>
                 </>
               )}
@@ -289,7 +290,7 @@ const D4FundFlowsDashboard: React.FC = () => {
               <XAxis dataKey="year" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} label={{ value: 'Net Flow (US$ millions)', angle: -90, position: 'insideLeft' }} />
               <Tooltip
-                formatter={(value: any) => [`$${(value / 1000).toFixed(2)}bn`]}
+                formatter={(value: any) => [formatUSDMillions(value, { decimals: 2 })]}
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px' }}
               />
               <Legend wrapperStyle={{ fontSize: '11px' }} />
@@ -325,7 +326,7 @@ const D4FundFlowsDashboard: React.FC = () => {
                 <Tooltip
                   formatter={(value: any, name) => {
                     if (name === 'flowPercent') return [`${value.toFixed(2)}%`];
-                    return [`$${(value / 1000).toFixed(2)}bn`];
+                    return [formatUSDMillions(value, { decimals: 2 })];
                   }}
                   contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px' }}
                 />
@@ -358,7 +359,7 @@ const D4FundFlowsDashboard: React.FC = () => {
                 <XAxis dataKey="year" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} label={{ value: 'Total Net Flow (US$ millions)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip
-                  formatter={(value: any) => [`$${(value / 1000).toFixed(2)}bn`]}
+                  formatter={(value: any) => [formatUSDMillions(value, { decimals: 2 })]}
                   contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px' }}
                 />
                 <Legend />
@@ -385,16 +386,16 @@ const D4FundFlowsDashboard: React.FC = () => {
             <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
               <li>
                 <strong>MoneyMarket dominance:</strong> {latestYearFlows.find(d => d.fund_type === 'MoneyMarket')?.net_flow_usd_mn &&
-                  `$${((latestYearFlows.find(d => d.fund_type === 'MoneyMarket')!.net_flow_usd_mn! / 1000)).toFixed(1)}bn inflow - investors seeking safety and liquidity`}
+                  `${formatUSDMillions(latestYearFlows.find(d => d.fund_type === 'MoneyMarket')!.net_flow_usd_mn!)} inflow - investors seeking safety and liquidity`}
               </li>
               <li>
                 <strong>Index funds growth:</strong> {latestYearFlows.find(d => d.fund_type === 'Index')?.net_flow_usd_mn &&
-                  `$${((latestYearFlows.find(d => d.fund_type === 'Index')!.net_flow_usd_mn! / 1000)).toFixed(1)}bn - passive investing trend continues`}
+                  `${formatUSDMillions(latestYearFlows.find(d => d.fund_type === 'Index')!.net_flow_usd_mn!)} - passive investing trend continues`}
               </li>
               <li>
                 <strong>Overall sentiment:</strong> {latestTotalFlow >= 0 ?
-                  `Strong net inflow of $${(latestTotalFlow / 1000).toFixed(1)}bn indicates robust investor confidence` :
-                  `Net outflow of $${Math.abs(latestTotalFlow / 1000).toFixed(1)}bn signals caution`}
+                  `Strong net inflow of ${formatUSDMillions(latestTotalFlow)} indicates robust investor confidence` :
+                  `Net outflow of ${formatUSDMillions(Math.abs(latestTotalFlow))} signals caution`}
               </li>
             </ul>
           </div>

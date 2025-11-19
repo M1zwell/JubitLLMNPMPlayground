@@ -482,7 +482,7 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
   };
 
   return (
-    <div className={`bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-600 ${className}`}>
+    <div className={`bg-white/90 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200 dark:border-gray-200 dark:border-slate-600 ${className}`}>
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-bold flex items-center gap-2">
           <Shield className="text-green-400" />
@@ -496,7 +496,7 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
 
       {/* Sandbox Selection */}
       <div className="mb-6">
-        <h4 className="font-medium mb-3 text-slate-300">Choose Execution Environment</h4>
+        <h4 className="font-medium mb-3 text-gray-700 dark:text-slate-300">Choose Execution Environment</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {SANDBOX_ENVIRONMENTS.map(env => (
             <div
@@ -506,7 +506,7 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
                 cursor-pointer rounded-lg p-4 border transition-all duration-200
                 ${selectedSandbox === env.id 
                   ? 'border-blue-400 bg-blue-600/20' 
-                  : 'border-slate-600 bg-slate-700/30 hover:border-slate-500'
+                  : 'border-gray-200 dark:border-slate-600 bg-slate-700/30 hover:border-slate-500'
                 }
               `}
             >
@@ -518,7 +518,7 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
                 </div>
               </div>
               
-              <p className="text-xs text-slate-400 mb-3">{env.description}</p>
+              <p className="text-xs text-gray-600 dark:text-slate-400 mb-3">{env.description}</p>
               
               <div className="space-y-2">
                 <div className="flex flex-wrap gap-1">
@@ -577,7 +577,7 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
           
           <button
             onClick={clearConsole}
-            className="bg-slate-600 hover:bg-slate-700 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-gray-200 dark:bg-slate-600 hover:bg-gray-300 dark:hover:bg-slate-700 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
           >
             <RefreshCw size={16} />
             Clear
@@ -605,14 +605,14 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-2">
           <Terminal className="text-green-400" size={16} />
-          <h4 className="font-medium text-slate-300">Console Output</h4>
+          <h4 className="font-medium text-gray-700 dark:text-slate-300">Console Output</h4>
         </div>
         <div 
           ref={consoleRef}
-          className="bg-slate-900/50 rounded-lg p-3 h-40 overflow-y-auto font-mono text-sm border border-slate-600"
+          className="bg-gray-50 dark:bg-slate-900/50 rounded-lg p-3 h-40 overflow-y-auto font-mono text-sm border border-gray-200 dark:border-slate-600"
         >
           {consoleOutput.length === 0 ? (
-            <div className="text-slate-500 italic">Console output will appear here...</div>
+            <div className="text-gray-500 dark:text-slate-500 italic">Console output will appear here...</div>
           ) : (
             consoleOutput.map((line, index) => (
               <div 
@@ -634,7 +634,7 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
       {/* Execution History */}
       {executionHistory.length > 0 && (
         <div>
-          <h4 className="font-medium mb-3 text-slate-300">Execution History</h4>
+          <h4 className="font-medium mb-3 text-gray-700 dark:text-slate-300">Execution History</h4>
           <div className="space-y-2 max-h-32 overflow-y-auto">
             {executionHistory.map((result, index) => (
               <div 
@@ -657,15 +657,15 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
                     <span className="font-medium">
                       {result.success ? 'Success' : 'Failed'}
                     </span>
-                    <span className="text-slate-400">•</span>
-                    <span className="text-slate-400">{result.sandboxType}</span>
+                    <span className="text-gray-600 dark:text-slate-400">•</span>
+                    <span className="text-gray-600 dark:text-slate-400">{result.sandboxType}</span>
                   </div>
-                  <div className="text-xs text-slate-400">
+                  <div className="text-xs text-gray-600 dark:text-slate-400">
                     {new Date(result.timestamp).toLocaleTimeString()}
                   </div>
                 </div>
                 
-                <div className="text-xs text-slate-300 mb-2">
+                <div className="text-xs text-gray-700 dark:text-slate-300 mb-2">
                   {result.success ? (
                     typeof result.output === 'string' 
                       ? result.output.substring(0, 100) + (result.output.length > 100 ? '...' : '')
@@ -675,7 +675,7 @@ const NPMExecutionSandbox: React.FC<NPMExecutionSandboxProps> = ({
                   )}
                 </div>
                 
-                <div className="flex gap-4 text-xs text-slate-400">
+                <div className="flex gap-4 text-xs text-gray-600 dark:text-slate-400">
                   <span>⏱️ {result.executionTime}ms</span>
                   <span>💾 {result.memoryUsage}MB</span>
                 </div>
