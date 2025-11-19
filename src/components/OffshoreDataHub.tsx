@@ -29,23 +29,23 @@ export default function OffshoreDataHub() {
   const [viewMode, setViewMode] = useState<ViewMode>('view');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950 p-3 md:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-gray-900 dark:via-pink-950 dark:to-rose-950 p-3 md:p-6">
       <div className="max-w-7xl mx-auto space-y-4">
         {/* Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 md:p-6 border border-purple-100 dark:border-purple-800">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 md:p-6 border border-pink-100 dark:border-pink-800">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6 gap-4">
             <div>
-              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
-                <Shield className="text-purple-500" size={32} />
+              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent flex items-center gap-2">
+                <Shield className="text-pink-500" size={32} />
                 Offshore Financial Data Hub
               </h1>
               <p className="text-gray-600 dark:text-gray-300 mt-1 text-sm md:text-base">
                 Cayman Islands & BVI Regulatory Data Platform
               </p>
             </div>
-            <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/40 dark:to-indigo-900/40 rounded-lg border border-purple-200 dark:border-purple-700">
+            <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/40 dark:to-rose-900/40 rounded-lg border border-pink-200 dark:border-pink-700">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs md:text-sm font-medium text-purple-700 dark:text-purple-300">Live Data</span>
+              <span className="text-xs md:text-sm font-medium text-pink-700 dark:text-pink-300">Live Data</span>
             </div>
           </div>
 
@@ -55,8 +55,8 @@ export default function OffshoreDataHub() {
               onClick={() => setActiveSource('cima')}
               className={`flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all ${
                 activeSource === 'cima'
-                  ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg md:scale-105'
-                  : 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-900/40 border border-purple-200 dark:border-purple-700'
+                  ? 'bg-gradient-to-r from-pink-500 to-pink-600 text-white shadow-lg md:scale-105'
+                  : 'bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-200 hover:bg-pink-100 dark:hover:bg-pink-900/40 border border-pink-200 dark:border-pink-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -70,8 +70,8 @@ export default function OffshoreDataHub() {
               onClick={() => setActiveSource('bvi')}
               className={`flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all ${
                 activeSource === 'bvi'
-                  ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-lg md:scale-105'
-                  : 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 border border-indigo-200 dark:border-indigo-700'
+                  ? 'bg-gradient-to-r from-rose-500 to-rose-600 text-white shadow-lg md:scale-105'
+                  : 'bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-200 hover:bg-rose-100 dark:hover:bg-rose-900/40 border border-rose-200 dark:border-rose-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -83,15 +83,15 @@ export default function OffshoreDataHub() {
           </div>
 
           {/* View Mode Tabs */}
-          <div className="flex gap-1 sm:gap-2 p-1 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
+          <div className="flex gap-1 sm:gap-2 p-1 bg-pink-50 dark:bg-pink-900/20 rounded-lg border border-pink-100 dark:border-pink-800">
             <button
               onClick={() => setViewMode('view')}
               className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'view'
                   ? activeSource === 'cima'
-                    ? 'bg-purple-500 text-white shadow-md'
-                    : 'bg-indigo-500 text-white shadow-md'
-                  : 'text-purple-600 dark:text-purple-300 hover:text-purple-900 dark:hover:text-white hover:bg-purple-100 dark:hover:bg-purple-900/40'
+                    ? 'bg-pink-500 text-white shadow-md'
+                    : 'bg-rose-500 text-white shadow-md'
+                  : 'text-pink-600 dark:text-pink-300 hover:text-pink-900 dark:hover:text-white hover:bg-pink-100 dark:hover:bg-pink-900/40'
               }`}
             >
               <span className="hidden sm:inline">📊 View Data</span>
@@ -102,9 +102,9 @@ export default function OffshoreDataHub() {
               className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'analyze'
                   ? activeSource === 'cima'
-                    ? 'bg-purple-500 text-white shadow-md'
-                    : 'bg-indigo-500 text-white shadow-md'
-                  : 'text-purple-600 dark:text-purple-300 hover:text-purple-900 dark:hover:text-white hover:bg-purple-100 dark:hover:bg-purple-900/40'
+                    ? 'bg-pink-500 text-white shadow-md'
+                    : 'bg-rose-500 text-white shadow-md'
+                  : 'text-pink-600 dark:text-pink-300 hover:text-pink-900 dark:hover:text-white hover:bg-pink-100 dark:hover:bg-pink-900/40'
               }`}
             >
               <span className="hidden sm:inline">📈 Analyze</span>
@@ -115,9 +115,9 @@ export default function OffshoreDataHub() {
               className={`flex-1 px-2 sm:px-4 py-2 rounded-md font-medium text-xs sm:text-sm transition-all ${
                 viewMode === 'scrape'
                   ? activeSource === 'cima'
-                    ? 'bg-purple-500 text-white shadow-md'
-                    : 'bg-indigo-500 text-white shadow-md'
-                  : 'text-purple-600 dark:text-purple-300 hover:text-purple-900 dark:hover:text-white hover:bg-purple-100 dark:hover:bg-purple-900/40'
+                    ? 'bg-pink-500 text-white shadow-md'
+                    : 'bg-rose-500 text-white shadow-md'
+                  : 'text-pink-600 dark:text-pink-300 hover:text-pink-900 dark:hover:text-white hover:bg-pink-100 dark:hover:bg-pink-900/40'
               }`}
             >
               <span className="hidden sm:inline">🔄 Scrape</span>
@@ -127,7 +127,7 @@ export default function OffshoreDataHub() {
         </div>
 
         {/* Content Area */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-purple-100 dark:border-purple-800">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-pink-100 dark:border-pink-800">
           {activeSource === 'cima' && (
             <div>
               {viewMode === 'view' && <CIMAViewer />}
@@ -228,10 +228,10 @@ function StatCard({
   color: string;
 }) {
   const colorClasses = {
-    purple: 'from-purple-50 to-purple-100 border-purple-200 dark:from-purple-900/20 dark:to-purple-800/20 dark:border-purple-700',
-    indigo: 'from-indigo-50 to-indigo-100 border-indigo-200 dark:from-indigo-900/20 dark:to-indigo-800/20 dark:border-indigo-700',
-    violet: 'from-violet-50 to-violet-100 border-violet-200 dark:from-violet-900/20 dark:to-violet-800/20 dark:border-violet-700',
-    fuchsia: 'from-fuchsia-50 to-fuchsia-100 border-fuchsia-200 dark:from-fuchsia-900/20 dark:to-fuchsia-800/20 dark:border-fuchsia-700'
+    purple: 'from-pink-50 to-pink-100 border-pink-200 dark:from-pink-900/20 dark:to-pink-800/20 dark:border-pink-700',
+    indigo: 'from-rose-50 to-rose-100 border-rose-200 dark:from-rose-900/20 dark:to-rose-800/20 dark:border-rose-700',
+    violet: 'from-fuchsia-50 to-fuchsia-100 border-fuchsia-200 dark:from-fuchsia-900/20 dark:to-fuchsia-800/20 dark:border-fuchsia-700',
+    fuchsia: 'from-pink-50 to-pink-100 border-pink-200 dark:from-pink-900/20 dark:to-pink-800/20 dark:border-pink-700'
   };
 
   return (
@@ -263,9 +263,9 @@ function ComingSoonPlaceholder({
       <div className="text-4xl md:text-6xl mb-3 md:mb-4">{icon}</div>
       <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
       <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 max-w-md mx-auto">{description}</p>
-      <div className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/40 dark:to-indigo-900/40 rounded-lg border border-purple-200 dark:border-purple-700">
-        <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-        <span className="text-xs md:text-sm font-medium text-purple-700 dark:text-purple-300">Coming Soon</span>
+      <div className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/40 dark:to-rose-900/40 rounded-lg border border-pink-200 dark:border-pink-700">
+        <div className="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
+        <span className="text-xs md:text-sm font-medium text-pink-700 dark:text-pink-300">Coming Soon</span>
       </div>
     </div>
   );
