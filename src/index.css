@@ -116,7 +116,7 @@ body {
   background-color: var(--color-bg-tertiary);
   border: 1px solid var(--color-border);
   border-radius: 0.5rem;
-  padding: var(--space-xl);
+  padding: var(--space-lg);
   box-shadow: var(--shadow-sm);
 }
 
@@ -130,8 +130,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  padding: var(--space-md) var(--space-lg);
-  font-size: var(--font-size-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-xs);
   font-weight: 500;
   border-radius: 0.375rem;
   border: 1px solid transparent;
@@ -300,7 +300,7 @@ body {
   }
   
   .card-minimal {
-    padding: var(--space-lg);
+    padding: var(--space-md);
   }
   
   .text-heading-lg {

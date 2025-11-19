@@ -188,20 +188,20 @@ const D3FundNavDashboard: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-4 p-3">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             D3: Fund Industry Asset Base
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
             Net Asset Value of Authorised Unit Trusts and Mutual Funds
           </p>
         </div>
         <div className="flex gap-2">
           <select
-            className="px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+            className="px-2 py-1.5 text-xs border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             value={selectedDateRange.start}
             onChange={(e) => setSelectedDateRange({ ...selectedDateRange, start: parseInt(e.target.value) })}
           >
@@ -211,7 +211,7 @@ const D3FundNavDashboard: React.FC = () => {
           </select>
           <span className="py-2 text-gray-600 dark:text-gray-400">to</span>
           <select
-            className="px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+            className="px-2 py-1.5 text-xs border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             value={selectedDateRange.end}
             onChange={(e) => setSelectedDateRange({ ...selectedDateRange, end: parseInt(e.target.value) })}
           >
@@ -223,13 +223,13 @@ const D3FundNavDashboard: React.FC = () => {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-4">
-          <div className="pt-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-3">
+          <div className="pt-2">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-purple-600">HK Domiciled NAV</p>
-                <p className="text-2xl font-bold text-purple-900">
+                <p className="text-xl font-bold text-purple-900">
                   {formatUSDMillions(latestHKTotal)}
                 </p>
                 <p className={`text-xs flex items-center gap-1 mt-1 ${qoqHKChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -237,17 +237,17 @@ const D3FundNavDashboard: React.FC = () => {
                   {qoqHKChange.toFixed(2)}% QoQ
                 </p>
               </div>
-              <DollarSign className="text-purple-600" size={32} />
+              <DollarSign className="text-purple-600" size={20} />
             </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4">
-          <div className="pt-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-3">
+          <div className="pt-2">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-blue-600">Non-HK Domiciled NAV</p>
-                <p className="text-2xl font-bold text-blue-900">
+                <p className="text-xl font-bold text-blue-900">
                   {formatUSDMillions(latestNonHKTotal)}
                 </p>
                 <p className={`text-xs flex items-center gap-1 mt-1 ${qoqNonHKChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -255,41 +255,41 @@ const D3FundNavDashboard: React.FC = () => {
                   {qoqNonHKChange.toFixed(2)}% QoQ
                 </p>
               </div>
-              <DollarSign className="text-blue-600" size={32} />
+              <DollarSign className="text-blue-600" size={20} />
             </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4">
-          <div className="pt-6">
+        <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-3">
+          <div className="pt-2">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-green-600">Total NAV (All)</p>
-                <p className="text-2xl font-bold text-green-900">
+                <p className="text-xl font-bold text-green-900">
                   {formatUSDMillions(latestAllTotal)}
                 </p>
                 <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   As of {latestDate ? formatQuarter(latestDate) : 'N/A'}
                 </p>
               </div>
-              <Activity className="text-green-600" size={32} />
+              <Activity className="text-green-600" size={20} />
             </div>
           </div>
         </div>
 
         <div className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-lg p-4">
-          <div className="pt-6">
+          <div className="pt-2">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-orange-600">HK Market Share</p>
-                <p className="text-2xl font-bold text-orange-900">
+                <p className="text-xl font-bold text-orange-900">
                   {latestAllTotal > 0 ? ((latestHKTotal / latestAllTotal) * 100).toFixed(1) : 0}%
                 </p>
                 <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   Of total authorised funds
                 </p>
               </div>
-              <PieChartIcon className="text-orange-600" size={32} />
+              <PieChartIcon className="text-orange-600" size={20} />
             </div>
           </div>
         </div>

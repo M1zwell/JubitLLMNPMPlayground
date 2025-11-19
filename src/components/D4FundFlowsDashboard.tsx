@@ -169,20 +169,20 @@ const D4FundFlowsDashboard: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-4 p-3">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+          <h2 className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
             D4: Fund Industry Flows
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
             Annual Net Subscription/(Redemption) of HK-Domiciled Funds
           </p>
         </div>
         <div className="flex gap-2">
           <select
-            className="px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+            className="px-2 py-1.5 text-xs border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             value={yearRange.start}
             onChange={(e) => setYearRange({ ...yearRange, start: parseInt(e.target.value) })}
           >
@@ -192,7 +192,7 @@ const D4FundFlowsDashboard: React.FC = () => {
           </select>
           <span className="py-2 text-gray-600 dark:text-gray-400">to</span>
           <select
-            className="px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+            className="px-2 py-1.5 text-xs border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             value={yearRange.end}
             onChange={(e) => setYearRange({ ...yearRange, end: parseInt(e.target.value) })}
           >
@@ -204,12 +204,12 @@ const D4FundFlowsDashboard: React.FC = () => {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-green-600">{latestYear} Total Net Flow</p>
-              <p className="text-2xl font-bold text-green-900">
+              <p className="text-xl font-bold text-green-900">
                 {formatUSDMillions(latestTotalFlow, { showSign: latestTotalFlow !== 0 })}
               </p>
               <p className={`text-xs flex items-center gap-1 mt-1 ${yoyChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -221,7 +221,7 @@ const D4FundFlowsDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-blue-600">Top Inflow</p>
@@ -238,7 +238,7 @@ const D4FundFlowsDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-lg p-4">
+        <div className="bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-lg p-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-red-600">Top Outflow</p>
@@ -255,7 +255,7 @@ const D4FundFlowsDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-4">
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-purple-600">Flow Pattern</p>
@@ -379,7 +379,7 @@ const D4FundFlowsDashboard: React.FC = () => {
       </div>
 
       {/* Insights Box */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
         <div className="flex gap-3">
           <AlertCircle className="text-blue-600 flex-shrink-0" size={24} />
           <div>

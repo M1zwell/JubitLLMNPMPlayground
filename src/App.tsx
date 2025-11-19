@@ -92,15 +92,15 @@ function AppContent() {
     <div className="min-h-screen bg-gray-900 text-gray-100">
       {/* 极简化导航栏 */}
       <nav className="border-b border-gray-700 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-14">
-            <div className="flex items-center space-x-6">
-              <h1 className="text-lg font-semibold text-gray-100">
+        <div className="max-w-7xl mx-auto px-3">
+          <div className="flex items-center justify-between h-12">
+            <div className="flex items-center space-x-4">
+              <h1 className="text-base font-semibold text-gray-100">
                 LLM & NPM Playground
               </h1>
             </div>
-            
-            <div className="flex items-center space-x-2">
+
+            <div className="flex items-center space-x-1.5">
               {/* 导航按钮 - 更加紧凑 */}
               <nav className="hidden md:flex items-center space-x-1">
                 <button
@@ -352,7 +352,7 @@ function AppContent() {
       </nav>
 
       {/* 内容区域 */}
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className="max-w-7xl mx-auto px-3 py-4">
         {state.currentView === 'integrated-hub' ? (
           <IntegratedPlaygroundHub />
         ) : state.currentView === 'llm-market' ? (
