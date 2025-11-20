@@ -54,13 +54,13 @@ const getTrendColor = (trend: string): string => {
 
 const CATEGORIES = {
   'all-packages': { name: 'All Packages', icon: Package, color: 'text-gray-500' },
-  'front-end': { name: 'Front-end', icon: Globe, color: 'text-blue-500' },
-  'back-end': { name: 'Back-end', icon: Code, color: 'text-green-500' },
-  'cli-tools': { name: 'CLI Tools', icon: Terminal, color: 'text-teal-500' },
+  'front-end': { name: 'Front-end', icon: Globe, color: 'text-blue-600' },
+  'back-end': { name: 'Back-end', icon: Code, color: 'text-green-600' },
+  'cli-tools': { name: 'CLI Tools', icon: Terminal, color: 'text-teal-600' },
   documentation: { name: 'Documentation', icon: BookOpen, color: 'text-pink-500' },
   'css-styling': { name: 'CSS & Styling', icon: Palette, color: 'text-pink-500' },
-  'frameworks': { name: 'Frameworks', icon: Zap, color: 'text-yellow-500' },
-  'testing': { name: 'Testing', icon: CheckCircle, color: 'text-cyan-500' },
+  'frameworks': { name: 'Frameworks', icon: Zap, color: 'text-yellow-600' },
+  'testing': { name: 'Testing', icon: CheckCircle, color: 'text-cyan-600' },
   iot: { name: 'IoT', icon: Wifi, color: 'text-emerald-600' },
   coverage: { name: 'Coverage', icon: BarChart3, color: 'text-orange-600' },
   mobile: { name: 'Mobile', icon: Smartphone, color: 'text-teal-600' },

@@ -1,10 +1,10 @@
 import React from 'react';
 import { usePlayground } from '../context/PlaygroundContext';
-import { 
-  Brain, Package, Code, Workflow, Activity, 
+import {
+  Brain, Package, Code, Workflow, Activity,
   Zap, Target, Users, TrendingUp, Globe,
   RefreshCw, Play, Plus, Search as SearchIcon, Filter,
-  ArrowRight, CheckCircle, Clock, Database
+  ArrowRight, CheckCircle, Clock, Database, WifiOff
 } from 'lucide-react';
 import AIWorkflowAdvisor from './AIWorkflowAdvisor';
 
@@ -73,8 +73,12 @@ const IntegratedPlaygroundHub: React.FC = () => {
         
         <div className="flex items-center justify-center gap-4 mt-4 text-sm">
           <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${safeState.connectionStatus === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
-            <span>Supabase: {safeState.connectionStatus}</span>
+            {safeState.connectionStatus === 'connected' ? (
+              <CheckCircle className="text-green-500" size={14} aria-hidden="true" />
+            ) : (
+              <WifiOff className="text-yellow-500" size={14} aria-hidden="true" />
+            )}
+            <span>Supabase: <strong>{safeState.connectionStatus}</strong></span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="text-blue-600 dark:text-blue-400" size={14} />
@@ -143,9 +147,10 @@ const IntegratedPlaygroundHub: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search LLM models..."
+                aria-label="Search LLM models"
                 value={safeState.searchTerms.llm}
                 onChange={(e) => safeActions.setLLMSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                className="w-full pl-9 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:border-teal-500 dark:focus:border-teal-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               />
             </div>
           </div>
@@ -214,9 +219,10 @@ const IntegratedPlaygroundHub: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search NPM packages..."
+                aria-label="Search NPM packages"
                 value={safeState.searchTerms.npm}
                 onChange={(e) => safeActions.setNPMSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                className="w-full pl-9 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:border-teal-500 dark:focus:border-teal-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               />
             </div>
           </div>

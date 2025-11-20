@@ -89,8 +89,16 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
-      {/* 极简化导航栏 */}
-      <nav className="border-b border-gray-700 bg-gray-900">
+      {/* Skip Navigation Link - WCAG 2.4.1 */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:px-4 focus:py-3 focus:bg-teal-600 focus:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+      >
+        Skip to main content
+      </a>
+
+      {/* Navigation Bar */}
+      <nav aria-label="Main navigation" className="border-b border-gray-700 bg-gray-900">
         <div className="max-w-7xl mx-auto px-3">
           <div className="flex items-center justify-between h-12">
             <div className="flex items-center space-x-4">
@@ -109,8 +117,9 @@ function AppContent() {
                       ? 'btn-primary'
                       : 'btn-ghost'
                   }`}
+                  aria-current={state.currentView === 'integrated-hub' ? 'page' : undefined}
                 >
-                  <Workflow size={14} />
+                  <Workflow size={14} aria-hidden="true" />
                   Hub
                 </button>
                 <button
@@ -347,8 +356,8 @@ function AppContent() {
         </div>
       </nav>
 
-      {/* 内容区域 */}
-      <main className="max-w-7xl mx-auto px-3 py-4">
+      {/* Main Content Area - WCAG 1.3.1 */}
+      <main id="main-content" className="max-w-7xl mx-auto px-3 py-4">
         {state.currentView === 'integrated-hub' ? (
           <IntegratedPlaygroundHub />
         ) : state.currentView === 'llm-market' ? (
