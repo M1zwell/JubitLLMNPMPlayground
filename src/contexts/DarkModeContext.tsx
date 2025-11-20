@@ -11,47 +11,19 @@ interface DarkModeContextType {
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
 
 export function DarkModeProvider({ children }: { children: React.ReactNode }) {
-  const [preference, setPreferenceState] = useState<DarkModePreference>('auto');
-  const [systemPrefersDark, setSystemPrefersDark] = useState(false);
+  // Always use dark mode - no toggle needed
+  const preference: DarkModePreference = 'dark';
+  const darkMode = true;
 
-  // Load saved preference from localStorage
+  // Apply dark mode class to document - always enabled
   useEffect(() => {
-    const saved = localStorage.getItem('darkModePreference') as DarkModePreference;
-    if (saved && ['auto', 'light', 'dark'].includes(saved)) {
-      setPreferenceState(saved);
-    }
-
-    // Listen to system preference changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setSystemPrefersDark(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setSystemPrefersDark(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    document.documentElement.classList.add('dark');
   }, []);
 
-  // Calculate actual dark mode state
-  const darkMode =
-    preference === 'dark' ? true :
-    preference === 'light' ? false :
-    systemPrefersDark; // auto
-
-  // Apply dark mode class to document
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
-
-  // Save preference to localStorage
+  // Placeholder function - dark mode is always enabled
   const setPreference = (newPreference: DarkModePreference) => {
-    setPreferenceState(newPreference);
-    localStorage.setItem('darkModePreference', newPreference);
+    // Dark mode is permanently enabled
+    console.log('Dark mode is permanently enabled');
   };
 
   return (

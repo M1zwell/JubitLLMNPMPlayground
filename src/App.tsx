@@ -15,7 +15,6 @@ import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
 import UserMenu from './components/auth/UserMenu';
 import UserProfile from './components/auth/UserProfile';
-import DarkModeToggle from './components/DarkModeToggle';
 import { Brain, Package, User, Workflow, Search } from 'lucide-react';
 import AdvancedPlaygroundDemo from './components/AdvancedPlaygroundDemo';
 import { MultiModelChat } from './components/MultiModelChat';
@@ -325,9 +324,6 @@ function AppContent() {
                 </button>
                 */}
               </nav>
-
-              {/* Dark Mode Toggle */}
-              <DarkModeToggle />
 
               {/* 用户认证 */}
               {authLoading ? (
