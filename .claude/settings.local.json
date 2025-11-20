@@ -105,7 +105,10 @@
       "Bash(move:*)",
       "Bash(netlify domains:list:*)",
       "Bash(netlify api:*)",
-      "Bash(netlify unlink:*)"
+      "Bash(netlify unlink:*)",
+      "SlashCommand(/bmad:bmb:workflows:create-agent)",
+      "mcp__filesystem__create_directory",
+      "Bash(npx bmad-method install)"
     ],
     "deny": [],
     "ask": []
