@@ -136,14 +136,14 @@ Query: ${analysisQuery}
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-100 mb-4">
+        <h1 className="text-4xl font-bold text-gray-100 dark:text-white mb-4">
           🏦 David Webb Financial Database Integration
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-gray-600 dark:text-gray-300">
           Webb先生珍贵金融数据库的AI增强平台 / AI-Enhanced Platform for David Webb's Valuable Financial Database
         </p>
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <p className="text-sm text-blue-800">
+        <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+          <p className="text-sm text-blue-800 dark:text-blue-300">
             <strong>🎯 数据价值 / Data Value:</strong> 香港上市公司完整金融数据 (1990-2025) + CCASS清算数据 + 董事关系网络 + AI驱动的治理分析
             <br />
             <strong>Complete HK Listed Company Financial Data (1990-2025) + CCASS Settlement + Director Networks + AI-Driven Governance Analysis</strong>
@@ -152,15 +152,15 @@ Query: ${analysisQuery}
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+      <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={`flex-1 py-3 px-4 text-sm font-medium rounded-md transition-colors ${
               activeTab === tab.id
-                ? 'bg-gray-800 text-blue-600 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
             }`}
           >
             <span className="mr-2">{tab.icon}</span>
@@ -177,9 +177,9 @@ Query: ${analysisQuery}
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Enigma Records</p>
-                  <p className="text-2xl font-bold text-gray-900">{webbStats.enigmaRecords.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500">核心金融数据 / Core Financial Data</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Enigma Records</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{webbStats.enigmaRecords.toLocaleString()}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">核心金融数据 / Core Financial Data</p>
                 </div>
                 <div className="text-3xl">🏢</div>
               </div>
@@ -188,9 +188,9 @@ Query: ${analysisQuery}
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">CCASS Holdings</p>
-                  <p className="text-2xl font-bold text-gray-900">{webbStats.ccassRecords.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500">清算系统数据 / Settlement Data</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">CCASS Holdings</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{webbStats.ccassRecords.toLocaleString()}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">清算系统数据 / Settlement Data</p>
                 </div>
                 <div className="text-3xl">📊</div>
               </div>
@@ -199,9 +199,9 @@ Query: ${analysisQuery}
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Listed Companies</p>
-                  <p className="text-2xl font-bold text-gray-900">{webbStats.totalCompanies.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500">香港上市公司 / HK Listed Cos</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Listed Companies</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{webbStats.totalCompanies.toLocaleString()}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">香港上市公司 / HK Listed Cos</p>
                 </div>
                 <div className="text-3xl">🏦</div>
               </div>
@@ -210,9 +210,9 @@ Query: ${analysisQuery}
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Last Updated</p>
-                  <p className="text-2xl font-bold text-gray-900">{webbStats.lastUpdate}</p>
-                  <p className="text-xs text-gray-500">最新更新 / Latest Update</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Last Updated</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{webbStats.lastUpdate}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">最新更新 / Latest Update</p>
                 </div>
                 <div className="text-3xl">📅</div>
               </div>
@@ -223,10 +223,10 @@ Query: ${analysisQuery}
         {activeTab === 'analysis' && (
           <div className="space-y-6">
             <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">🤖 AI-Powered Financial Analysis / AI驱动金融分析</h3>
+              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">🤖 AI-Powered Financial Analysis / AI驱动金融分析</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
                     Ask Webb AI / 询问Webb AI (支持中英文 / Chinese & English)
                   </label>
                   <div className="flex space-x-3">
@@ -249,7 +249,7 @@ Query: ${analysisQuery}
 
                 {/* 预设查询示例 */}
                 <div>
-                  <p className="text-sm text-gray-600 mb-2">Quick Examples / 快速示例:</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">Quick Examples / 快速示例:</p>
                   <div className="flex flex-wrap gap-2">
                     {[
                       '分析汇丰银行的董事网络',
@@ -262,7 +262,7 @@ Query: ${analysisQuery}
                       <button
                         key={index}
                         onClick={() => setAnalysisQuery(example)}
-                        className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm"
+                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-sm text-gray-700 dark:text-gray-200"
                       >
                         {example}
                       </button>
@@ -275,9 +275,9 @@ Query: ${analysisQuery}
             {/* 分析结果 */}
             {analysisResult && (
               <Card className="p-6">
-                <h3 className="text-lg font-semibold mb-4">📊 Analysis Results / 分析结果</h3>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">📊 Analysis Results / 分析结果</h3>
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                  <pre className="whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-200 font-mono">
                     {analysisResult}
                   </pre>
                 </div>
@@ -290,7 +290,7 @@ Query: ${analysisQuery}
           <div className="space-y-6">
             {/* Webb公司搜索 */}
             <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">🔍 Webb Company Search / 公司搜索</h3>
+              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">🔍 Webb Company Search / 公司搜索</h3>
               <div className="flex space-x-3 mb-4">
                 <Input
                   placeholder="搜索公司名称或股票代码 / Search company name or stock code..."
@@ -298,40 +298,40 @@ Query: ${analysisQuery}
                   onChange={setSearchQuery}
                   className="flex-1"
                 />
-                <Button 
+                <Button
                   onClick={() => searchWebbCompanies(searchQuery)}
                   disabled={isLoading}
                 >
                   {isLoading ? '搜索中...' : '🔍 搜索'}
                 </Button>
-                <Button 
+                <Button
                   variant="outline"
                   onClick={loadWebbCompanies}
                 >
                   🔄 重置
                 </Button>
               </div>
-              
+
               {/* 公司数据表格 */}
               {webbCompanies.length > 0 && (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b bg-gray-50">
-                        <th className="text-left p-3">Stock Code</th>
-                        <th className="text-left p-3">Company Name</th>
-                        <th className="text-left p-3">Chinese Name</th>
-                        <th className="text-left p-3">Sector</th>
+                      <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                        <th className="text-left p-3 text-gray-900 dark:text-white">Stock Code</th>
+                        <th className="text-left p-3 text-gray-900 dark:text-white">Company Name</th>
+                        <th className="text-left p-3 text-gray-900 dark:text-white">Chinese Name</th>
+                        <th className="text-left p-3 text-gray-900 dark:text-white">Sector</th>
                       </tr>
                     </thead>
                     <tbody>
                       {webbCompanies.map((company, index) => (
-                        <tr key={company.id || index} className="border-b hover:bg-gray-50">
-                          <td className="p-3 font-mono font-bold">{company.stock_code}</td>
-                          <td className="p-3">{company.name1}</td>
-                          <td className="p-3 text-gray-600">{company.name3}</td>
+                        <tr key={company.id || index} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                          <td className="p-3 font-mono font-bold text-gray-900 dark:text-white">{company.stock_code}</td>
+                          <td className="p-3 text-gray-900 dark:text-white">{company.name1}</td>
+                          <td className="p-3 text-gray-600 dark:text-gray-300">{company.name3}</td>
                           <td className="p-3">
-                            <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                            <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded">
                               {company.sector || 'N/A'}
                             </span>
                           </td>
@@ -341,9 +341,9 @@ Query: ${analysisQuery}
                   </table>
                 </div>
               )}
-              
+
               {webbCompanies.length === 0 && !isLoading && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                   <div className="text-4xl mb-2">🏢</div>
                   <p>没有找到匹配的公司数据 / No company data found</p>
                   <p className="text-sm">请尝试搜索或加载更多数据 / Try searching or load more data</p>
