@@ -108,7 +108,9 @@
       "Bash(netlify unlink:*)",
       "SlashCommand(/bmad:bmb:workflows:create-agent)",
       "mcp__filesystem__create_directory",
-      "Bash(npx bmad-method install)"
+      "Bash(npx bmad-method install)",
+      "SlashCommand(/bmad:core:agents:bmad-master)",
+      "Bash(export SUPABASE_ACCESS_TOKEN=sbp_c1ed7116bc03c99246ffcd3ec819f0da89b514b8)"
     ],
     "deny": [],
     "ask": []

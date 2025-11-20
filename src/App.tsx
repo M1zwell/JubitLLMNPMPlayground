@@ -30,6 +30,7 @@ import HKFinancialScraper from './components/HKFinancialScraper';
 import HKScraperProduction from './components/HKScraperProduction';
 import HKScraperModern from './components/HKScraperModern';
 import OffshoreDataHub from './components/OffshoreDataHub';
+import { HKDataScrapingDashboard } from './components/HKDataScrapingDashboard';
 // Scraper components disabled for production
 // import WebScraperDemo from './components/WebScraperDemo';
 // import HKScraperWithPuppeteer from './components/HKScraperWithPuppeteer';
@@ -47,6 +48,7 @@ const ROUTE_MAP = {
   'multi-model-chat': '/multi-chat',
   'webb-financial': '/webb-financial',
   'hk-scraper': '/',  // Homepage - HK Data
+  'hk-scraping-admin': '/hk-admin',  // HK Scraping Admin Dashboard
   'offshore-data': '/offshore',  // User's requested URL
   'webb-importer': '/webb-importer',
   'webb-sql': '/webb-sql',
@@ -231,6 +233,17 @@ function AppContent() {
                   HK Data
                 </button>
                 <button
+                  onClick={() => navigateToView('hk-scraping-admin')}
+                  className={`btn-minimal ${
+                    state.currentView === 'hk-scraping-admin'
+                      ? 'btn-primary'
+                      : 'btn-ghost'
+                  }`}
+                  title="HK Scraping Admin - Job Monitoring & Manual Triggers"
+                >
+                  ⚙️ HK Admin
+                </button>
+                <button
                   onClick={() => navigateToView('offshore-data')}
                   className={`btn-minimal ${
                     state.currentView === 'offshore-data'
@@ -388,6 +401,8 @@ function AppContent() {
           <WebbFinancialIntegration />
         ) : state.currentView === 'hk-scraper' ? (
           <HKScraperModern />
+        ) : state.currentView === 'hk-scraping-admin' ? (
+          <HKDataScrapingDashboard />
         ) : state.currentView === 'offshore-data' ? (
           <OffshoreDataHub />
         ) : state.currentView === 'webb-importer' ? (
