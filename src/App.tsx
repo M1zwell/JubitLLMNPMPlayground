@@ -402,7 +402,37 @@ function AppContent() {
         ) : state.currentView === 'hk-scraper' ? (
           <HKScraperModern />
         ) : state.currentView === 'hk-scraping-admin' ? (
-          <HKDataScrapingDashboard />
+          // HK Admin - restricted to localhost dev mode OR admin user
+          (() => {
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const isAdmin = user?.email === 'yying2010@gmail.com';
+            if (isLocalhost || isAdmin) {
+              return <HKDataScrapingDashboard />;
+            }
+            return (
+              <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-8">
+                  <h2 className="text-2xl font-bold text-red-900 mb-4">Access Restricted</h2>
+                  <p className="text-red-700 mb-4">
+                    This admin page is only available to authorized administrators.
+                  </p>
+                  {!user && (
+                    <button
+                      onClick={() => setShowAuthModal(true)}
+                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    >
+                      Sign In as Admin
+                    </button>
+                  )}
+                  {user && (
+                    <p className="text-sm text-red-600 mt-2">
+                      Signed in as: {user.email} (not authorized)
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })()
         ) : state.currentView === 'offshore-data' ? (
           <OffshoreDataHub />
         ) : state.currentView === 'webb-importer' ? (
