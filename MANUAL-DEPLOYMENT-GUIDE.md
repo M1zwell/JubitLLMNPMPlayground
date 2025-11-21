@@ -16,11 +16,12 @@
 
 ## ⚠️ Needs Manual Deployment
 
-4 edge functions need to be deployed via Dashboard (all standalone, no shared imports):
+5 edge functions need to be deployed via Dashboard (all standalone, no shared imports):
 1. `hksfc-rss-sync` - SFC RSS feed sync
 2. `sfc-statistics-sync` - SFC statistics XLSX import
 3. `hkex-disclosure-scraper` - HKEX disclosure of interests (supports multiple stock codes)
-4. `ccass-scraper` - CCASS shareholding data (NEW - standalone replacement for unified-scraper)
+4. `ccass-scraper` - CCASS shareholding data (standalone replacement for unified-scraper)
+5. `sfc-regulatory-scraper` - SFC regulatory content (cold shoulder orders, policy statements, high shareholding, AML/CTF, virtual assets)
 
 **Note:** `unified-scraper` requires CLI deployment (has _shared imports). Use `ccass-scraper` instead.
 
@@ -119,6 +120,42 @@ Repeat same steps:
      -H "Content-Type: application/json" \
      -d '{"stock_codes": "00700,09988", "date_from": "2025-01-01", "date_to": "2025-01-20", "limit": 50}'
    ```
+
+---
+
+### Function 5: sfc-regulatory-scraper (SFC Regulatory Content)
+
+1. **Go to:** https://supabase.com/dashboard/project/kiztaihzanqnrcrqaxsv/functions
+2. **Create function:** `sfc-regulatory-scraper`
+3. **Upload/paste code** from `supabase/functions/sfc-regulatory-scraper/index.ts`
+4. **Deploy**
+5. **Verify:**
+   ```bash
+   # All categories
+   curl -X POST https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/sfc-regulatory-scraper \
+     -H "Authorization: Bearer YOUR_ANON_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+
+   # Specific categories
+   curl -X POST https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/sfc-regulatory-scraper \
+     -H "Authorization: Bearer YOUR_ANON_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{"categories": ["cold_shoulder_orders", "policy_statements", "high_shareholding"]}'
+   ```
+
+**Available Categories:**
+- `cold_shoulder_orders` - Current cold shoulder orders
+- `policy_statements` - Policy statements and announcements
+- `high_shareholding` - High shareholding concentration
+- `aml_ctf` - AML/CTF requirements
+- `virtual_assets_regulatory` - Virtual assets regulatory requirements
+- `virtual_assets_materials` - Virtual assets other materials
+- `reports` - Reports and surveys
+- `research_papers` - Research papers
+- `circulars` - Circulars (requires Firecrawl)
+- `consultations` - Consultations (requires Firecrawl)
+- `news` - News (requires Firecrawl)
 
 ---
 

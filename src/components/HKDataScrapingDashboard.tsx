@@ -21,7 +21,7 @@ import { supabase } from '../lib/supabase';
 // Types
 interface ScrapingJob {
   id: string;
-  source: 'hkex-di' | 'sfc-rss' | 'sfc-stats' | 'ccass';
+  source: 'hkex-di' | 'sfc-rss' | 'sfc-stats' | 'ccass' | 'sfc-regulatory';
   config: Record<string, any>;
   status: 'pending' | 'running' | 'completed' | 'failed';
   progress: number;
@@ -50,7 +50,7 @@ interface ScrapingStats {
 }
 
 interface TriggerConfig {
-  source: 'hkex-di' | 'sfc-rss' | 'sfc-stats' | 'ccass';
+  source: 'hkex-di' | 'sfc-rss' | 'sfc-stats' | 'ccass' | 'sfc-regulatory';
   label: string;
   description: string;
   icon: React.ReactNode;
@@ -126,6 +126,16 @@ export function HKDataScrapingDashboard() {
         date_to: latestOnly ? null : (dateTo || today),
         latest_only: latestOnly,
         limit: 50
+      }
+    },
+    {
+      source: 'sfc-regulatory',
+      label: 'SFC Regulatory',
+      description: 'Cold shoulder, policy, high shareholding, VA requirements',
+      icon: <AlertTriangle className="w-5 h-5" />,
+      color: 'red',
+      params: {
+        categories: ['cold_shoulder_orders', 'policy_statements', 'high_shareholding', 'aml_ctf', 'virtual_assets_regulatory', 'virtual_assets_materials', 'reports', 'research_papers']
       }
     }
   ];
@@ -279,12 +289,42 @@ export function HKDataScrapingDashboard() {
             limit: config.params?.limit || 50
           };
           break;
+
+        case 'sfc-regulatory':
+          rpcFunction = 'trigger_sfc_regulatory_scrape';
+          rpcParams = {
+            p_categories: config.params?.categories || null
+          };
+          edgeFunction = 'sfc-regulatory-scraper';
+          edgeFunctionPayload = {
+            categories: config.params?.categories || null
+          };
+          break;
       }
 
-      // Step 1: Create job record via RPC
-      const { data: jobId, error: rpcError } = await supabase.rpc(rpcFunction, rpcParams);
+      // Step 1: Create job record via RPC or direct insert
+      let jobId: string;
 
-      if (rpcError) throw rpcError;
+      if (config.source === 'sfc-regulatory') {
+        // Direct insert for sfc-regulatory (no RPC needed)
+        const { data: insertedJob, error: insertError } = await supabase
+          .from('scraping_jobs')
+          .insert({
+            source: 'sfc-regulatory',
+            config: { categories: config.params?.categories || null },
+            status: 'pending',
+            created_at: new Date().toISOString()
+          })
+          .select('id')
+          .single();
+
+        if (insertError) throw insertError;
+        jobId = insertedJob.id;
+      } else {
+        const { data: rpcJobId, error: rpcError } = await supabase.rpc(rpcFunction, rpcParams);
+        if (rpcError) throw rpcError;
+        jobId = rpcJobId;
+      }
 
       console.log(`[Dashboard] Created job record:`, jobId);
 
