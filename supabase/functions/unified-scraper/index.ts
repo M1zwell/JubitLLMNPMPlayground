@@ -32,6 +32,33 @@ interface ScraperRequest {
   test_mode?: boolean;
   stock_code?: string; // For CCASS scraping
   use_v2?: boolean; // Use V2 scrapers with advanced features (default: true)
+  job_id?: string; // Job ID for status tracking
+}
+
+// Helper to update job status
+async function updateJobStatus(
+  supabase: any,
+  jobId: string | null | undefined,
+  status: 'running' | 'completed' | 'failed',
+  recordsProcessed?: number,
+  errorMessage?: string
+) {
+  if (!jobId) return;
+
+  const update: any = {
+    status,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (status === 'running') {
+    update.started_at = new Date().toISOString();
+  } else if (status === 'completed' || status === 'failed') {
+    update.completed_at = new Date().toISOString();
+    if (recordsProcessed !== undefined) update.records_processed = recordsProcessed;
+    if (errorMessage) update.error_message = errorMessage;
+  }
+
+  await supabase.from('scraping_jobs').update(update).eq('id', jobId);
 }
 
 interface ScrapedRecord {
@@ -79,11 +106,17 @@ serve(async (req: Request) => {
     }
   );
 
+  let jobId: string | undefined;
+
   try {
     // Parse request
-    const { source, limit = 100, test_mode = false, stock_code = '00700', use_v2 = true }: ScraperRequest = await req.json();
+    const { source, limit = 100, test_mode = false, stock_code = '00700', use_v2 = true, job_id }: ScraperRequest = await req.json();
+    jobId = job_id;
 
-    console.log(`[Unified Scraper] Starting scrape: ${source} (limit: ${limit}, test_mode: ${test_mode}, stock_code: ${stock_code}, use_v2: ${use_v2})`);
+    // Update job to running
+    await updateJobStatus(supabase, jobId, 'running');
+
+    console.log(`[Unified Scraper] Starting scrape: ${source} (limit: ${limit}, test_mode: ${test_mode}, stock_code: ${stock_code}, use_v2: ${use_v2}, job_id: ${jobId})`);
 
     // Route to appropriate scraper
     let scrapeResults: ScrapedRecord[] = [];
@@ -232,6 +265,9 @@ serve(async (req: Request) => {
 
     console.log(`[Unified Scraper] Complete:`, response);
 
+    // Update job to completed
+    await updateJobStatus(supabase, jobId, 'completed', recordsInserted + recordsUpdated);
+
     return new Response(JSON.stringify(response), {
       headers: {
         'Content-Type': 'application/json',
@@ -243,6 +279,9 @@ serve(async (req: Request) => {
   } catch (error) {
     const duration = Date.now() - startTime;
     console.error('[Unified Scraper] Error:', error);
+
+    // Update job to failed
+    await updateJobStatus(supabase, jobId, 'failed', 0, error.message);
 
     // Log error
     try {
