@@ -16,10 +16,13 @@
 
 ## ⚠️ Needs Manual Deployment
 
-3 edge functions need to be deployed via Dashboard:
-1. `hksfc-rss-sync`
-2. `sfc-statistics-sync`
-3. `hkex-disclosure-scraper`
+4 edge functions need to be deployed via Dashboard (all standalone, no shared imports):
+1. `hksfc-rss-sync` - SFC RSS feed sync
+2. `sfc-statistics-sync` - SFC statistics XLSX import
+3. `hkex-disclosure-scraper` - HKEX disclosure of interests (supports multiple stock codes)
+4. `ccass-scraper` - CCASS shareholding data (NEW - standalone replacement for unified-scraper)
+
+**Note:** `unified-scraper` requires CLI deployment (has _shared imports). Use `ccass-scraper` instead.
 
 ---
 
@@ -91,7 +94,30 @@ Repeat same steps:
    curl -X POST https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/hkex-disclosure-scraper \
      -H "Authorization: Bearer YOUR_ANON_KEY" \
      -H "Content-Type: application/json" \
-     -d '{"stock_code": "00700", "start_date": "2024-01-01", "end_date": "2025-01-20"}'
+     -d '{"stock_codes": "00700,09988", "start_date": "2024-11-01", "end_date": "2025-01-20"}'
+   ```
+
+---
+
+### Function 4: ccass-scraper (NEW - Standalone CCASS)
+
+1. **Go to:** https://supabase.com/dashboard/project/kiztaihzanqnrcrqaxsv/functions
+2. **Create function:** `ccass-scraper`
+3. **Upload/paste code** from `supabase/functions/ccass-scraper/index.ts`
+4. **Deploy**
+5. **Verify:**
+   ```bash
+   # Latest day only (fast)
+   curl -X POST https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/ccass-scraper \
+     -H "Authorization: Bearer YOUR_ANON_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{"stock_codes": "00700", "latest_only": true, "limit": 50}'
+
+   # Date range (slower)
+   curl -X POST https://kiztaihzanqnrcrqaxsv.supabase.co/functions/v1/ccass-scraper \
+     -H "Authorization: Bearer YOUR_ANON_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{"stock_codes": "00700,09988", "date_from": "2025-01-01", "date_to": "2025-01-20", "limit": 50}'
    ```
 
 ---
@@ -198,17 +224,18 @@ WHERE stock_code = '00700';
 
 ## 📊 Current Status
 
-| Item | Status |
-|------|--------|
-| Database migrations | ✅ Applied |
-| RPC functions | ✅ Working |
-| Dashboard | ✅ Running |
-| Secrets (Firecrawl) | ✅ Configured |
-| unified-scraper | ✅ Deployed |
-| hksfc-rss-sync | ⚠️ Deploy manually |
-| sfc-statistics-sync | ⚠️ Deploy manually |
-| hkex-disclosure-scraper | ⚠️ Deploy manually |
+| Item | Status | Notes |
+|------|--------|-------|
+| Database migrations | ✅ Applied | |
+| RPC functions | ✅ Working | |
+| Dashboard | ✅ Running | Now with stock codes & date range config |
+| Secrets (Firecrawl) | ✅ Configured | |
+| unified-scraper | ⚠️ CLI Only | Has _shared imports, needs Docker |
+| hksfc-rss-sync | ⚠️ Deploy manually | Standalone |
+| sfc-statistics-sync | ⚠️ Deploy manually | Standalone |
+| hkex-disclosure-scraper | ⚠️ Deploy manually | Standalone, multi-stock support |
+| ccass-scraper | ⚠️ Deploy manually | **NEW** - Standalone, replaces unified-scraper for CCASS |
 
 ---
 
-**Next:** Deploy the 3 functions via Dashboard, then test!
+**Next:** Deploy the 4 standalone functions via Dashboard, then test!

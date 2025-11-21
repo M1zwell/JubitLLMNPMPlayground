@@ -79,6 +79,16 @@ export function HKDataScrapingDashboard() {
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [statsDays, setStatsDays] = useState(7);
 
+  // Configurable parameters for scraping
+  const [stockCodes, setStockCodes] = useState<string>('00700');
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
+  const [latestOnly, setLatestOnly] = useState<boolean>(true);
+
+  // Calculate default dates
+  const today = new Date().toISOString().split('T')[0];
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
   // Trigger configurations
   const triggers: TriggerConfig[] = [
     {
@@ -87,7 +97,7 @@ export function HKDataScrapingDashboard() {
       description: 'Scrape substantial shareholder disclosures',
       icon: <FileText className="w-5 h-5" />,
       color: 'blue',
-      params: { stock_code: '00700', start_date: null, end_date: null }
+      params: { stock_codes: stockCodes, start_date: dateFrom || thirtyDaysAgo, end_date: dateTo || today }
     },
     {
       source: 'sfc-rss',
@@ -110,7 +120,13 @@ export function HKDataScrapingDashboard() {
       description: 'Scrape stock participant shareholdings',
       icon: <Database className="w-5 h-5" />,
       color: 'orange',
-      params: { stock_code: '00700', limit: 50 }
+      params: {
+        stock_codes: stockCodes,
+        date_from: latestOnly ? null : (dateFrom || today),
+        date_to: latestOnly ? null : (dateTo || today),
+        latest_only: latestOnly,
+        limit: 50
+      }
     }
   ];
 
@@ -219,14 +235,14 @@ export function HKDataScrapingDashboard() {
         case 'hkex-di':
           rpcFunction = 'trigger_hkex_di_scrape';
           rpcParams = {
-            p_stock_code: config.params?.stock_code || '00700',
+            p_stock_code: config.params?.stock_codes?.split(',')[0] || '00700',
             p_start_date: config.params?.start_date,
             p_end_date: config.params?.end_date
           };
           edgeFunction = 'hkex-disclosure-scraper';
           edgeFunctionPayload = {
-            stock_code: config.params?.stock_code || '00700',
-            start_date: config.params?.start_date || new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            stock_codes: config.params?.stock_codes || '00700',
+            start_date: config.params?.start_date || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
             end_date: config.params?.end_date || new Date().toISOString().split('T')[0]
           };
           break;
@@ -251,15 +267,16 @@ export function HKDataScrapingDashboard() {
         case 'ccass':
           rpcFunction = 'trigger_ccass_scrape';
           rpcParams = {
-            p_stock_code: config.params?.stock_code || '00700',
+            p_stock_code: config.params?.stock_codes?.split(',')[0] || '00700',
             p_limit: config.params?.limit || 50
           };
-          edgeFunction = 'unified-scraper';
+          edgeFunction = 'ccass-scraper'; // Use standalone ccass-scraper
           edgeFunctionPayload = {
-            source: 'ccass',
-            stock_code: config.params?.stock_code || '00700',
-            limit: config.params?.limit || 50,
-            use_v2: true
+            stock_codes: config.params?.stock_codes || '00700',
+            date_from: config.params?.date_from,
+            date_to: config.params?.date_to,
+            latest_only: config.params?.latest_only ?? true,
+            limit: config.params?.limit || 50
           };
           break;
       }
@@ -386,6 +403,79 @@ export function HKDataScrapingDashboard() {
         <h1 className="text-3xl font-bold text-gray-900">HK Financial Data Scraping</h1>
         <p className="text-gray-600 mt-1">Monitor and trigger web scraping jobs for Hong Kong financial data</p>
       </div>
+
+      {/* Configuration Panel */}
+      <section className="bg-white border border-gray-200 rounded-lg p-4">
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">Scraping Configuration</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Stock Codes */}
+          <div>
+            <label htmlFor="stock-codes" className="block text-sm font-medium text-gray-700 mb-1">
+              Stock Codes
+            </label>
+            <input
+              id="stock-codes"
+              type="text"
+              value={stockCodes}
+              onChange={(e) => setStockCodes(e.target.value)}
+              placeholder="00700, 09988, 01810"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">Comma-separated stock codes (max 20)</p>
+          </div>
+
+          {/* Latest Only Toggle */}
+          <div className="flex items-center">
+            <div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={latestOnly}
+                  onChange={(e) => setLatestOnly(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">Latest Day Only</span>
+              </label>
+              <p className="text-xs text-gray-500 mt-1 ml-6">Skip date range, fetch only today's data</p>
+            </div>
+          </div>
+
+          {/* Date From */}
+          <div>
+            <label htmlFor="date-from" className="block text-sm font-medium text-gray-700 mb-1">
+              Date From
+            </label>
+            <input
+              id="date-from"
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              disabled={latestOnly}
+              max={today}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            />
+          </div>
+
+          {/* Date To */}
+          <div>
+            <label htmlFor="date-to" className="block text-sm font-medium text-gray-700 mb-1">
+              Date To
+            </label>
+            <input
+              id="date-to"
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              disabled={latestOnly}
+              max={today}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            />
+          </div>
+        </div>
+        <p className="text-xs text-gray-500 mt-3 border-t border-gray-100 pt-2">
+          <strong>Note:</strong> CCASS: max 100 days | HKEX DI: max 365 days | Applies to HKEX DI and CCASS scrapers
+        </p>
+      </section>
 
       {/* Quick Actions */}
       <section aria-labelledby="actions-heading">

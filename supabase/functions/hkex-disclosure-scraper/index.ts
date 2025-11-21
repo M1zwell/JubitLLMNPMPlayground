@@ -4,7 +4,12 @@
  *
  * Endpoint: /functions/v1/hkex-disclosure-scraper
  * Method: POST
- * Body: { stock_code: string, start_date?: string, end_date?: string }
+ * Body: {
+ *   stock_codes: string | string[],  // Single code "00700" or array/comma-separated
+ *   start_date?: string,             // YYYY-MM-DD (default: 1 year ago, max 365 days back)
+ *   end_date?: string,               // YYYY-MM-DD (default: today)
+ *   job_id?: string
+ * }
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
@@ -126,24 +131,46 @@ Deno.serve(async (req) => {
   let jobId: string | null = null;
 
   try {
-    const { stock_code, start_date, end_date, job_id } = await req.json();
+    const body = await req.json();
+    const { stock_codes, stock_code, start_date, end_date, job_id } = body;
     jobId = job_id;
 
-    if (!stock_code) {
-      throw new Error('stock_code is required');
+    // Support both stock_codes (array/string) and legacy stock_code (single)
+    let stockCodeList: string[] = [];
+    if (stock_codes) {
+      if (Array.isArray(stock_codes)) {
+        stockCodeList = stock_codes.map((c: string) => c.trim().padStart(5, '0'));
+      } else {
+        stockCodeList = stock_codes.split(',').map((c: string) => c.trim().padStart(5, '0'));
+      }
+    } else if (stock_code) {
+      stockCodeList = [stock_code.padStart(5, '0')];
+    }
+
+    if (stockCodeList.length === 0) {
+      throw new Error('stock_codes or stock_code is required');
+    }
+    if (stockCodeList.length > 20) {
+      throw new Error('Maximum 20 stock codes per request');
     }
 
     // Update job to running
     await updateJobStatus(supabase, jobId, 'running');
 
-    console.log(`🔍 Scraping disclosure data for stock: ${stock_code}`);
+    console.log(`🔍 Scraping disclosure data for ${stockCodeList.length} stocks: ${stockCodeList.join(', ')}`);
 
-    // Format dates
+    // Format dates - enforce max 365 days
     const today = new Date();
     const oneYearAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
 
     const startDate = start_date || oneYearAgo.toISOString().split('T')[0];
     const endDate = end_date || today.toISOString().split('T')[0];
+
+    // Validate date range (max 365 days)
+    const daysDiff = Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24));
+    if (daysDiff > 365) {
+      throw new Error('Date range exceeds maximum of 365 days');
+    }
 
     // Convert to DD/MM/YYYY format for HKEX
     const formatDateForHKEX = (dateStr: string) => {
@@ -154,139 +181,146 @@ Deno.serve(async (req) => {
     const startDateHKEX = formatDateForHKEX(startDate);
     const endDateHKEX = formatDateForHKEX(endDate);
 
-    // Build the substantial shareholders list URL directly
-    // We'll construct it based on the pattern observed
-    const baseUrl = 'https://di.hkex.com.hk/di/NSAllSSList.aspx';
-    const searchUrl = `${baseUrl}?sa2=as&sid=&corpn=&sd=${startDateHKEX}&ed=${endDateHKEX}&cid=0&sa1=cl&scsd=${startDateHKEX}&sced=${endDateHKEX}&sc=${stock_code}&src=MAIN&lang=EN&g_lang=en`;
-
-    console.log(`📡 Fetching from: ${searchUrl}`);
-
     // Fetch the page using Firecrawl
     const FIRECRAWL_API_KEY = Deno.env.get('FIRECRAWL_API_KEY');
     if (!FIRECRAWL_API_KEY) {
       throw new Error('FIRECRAWL_API_KEY not set');
     }
 
-    const scrapeResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${FIRECRAWL_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url: searchUrl,
-        formats: ['markdown', 'html'],
-        onlyMainContent: false,
-      }),
-    });
+    // Process all stock codes
+    let totalInserted = 0;
+    let totalFailed = 0;
+    const allShareholderData: ShareholdingData[] = [];
+    const stockNames: Record<string, string> = {};
 
-    if (!scrapeResponse.ok) {
-      const error = await scrapeResponse.text();
-      throw new Error(`Firecrawl API error: ${error}`);
-    }
-
-    const scrapeData = await scrapeResponse.json();
-    const html = scrapeData.data?.html || '';
-    const markdown = scrapeData.data?.markdown || '';
-
-    console.log(`📄 Received ${html.length} chars of HTML`);
-
-    // Parse the HTML to extract shareholder data
-    const shareholderData: ShareholdingData[] = [];
-
-    // Extract stock name from the page
-    const stockNameMatch = html.match(/Name of listed corporation:<\/\w+>\s*<\w+[^>]*>(.*?)<\/\w+>/);
-    const stockName = stockNameMatch ? stockNameMatch[1].trim() : '';
-
-    // Use regex to extract table rows
-    // Pattern: Form Serial Number -> Shareholder Name -> Shares -> Percentage -> Date
-    const rowPattern = /<a[^>]*href="[^"]*fn=([^&"]+)[^"]*"[^>]*>(?:<\w+[^>]*>)*([^<]+)(?:<\/\w+>)*<\/a>\s*(?:<\w+[^>]*>)*([^<]+?)(?:<\/\w+>)*\s*(?:<\w+[^>]*>)*([^<]+?)(?:<\/\w+>)*\s*(?:<\w+[^>]*>)*([^<]+?)(?:<\/\w+>)*\s*<a[^>]*href="([^"]*)"[^>]*>(?:<\w+[^>]*>)*(\d{2}\/\d{2}\/\d{4})/g;
-
-    let match;
-    while ((match = rowPattern.exec(html)) !== null) {
-      const [_, formSerial, shareholderName, sharesText, percentageText, __, noticeUrl, filingDateStr] = match;
-
-      const shares = parseShareholding(sharesText);
-      const percentages = parsePercentage(percentageText);
-
-      shareholderData.push({
-        formSerialNumber: formSerial.trim(),
-        shareholderName: shareholderName.trim(),
-        sharesLong: shares.long,
-        sharesShort: shares.short,
-        sharesLendingPool: shares.lending,
-        percentageLong: percentages.long,
-        percentageShort: percentages.short,
-        percentageLendingPool: percentages.lending,
-        filingDate: filingDateStr.trim(),
-        noticeUrl: `https://di.hkex.com.hk${noticeUrl}`,
-      });
-    }
-
-    console.log(`✅ Extracted ${shareholderData.length} shareholders`);
-
-    // Insert data into database
-    let inserted = 0;
-    let updated = 0;
-    let failed = 0;
-
-    for (const shareholder of shareholderData) {
+    for (const currentStockCode of stockCodeList) {
       try {
-        const contentHash = await generateHash({
-          stock_code,
-          form: shareholder.formSerialNumber,
-          name: shareholder.shareholderName,
+        const baseUrl = 'https://di.hkex.com.hk/di/NSAllSSList.aspx';
+        const searchUrl = `${baseUrl}?sa2=as&sid=&corpn=&sd=${startDateHKEX}&ed=${endDateHKEX}&cid=0&sa1=cl&scsd=${startDateHKEX}&sced=${endDateHKEX}&sc=${currentStockCode}&src=MAIN&lang=EN&g_lang=en`;
+
+        console.log(`📡 Fetching ${currentStockCode}: ${searchUrl}`);
+
+        const scrapeResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${FIRECRAWL_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            url: searchUrl,
+            formats: ['markdown', 'html'],
+            onlyMainContent: false,
+          }),
         });
 
-        const { error } = await supabase
-          .from('hkex_disclosure_interests')
-          .upsert({
-            stock_code: stock_code.padStart(5, '0'),
-            stock_name: stockName,
-            form_serial_number: shareholder.formSerialNumber,
-            shareholder_name: shareholder.shareholderName,
-            shareholder_type: 'substantial_shareholder',
-            shares_long: shareholder.sharesLong,
-            shares_short: shareholder.sharesShort,
-            shares_lending_pool: shareholder.sharesLendingPool,
-            percentage_long: shareholder.percentageLong,
-            percentage_short: shareholder.percentageShort,
-            percentage_lending_pool: shareholder.percentageLendingPool,
-            filing_date: parseDate(shareholder.filingDate),
-            notice_url: shareholder.noticeUrl,
-            search_date: endDate,
-            content_hash: contentHash,
-          }, {
-            onConflict: 'content_hash',
-          });
-
-        if (error) {
-          console.error(`❌ Error inserting ${shareholder.shareholderName}:`, error);
-          failed++;
-        } else {
-          inserted++;
+        if (!scrapeResponse.ok) {
+          const error = await scrapeResponse.text();
+          console.error(`❌ Firecrawl error for ${currentStockCode}: ${error}`);
+          totalFailed++;
+          continue;
         }
-      } catch (err) {
-        console.error(`❌ Error processing ${shareholder.shareholderName}:`, err);
-        failed++;
+
+        const scrapeData = await scrapeResponse.json();
+        const html = scrapeData.data?.html || '';
+
+        console.log(`📄 Received ${html.length} chars for ${currentStockCode}`);
+
+        // Extract stock name
+        const stockNameMatch = html.match(/Name of listed corporation:<\/\w+>\s*<\w+[^>]*>(.*?)<\/\w+>/);
+        const stockName = stockNameMatch ? stockNameMatch[1].trim() : '';
+        stockNames[currentStockCode] = stockName;
+
+        // Parse shareholder data
+        const rowPattern = /<a[^>]*href="[^"]*fn=([^&"]+)[^"]*"[^>]*>(?:<\w+[^>]*>)*([^<]+)(?:<\/\w+>)*<\/a>\s*(?:<\w+[^>]*>)*([^<]+?)(?:<\/\w+>)*\s*(?:<\w+[^>]*>)*([^<]+?)(?:<\/\w+>)*\s*(?:<\w+[^>]*>)*([^<]+?)(?:<\/\w+>)*\s*<a[^>]*href="([^"]*)"[^>]*>(?:<\w+[^>]*>)*(\d{2}\/\d{2}\/\d{4})/g;
+
+        let match;
+        while ((match = rowPattern.exec(html)) !== null) {
+          const [_, formSerial, shareholderName, sharesText, percentageText, __, noticeUrl, filingDateStr] = match;
+
+          const shares = parseShareholding(sharesText);
+          const percentages = parsePercentage(percentageText);
+
+          const shareholderRecord = {
+            formSerialNumber: formSerial.trim(),
+            shareholderName: shareholderName.trim(),
+            sharesLong: shares.long,
+            sharesShort: shares.short,
+            sharesLendingPool: shares.lending,
+            percentageLong: percentages.long,
+            percentageShort: percentages.short,
+            percentageLendingPool: percentages.lending,
+            filingDate: filingDateStr.trim(),
+            noticeUrl: `https://di.hkex.com.hk${noticeUrl}`,
+          };
+
+          allShareholderData.push(shareholderRecord);
+
+          // Insert to database
+          try {
+            const contentHash = await generateHash({
+              stock_code: currentStockCode,
+              form: shareholderRecord.formSerialNumber,
+              name: shareholderRecord.shareholderName,
+            });
+
+            const { error } = await supabase
+              .from('hkex_disclosure_interests')
+              .upsert({
+                stock_code: currentStockCode,
+                stock_name: stockName,
+                form_serial_number: shareholderRecord.formSerialNumber,
+                shareholder_name: shareholderRecord.shareholderName,
+                shareholder_type: 'substantial_shareholder',
+                shares_long: shareholderRecord.sharesLong,
+                shares_short: shareholderRecord.sharesShort,
+                shares_lending_pool: shareholderRecord.sharesLendingPool,
+                percentage_long: shareholderRecord.percentageLong,
+                percentage_short: shareholderRecord.percentageShort,
+                percentage_lending_pool: shareholderRecord.percentageLendingPool,
+                filing_date: parseDate(shareholderRecord.filingDate),
+                notice_url: shareholderRecord.noticeUrl,
+                search_date: endDate,
+                content_hash: contentHash,
+              }, {
+                onConflict: 'content_hash',
+              });
+
+            if (error) {
+              console.error(`❌ Insert error: ${error.message}`);
+              totalFailed++;
+            } else {
+              totalInserted++;
+            }
+          } catch (err) {
+            console.error(`❌ Processing error:`, err);
+            totalFailed++;
+          }
+        }
+
+        // Rate limiting between stocks
+        if (stockCodeList.length > 1) {
+          await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+      } catch (stockError) {
+        console.error(`❌ Error processing ${currentStockCode}:`, stockError);
+        totalFailed++;
       }
     }
 
-    console.log(`✅ Complete: ${inserted} inserted, ${updated} updated, ${failed} failed`);
+    console.log(`✅ Complete: ${totalInserted} inserted, ${totalFailed} failed`);
 
     // Update job to completed
-    await updateJobStatus(supabase, jobId, 'completed', inserted);
+    await updateJobStatus(supabase, jobId, 'completed', totalInserted);
 
     return new Response(
       JSON.stringify({
         success: true,
-        stock_code,
-        stock_name: stockName,
-        shareholders_found: shareholderData.length,
-        inserted,
-        updated,
-        failed,
-        data: shareholderData,
+        stock_codes: stockCodeList,
+        stock_names: stockNames,
+        shareholders_found: allShareholderData.length,
+        inserted: totalInserted,
+        failed: totalFailed,
+        date_range: { start: startDate, end: endDate },
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
