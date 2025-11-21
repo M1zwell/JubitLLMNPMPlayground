@@ -415,6 +415,31 @@ async function insertRecords(tableName: string, records: any[]): Promise<{ succe
   return { success, errors };
 }
 
+// Helper to update job status
+async function updateJobStatus(
+  jobId: string | null,
+  status: 'running' | 'completed' | 'failed',
+  recordsProcessed?: number,
+  errorMessage?: string
+) {
+  if (!jobId) return;
+
+  const update: any = {
+    status,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (status === 'running') {
+    update.started_at = new Date().toISOString();
+  } else if (status === 'completed' || status === 'failed') {
+    update.completed_at = new Date().toISOString();
+    if (recordsProcessed !== undefined) update.records_processed = recordsProcessed;
+    if (errorMessage) update.error_message = errorMessage;
+  }
+
+  await supabaseAdmin.from('scraping_jobs').update(update).eq('id', jobId);
+}
+
 /**
  * Main handler
  */
@@ -424,9 +449,16 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  let jobId: string | null = null;
+
   try {
-    const { tables } = await req.json().catch(() => ({ tables: null }));
+    const body = await req.json().catch(() => ({ tables: null }));
+    const { tables, job_id } = body;
+    jobId = job_id;
     const tablesToSync = tables || Object.keys(STATISTICS_TABLES);
+
+    // Update job to running
+    await updateJobStatus(jobId, 'running');
 
     console.log('Starting SFC Statistics Sync...');
     console.log(`Tables to sync: ${tablesToSync.join(', ')}`);
@@ -509,6 +541,9 @@ serve(async (req) => {
     console.log(`Total records: ${stats.totalRecords}`);
     console.log(`Errors: ${stats.errors.length}`);
 
+    // Update job to completed
+    await updateJobStatus(jobId, 'completed', stats.totalRecords);
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -522,6 +557,10 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Function error:', error);
+
+    // Update job to failed
+    await updateJobStatus(jobId, 'failed', 0, error.message);
+
     return new Response(
       JSON.stringify({
         success: false,

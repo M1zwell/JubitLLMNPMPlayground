@@ -300,13 +300,47 @@ async function processRSSFeed(feedName: string, feedUrl: string, stats: Stats): 
   }
 }
 
+// Helper to update job status
+async function updateJobStatus(
+  jobId: string | null,
+  status: 'running' | 'completed' | 'failed',
+  recordsProcessed?: number,
+  errorMessage?: string
+) {
+  if (!jobId) return;
+
+  const update: any = {
+    status,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (status === 'running') {
+    update.started_at = new Date().toISOString();
+  } else if (status === 'completed' || status === 'failed') {
+    update.completed_at = new Date().toISOString();
+    if (recordsProcessed !== undefined) update.records_processed = recordsProcessed;
+    if (errorMessage) update.error_message = errorMessage;
+  }
+
+  await supabaseAdmin.from('scraping_jobs').update(update).eq('id', jobId);
+}
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
 
+  let jobId: string | null = null;
+
   try {
+    // Parse request body for job_id
+    const body = await req.json().catch(() => ({}));
+    jobId = body.job_id || null;
+
+    // Update job to running
+    await updateJobStatus(jobId, 'running');
+
     const stats: Stats = {
       totalFetched: 0,
       totalScraped: 0,
@@ -325,6 +359,9 @@ serve(async (req) => {
 
     const elapsed = (Date.now() - startTime) / 1000;
 
+    // Update job to completed
+    await updateJobStatus(jobId, 'completed', stats.totalInserted + stats.totalUpdated);
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -342,6 +379,10 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('RSS sync error:', error);
+
+    // Update job to failed
+    await updateJobStatus(jobId, 'failed', 0, error.message);
+
     return new Response(
       JSON.stringify({ error: error.message }),
       {

@@ -86,18 +86,55 @@ async function generateHash(data: any): Promise<string> {
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+// Helper to update job status
+async function updateJobStatus(
+  supabase: any,
+  jobId: string | null,
+  status: 'running' | 'completed' | 'failed',
+  recordsProcessed?: number,
+  errorMessage?: string
+) {
+  if (!jobId) return;
+
+  const update: any = {
+    status,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (status === 'running') {
+    update.started_at = new Date().toISOString();
+  } else if (status === 'completed' || status === 'failed') {
+    update.completed_at = new Date().toISOString();
+    if (recordsProcessed !== undefined) update.records_processed = recordsProcessed;
+    if (errorMessage) update.error_message = errorMessage;
+  }
+
+  await supabase.from('scraping_jobs').update(update).eq('id', jobId);
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
 
+  // Initialize Supabase client early for job updates
+  const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+  const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  let jobId: string | null = null;
+
   try {
-    const { stock_code, start_date, end_date } = await req.json();
+    const { stock_code, start_date, end_date, job_id } = await req.json();
+    jobId = job_id;
 
     if (!stock_code) {
       throw new Error('stock_code is required');
     }
+
+    // Update job to running
+    await updateJobStatus(supabase, jobId, 'running');
 
     console.log(`🔍 Scraping disclosure data for stock: ${stock_code}`);
 
@@ -188,11 +225,6 @@ Deno.serve(async (req) => {
 
     console.log(`✅ Extracted ${shareholderData.length} shareholders`);
 
-    // Initialize Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
     // Insert data into database
     let inserted = 0;
     let updated = 0;
@@ -242,6 +274,9 @@ Deno.serve(async (req) => {
 
     console.log(`✅ Complete: ${inserted} inserted, ${updated} updated, ${failed} failed`);
 
+    // Update job to completed
+    await updateJobStatus(supabase, jobId, 'completed', inserted);
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -260,6 +295,12 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     console.error('❌ Error:', error);
+
+    // Update job to failed
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    await updateJobStatus(supabase, jobId, 'failed', 0, error.message);
     return new Response(
       JSON.stringify({
         success: false,
